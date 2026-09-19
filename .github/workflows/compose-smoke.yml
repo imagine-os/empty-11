@@ -68,9 +68,15 @@ jobs:
 
       - id: discover
         name: Discover compose-smoke matrix
+        # Every caller-controlled value reaches the shell through `env:`, never
+        # through `${{ }}` inside `run:` — a `${{ }}` is pasted into the script
+        # before bash sees it, so a value holding a quote would run as a command
+        # (GitHub's script-injection hardening rule).
+        env:
+          DISPATCH_PATH: ${{ inputs.compose-path }}
         run: |
           node ops/ci/compose-smoke/discover.mjs \
-            --dispatch-path "${{ inputs.compose-path }}" \
+            --dispatch-path "$DISPATCH_PATH" \
             --github-output "$GITHUB_OUTPUT"
 
   # One job per discovered stack, capped hard at 20 minutes (spec: PAP-754).
@@ -87,6 +93,16 @@ jobs:
     strategy:
       fail-fast: false
       matrix: ${{ fromJson(needs.discover.outputs.matrix) }}
+    # The matrix rows come from `smoke.json` files in the tree, including
+    # vendored ones under `spikes/oss-products/*`. They are data, not script:
+    # they are bound here and read as shell variables below, so a crafted
+    # `healthcheck` or `load` value cannot break out of its argument.
+    env:
+      COMPOSE_PATH: ${{ matrix.composePath }}
+      STACK_NAME: ${{ matrix.name }}
+      HEALTHCHECK_URL: ${{ matrix.healthcheck }}
+      WARMUP_SECONDS: ${{ matrix.warmupSeconds }}
+      LOAD_SCRIPT: ${{ matrix.load }}
     steps:
       - uses: actions/checkout@v4
 
@@ -127,26 +143,26 @@ jobs:
         id: up
         run: |
           echo "started-ms=$(date +%s%3N)" >> "$GITHUB_OUTPUT"
-          docker compose -f "${{ matrix.composePath }}" up -d --wait --wait-timeout 600
+          docker compose -f "$COMPOSE_PATH" up -d --wait --wait-timeout 600
 
       - name: Capture idle docker stats
         if: always() && steps.up.outcome == 'success'
         run: |
           mkdir -p compose-smoke
-          docker compose -f "${{ matrix.composePath }}" ps -q \
+          docker compose -f "$COMPOSE_PATH" ps -q \
             | xargs -r docker stats --no-stream --format '{{json .}}' \
-            > compose-smoke/${{ matrix.name }}.idle-stats.jsonl || true
+            > "compose-smoke/$STACK_NAME.idle-stats.jsonl" || true
 
       # warmupSeconds (smoke.json): some services (Cal.com, Twenty) answer 200
       # on their HTTP port before their own migrations/seed finish; this is
       # the same warm-up the spike issues (PAP-215 and children) budget for.
       - name: Warm-up
         if: steps.up.outcome == 'success'
-        run: sleep "${{ matrix.warmupSeconds }}"
+        run: sleep "$WARMUP_SECONDS"
 
       - name: Optional load script
         if: steps.up.outcome == 'success' && matrix.load != ''
-        run: bash "${{ matrix.load }}"
+        run: bash "$LOAD_SCRIPT"
 
       # No continue-on-error: an unhealthy probe should fail the job (the
       # visible, per-matrix-entry signal), same as the `up` step timing out.
@@ -157,7 +173,7 @@ jobs:
         if: always() && steps.up.outcome == 'success'
         run: |
           node ops/ci/compose-smoke/probe.mjs \
-            --url "${{ matrix.healthcheck }}" \
+            --url "$HEALTHCHECK_URL" \
             --timeout-ms 60000 \
             --interval-ms 2000 \
             --github-output "$GITHUB_OUTPUT"
@@ -166,10 +182,10 @@ jobs:
         if: always() && steps.up.outcome == 'success'
         run: |
           mkdir -p compose-smoke
-          docker compose -f "${{ matrix.composePath }}" ps -q \
+          docker compose -f "$COMPOSE_PATH" ps -q \
             | xargs -r docker stats --no-stream --format '{{json .}}' \
-            > compose-smoke/${{ matrix.name }}.loaded-stats.jsonl || true
-          images=$(docker compose -f "${{ matrix.composePath }}" images -q | sort -u)
+            > "compose-smoke/$STACK_NAME.loaded-stats.jsonl" || true
+          images=$(docker compose -f "$COMPOSE_PATH" images -q | sort -u)
           total_bytes=0
           for image in $images; do
             size=$(docker image inspect "$image" --format '{{.Size}}' 2>/dev/null || echo 0)
@@ -180,11 +196,16 @@ jobs:
 
       - name: Assemble result JSON
         if: always()
+        env:
+          UP_OUTCOME: ${{ steps.up.outcome }}
+          PROBE_HEALTHY: ${{ steps.probe.outputs.healthy }}
+          STARTED_MS: ${{ steps.up.outputs.started-ms || 0 }}
+          IMAGE_SIZE_MB: ${{ steps.images.outputs.image-size-mb || 0 }}
         run: |
-          if [ "${{ steps.up.outcome }}" != 'success' ]; then
+          if [ "$UP_OUTCOME" != 'success' ]; then
             status='timeout'
             healthy='false'
-          elif [ "${{ steps.probe.outputs.healthy }}" = 'true' ]; then
+          elif [ "$PROBE_HEALTHY" = 'true' ]; then
             status='ok'
             healthy='true'
           else
@@ -192,28 +213,31 @@ jobs:
             healthy='false'
           fi
 
+          idle="compose-smoke/$STACK_NAME.idle-stats.jsonl"
+          loaded="compose-smoke/$STACK_NAME.loaded-stats.jsonl"
+
           node ops/ci/compose-smoke/build-result.mjs \
-            --name "${{ matrix.name }}" \
-            --started-ms "${{ steps.up.outputs.started-ms || 0 }}" \
+            --name "$STACK_NAME" \
+            --started-ms "$STARTED_MS" \
             --healthy "$healthy" \
-            --idle-ram-mb "$(node ops/ci/compose-smoke/aggregate-stats-file.mjs compose-smoke/${{ matrix.name }}.idle-stats.jsonl mem 2>/dev/null || echo null)" \
-            --loaded-ram-mb "$(node ops/ci/compose-smoke/aggregate-stats-file.mjs compose-smoke/${{ matrix.name }}.loaded-stats.jsonl mem 2>/dev/null || echo null)" \
-            --cpu-pct "$(node ops/ci/compose-smoke/aggregate-stats-file.mjs compose-smoke/${{ matrix.name }}.loaded-stats.jsonl cpu 2>/dev/null || echo null)" \
-            --image-size-mb "${{ steps.images.outputs.image-size-mb || 0 }}" \
+            --idle-ram-mb "$(node ops/ci/compose-smoke/aggregate-stats-file.mjs "$idle" mem 2>/dev/null || echo null)" \
+            --loaded-ram-mb "$(node ops/ci/compose-smoke/aggregate-stats-file.mjs "$loaded" mem 2>/dev/null || echo null)" \
+            --cpu-pct "$(node ops/ci/compose-smoke/aggregate-stats-file.mjs "$loaded" cpu 2>/dev/null || echo null)" \
+            --image-size-mb "$IMAGE_SIZE_MB" \
             --status "$status" \
-            --out "compose-smoke/${{ matrix.name }}.json"
+            --out "compose-smoke/$STACK_NAME.json"
 
       - name: Validate result JSON
         if: always()
-        run: node ops/ci/compose-smoke/validate.mjs --type result "compose-smoke/${{ matrix.name }}.json"
+        run: node ops/ci/compose-smoke/validate.mjs --type result "compose-smoke/$STACK_NAME.json"
 
       - name: Log tail on failure
         if: failure()
-        run: docker compose -f "${{ matrix.composePath }}" logs --tail=200 > "compose-smoke/${{ matrix.name }}.log" 2>&1 || true
+        run: docker compose -f "$COMPOSE_PATH" logs --tail=200 > "compose-smoke/$STACK_NAME.log" 2>&1 || true
 
       - name: Tear down
         if: always()
-        run: docker compose -f "${{ matrix.composePath }}" down -v --remove-orphans || true
+        run: docker compose -f "$COMPOSE_PATH" down -v --remove-orphans || true
 
       - name: Upload artefact
         if: always()
