@@ -1,0 +1,58 @@
+{
+  "engine": "replicache",
+  "label": "Replicache + oRPC push/pull",
+  "versions": { "client": "replicache 15.3.0 (last npm publish 2025-07-02)" },
+  "licence": "roci.dev terms; source released and no longer charged for, repository archived 2026-06-10.",
+  "scores": {
+    "pgCapture": {
+      "score": 1,
+      "note": "No Postgres integration at all: you write the pull endpoint and a version/cookie scheme yourself.",
+      "cite": "replicache-status"
+    },
+    "partialSync": {
+      "score": 3,
+      "note": "Whatever your pull endpoint returns, so tenant scoping is trivially ours, but every partial-sync mechanism is hand-built.",
+      "cite": "replicache-status"
+    },
+    "offlineWrites": {
+      "score": 4,
+      "note": "Mutators plus a durable local mutation queue was the original strength; rebase-on-pull conflict model is well documented.",
+      "cite": "replicache-status"
+    },
+    "permissions": {
+      "score": 4,
+      "note": "Push/pull are our own oRPC procedures, so RLS and can() apply unchanged. The only engine that reuses PAP-34 directly.",
+      "cite": "replicache-status"
+    },
+    "bundle": {
+      "score": 4,
+      "note": "Small client, IndexedDB persistence, no WASM.",
+      "cite": "npm-replicache"
+    },
+    "targets": {
+      "score": 3,
+      "note": "Runs in any WebView; same IndexedDB-in-Tauri caveat.",
+      "cite": "powersync-tauri"
+    },
+    "selfHostLicence": {
+      "score": 4,
+      "note": "No server component of theirs to host; licence is now free but not a standard OSI licence.",
+      "cite": "replicache-status"
+    },
+    "maturity": {
+      "score": 0,
+      "note": "HARD FAIL: repository archived 2026-06-10, maintenance mode, no new features, vendor tells existing users to migrate to Zero. Last npm release 2025-07-02.",
+      "cite": "replicache-status"
+    },
+    "ergonomics": {
+      "score": 3,
+      "note": "Good primitives, but every query, index and diff is hand-written.",
+      "cite": "replicache-status"
+    },
+    "exit": {
+      "score": 4,
+      "note": "Everything on the server is ours already.",
+      "cite": "replicache-status"
+    }
+  }
+}

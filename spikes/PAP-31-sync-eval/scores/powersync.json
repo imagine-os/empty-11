@@ -1,0 +1,62 @@
+{
+  "engine": "powersync",
+  "label": "PowerSync (self-hosted Open Edition)",
+  "versions": {
+    "server": "journeyapps/powersync-service 1.26.1 (Docker, 2026-09-14)",
+    "client": "@powersync/web 2.3.1 (2026-09-10)",
+    "tauri": "PowerSync Tauri SDK, alpha (announced 2026-03)"
+  },
+  "licence": "Service: FSL-1.1-ALv2 (source-available, converts to Apache-2.0 two years after each release). Client SDKs: Apache-2.0 / MIT.",
+  "scores": {
+    "pgCapture": {
+      "score": 5,
+      "note": "Logical replication from Postgres (also MongoDB, MySQL, SQL Server).",
+      "cite": "powersync-oss"
+    },
+    "partialSync": {
+      "score": 4,
+      "note": "Sync rules define buckets parameterised from JWT claims; expressive, but a second query language beside SQL and our FilterTree.",
+      "cite": "powersync-protocol"
+    },
+    "offlineWrites": {
+      "score": 5,
+      "note": "Best offline story of the four: durable local SQLite, upload queue, write checkpoints ordering server acknowledgement against the sync stream.",
+      "cite": "powersync-protocol"
+    },
+    "permissions": {
+      "score": 2,
+      "note": "Postgres RLS is not part of the path; authorisation lives in the sync-rules YAML, a third policy language we would have to keep in step with PAP-34 RLS and PAP-59 can().",
+      "cite": "powersync-protocol"
+    },
+    "bundle": {
+      "score": 4,
+      "note": "wa-sqlite WASM is roughly a third of PGlite; OPFS is the default on Chrome and Firefox, and Safari no longer needs COOP/COEP headers.",
+      "cite": "powersync-sqlite-web"
+    },
+    "targets": {
+      "score": 4,
+      "note": "Strongest Tauri story: a native Tauri SDK backed by Rust SQLite exists precisely because IndexedDB/OPFS reset on every Tauri app update. It is still alpha.",
+      "cite": "powersync-tauri"
+    },
+    "selfHostLicence": {
+      "score": 3,
+      "note": "Self-hosts in Docker (Open Edition, free), but the service is source-available under FSL, not OSI open source, until the two-year Apache conversion. Needs a recorded re-open trigger under PAP-212.",
+      "cite": "powersync-fsl,powersync-oss"
+    },
+    "maturity": {
+      "score": 5,
+      "note": "Mature and shipping fast (service 1.23.3 in July 2026, 1.26.1 by September 2026); multiple production client SDKs.",
+      "cite": "powersync-releases"
+    },
+    "ergonomics": {
+      "score": 4,
+      "note": "Good TypeScript SDK with Drizzle and Kysely wrappers, but the local store is SQLite: our Postgres schema (uuidv7, citext, jsonb, generated columns) has to be projected and queries written twice.",
+      "cite": "powersync-sqlite-web"
+    },
+    "exit": {
+      "score": 3,
+      "note": "Sync rules and the SQLite local schema are PowerSync-shaped; the backend connector is small. Moderate.",
+      "cite": "powersync-protocol"
+    }
+  }
+}

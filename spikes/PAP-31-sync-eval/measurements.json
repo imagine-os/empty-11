@@ -1,0 +1,45 @@
+{
+  "$comment": "Measured on the PAP-31 build container (Node 22.22.2, Linux 6.18, no Docker daemon, no browser, no Android emulator). Only the local-store half of the Electric+PGlite client could be executed here; see results/README.md. null means NOT MEASURED, never zero.",
+  "harness": {
+    "node": "22.22.2",
+    "runs": 3,
+    "repeats": 2,
+    "reported": "median",
+    "date": "2026-09-19"
+  },
+  "engines": {
+    "electric-pglite": {
+      "measured": true,
+      "scope": "local store only (PGlite 0.5.8 in Node; no Electric server, no network, no browser)",
+      "initialSyncMs": 44.1,
+      "incrementalP50Ms": 2.79,
+      "incrementalP95Ms": 3.64,
+      "replay200Ms": 79.6,
+      "heapMb": 33.6,
+      "rssMb": 572.7,
+      "coldStartMs": 167.1,
+      "correctness": {
+        "replayRows": 200,
+        "outboxDrained": 200,
+        "checksumStable": true,
+        "checksum": "d2d3c5c5c8ff94f35c804573cdaf6824"
+      }
+    },
+    "zero": {
+      "measured": false,
+      "reason": "zero-cache needs a running Postgres with logical replication; no Docker daemon in this container."
+    },
+    "powersync": {
+      "measured": false,
+      "reason": "powersync-service needs Docker and a running Postgres; wa-sqlite needs a browser/OPFS."
+    },
+    "replicache": {
+      "measured": false,
+      "reason": "not benchmarked: eliminated on the maturity hard criterion (archived 2026-06-10)."
+    },
+    "baseline-tanstack-outbox": {
+      "measured": false,
+      "reason": "needs the PaperOS API (PAP-35), which does not exist yet."
+    }
+  }
+}

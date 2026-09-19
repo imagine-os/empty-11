@@ -1,0 +1,35 @@
+{
+  "$comment": "PAP-31 local-first sync rubric. Weights agreed with Atlas on the issue; criteria are the ones the spec lists. Scores are 0-5, weighted total is out of 100.",
+  "version": 1,
+  "scale": {
+    "0": "fails the requirement outright",
+    "1": "possible only with significant custom work and residual risk",
+    "2": "works but fights the PaperOS contracts",
+    "3": "acceptable, with a named cost",
+    "4": "good fit, minor gaps",
+    "5": "native fit, no known gap"
+  },
+  "criteria": [
+    { "id": "pgCapture", "label": "Postgres-native change capture", "weight": 10 },
+    { "id": "partialSync", "label": "Tenant-scoped partial sync", "weight": 12 },
+    {
+      "id": "offlineWrites",
+      "label": "Offline writes and conflict model",
+      "weight": 15,
+      "hard": true
+    },
+    { "id": "permissions", "label": "Permission path / RLS story", "weight": 12, "hard": true },
+    { "id": "bundle", "label": "Bundle and local-store footprint", "weight": 6 },
+    { "id": "targets", "label": "Browser and Tauri WebView support", "weight": 10, "hard": true },
+    { "id": "selfHostLicence", "label": "Self-host and licence", "weight": 12, "hard": true },
+    { "id": "maturity", "label": "Maturity and governance", "weight": 10 },
+    { "id": "ergonomics", "label": "TypeScript ergonomics", "weight": 8 },
+    { "id": "exit", "label": "Cost of exit", "weight": 5 }
+  ],
+  "hardCriteria": [
+    "Self-hosts in Docker on the VPS (no mandatory cloud).",
+    "Licence acceptable under PAP-212 tiers (OSI licence, or source-available with a recorded re-open trigger).",
+    "Runs in the Tauri 2 WebView on desktop and Android.",
+    "Does not require Postgres superuser and does not force RLS to be disabled on the source database."
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "engine": "zero",
+  "label": "Zero (Rocicorp) + zero-cache",
+  "versions": {
+    "client": "@rocicorp/zero 1.9.0 (2026-08-14)",
+    "server": "zero-cache, same release train"
+  },
+  "licence": "Apache-2.0",
+  "scores": {
+    "pgCapture": {
+      "score": 5,
+      "note": "zero-cache maintains a read-only replica of Postgres from logical replication and uses the existing schema.",
+      "cite": "zero-1.0"
+    },
+    "partialSync": {
+      "score": 5,
+      "note": "Synced queries in ZQL; the server decides which rows a client may see per query.",
+      "cite": "zero-permissions"
+    },
+    "offlineWrites": {
+      "score": 0,
+      "note": "HARD FAIL for PaperOS: 'Zero doesn't support offline writes' and Zero 'is not local-first. It's a client-server system with an authoritative server.' Writes are rejected while disconnected (only briefly queued during reconnect).",
+      "cite": "zero-when-to-use"
+    },
+    "permissions": {
+      "score": 3,
+      "note": "'Zero does not have (or need) a first-class permission system like RLS'; permissions are filter-based checks inside server-side query and mutator handlers. Clean, but a third policy home beside RLS and can().",
+      "cite": "zero-permissions"
+    },
+    "bundle": {
+      "score": 3,
+      "note": "Client reported at 718 kB raw / 232 kB gzipped; no WASM, backed by IndexedDB.",
+      "cite": "zero-1.0"
+    },
+    "targets": {
+      "score": 3,
+      "note": "TypeScript/web only (no native mobile SDK), which suits Tauri; IndexedDB persistence has the same Tauri reset caveat.",
+      "cite": "zero-when-to-use,powersync-tauri"
+    },
+    "selfHostLicence": {
+      "score": 4,
+      "note": "Apache-2.0 and self-hostable, but adds a stateful replica service with its own disk to the VPS budget; hosted SaaS is invite-only.",
+      "cite": "npm-zero,zero-roadmap"
+    },
+    "maturity": {
+      "score": 4,
+      "note": "1.0 on 2026-06-08 after ~2 years; 1.9.0 by 2026-08-14. Single vendor, actively developed. Recommends datasets under ~100 GB.",
+      "cite": "zero-1.0,zero-when-to-use"
+    },
+    "ergonomics": {
+      "score": 5,
+      "note": "Best-in-class DX: typed ZQL, reactive queries, custom mutators.",
+      "cite": "zero-1.0"
+    },
+    "exit": {
+      "score": 2,
+      "note": "ZQL queries and custom mutators permeate client and server; leaving Zero is a rewrite of the read and write layers.",
+      "cite": "zero-permissions"
+    }
+  }
+}

@@ -11,7 +11,7 @@ Numbers are pre-assigned by the plan; take yours, do not renumber.
 | 0001 | [monorepo-stack](0001-monorepo-stack.md) | PAP-13 | Accepted |
 | 0002 | [git-forgejo-mirror](0002-git-forgejo-mirror.md) | PAP-44 | Accepted |
 | 0003 | [auth-library](0003-auth-library.md) | PAP-56 | Accepted |
-| 0004 | local-first-sync | PAP-31 | Planned |
+| 0004 | [local-first-sync](0004-local-first-sync.md) | PAP-31 | Accepted |
 | 0005 | crdt-library | PAP-139 | Planned |
 | 0006 | [canvas-and-editor-libraries](0006-canvas-and-editor-libraries.md) | PAP-127 | Accepted |
 | 0007 | payroll-provider | PAP-176 | Planned |

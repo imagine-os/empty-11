@@ -1,0 +1,103 @@
+[
+  {
+    "engine": "electric-pglite",
+    "label": "ElectricSQL shapes + PGlite",
+    "versions": {
+      "server": "electricsql/electric 1.8.1 (Docker, 2026-09-07)",
+      "client": "@electric-sql/client 1.5.28 (2026-09-09)",
+      "react": "@electric-sql/react 1.0.57 (2026-09-09)",
+      "localStore": "@electric-sql/pglite 0.5.8 (2026-08-26)"
+    },
+    "licence": "Apache-2.0 (server, client, PGlite)",
+    "measured": true,
+    "measurementScope": "local store only (PGlite 0.5.8 in Node; no Electric server, no network, no browser)",
+    "notMeasuredReason": null,
+    "initialSyncMs": 44.1,
+    "incrementalP50Ms": 2.79,
+    "incrementalP95Ms": 3.64,
+    "replay200Ms": 79.6,
+    "heapMb": 33.6,
+    "coldStartMs": 167.1,
+    "score": 77.2,
+    "hardFails": []
+  },
+  {
+    "engine": "powersync",
+    "label": "PowerSync (self-hosted Open Edition)",
+    "versions": {
+      "server": "journeyapps/powersync-service 1.26.1 (Docker, 2026-09-14)",
+      "client": "@powersync/web 2.3.1 (2026-09-10)",
+      "tauri": "PowerSync Tauri SDK, alpha (announced 2026-03)"
+    },
+    "licence": "Service: FSL-1.1-ALv2 (source-available, converts to Apache-2.0 two years after each release). Client SDKs: Apache-2.0 / MIT.",
+    "measured": false,
+    "measurementScope": null,
+    "notMeasuredReason": "powersync-service needs Docker and a running Postgres; wa-sqlite needs a browser/OPFS.",
+    "initialSyncMs": null,
+    "incrementalP50Ms": null,
+    "incrementalP95Ms": null,
+    "replay200Ms": null,
+    "heapMb": null,
+    "coldStartMs": null,
+    "score": 78.8,
+    "hardFails": []
+  },
+  {
+    "engine": "zero",
+    "label": "Zero (Rocicorp) + zero-cache",
+    "versions": {
+      "client": "@rocicorp/zero 1.9.0 (2026-08-14)",
+      "server": "zero-cache, same release train"
+    },
+    "licence": "Apache-2.0",
+    "measured": false,
+    "measurementScope": null,
+    "notMeasuredReason": "zero-cache needs a running Postgres with logical replication; no Docker daemon in this container.",
+    "initialSyncMs": null,
+    "incrementalP50Ms": null,
+    "incrementalP95Ms": null,
+    "replay200Ms": null,
+    "heapMb": null,
+    "coldStartMs": null,
+    "score": 66.4,
+    "hardFails": ["offlineWrites"]
+  },
+  {
+    "engine": "replicache",
+    "label": "Replicache + oRPC push/pull",
+    "versions": {
+      "client": "replicache 15.3.0 (last npm publish 2025-07-02)"
+    },
+    "licence": "roci.dev terms; source released and no longer charged for, repository archived 2026-06-10.",
+    "measured": false,
+    "measurementScope": null,
+    "notMeasuredReason": "not benchmarked: eliminated on the maturity hard criterion (archived 2026-06-10).",
+    "initialSyncMs": null,
+    "incrementalP50Ms": null,
+    "incrementalP95Ms": null,
+    "replay200Ms": null,
+    "heapMb": null,
+    "coldStartMs": null,
+    "score": 60,
+    "hardFails": []
+  },
+  {
+    "engine": "baseline-tanstack-outbox",
+    "label": "Baseline: TanStack Query + hand-rolled outbox",
+    "versions": {
+      "client": "@tanstack/react-query 5.x; optional @tanstack/db 0.9.2 (2026-09-14, MIT)"
+    },
+    "licence": "MIT",
+    "measured": false,
+    "measurementScope": null,
+    "notMeasuredReason": "needs the PaperOS API (PAP-35), which does not exist yet.",
+    "initialSyncMs": null,
+    "incrementalP50Ms": null,
+    "incrementalP95Ms": null,
+    "replay200Ms": null,
+    "heapMb": null,
+    "coldStartMs": null,
+    "score": 75.2,
+    "hardFails": []
+  }
+]

@@ -1,0 +1,55 @@
+{
+  "runs": [
+    {
+      "initialSyncMs": 55.7,
+      "incrementalP50Ms": 2.84,
+      "incrementalP95Ms": 3.64,
+      "replay200Ms": 79.6,
+      "replayRows": 200,
+      "replayChecksum": "d2d3c5c5c8ff94f35c804573cdaf6824",
+      "outboxDrained": 200,
+      "heapMb": 23.5,
+      "rssMb": 561.4,
+      "coldStartMs": 159.9
+    },
+    {
+      "initialSyncMs": 44.1,
+      "incrementalP50Ms": 2.79,
+      "incrementalP95Ms": 3.56,
+      "replay200Ms": 74,
+      "replayRows": 200,
+      "replayChecksum": "d2d3c5c5c8ff94f35c804573cdaf6824",
+      "outboxDrained": 200,
+      "heapMb": 33.6,
+      "rssMb": 572.7,
+      "coldStartMs": 167.1
+    },
+    {
+      "initialSyncMs": 40.3,
+      "incrementalP50Ms": 2.76,
+      "incrementalP95Ms": 3.68,
+      "replay200Ms": 80.6,
+      "replayRows": 200,
+      "replayChecksum": "d2d3c5c5c8ff94f35c804573cdaf6824",
+      "outboxDrained": 200,
+      "heapMb": 34.2,
+      "rssMb": 597.3,
+      "coldStartMs": 168.5
+    }
+  ],
+  "median": {
+    "initialSyncMs": 44.1,
+    "incrementalP50Ms": 2.79,
+    "incrementalP95Ms": 3.64,
+    "replay200Ms": 79.6,
+    "heapMb": 33.6,
+    "rssMb": 572.7,
+    "coldStartMs": 167.1
+  },
+  "correctness": {
+    "replayRows": 200,
+    "outboxDrained": 200,
+    "checksumStable": true,
+    "checksum": "d2d3c5c5c8ff94f35c804573cdaf6824"
+  }
+}

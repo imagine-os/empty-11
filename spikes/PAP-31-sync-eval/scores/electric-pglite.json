@@ -1,0 +1,63 @@
+{
+  "engine": "electric-pglite",
+  "label": "ElectricSQL shapes + PGlite",
+  "versions": {
+    "server": "electricsql/electric 1.8.1 (Docker, 2026-09-07)",
+    "client": "@electric-sql/client 1.5.28 (2026-09-09)",
+    "react": "@electric-sql/react 1.0.57 (2026-09-09)",
+    "localStore": "@electric-sql/pglite 0.5.8 (2026-08-26)"
+  },
+  "licence": "Apache-2.0 (server, client, PGlite)",
+  "scores": {
+    "pgCapture": {
+      "score": 5,
+      "note": "Logical replication, own publication + slot, Postgres 14+; no schema changes required.",
+      "cite": "electric-deployment"
+    },
+    "partialSync": {
+      "score": 5,
+      "note": "Shapes = table + WHERE + columns over HTTP; our proxy sets table and WHERE server-side, subset filters can only narrow (AND).",
+      "cite": "electric-auth"
+    },
+    "offlineWrites": {
+      "score": 3,
+      "note": "Electric does no write-path sync at all; we build the outbox (PAP-272). Full control, but the cost is ours. Measured: 200 queued writes replay in 79.6 ms median in PGlite.",
+      "cite": "electric-writes,bench-pglite"
+    },
+    "permissions": {
+      "score": 3,
+      "note": "No RLS on the read path: Electric replicates as a REPLICATION role and bypasses RLS. Auth is the proxy/gatekeeper pattern, i.e. a second enforcement point beside PAP-34 RLS.",
+      "cite": "electric-auth,electric-rls-discussion"
+    },
+    "bundle": {
+      "score": 3,
+      "note": "Client is a thin HTTP/fetch library; PGlite is a ~3 MB gzipped WASM Postgres and reserved ~540 MB RSS in the Node harness.",
+      "cite": "bench-pglite"
+    },
+    "targets": {
+      "score": 3,
+      "note": "Shape client is plain HTTP, runs anywhere. PGlite persistence in the Tauri WebView is IndexedDB/OPFS, which Tauri resets across app updates; treat the local DB as a cache.",
+      "cite": "powersync-tauri,electric-pglite-docs"
+    },
+    "selfHostLicence": {
+      "score": 5,
+      "note": "Apache-2.0, one stateless Docker container plus a disk for the shape log. No cloud dependency.",
+      "cite": "electric-deployment,npm-electric"
+    },
+    "maturity": {
+      "score": 3,
+      "note": "1.0 GA 2025-03-17 and shipping (1.8.1, 2026-09-07), but Electric joined Databricks 2026-08-11, Electric Cloud is winding down and future work targets Lakebase/Neon. OSS stays OSS; stewardship is the risk.",
+      "cite": "electric-1.0,electric-databricks"
+    },
+    "ergonomics": {
+      "score": 4,
+      "note": "Typed shape streams, React hooks, optional TanStack DB 0.9.2 (MIT) collection layer; local store speaks the same Postgres SQL as the server.",
+      "cite": "npm-tanstack-db"
+    },
+    "exit": {
+      "score": 5,
+      "note": "Plain HTTP protocol over an unmodified Postgres, and we own the write path; dropping Electric leaves the schema and the API untouched.",
+      "cite": "electric-writes"
+    }
+  }
+}

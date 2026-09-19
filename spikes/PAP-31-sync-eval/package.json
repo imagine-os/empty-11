@@ -1,0 +1,15 @@
+{
+  "name": "sync-eval",
+  "private": true,
+  "version": "0.0.0",
+  "description": "PAP-31 spike: local-first sync engine evaluation. Standalone, not part of the pnpm workspace or turbo build.",
+  "type": "module",
+  "scripts": {
+    "bench:electric": "node bench/pglite-local.mjs",
+    "render": "node scripts/render.mjs",
+    "check": "node scripts/render.mjs --check"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "0.5.8"
+  }
+}

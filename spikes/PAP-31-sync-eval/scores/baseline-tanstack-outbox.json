@@ -1,0 +1,56 @@
+{
+  "engine": "baseline-tanstack-outbox",
+  "label": "Baseline: TanStack Query + hand-rolled outbox",
+  "versions": {
+    "client": "@tanstack/react-query 5.x; optional @tanstack/db 0.9.2 (2026-09-14, MIT)"
+  },
+  "licence": "MIT",
+  "scores": {
+    "pgCapture": {
+      "score": 0,
+      "note": "No change capture; polling or our own SSE from the outbox (PAP-303).",
+      "cite": "npm-tanstack-db"
+    },
+    "partialSync": {
+      "score": 2,
+      "note": "Every list endpoint is its own partial sync; no shared shape abstraction.",
+      "cite": "npm-tanstack-db"
+    },
+    "offlineWrites": {
+      "score": 3,
+      "note": "Persisted mutation cache plus our outbox works, but has no server-side ordering or checkpoint story.",
+      "cite": "npm-tanstack-db"
+    },
+    "permissions": {
+      "score": 5,
+      "note": "Nothing bypasses the API, so PAP-34 RLS and PAP-59 can() are the only policy homes. This is the security ceiling the other engines are measured against.",
+      "cite": "contracts-doc"
+    },
+    "bundle": {
+      "score": 5,
+      "note": "Tens of kB, no WASM, no local database.",
+      "cite": "npm-tanstack-db"
+    },
+    "targets": {
+      "score": 5,
+      "note": "Runs everywhere with no storage caveats.",
+      "cite": "npm-tanstack-db"
+    },
+    "selfHostLicence": {
+      "score": 5,
+      "note": "MIT, no extra service on the VPS.",
+      "cite": "npm-tanstack-db"
+    },
+    "maturity": {
+      "score": 5,
+      "note": "TanStack Query is ubiquitous; TanStack DB is young but MIT and now maintained in the same orbit as Electric.",
+      "cite": "electric-databricks,npm-tanstack-db"
+    },
+    "ergonomics": {
+      "score": 4,
+      "note": "Familiar, but instant local reads and live queries are ours to build.",
+      "cite": "npm-tanstack-db"
+    },
+    "exit": { "score": 5, "note": "Nothing to exit.", "cite": "contracts-doc" }
+  }
+}
