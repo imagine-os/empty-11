@@ -147,7 +147,7 @@
       "owner": "data-layer",
       "optional": false,
       "issues": ["PAP-302"],
-      "present": false
+      "present": true
     },
     {
       "id": "packages/core/src/windows",

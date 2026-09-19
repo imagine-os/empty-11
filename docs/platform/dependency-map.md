@@ -143,7 +143,7 @@ None. Every import in the tree is covered by `allowedDeps`.
 | `packages/core/src/native` | core | app-shell | no | planned | PAP-259 |
 | `packages/core/src/nav` | core | app-shell | no | planned | PAP-16 |
 | `packages/core/src/pwa` | core | app-shell | no | planned | PAP-18 |
-| `packages/core/src/types` | core | data-layer | no | planned | PAP-302 |
+| `packages/core/src/types` | core | data-layer | no | yes | PAP-302 |
 | `packages/core/src/windows` | core | app-shell | no | planned | PAP-21 |
 | `packages/api-client` | runtime | data-layer | no | planned | PAP-268 |
 | `packages/api-contract` | runtime | data-layer | no | planned | PAP-268 |
