@@ -1,0 +1,232 @@
+{
+  "base-ui": {
+    "moduleCount": 307,
+    "totalInputBytes": 240552,
+    "topModules": [
+      {
+        "path": "@base-ui/react/combobox/root/AriaCombobox.mjs",
+        "bytes": 14389
+      },
+      {
+        "path": "@base-ui/react/floating-ui-react/components/FloatingFocusManager.mjs",
+        "bytes": 7158
+      },
+      {
+        "path": "@floating-ui/dom/dist/floating-ui.dom.mjs",
+        "bytes": 7140
+      },
+      {
+        "path": "@floating-ui/core/dist/floating-ui.core.mjs",
+        "bytes": 6473
+      },
+      {
+        "path": "@base-ui/react/menu/root/MenuRoot.mjs",
+        "bytes": 5817
+      },
+      {
+        "path": "@base-ui/react/floating-ui-react/hooks/useDismiss.mjs",
+        "bytes": 5798
+      },
+      {
+        "path": "@base-ui/react/floating-ui-react/hooks/useListNavigation.mjs",
+        "bytes": 5768
+      },
+      {
+        "path": "@base-ui/react/select/popup/SelectPopup.mjs",
+        "bytes": 5654
+      },
+      {
+        "path": "@base-ui/react/internals/useAnchorPositioning.mjs",
+        "bytes": 5465
+      },
+      {
+        "path": "@base-ui/react/select/root/SelectRoot.mjs",
+        "bytes": 5348
+      }
+    ]
+  },
+  "radix": {
+    "moduleCount": 67,
+    "totalInputBytes": 136351,
+    "topModules": [
+      {
+        "path": "@radix-ui/react-select/dist/index.mjs",
+        "bytes": 19415
+      },
+      {
+        "path": "@radix-ui/react-menu/dist/index.mjs",
+        "bytes": 13130
+      },
+      {
+        "path": "cmdk/dist/index.mjs",
+        "bytes": 10751
+      },
+      {
+        "path": "@floating-ui/core/dist/floating-ui.core.mjs",
+        "bytes": 7927
+      },
+      {
+        "path": "@floating-ui/dom/dist/floating-ui.dom.mjs",
+        "bytes": 7152
+      },
+      {
+        "path": "@radix-ui/react-collection/dist/index.mjs",
+        "bytes": 7142
+      },
+      {
+        "path": "@radix-ui/react-dropdown-menu/dist/index.mjs",
+        "bytes": 5362
+      },
+      {
+        "path": "@radix-ui/react-dismissable-layer/dist/index.mjs",
+        "bytes": 5340
+      },
+      {
+        "path": "@radix-ui/react-popover/dist/index.mjs",
+        "bytes": 4937
+      },
+      {
+        "path": "@radix-ui/react-dialog/dist/index.mjs",
+        "bytes": 4897
+      }
+    ]
+  },
+  "react-aria": {
+    "moduleCount": 325,
+    "totalInputBytes": 268574,
+    "topModules": [
+      {
+        "path": "react-stately/dist/private/layout/ListLayout.mjs",
+        "bytes": 11577
+      },
+      {
+        "path": "react-aria/dist/private/focus/FocusScope.mjs",
+        "bytes": 9213
+      },
+      {
+        "path": "react-aria/dist/private/interactions/usePress.mjs",
+        "bytes": 7174
+      },
+      {
+        "path": "react-aria/dist/private/collections/Document.mjs",
+        "bytes": 6962
+      },
+      {
+        "path": "react-aria-components/dist/private/ListBox.mjs",
+        "bytes": 6409
+      },
+      {
+        "path": "react-aria/dist/private/selection/useSelectableCollection.mjs",
+        "bytes": 6198
+      },
+      {
+        "path": "react-aria/dist/private/combobox/useComboBox.mjs",
+        "bytes": 6071
+      },
+      {
+        "path": "react-aria/dist/private/overlays/calculatePosition.mjs",
+        "bytes": 5950
+      },
+      {
+        "path": "react-stately/dist/private/selection/SelectionManager.mjs",
+        "bytes": 5727
+      },
+      {
+        "path": "react-stately/dist/private/virtualizer/Virtualizer.mjs",
+        "bytes": 5648
+      }
+    ]
+  },
+  "ark": {
+    "moduleCount": 216,
+    "totalInputBytes": 199952,
+    "topModules": [
+      {
+        "path": "@zag-js/combobox/dist/combobox.machine.mjs",
+        "bytes": 17991
+      },
+      {
+        "path": "@zag-js/menu/dist/menu.machine.mjs",
+        "bytes": 15946
+      },
+      {
+        "path": "@zag-js/select/dist/select.machine.mjs",
+        "bytes": 13296
+      },
+      {
+        "path": "@zag-js/focus-trap/dist/focus-trap.mjs",
+        "bytes": 12408
+      },
+      {
+        "path": "@floating-ui/core/dist/floating-ui.core.mjs",
+        "bytes": 7944
+      },
+      {
+        "path": "@floating-ui/dom/dist/floating-ui.dom.mjs",
+        "bytes": 7152
+      },
+      {
+        "path": "@zag-js/menu/dist/menu.connect.mjs",
+        "bytes": 7030
+      },
+      {
+        "path": "@zag-js/combobox/dist/combobox.connect.mjs",
+        "bytes": 6969
+      },
+      {
+        "path": "@zag-js/select/dist/select.connect.mjs",
+        "bytes": 6744
+      },
+      {
+        "path": "@zag-js/collection/dist/list-collection.mjs",
+        "bytes": 6504
+      }
+    ]
+  },
+  "shadcn": {
+    "moduleCount": 70,
+    "totalInputBytes": 162314,
+    "topModules": [
+      {
+        "path": "tailwind-merge/dist/bundle-mjs.mjs",
+        "bytes": 24459
+      },
+      {
+        "path": "@radix-ui/react-select/dist/index.mjs",
+        "bytes": 19458
+      },
+      {
+        "path": "@radix-ui/react-menu/dist/index.mjs",
+        "bytes": 13132
+      },
+      {
+        "path": "cmdk/dist/index.mjs",
+        "bytes": 10779
+      },
+      {
+        "path": "@floating-ui/core/dist/floating-ui.core.mjs",
+        "bytes": 7933
+      },
+      {
+        "path": "@floating-ui/dom/dist/floating-ui.dom.mjs",
+        "bytes": 7152
+      },
+      {
+        "path": "@radix-ui/react-collection/dist/index.mjs",
+        "bytes": 7142
+      },
+      {
+        "path": "@radix-ui/react-dropdown-menu/dist/index.mjs",
+        "bytes": 5362
+      },
+      {
+        "path": "@radix-ui/react-dismissable-layer/dist/index.mjs",
+        "bytes": 5340
+      },
+      {
+        "path": "@radix-ui/react-popover/dist/index.mjs",
+        "bytes": 4937
+      }
+    ]
+  }
+}

@@ -36,6 +36,7 @@ Numbers are pre-assigned by the plan; take yours, do not renumber.
 | 0024 | [threat-model-baseline](0024-threat-model-baseline.md) | PAP-219 | Accepted |
 | 0025 | [compose-smoke-workflow](0025-compose-smoke-workflow.md) | PAP-754 | Accepted |
 | 0026 | [package-boundaries](0026-package-boundaries.md) | PAP-305 | Accepted |
+| 0029 | [ui-primitives-library](0029-ui-primitives-library.md) | PAP-212 | Accepted |
 
 The ADR template is [`template.md`](template.md) (PAP-209, ADR 0009): PAP-130 frontmatter over
 ADR 0001's Nygard headings, plus the generated Alternatives table and Re-open criteria.

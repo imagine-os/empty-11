@@ -1,0 +1,54 @@
+# PAP-212. Hand-scored; arithmetic in docs/research/ui-kits-and-headless-libraries.md 6.3.
+# shadcn/ui is a distribution, not a runtime dependency: the CLI is a `dev` tool and what it
+# copies is Radix-based source that becomes ours. Runtime facts below are the copied tree's.
+candidate: "shadcn"
+version: "4.21.0"
+evaluatedBy: Scout
+date: 2026-09-19
+issue: PAP-212
+kind: npm # distribution CLI
+context: dev # the copied components are `bundled`, but they become our own source
+facts:
+  license: MIT
+  licensePolicySource: draft
+  versionLatest: "4.21.0"
+  lastPublish: "2026-09-04"
+  releaseCadence: "4.19.1 (2026-08-31) to 4.21.0 (2026-09-04)"
+  downloadsWeekly: 8636954
+  maintainers: unknown # not verifiable from this environment
+  companyOrFoundationBacked: unknown
+  medianFirstResponseDays: unknown
+  archived: false
+  gzipBytes: 52634 # 51.4 KB: Radix + cmdk + clsx + tailwind-merge + class-variance-authority
+  entryImports: ["radix-ui", "cmdk", "clsx", "tailwind-merge", "class-variance-authority"]
+  treeShakes: true
+  types: "ours after copy"
+  publint: "n/a for copied source; runtime deps are Radix's"
+  tscErrorsStrictNoSkipLibCheck: 0
+  underlyingPrimitives: "Radix UI primitives (per https://ui.shadcn.com/llms.txt)"
+  docsFormat: "markdown + llms.txt + MCP server + Claude Code Skills"
+  llmsTxt: "https://ui.shadcn.com/llms.txt"
+  mcpServer: "https://ui.shadcn.com/docs/mcp"
+  advisories: none
+scores:
+  license: { score: 4, evidence: "https://raw.githubusercontent.com/shadcn-ui/ui/main/LICENSE.md — MIT" }
+  maintenance: { score: 3, evidence: "npm publish times 4.19.1..4.21.0 inside two weeks; maintainer count and company backing not verifiable from here, so the rubric's single-maintainer cap cannot be cleared with a link" }
+  bundle: { score: 2, evidence: "spikes/PAP-212-ui-kits/results/summary.json — 52634 B gzipped for the four recipes" }
+  a11y: { score: 3, evidence: "inherits Radix's APG behaviour (https://www.radix-ui.com/primitives/docs/overview/accessibility); the copied markup is then ours to keep accessible" }
+  ts: { score: 4, evidence: "copied source is our own typed code; 0 declaration errors in the measured tree" }
+  agent: { score: 4, evidence: "https://ui.shadcn.com/llms.txt, official MCP server (https://ui.shadcn.com/docs/mcp) and Claude Code Skills (https://ui.shadcn.com/docs/skills), plus registry JSON schemas" }
+extras:
+  - { id: packaging, weight: 5, score: 3, evidence: "runtime deps are Radix's (publint suggestion only); the CLI itself is dev-context" }
+  - { id: inputBreadth, weight: 10, score: 3, evidence: "Radix's keyboard/touch behaviour, inherited" }
+  - { id: themingFit, weight: 5, score: 4, evidence: "Tailwind v4 + CSS variables is its native idiom — the closest of the five to PAP-66's model" }
+rescaledWeights: { license: 16, maintenance: 16, bundle: 12, a11y: 12, ts: 12, agent: 12 }
+gates:
+  licenseTier: { result: pass, evidence: "MIT, allow tier (draft)" }
+  noTypes: { result: pass, evidence: "TypeScript source" }
+  webviewIncompatible: { result: pass, evidence: "Radix underneath; static analysis clean" }
+  vendorNoSelfHost: { result: pass, evidence: "npm CLI + open registry" }
+  openAdvisory: { result: pass, evidence: "pnpm audit, 0 advisories, 2026-09-19" }
+total: 83 # 16+12+6+9+12+12+3.75+7.5+5 = 83.25
+migrationCostHours: 28 # 18 h to copy twenty components + ~10 h to retrofit tokens, i18n and the actions registry
+verdict: adopt
+decision: not-chosen # ADR 0029: read as a pattern source; not a dependency (it distributes Radix-based source)

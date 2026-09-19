@@ -1,0 +1,167 @@
+{
+  "issue": "PAP-212",
+  "date": "2026-09-19",
+  "note": "gzipped ESM, minified, react/react-dom external; esbuild",
+  "candidates": {
+    "base-ui": {
+      "perComponent": {
+        "select": {
+          "rawBytes": 126299,
+          "gzipBytes": 44917,
+          "gzipKb": 43.9
+        },
+        "dialog": {
+          "rawBytes": 68549,
+          "gzipBytes": 23600,
+          "gzipKb": 23
+        },
+        "menu": {
+          "rawBytes": 151395,
+          "gzipBytes": 52425,
+          "gzipKb": 51.2
+        },
+        "combobox": {
+          "rawBytes": 145471,
+          "gzipBytes": 51480,
+          "gzipKb": 50.3
+        }
+      },
+      "allFour": {
+        "rawBytes": 242219,
+        "gzipBytes": 80418,
+        "gzipKb": 78.5
+      },
+      "sumOfSeparate": {
+        "gzipBytes": 172422
+      }
+    },
+    "radix": {
+      "perComponent": {
+        "select": {
+          "rawBytes": 91241,
+          "gzipBytes": 31432,
+          "gzipKb": 30.7
+        },
+        "dialog": {
+          "rawBytes": 40626,
+          "gzipBytes": 13753,
+          "gzipKb": 13.4
+        },
+        "menu": {
+          "rawBytes": 93587,
+          "gzipBytes": 31488,
+          "gzipKb": 30.8
+        },
+        "combobox": {
+          "rawBytes": 83858,
+          "gzipBytes": 28881,
+          "gzipKb": 28.2
+        }
+      },
+      "allFour": {
+        "rawBytes": 136505,
+        "gzipBytes": 44126,
+        "gzipKb": 43.1
+      },
+      "sumOfSeparate": {
+        "gzipBytes": 105554
+      }
+    },
+    "react-aria": {
+      "perComponent": {
+        "select": {
+          "rawBytes": 178317,
+          "gzipBytes": 57412,
+          "gzipKb": 56.1
+        },
+        "dialog": {
+          "rawBytes": 81497,
+          "gzipBytes": 27239,
+          "gzipKb": 26.6
+        },
+        "menu": {
+          "rawBytes": 156318,
+          "gzipBytes": 50509,
+          "gzipKb": 49.3
+        },
+        "combobox": {
+          "rawBytes": 234724,
+          "gzipBytes": 70376,
+          "gzipKb": 68.7
+        }
+      },
+      "allFour": {
+        "rawBytes": 269808,
+        "gzipBytes": 81565,
+        "gzipKb": 79.7
+      },
+      "sumOfSeparate": {
+        "gzipBytes": 205536
+      }
+    },
+    "ark": {
+      "perComponent": {
+        "select": {
+          "rawBytes": 102234,
+          "gzipBytes": 33259,
+          "gzipKb": 32.5
+        },
+        "dialog": {
+          "rawBytes": 60982,
+          "gzipBytes": 20194,
+          "gzipKb": 19.7
+        },
+        "menu": {
+          "rawBytes": 102077,
+          "gzipBytes": 33493,
+          "gzipKb": 32.7
+        },
+        "combobox": {
+          "rawBytes": 107333,
+          "gzipBytes": 34533,
+          "gzipKb": 33.7
+        }
+      },
+      "allFour": {
+        "rawBytes": 200013,
+        "gzipBytes": 58308,
+        "gzipKb": 56.9
+      },
+      "sumOfSeparate": {
+        "gzipBytes": 121479
+      }
+    },
+    "shadcn": {
+      "perComponent": {
+        "select": {
+          "rawBytes": 116909,
+          "gzipBytes": 39515,
+          "gzipKb": 38.6
+        },
+        "dialog": {
+          "rawBytes": 65643,
+          "gzipBytes": 21583,
+          "gzipKb": 21.1
+        },
+        "menu": {
+          "rawBytes": 118550,
+          "gzipBytes": 39261,
+          "gzipKb": 38.3
+        },
+        "combobox": {
+          "rawBytes": 108773,
+          "gzipBytes": 36682,
+          "gzipKb": 35.8
+        }
+      },
+      "allFour": {
+        "rawBytes": 162468,
+        "gzipBytes": 52636,
+        "gzipKb": 51.4
+      },
+      "sumOfSeparate": {
+        "gzipBytes": 137041
+      }
+    }
+  }
+}

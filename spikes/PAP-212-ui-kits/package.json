@@ -1,0 +1,28 @@
+{
+  "name": "paperos-spike-ui-kits",
+  "private": true,
+  "version": "0.0.0",
+  "description": "PAP-212: measure the gzipped cost of Select, Dialog, Menu and Combobox in each headless UI candidate.",
+  "type": "module",
+  "scripts": {
+    "measure": "node scripts/measure.mjs"
+  },
+  "dependencies": {
+    "@ark-ui/react": "5.39.2",
+    "@base-ui/react": "1.8.0",
+    "class-variance-authority": "0.7.1",
+    "clsx": "2.1.1",
+    "cmdk": "1.1.1",
+    "radix-ui": "1.6.7",
+    "react": "19.2.0",
+    "react-aria-components": "1.21.1",
+    "react-dom": "19.2.0",
+    "tailwind-merge": "3.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "19.2.2",
+    "@types/react-dom": "19.2.1",
+    "esbuild": "0.25.10",
+    "typescript": "5.9.3"
+  }
+}

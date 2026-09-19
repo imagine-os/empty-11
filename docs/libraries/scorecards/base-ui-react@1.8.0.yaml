@@ -1,0 +1,61 @@
+# PAP-212. Scored by hand against docs/platform/library-rubric.md v1 (PAP-209);
+# `pnpm lib score` (PAP-218) does not exist yet. Arithmetic is shown in
+# docs/research/ui-kits-and-headless-libraries.md section 6.1.
+candidate: "@base-ui/react"
+version: "1.8.0"
+evaluatedBy: Scout
+date: 2026-09-19
+issue: PAP-212
+kind: npm
+context: bundled
+facts:
+  license: MIT
+  licensePolicySource: draft # ops/licenses/policy.yaml (PAP-211) not on main
+  licenseFileText: "MIT License, Copyright (c) 2019 Material-UI SAS"
+  versionLatest: "1.8.0"
+  lastPublish: "2026-09-04"
+  previousPackageName: "@base-ui-components/react" # renamed at 1.0.0, 2025-12-11
+  downloadsWeekly: 12257994 # 2026-09-10..2026-09-16
+  stars: 10900
+  openIssues: 320
+  openPullRequests: 125
+  maintainers: 7
+  companyOrFoundationBacked: "MUI SAS"
+  medianFirstResponseDays: unknown # GitHub API not reachable from this environment
+  archived: false
+  gzipBytes: 80384 # 78.5 KB, Select+Dialog+Menu+Combobox, one entry, react external
+  entryImports:
+    ["@base-ui/react/select", "@base-ui/react/dialog", "@base-ui/react/menu", "@base-ui/react/combobox"]
+  treeShakes: true
+  types: shipped
+  publint: clean
+  attw: unknown # --pack fails inside a pnpm store
+  tscErrorsStrictNoSkipLibCheck: 0
+  a11yStatement: "https://base-ui.com/react/overview/accessibility.md"
+  docsFormat: "markdown + llms.txt"
+  llmsTxt: "https://base-ui.com/llms.txt"
+  context7Id: unknown
+  shippedCssFiles: 0
+  advisories: none # pnpm audit --ignore-workspace over the spike lockfile, 0 at all severities
+scores:
+  license: { score: 4, evidence: "https://raw.githubusercontent.com/mui/base-ui/master/LICENSE + npm license field, both MIT, fetched 2026-09-19" }
+  maintenance: { score: 4, evidence: "https://base-ui.com/react/overview/releases — monthly minors 1.1.0 (2026-01-15) to 1.8.0 (2026-09-04); team of 7 at https://base-ui.com/react/overview/about.md" }
+  bundle: { score: 2, evidence: "spikes/PAP-212-ui-kits/results/summary.json — 80384 B gzipped for the four components" }
+  a11y: { score: 4, evidence: "https://base-ui.com/react/overview/accessibility.md — APG adherence, initialFocus/finalFocus, screen-reader testing claim; inert in 29 dist files" }
+  ts: { score: 4, evidence: "spikes/PAP-212-ui-kits — 0 declaration errors at strict + exactOptionalPropertyTypes + skipLibCheck:false; publint clean" }
+  agent: { score: 3, evidence: "https://base-ui.com/llms.txt (200) and a .md twin per page; held at 3 for the 1.0 package rename, the anchor-1 known-wrong-answer trap" }
+extras:
+  - { id: packaging, weight: 5, score: 3, evidence: "publint@0.3.15: All good; attw unknown" }
+  - { id: inputBreadth, weight: 10, score: 3, evidence: "APG keyboard + typeahead, inert focus trap, RTL in 32 dist files, Drawer swipe-to-dismiss; no published pen/long-press model" }
+  - { id: themingFit, weight: 5, score: 4, evidence: "0 CSS files shipped; data-* state attributes; https://base-ui.com/react/handbook/styling.md covers Tailwind" }
+rescaledWeights: { license: 16, maintenance: 16, bundle: 12, a11y: 12, ts: 12, agent: 12 }
+gates:
+  licenseTier: { result: pass, evidence: "MIT, allow tier (draft tiers, PAP-211 unmerged)" }
+  noTypes: { result: pass, evidence: "hand-written types shipped" }
+  webviewIncompatible: { result: pass, evidence: "static analysis only — no CSS anchor positioning, no native Popover API, no showModal; checkVisibility guarded at floating-ui-react/utils/composite.js:406. Not executed in webkit2gtk; see research section 5.5" }
+  vendorNoSelfHost: { result: pass, evidence: "npm package" }
+  openAdvisory: { result: pass, evidence: "pnpm audit --ignore-workspace, spike lockfile, 0 advisories, 2026-09-19" }
+total: 87 # 16+16+6+12+12+9+3.75+7.5+5 = 87.25
+migrationCostHours: 26
+verdict: adopt
+decision: chosen # ADR 0029: the primitive foundation for packages/ui

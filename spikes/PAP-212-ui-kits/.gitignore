@@ -1,0 +1,4 @@
+node_modules/
+results/*.js
+results/*-metafile.json
+results/tmp/
