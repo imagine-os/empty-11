@@ -15,7 +15,7 @@ Numbers are pre-assigned by the plan; take yours, do not renumber.
 | 0005 | crdt-library | PAP-139 | Planned |
 | 0006 | canvas-and-editor-libraries | PAP-127 | Planned |
 | 0007 | payroll-provider | PAP-176 | Planned |
-| 0008 | crm-marketing-stack | PAP-188 | Planned |
+| 0008 | [crm-marketing-stack](0008-crm-marketing-stack.md) | PAP-188 | Proposed |
 | 0009 | library-evaluation-rubric | PAP-209 | Planned |
 | 0010 | branching-and-commits | PAP-46 | Planned |
 | 0011 | shared-value-types | PAP-302 | Planned |
