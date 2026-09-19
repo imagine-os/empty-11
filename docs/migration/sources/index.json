@@ -1,0 +1,571 @@
+{
+  "schemaVersion": 1,
+  "issue": "PAP-198",
+  "generatedBy": "docs/research/export-formats-and-api-limits.md",
+  "checkedOn": "2026-09-19",
+  "note": "Machine-readable catalogue of import-source capabilities. Each entry of `sources` is the record shape PAP-198 promises: { source, rateLimit, incremental, attachmentExpiry } plus the extra fields PAP-199 and PAP-208 need. Durations are ISO-8601. `null` means the vendor does not publish the value; see `unverified` in the record's `gaps`. Every number carries a `docs` entry with the URL it came from and the date it was read.",
+  "sources": [
+    {
+      "source": "airtable",
+      "name": "Airtable",
+      "status": "researched",
+      "checkedOn": "2026-09-19",
+      "importPath": "connector",
+      "protocol": "rest",
+      "baseUrl": "https://api.airtable.com/v0",
+      "sdk": "rest (no official JS SDK pinned)",
+      "auth": {
+        "kinds": ["pat", "oauth2"],
+        "header": "Authorization: Bearer <token>",
+        "scopes": [
+          "data.records:read",
+          "data.records:write",
+          "schema.bases:read",
+          "schema.bases:write"
+        ],
+        "versionHeader": null
+      },
+      "rateLimit": {
+        "perSecond": 5,
+        "perMinute": 300,
+        "perDay": null,
+        "concurrent": null,
+        "scope": "base",
+        "secondaryLimits": [
+          {
+            "perSecond": 50,
+            "scope": "token",
+            "note": "all traffic from one user or service account PAT"
+          }
+        ],
+        "status": 429,
+        "penaltySeconds": 30,
+        "headers": "none",
+        "strategy": "open-loop",
+        "note": "No X-RateLimit-* headers. The 30 s penalty makes pre-emptive throttling mandatory."
+      },
+      "pagination": {
+        "style": "offset-token",
+        "pageSizeDefault": 100,
+        "pageSizeMax": 100,
+        "cursorParam": "offset",
+        "resultCap": null,
+        "cursorTtl": null
+      },
+      "incremental": "conditional",
+      "incrementalMechanism": "filterByFormula on a lastModifiedTime field, only when the base has one",
+      "attachmentExpiry": "PT2H",
+      "attachmentNote": "URLs expire 2 hours after being returned; download inside the page's processing window.",
+      "exportFormats": ["csv"],
+      "exportNote": "Per-view CSV only; attachment cells become filename+URL with the same short TTL, so the UI path cannot migrate files.",
+      "plansRequired": { "attachmentApi": "Team or above" },
+      "gaps": [
+        "unverified: offset TTL",
+        "unverified: first-class changed-since endpoint",
+        "no rate-limit headers",
+        "attachment API needs a paid plan"
+      ],
+      "docs": [
+        {
+          "title": "Rate limits",
+          "url": "https://airtable.com/developers/web/api/rate-limits",
+          "checkedOn": "2026-09-19"
+        },
+        {
+          "title": "List records",
+          "url": "https://airtable.com/developers/web/api/list-records",
+          "checkedOn": "2026-09-19"
+        },
+        {
+          "title": "Field model",
+          "url": "https://airtable.com/developers/web/api/field-model",
+          "checkedOn": "2026-09-19"
+        },
+        {
+          "title": "Airtable attachment URL behavior",
+          "url": "https://support.airtable.com/articles/9671148410-airtable-attachment-url-behavior",
+          "checkedOn": "2026-09-19"
+        },
+        {
+          "title": "Download a view to CSV",
+          "url": "https://support.airtable.com/docs/download-a-view-to-csv",
+          "checkedOn": "2026-09-19"
+        }
+      ]
+    },
+    {
+      "source": "notion",
+      "name": "Notion",
+      "status": "researched",
+      "checkedOn": "2026-09-19",
+      "importPath": "connector",
+      "protocol": "rest",
+      "baseUrl": "https://api.notion.com/v1",
+      "sdk": "@notionhq/client 4.x",
+      "auth": {
+        "kinds": ["internal-integration-token", "oauth2"],
+        "header": "Authorization: Bearer <token>",
+        "scopes": [],
+        "versionHeader": "Notion-Version: 2026-03-11"
+      },
+      "rateLimit": {
+        "perSecond": 3,
+        "perMinute": 180,
+        "perDay": null,
+        "concurrent": null,
+        "scope": "connection",
+        "byPlan": {
+          "default": { "perMinute": 180, "perSecond": 3 },
+          "business": { "perMinute": 600, "perSecond": 10 },
+          "enterprise": { "perMinute": 600, "perSecond": 10 }
+        },
+        "status": 429,
+        "errorCode": "rate_limited",
+        "headers": "retry-after",
+        "strategy": "reactive",
+        "note": "Retry-After is an integer number of seconds; honour it rather than using a fixed backoff table."
+      },
+      "pagination": {
+        "style": "cursor",
+        "pageSizeDefault": 100,
+        "pageSizeMax": 100,
+        "cursorParam": "start_cursor",
+        "resultCap": null,
+        "cursorTtl": null
+      },
+      "payloadLimits": {
+        "blockElementsPerRequest": 1000,
+        "payloadBytes": 512000,
+        "richTextChars": 2000,
+        "arrayElements": 100,
+        "urlChars": 2000,
+        "emailChars": 200,
+        "phoneChars": 200,
+        "multiSelectOptions": 100,
+        "relationsPerRequest": 100,
+        "peoplePerRequest": 100
+      },
+      "incremental": "yes",
+      "incrementalMechanism": "last_edited_time filter and sort on data source query",
+      "attachmentExpiry": null,
+      "attachmentNote": "Notion-hosted `file` URLs are signed and short-lived (TTL unverified); `external` files keep a stable URL.",
+      "exportFormats": ["markdown+csv", "html", "pdf"],
+      "exportNote": "Include-subpages export is Business/Enterprise. Workspace export is Enterprise-admin only, takes up to 30 hours and the link expires after 7 days, so it cannot back an interactive wizard.",
+      "plansRequired": {
+        "multiPagePdfExport": "Business or above",
+        "workspaceExport": "Enterprise admin"
+      },
+      "gaps": [
+        "unverified: file URL TTL",
+        "place property reads as null via the API",
+        "integration only sees pages explicitly shared with it",
+        "3 req/s floor on non-Enterprise plans is the throughput ceiling"
+      ],
+      "docs": [
+        {
+          "title": "Request limits",
+          "url": "https://developers.notion.com/reference/request-limits",
+          "checkedOn": "2026-09-19"
+        },
+        {
+          "title": "API reference: pagination and versioning",
+          "url": "https://developers.notion.com/reference/intro",
+          "checkedOn": "2026-09-19"
+        },
+        {
+          "title": "Property object",
+          "url": "https://developers.notion.com/reference/property-object",
+          "checkedOn": "2026-09-19"
+        },
+        {
+          "title": "Export your content",
+          "url": "https://www.notion.com/help/export-your-content",
+          "checkedOn": "2026-09-19"
+        }
+      ]
+    },
+    {
+      "source": "clickup",
+      "name": "ClickUp",
+      "status": "researched",
+      "checkedOn": "2026-09-19",
+      "importPath": "connector",
+      "protocol": "rest",
+      "baseUrl": "https://api.clickup.com/api/v2",
+      "sdk": "rest",
+      "auth": {
+        "kinds": ["personal-token", "oauth2"],
+        "header": "Authorization: <pk_token>  (personal token, NO Bearer prefix) | Authorization: Bearer <access_token> (OAuth)",
+        "scopes": [],
+        "versionHeader": null,
+        "tokenExpiry": "none documented; ClickUp states this is subject to change"
+      },
+      "rateLimit": {
+        "perSecond": null,
+        "perMinute": 100,
+        "perDay": null,
+        "concurrent": null,
+        "scope": "token",
+        "byPlan": {
+          "free": { "perMinute": 100 },
+          "unlimited": { "perMinute": 100 },
+          "business": { "perMinute": 100 },
+          "businessPlus": { "perMinute": 1000 },
+          "enterprise": { "perMinute": 10000 }
+        },
+        "status": 429,
+        "headers": "remaining",
+        "headerNames": ["X-RateLimit-Limit", "X-RateLimit-Remaining", "X-RateLimit-Reset"],
+        "strategy": "closed-loop",
+        "note": "Tightest limit in the catalogue on the common plans. Pace from X-RateLimit-Remaining rather than hard-coding the plan."
+      },
+      "pagination": {
+        "style": "page-index",
+        "pageSizeDefault": 100,
+        "pageSizeMax": 100,
+        "cursorParam": "page",
+        "endSignal": "last_page",
+        "resultCap": null,
+        "note": "Page-index pagination over live data can skip or duplicate rows; external-id mapping (PAP-201) is what makes it safe."
+      },
+      "incremental": "yes",
+      "incrementalMechanism": "date_updated_gt (Unix milliseconds) on task listing",
+      "attachmentExpiry": null,
+      "attachmentNote": "Task attachment URLs are signed; TTL unverified. Treat as short-lived.",
+      "exportFormats": ["csv", "xlsx"],
+      "exportNote": "Per-view export from the view menu; per-plan availability and row caps unverified.",
+      "plansRequired": {},
+      "requiredDefaults": { "include_closed": true, "subtasks": true },
+      "gaps": [
+        "100 req/min on Free, Unlimited and Business",
+        "unverified: attachment URL TTL",
+        "unverified: UI export specifics",
+        "include_closed and subtasks default to false and silently under-import",
+        "some endpoints require a paid plan"
+      ],
+      "docs": [
+        {
+          "title": "Rate limits",
+          "url": "https://developer.clickup.com/docs/rate-limits",
+          "checkedOn": "2026-09-19"
+        },
+        {
+          "title": "Authentication",
+          "url": "https://developer.clickup.com/docs/authentication",
+          "checkedOn": "2026-09-19"
+        }
+      ]
+    },
+    {
+      "source": "monday",
+      "name": "monday.com",
+      "status": "researched",
+      "checkedOn": "2026-09-19",
+      "importPath": "csv-recipe",
+      "importPathNote": "PAP-413: CSV recipes, not a connector. The daily call limit and the API-invisible auto-number column are the reasons.",
+      "protocol": "graphql",
+      "baseUrl": "https://api.monday.com/v2",
+      "sdk": "graphql (no SDK pinned)",
+      "auth": {
+        "kinds": ["personal-token", "oauth2"],
+        "header": "Authorization: <token>  (bare, NO Bearer prefix)",
+        "scopes": [],
+        "versionHeader": "API-Version: 2026-07",
+        "versionCadence": "quarterly; a version is stable for at least six months, deprecation gets at least six months' notice"
+      },
+      "rateLimit": {
+        "perSecond": null,
+        "perMinute": 1000,
+        "perDay": 1000,
+        "concurrent": 40,
+        "scope": "account",
+        "byPlan": {
+          "free": { "perDay": 1000, "perMinute": 1000, "concurrent": 40 },
+          "basic": { "perDay": 1000, "perMinute": 1000, "concurrent": 40 },
+          "standard": { "perDay": 1000, "perMinute": 1000, "concurrent": 40 },
+          "pro": { "perDay": 10000, "perMinute": 2500, "concurrent": 100 },
+          "enterprise": { "perDay": 25000, "perMinute": 5000, "concurrent": 250 }
+        },
+        "complexityBudgetPerMinute": 10000000,
+        "complexityBudgetPerMinuteApp": 5000000,
+        "complexityBudgetPerMinuteTrial": 1000000,
+        "complexityMaxPerQuery": 5000000,
+        "perIp": { "requests": 5000, "seconds": 10 },
+        "errorCodes": [
+          "ComplexityException",
+          "DAILY_LIMIT_EXCEEDED",
+          "Concurrency limit exceeded",
+          "Minute limit rate exceeded",
+          "IP_RATE_LIMIT_EXCEEDED"
+        ],
+        "headers": "none",
+        "strategy": "budget",
+        "note": "Five independent meters. The daily call limit (1,000 on the common plans, reset at midnight UTC) is what actually bounds an import."
+      },
+      "pagination": {
+        "style": "cursor",
+        "pageSizeDefault": 25,
+        "pageSizeMax": 500,
+        "cursorParam": "cursor",
+        "resultCap": null,
+        "note": "Deep nesting to save calls runs into the 5M single-query complexity cap; shallow queries run into the daily call limit."
+      },
+      "incremental": "conditional",
+      "incrementalMechanism": "updated_at column filter; no changed-since endpoint",
+      "attachmentExpiry": null,
+      "attachmentNote": "Assets expose public_url and url; TTL unverified.",
+      "exportFormats": ["xlsx"],
+      "exportNote": "Board export to Excel; per-plan availability and caps unverified. The CSV recipe pins its column contract to a committed fixture.",
+      "plansRequired": {},
+      "gaps": [
+        "daily call limit of 1,000 on Free, Basic and Standard is a hard ceiling on connector-based import",
+        "auto number column is not accessible through column_values and is recoverable only from a UI export",
+        "quarterly API versions carry standing maintenance cost",
+        "unverified: export UI specifics",
+        "unverified: asset URL TTL"
+      ],
+      "docs": [
+        {
+          "title": "Rate limits",
+          "url": "https://developer.monday.com/api-reference/docs/rate-limits",
+          "checkedOn": "2026-09-19"
+        },
+        {
+          "title": "Authentication",
+          "url": "https://developer.monday.com/api-reference/docs/authentication",
+          "checkedOn": "2026-09-19"
+        },
+        {
+          "title": "API versioning",
+          "url": "https://developer.monday.com/api-reference/docs/api-versioning",
+          "checkedOn": "2026-09-19"
+        },
+        {
+          "title": "Column types reference",
+          "url": "https://developer.monday.com/api-reference/reference/column-types-reference",
+          "checkedOn": "2026-09-19"
+        }
+      ]
+    },
+    {
+      "source": "hubspot",
+      "name": "HubSpot",
+      "status": "researched",
+      "checkedOn": "2026-09-19",
+      "importPath": "csv-recipe",
+      "importPathNote": "PAP-413 for v0.1; PAP-188 consumes the CRM mapping. A connector is a low-risk later addition.",
+      "protocol": "rest",
+      "baseUrl": "https://api.hubapi.com",
+      "sdk": "@hubspot/api-client (v3 CRM endpoints)",
+      "auth": {
+        "kinds": ["private-app-token", "oauth2"],
+        "header": "Authorization: Bearer <token>",
+        "scopes": ["declared in the app configuration"],
+        "versionHeader": null
+      },
+      "rateLimit": {
+        "perSecond": 19,
+        "perMinute": 1140,
+        "perDay": 625000,
+        "concurrent": null,
+        "scope": "app burst, account daily",
+        "burst": { "requests": 190, "seconds": 10 },
+        "byPlan": {
+          "free": { "burstPer10s": 100, "perDay": 250000 },
+          "starter": { "burstPer10s": 100, "perDay": 250000 },
+          "professional": { "burstPer10s": 190, "perDay": 625000 },
+          "enterprise": { "burstPer10s": 190, "perDay": 1000000 },
+          "apiLimitIncrease": { "burstPer10s": 250, "perDay": 1000000 },
+          "publicOauthApp": {
+            "burstPer10s": 110,
+            "note": "per installing account; the add-on does not apply"
+          }
+        },
+        "searchLimit": { "perSecond": 5, "pageSizeMax": 200, "resultCap": 10000 },
+        "status": 429,
+        "headers": "remaining",
+        "headerNames": [
+          "X-HubSpot-RateLimit-Daily",
+          "X-HubSpot-RateLimit-Daily-Remaining",
+          "X-HubSpot-RateLimit-Interval-Milliseconds",
+          "X-HubSpot-RateLimit-Max",
+          "X-HubSpot-RateLimit-Remaining"
+        ],
+        "strategy": "closed-loop",
+        "note": "Burst is per app; the daily limit is shared across every app in the account, so an import competes with the customer's own integrations. Daily counter resets at midnight in the account's timezone."
+      },
+      "pagination": {
+        "style": "cursor",
+        "pageSizeDefault": 100,
+        "pageSizeMax": 200,
+        "cursorParam": "after",
+        "resultCap": 10000,
+        "resultCapScope": "search endpoints only",
+        "note": "Search cannot enumerate more than 10,000 results (400 beyond that). Enumerate with the list endpoints, or shard search by hs_lastmodifieddate windows."
+      },
+      "incremental": "yes",
+      "incrementalMechanism": "hs_lastmodifieddate filter and sort",
+      "attachmentExpiry": null,
+      "attachmentNote": "Files API and engagement attachments, referenced by file id and fetched by signed URL; TTL unverified.",
+      "exportFormats": ["csv", "xls", "xlsx"],
+      "exportNote": "CRM list export arrives by emailed download link; per-tier row caps unverified.",
+      "plansRequired": {},
+      "gaps": [
+        "search API caps at 10,000 results per query",
+        "daily limit is account-wide and shared with the customer's other integrations",
+        "public OAuth apps are capped at 110 requests per 10 s and cannot buy an increase",
+        "unverified: export row caps",
+        "unverified: file URL TTL",
+        "engagements are a separate model from properties and are not covered by property-level mapping"
+      ],
+      "docs": [
+        {
+          "title": "API usage guidelines and limits",
+          "url": "https://developers.hubspot.com/docs/developer-tooling/platform/usage-guidelines",
+          "checkedOn": "2026-09-19"
+        },
+        {
+          "title": "Search the CRM",
+          "url": "https://developers.hubspot.com/docs/api-reference/latest/crm/search-the-crm",
+          "checkedOn": "2026-09-19"
+        },
+        {
+          "title": "CRM Search API rate limit increase",
+          "url": "https://developers.hubspot.com/changelog/crm-search-api-rate-limit-increase",
+          "checkedOn": "2026-09-19"
+        },
+        {
+          "title": "Intro to auth",
+          "url": "https://developers.hubspot.com/docs/guides/apps/authentication/intro-to-auth",
+          "checkedOn": "2026-09-19"
+        }
+      ]
+    },
+    {
+      "source": "quickbooks-online",
+      "name": "QuickBooks Online",
+      "status": "researched",
+      "checkedOn": "2026-09-19",
+      "importPath": "connector",
+      "importPathNote": "The API is the only defensible path: report CSVs cannot produce a trial balance that ties (PAP-425).",
+      "protocol": "rest",
+      "baseUrl": "https://quickbooks.api.intuit.com/v3/company/{realmId}",
+      "sandboxBaseUrl": "https://sandbox-quickbooks.api.intuit.com/v3/company/{realmId}",
+      "sdk": "intuit-oauth",
+      "auth": {
+        "kinds": ["oauth2"],
+        "header": "Authorization: Bearer <access_token>",
+        "scopes": ["com.intuit.quickbooks.accounting"],
+        "versionHeader": null,
+        "versionParam": "minorversion",
+        "note": "OAuth 2.0 only, no token or key alternative. Refresh tokens rotate and must be persisted on every exchange. A connection is (tokens + realmId), because realmId is in the path."
+      },
+      "rateLimit": {
+        "perSecond": null,
+        "perMinute": 500,
+        "perDay": null,
+        "concurrent": 10,
+        "scope": "realmId",
+        "status": 429,
+        "headers": "none",
+        "strategy": "open-loop",
+        "confidence": "verify-on-first-live-run",
+        "note": "Intuit's limit pages are JavaScript-rendered and could not be captured verbatim on 2026-09-19. The numbers are consistent across the developer hub and help centre but should be confirmed on the first live sandbox run. Batch requests count toward the per-minute limit. Pool workers per realmId with a hard cap of 10."
+      },
+      "pagination": {
+        "style": "offset",
+        "pageSizeDefault": null,
+        "pageSizeMax": 1000,
+        "cursorParam": "STARTPOSITION",
+        "sizeParam": "MAXRESULTS",
+        "resultCap": null,
+        "note": "1-based offset over a live ledger; always pass MAXRESULTS explicitly (default unverified) and always ORDER BY Id so pages do not shuffle."
+      },
+      "incremental": "yes",
+      "incrementalMechanism": "GET /cdc?entities=<list>&changedSince=<dateTime>; look-back up to 30 days, max 1000 objects per response; not supported for JournalCode, TimeActivity, TaxAgency, TaxCode, TaxRate",
+      "incrementalMaxLookbackDays": 30,
+      "attachmentExpiry": null,
+      "attachmentNote": "Binary content is Attachable objects with their own download endpoint, not inline on transactions; URL behaviour unverified.",
+      "exportFormats": ["csv", "xlsx", "pdf"],
+      "exportNote": "Report and list exports are renderings, not a ledger; per-report options unverified.",
+      "plansRequired": {},
+      "gaps": [
+        "rate-limit numbers are verify-on-first-live-run (JavaScript-rendered docs)",
+        "unverified: MAXRESULTS default",
+        "CDC excludes JournalCode, TimeActivity, TaxAgency, TaxCode and TaxRate",
+        "CDC look-back is 30 days, so a connection idle longer needs a full re-read",
+        "sandbox companies reset after inactivity",
+        "no non-OAuth credential, so every fixture depends on NJ-13 item 5"
+      ],
+      "docs": [
+        {
+          "title": "API call limits and throttling",
+          "url": "https://help.developer.intuit.com/s/article/API-call-limits-and-throttling",
+          "checkedOn": "2026-09-19"
+        },
+        {
+          "title": "QuickBooks Online API best practices",
+          "url": "https://help.developer.intuit.com/s/article/QuickBooks-Online-API-Best-Practices",
+          "checkedOn": "2026-09-19"
+        },
+        {
+          "title": "Query operations and syntax",
+          "url": "https://developer.intuit.com/app/developer/qbo/docs/learn/explore-the-quickbooks-online-api/data-queries",
+          "checkedOn": "2026-09-19"
+        },
+        {
+          "title": "Change data capture operations (CDC)",
+          "url": "https://developer.intuit.com/app/developer/qbo/docs/learn/explore-the-quickbooks-online-api/change-data-capture",
+          "checkedOn": "2026-09-19"
+        },
+        {
+          "title": "Minor versions of our API",
+          "url": "https://developer.intuit.com/app/developer/qbo/docs/learn/explore-the-quickbooks-online-api/minor-versions",
+          "checkedOn": "2026-09-19"
+        }
+      ]
+    },
+    {
+      "source": "xero",
+      "name": "Xero",
+      "status": "pending",
+      "checkedOn": null,
+      "importPath": "connector",
+      "rateLimit": null,
+      "incremental": null,
+      "attachmentExpiry": null,
+      "gaps": [
+        "not researched in the PAP-198 first pass; follow-up issue required. The Xero demo company resets monthly, so fixtures must be pinned."
+      ],
+      "docs": []
+    },
+    {
+      "source": "linear",
+      "name": "Linear",
+      "status": "pending",
+      "checkedOn": null,
+      "importPath": "connector",
+      "rateLimit": null,
+      "incremental": null,
+      "attachmentExpiry": null,
+      "gaps": [
+        "not researched in the PAP-198 first pass; follow-up issue required. Consumer: r4/migration/linear-connector-and-pm-mapping."
+      ],
+      "docs": []
+    },
+    {
+      "source": "google-sheets",
+      "name": "Google Sheets",
+      "status": "pending",
+      "checkedOn": null,
+      "importPath": "connector",
+      "rateLimit": null,
+      "incremental": null,
+      "attachmentExpiry": null,
+      "gaps": [
+        "not researched in the PAP-198 first pass; follow-up issue required. Consumers: PAP-200, PAP-224. Google testing-mode refresh tokens expire after 7 days (NJ-13 item 7)."
+      ],
+      "docs": []
+    }
+  ]
+}
