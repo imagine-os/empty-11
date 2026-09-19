@@ -70,6 +70,14 @@
       "present": false
     },
     {
+      "id": "packages/core/src/config",
+      "kind": "core",
+      "owner": "app-shell",
+      "optional": false,
+      "issues": ["PAP-17"],
+      "present": true
+    },
+    {
       "id": "packages/core/src/devices",
       "kind": "core",
       "owner": "app-shell",
@@ -1656,6 +1664,14 @@
       "to": "packages/core",
       "kind": "allowed",
       "issues": ["PAP-305"]
+    },
+    {
+      "from": "apps/web",
+      "to": "packages/core",
+      "kind": "import",
+      "undeclared": false,
+      "issues": ["PAP-13", "PAP-16", "PAP-18"],
+      "via": ["apps/web/src/config.ts"]
     },
     {
       "from": "apps/web",

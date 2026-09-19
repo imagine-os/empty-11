@@ -177,6 +177,13 @@
       "optional": false,
       "note": "Audience model (ADR 0017)."
     },
+    "packages/core/src/config": {
+      "owner": "app-shell",
+      "issues": ["PAP-17"],
+      "kind": "core",
+      "optional": false,
+      "note": "Typed env schemas, loadConfig() and per-target SecretStore (docs/platform/config.md)."
+    },
     "packages/core/src/devices": {
       "owner": "app-shell",
       "issues": ["PAP-14"],

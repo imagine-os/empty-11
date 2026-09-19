@@ -15,11 +15,6 @@ export * from './modules/index.js';
 /** Version of the PaperOS platform contract this checkout implements. */
 export const PAPEROS_VERSION = '0.1.0' as const;
 
-/** Domain events: envelope, topic registry, transactional outbox `publish()` (PAP-555, ADR 0013). */
-export * from './events/index.js';
-
-export * from './filter/index.js';
-
 /**
  * Typed env schemas, `loadConfig()`, `SecretStore` per target (PAP-17). Also reachable directly
  * as `@paperos/core/config` — prefer that subpath in a browser/webview app (`apps/web`,
@@ -29,3 +24,6 @@ export * from './filter/index.js';
  * the server-only schema out of a real (minified) client build either way.
  */
 export * from './config/index.js';
+/** Domain events: envelope, topic registry, transactional outbox `publish()` (PAP-555, ADR 0013). */
+export * from './events/index.js';
+export * from './filter/index.js';

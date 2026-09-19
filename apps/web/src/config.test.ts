@@ -1,7 +1,9 @@
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { getWebConfig, getWebSecretStore, target } from './config.js';
 
 describe('apps/web config entry point', () => {
+  afterEach(() => vi.unstubAllEnvs());
+
   it('reports the web target in a jsdom (no Tauri) test environment', () => {
     expect(target).toBe('web');
   });
@@ -20,6 +22,7 @@ describe('apps/web config entry point', () => {
     // required VITE_* key is genuinely absent here today, and this asserts
     // that absence surfaces as a ConfigError naming the keys, not a crash
     // or a silently-empty object.
+    vi.stubEnv('VITE_API_URL', '');
     expect(() => getWebConfig()).toThrow(/VITE_API_URL/);
   });
 });

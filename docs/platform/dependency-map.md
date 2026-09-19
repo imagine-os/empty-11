@@ -6,7 +6,7 @@ Generated from `ownership.json` and the import graph of the working tree.
 Run `pnpm gen:dep-map` after any import or ownership change and commit both files;
 `pnpm lint:deps` and the `@paperos/boundaries` tests fail when the committed copy is stale.
 
-Packages on disk today: **19**. Import edges: **4**, of them undeclared: **0**.
+Packages on disk today: **19**. Import edges: **5**, of them undeclared: **0**.
 
 ## Imports today
 
@@ -43,6 +43,7 @@ flowchart LR
     packages_config_biome["config-biome<br/><small>app-shell</small>"]
     packages_config_ts["config-ts<br/><small>app-shell</small>"]
   end
+  apps_web --> packages_core
   apps_web --> packages_ui
   packages_boundaries --> packages_core
   packages_db --> packages_core
@@ -134,6 +135,7 @@ None. Every import in the tree is covered by `allowedDeps`.
 | `apps/collab-server` | runtime | realtime | no | planned | PAP-140 |
 | `packages/core` | core | app-shell | no | yes | PAP-13 |
 | `packages/core/src/audience` | core | identity | no | planned | PAP-55 |
+| `packages/core/src/config` | core | app-shell | no | yes | PAP-17 |
 | `packages/core/src/devices` | core | app-shell | no | yes | PAP-14 |
 | `packages/core/src/events` | core | data-layer | no | yes | PAP-555 |
 | `packages/core/src/filter` | core | data-layer | no | yes | PAP-279 |
