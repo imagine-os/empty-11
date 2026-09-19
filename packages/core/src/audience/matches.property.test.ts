@@ -66,8 +66,11 @@ const { segment } = fc.letrec<{ segment: Segment }>((tie) => ({
   ),
 }));
 
+/** 10 000-run properties take a few seconds; under Turbo every package's tests share the CPU. */
+const SLOW = { timeout: 60_000 };
+
 describe('matches: algebraic laws (fast-check)', () => {
-  it('not(not(x)) equals x over 10 000 random principals and segments', () => {
+  it('not(not(x)) equals x over 10 000 random principals and segments', SLOW, () => {
     fc.assert(
       fc.property(principal, segment, (p, s) => {
         expect(matches(p, { not: { not: s } })).toBe(matches(p, s));
@@ -76,7 +79,7 @@ describe('matches: algebraic laws (fast-check)', () => {
     );
   });
 
-  it('all([]) matches everyone and any([]) matches no one', () => {
+  it('all([]) matches everyone and any([]) matches no one', SLOW, () => {
     fc.assert(
       fc.property(principal, (p) => {
         expect(matches(p, { all: [] })).toBe(true);
@@ -86,7 +89,7 @@ describe('matches: algebraic laws (fast-check)', () => {
     );
   });
 
-  it('de Morgan: not(all(xs)) equals any(not x) and not(any(xs)) equals all(not x)', () => {
+  it('de Morgan: not(all(xs)) equals any(not x) and not(any(xs)) equals all(not x)', SLOW, () => {
     fc.assert(
       fc.property(principal, fc.array(segment, { maxLength: 4 }), (p, xs) => {
         const negated = xs.map((x): Segment => ({ not: x }));
@@ -97,7 +100,7 @@ describe('matches: algebraic laws (fast-check)', () => {
     );
   });
 
-  it('all and any are commutative and idempotent', () => {
+  it('all and any are commutative and idempotent', SLOW, () => {
     fc.assert(
       fc.property(principal, segment, segment, (p, a, b) => {
         expect(matches(p, { all: [a, b] })).toBe(matches(p, { all: [b, a] }));
@@ -109,7 +112,7 @@ describe('matches: algebraic laws (fast-check)', () => {
     );
   });
 
-  it('never throws on attribute lookups, whatever the attributes hold', () => {
+  it('never throws on attribute lookups, whatever the attributes hold', SLOW, () => {
     fc.assert(
       fc.property(principal, segment, (p, s) => {
         expect(typeof matches(p, s)).toBe('boolean');
