@@ -1,0 +1,245 @@
+{
+  "version": 1,
+  "updated": "2026-09-19",
+  "issue": "PAP-219",
+  "adr": "docs/adr/0024-threat-model-baseline.md",
+  "doc": "docs/security/hardening-baseline.md",
+  "about": "The baseline response-header set, as data, so apps/api (Hono) and apps/web (dev server, preview server and the static host config) load one source of truth instead of three hand-written copies. Controls: SEC-HDR-01..07, SEC-CSP-01..07, SEC-CORS-01..02. Placeholders in ${...} are resolved from the environment at boot; {{cspNonce}} is replaced per response with the value on the CSP_NONCE request-context key (SEC-CSP-01).",
+  "origins": {
+    "api": "${PAPEROS_API_ORIGIN}",
+    "web": "${PAPEROS_WEB_ORIGIN}",
+    "sync": "${PAPEROS_SYNC_ORIGIN}",
+    "collab": "${PAPEROS_COLLAB_ORIGIN}",
+    "telemetry": "${PAPEROS_OTLP_ORIGIN}",
+    "files": "${PAPEROS_FILES_ORIGIN}",
+    "tauri": "tauri://localhost"
+  },
+  "profiles": {
+    "app": {
+      "appliesTo": ["apps/web served HTML", "apps/api HTML error pages"],
+      "enforced": true,
+      "headers": {
+        "Strict-Transport-Security": "max-age=63072000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "Referrer-Policy": "strict-origin-when-cross-origin",
+        "X-Frame-Options": "DENY",
+        "Cross-Origin-Opener-Policy": "same-origin",
+        "Cross-Origin-Resource-Policy": "same-origin",
+        "Cross-Origin-Embedder-Policy": "credentialless",
+        "Permissions-Policy": "accelerometer=(), ambient-light-sensor=(), autoplay=(), camera=(), display-capture=(), encrypted-media=(), geolocation=(), gyroscope=(), idle-detection=(), magnetometer=(), microphone=(), midi=(), payment=(), publickey-credentials-get=(), screen-wake-lock=(), serial=(), usb=(), xr-spatial-tracking=()",
+        "Cache-Control": "no-store"
+      },
+      "csp": {
+        "default-src": ["'self'"],
+        "base-uri": ["'none'"],
+        "object-src": ["'none'"],
+        "frame-ancestors": ["'none'"],
+        "form-action": ["'self'"],
+        "script-src": ["'self'", "'nonce-{{cspNonce}}'", "'strict-dynamic'"],
+        "style-src": ["'self'", "'nonce-{{cspNonce}}'"],
+        "img-src": ["'self'", "data:", "blob:", "${PAPEROS_FILES_ORIGIN}"],
+        "font-src": ["'self'"],
+        "connect-src": [
+          "'self'",
+          "${PAPEROS_API_ORIGIN}",
+          "${PAPEROS_SYNC_ORIGIN}",
+          "${PAPEROS_COLLAB_ORIGIN}",
+          "${PAPEROS_OTLP_ORIGIN}"
+        ],
+        "media-src": ["'self'", "${PAPEROS_FILES_ORIGIN}"],
+        "worker-src": ["'self'", "blob:"],
+        "manifest-src": ["'self'"],
+        "frame-src": ["'none'"],
+        "upgrade-insecure-requests": [],
+        "report-to": ["paperos-csp"]
+      },
+      "reportOnly": {
+        "require-trusted-types-for": ["'script'"],
+        "trusted-types": ["paperos-default", "dompurify"]
+      },
+      "reportTo": {
+        "group": "paperos-csp",
+        "max_age": 86400,
+        "endpoints": [{ "url": "${PAPEROS_API_ORIGIN}/api/v1/security/csp-report" }]
+      }
+    },
+    "api": {
+      "appliesTo": ["apps/api JSON responses under /api/**"],
+      "enforced": true,
+      "headers": {
+        "Strict-Transport-Security": "max-age=63072000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "Referrer-Policy": "no-referrer",
+        "Cross-Origin-Resource-Policy": "same-site",
+        "Cross-Origin-Opener-Policy": "same-origin",
+        "Permissions-Policy": "interest-cohort=()",
+        "Cache-Control": "no-store"
+      },
+      "csp": {
+        "default-src": ["'none'"],
+        "frame-ancestors": ["'none'"],
+        "base-uri": ["'none'"],
+        "sandbox": []
+      }
+    },
+    "tauri": {
+      "appliesTo": [
+        "apps/desktop WebView (tauri://localhost) and the Tauri CSP in tauri.conf.json"
+      ],
+      "enforced": true,
+      "inheritsFrom": "app",
+      "headers": {
+        "Strict-Transport-Security": null,
+        "Cross-Origin-Embedder-Policy": null
+      },
+      "csp": {
+        "script-src": ["'self'", "'nonce-{{cspNonce}}'", "'strict-dynamic'"],
+        "connect-src": [
+          "'self'",
+          "ipc:",
+          "http://ipc.localhost",
+          "${PAPEROS_API_ORIGIN}",
+          "${PAPEROS_SYNC_ORIGIN}",
+          "${PAPEROS_COLLAB_ORIGIN}"
+        ],
+        "img-src": ["'self'", "asset:", "http://asset.localhost", "data:", "blob:"],
+        "frame-ancestors": ["'none'"]
+      },
+      "notes": "The shell never calls navigator.credentials in the WebView (SEC-AUTH-02); publickey-credentials-get stays denied here on purpose."
+    },
+    "files": {
+      "appliesTo": ["the file origin that serves user uploads; never an app origin"],
+      "enforced": true,
+      "headers": {
+        "Strict-Transport-Security": "max-age=63072000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "Referrer-Policy": "no-referrer",
+        "Cross-Origin-Resource-Policy": "same-site",
+        "Content-Disposition": "attachment",
+        "Cache-Control": "private, max-age=300"
+      },
+      "csp": {
+        "default-src": ["'none'"],
+        "sandbox": [],
+        "frame-ancestors": ["'none'"]
+      },
+      "notes": "SEC-FILE-02: SVG and HTML are served from here as downloads under a sandbox policy, or sanitised; they are never inlined on an app origin."
+    },
+    "storybook": {
+      "appliesTo": ["the component workshop host only"],
+      "enforced": false,
+      "relaxations": ["script-src 'unsafe-eval'", "style-src 'unsafe-inline'"],
+      "headers": {
+        "X-Content-Type-Options": "nosniff",
+        "Referrer-Policy": "strict-origin-when-cross-origin",
+        "X-Robots-Tag": "noindex"
+      },
+      "csp": {
+        "default-src": ["'self'"],
+        "script-src": ["'self'", "'unsafe-eval'"],
+        "style-src": ["'self'", "'unsafe-inline'"],
+        "connect-src": ["'self'"],
+        "frame-ancestors": ["'self'"]
+      },
+      "notes": "SEC-CSP-06: a relaxed profile exists only for this host, on its own origin, and never for an app profile. No session cookie is ever valid on this origin."
+    },
+    "pages-demo": {
+      "appliesTo": ["the GitHub Pages demo of the hub; static, no credentials"],
+      "enforced": false,
+      "relaxations": ["style-src 'unsafe-inline'"],
+      "headers": {
+        "X-Content-Type-Options": "nosniff",
+        "Referrer-Policy": "strict-origin-when-cross-origin"
+      },
+      "csp": {
+        "default-src": ["'self'"],
+        "script-src": ["'self'"],
+        "style-src": ["'self'", "'unsafe-inline'"],
+        "img-src": ["'self'", "data:"],
+        "connect-src": ["'self'"],
+        "frame-ancestors": ["'none'"]
+      },
+      "notes": "Pages cannot set response headers; the meta-equivalent CSP is emitted into the HTML at build time and the missing header set is accepted because the host holds no credential."
+    },
+    "embedded-oss": {
+      "appliesTo": ["routes under /embed/<product>/** that host a third-party OSS UI"],
+      "enforced": true,
+      "relaxations": ["script-src 'unsafe-inline' scoped to the route prefix"],
+      "headers": {
+        "X-Content-Type-Options": "nosniff",
+        "Referrer-Policy": "same-origin",
+        "Cross-Origin-Resource-Policy": "same-origin"
+      },
+      "csp": {
+        "default-src": ["'self'"],
+        "script-src": ["'self'", "'unsafe-inline'"],
+        "style-src": ["'self'", "'unsafe-inline'"],
+        "connect-src": ["'self'", "${PAPEROS_API_ORIGIN}"],
+        "frame-ancestors": ["'self'"]
+      },
+      "notes": "SEC-CSP-06 and PAP-215: allowed per route prefix only, with its own cookie path, and listed here so the relaxation is reviewable."
+    }
+  },
+  "cors": {
+    "allowCredentials": true,
+    "allowOrigins": [
+      "${PAPEROS_WEB_ORIGIN}",
+      "tauri://localhost",
+      "http://localhost:5173",
+      "http://localhost:1420"
+    ],
+    "allowMethods": ["GET", "HEAD", "POST", "PATCH", "DELETE", "OPTIONS"],
+    "allowHeaders": [
+      "authorization",
+      "content-type",
+      "idempotency-key",
+      "traceparent",
+      "x-tenant",
+      "x-paperos-env",
+      "x-paperos-reason"
+    ],
+    "exposeHeaders": ["x-request-id", "retry-after"],
+    "maxAgeSeconds": 600,
+    "notes": "SEC-CORS-01: exact origins only. The localhost entries are dropped in production builds; no origin is ever reflected from the request and no suffix match is performed."
+  },
+  "cookies": {
+    "session": {
+      "name": "__Host-paperos_session",
+      "secure": true,
+      "httpOnly": true,
+      "sameSite": "Lax",
+      "path": "/",
+      "domain": null,
+      "maxAgeSeconds": 2592000
+    },
+    "csrfOriginCheck": {
+      "appliesTo": "every mutating route",
+      "acceptedSecFetchSite": ["same-origin", "same-site", "none"],
+      "requireOriginMatch": true,
+      "bearerExempt": true,
+      "notes": "SEC-CSRF-01 and SEC-CSRF-02. Sec-Fetch-Site none is accepted only for a bearer-authenticated request (Tauri, agents, SDK), which must not also carry a session cookie."
+    },
+    "locale": {
+      "name": "paperos_locale",
+      "secure": true,
+      "httpOnly": false,
+      "sameSite": "Lax",
+      "path": "/",
+      "domain": null,
+      "maxAgeSeconds": 31536000
+    }
+  },
+  "rateLimits": {
+    "perActorPerMinute": 600,
+    "perPublicIpPerMinute": 60,
+    "authRoutesPerMinutePerIp": 10,
+    "authRoutesPerMinutePerIdentifier": 10,
+    "cspReportPerMinutePerIp": 30,
+    "webhookPerSourcePerMinute": 600,
+    "maxJsonBodyBytes": 1048576,
+    "maxUploadBytes": 104857600,
+    "maxYjsDocumentBytes": 20971520,
+    "maxShapeResponseBytes": 26214400,
+    "notes": "SEC-RATE-01..04. All counters are Postgres-backed and answer 429 with Retry-After; the in-memory bucket in PAP-35 is the interim implementation."
+  }
+}

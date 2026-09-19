@@ -11,7 +11,7 @@ it is not a rule.
 | `reference/surfaces.md` | every MCP / WebMCP, CLI and API ability | Append a row in the same pass that adds the ability |
 | `research/` | `<slug>.md` library and option evaluations behind ADRs | Dated; superseded research says so at the top |
 | `pm/` | plans, schedules, kanban snapshots, prompts and replies | Numbered files are append-only |
-| `security/` | threat model, secrets handling, review notes | |
+| `security/` | threat model, hardening baseline, incident playbook, secrets handling | Controls are data in `ops/security/`; cite a `SEC-*` id, never an opinion. Start at [`security/README.md`](security/README.md) |
 | `evidence/PAP-<n>/` | screenshots and artefacts proving a Definition of Done | One folder per issue |
 
 Other maps: the folder map and the day-to-day commands are in the root [`CLAUDE.md`](../CLAUDE.md);

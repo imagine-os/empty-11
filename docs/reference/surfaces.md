@@ -42,6 +42,11 @@ or `-`), **Status** (`live`, `stub`, `planned`).
 | WebMCP | `agentCallable` actions are exposed as tools, gated by the action's `permission`; arguments validated against `argsSchema` | PAP-150 | per action | planned (endpoint is PAP-291) |
 | CLI | `pnpm --filter @paperos/input gen:schemas` — regenerate the input JSON Schema files from the Zod 4 schemas | PAP-150 | - | live |
 | CLI | `pnpm --filter @paperos/input gen:fixtures` — regenerate the golden normalised event stream | PAP-150 | - | live |
+| CLI | `node scripts/security-controls.ts --check` — validate `ops/security/controls.yaml`, `agent-deny.yaml` and `headers.json` (ids, boundaries, manual cadences, S0 backstops, no relaxed app CSP, HSTS preload minimum, credentialed CORS never `*`); exit 1 on any problem | PAP-219 | - | live |
+| CLI | `node scripts/security-controls.ts --verify lint\|test\|scan\|manual` — list the controls a given check mode is responsible for, with boundary and status | PAP-219 | - | live |
+| CLI | `node scripts/security-controls.ts --boundary B<n>` / `--summary` — list one trust boundary's controls, or counts per boundary | PAP-219 | - | live |
+| API | `POST /api/v1/security/csp-report` — CSP violation report sink (`report-to paperos-csp`), rate limited 30/min/IP and sampled | PAP-219 | - | planned (profile in `ops/security/headers.json`; route lands with `apps/api`) |
+| API | `securityHeaders({ profile })` — the baseline header and CSP middleware contract every surface calls; `CSP_NONCE` request-context key | PAP-219 | - | planned (contract frozen in `docs/security/hardening-baseline.md` section 13; Forge implements) |
 
 The placeholder route declares no actions: it has no controls. The first page with a control adds
 its actions registry and its rows here; the shape it declares against is the `Action` row above

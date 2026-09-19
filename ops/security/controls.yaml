@@ -1,0 +1,1008 @@
+# PaperOS security controls (PAP-219, ADR 0024).
+#
+# The machine-readable half of `docs/security/threat-model.md` and
+# `docs/security/hardening-baseline.md`. Every control named in either document has an id here, and
+# every id cited in a document, a Semgrep rule (PAP-80), the security reviewer prompt (PAP-81) or a
+# review rubric (PAP-79) must resolve to a control in this file.
+#
+# Format is a deliberately small YAML subset so that `node scripts/security-controls.ts --check`
+# can validate it with no dependencies, and so a Zod schema (PAP-80) can mirror it exactly:
+#
+#   version: <int>            # bump when the field set changes
+#   updated: YYYY-MM-DD
+#   boundaries: { <id>: "<name>" }
+#   controls:
+#     - id: SEC-<AREA>-<nn>   # unique, uppercase area, two digits
+#       statement: "..."      # one sentence, imperative, testable; double quotes, no inner quotes
+#       boundary: B<n>        # the primary boundary from `boundaries` above
+#       verify: lint|test|scan|manual
+#       cadence: "..."        # required when verify is manual, else null
+#       owner: <character>    # Atlas | Forge | Sentinel | Iris | Nova | Ledger | Beacon | Quill | Scout
+#       issues: [PAP-n, ...]  # the issues that implement or enforce it; first is the primary owner
+#       standard: "..."       # external anchor with a version or date
+#       status: enforced|partial|planned
+#
+# Rules: append-only ids (retire by setting status to `planned` with a superseding id in the
+# statement, never renumber); `verify: manual` always carries a cadence (threat-model edge case);
+# every issue key must exist in Linear team PAP.
+
+version: 1
+updated: 2026-09-19
+
+boundaries:
+  B1: "Browser and PWA"
+  B2: "Tauri shell (WebView, IPC, deep link, updater, keychain)"
+  B3: "API (Hono + oRPC, auth routes, webhooks)"
+  B4: "Postgres and RLS"
+  B5: "Sync read path (Electric shape proxy, PGlite local store)"
+  B6: "Jobs and scheduler (pg-boss)"
+  B7: "Realtime and collaboration (Hocuspocus/Yjs, live_event)"
+  B8: "Agents and orchestrator (sessions, orchestrator host)"
+  B9: "Forges and CI (Forgejo, GitHub mirror, runners)"
+  B10: "Third parties (Stripe, payroll, Resend, Linear, Anthropic, Tailscale)"
+
+controls:
+  # --- Response headers -------------------------------------------------------------------------
+  - id: SEC-HDR-01
+    statement: "Every HTML and JSON response from apps/web and apps/api carries the header profile named in ops/security/headers.json for its surface; a response with no profile is a build failure."
+    boundary: B1
+    verify: test
+    cadence: null
+    owner: Forge
+    issues: [PAP-219, PAP-35, PAP-78]
+    standard: "OWASP Secure Headers Project; ASVS 5.0.0 V13 Configuration (2025-05-30)"
+    status: planned
+  - id: SEC-HDR-02
+    statement: "Every public host sends Strict-Transport-Security with max-age 63072000, includeSubDomains and preload, and redirects port 80 to HTTPS."
+    boundary: B1
+    verify: scan
+    cadence: null
+    owner: Forge
+    issues: [PAP-219, PAP-26]
+    standard: "hstspreload.org submission requirements, retrieved 2026-09-19 (max-age at least 31536000; we set two years)"
+    status: planned
+  - id: SEC-HDR-03
+    statement: "X-Content-Type-Options is nosniff on every response and every response that carries a body declares an explicit Content-Type with a charset."
+    boundary: B1
+    verify: test
+    cadence: null
+    owner: Forge
+    issues: [PAP-219, PAP-35]
+    standard: "OWASP HTTP Headers Cheat Sheet, retrieved 2026-09-19"
+    status: planned
+  - id: SEC-HDR-04
+    statement: "Referrer-Policy is strict-origin-when-cross-origin on every surface, and no route puts a token, an id or a tenant slug in a query string that a third party could receive."
+    boundary: B1
+    verify: test
+    cadence: null
+    owner: Forge
+    issues: [PAP-219, PAP-16]
+    standard: "Referrer Policy (W3C CR); OWASP Top 10:2025 A02 Security Misconfiguration"
+    status: planned
+  - id: SEC-HDR-05
+    statement: "Framing is denied by CSP frame-ancestors none plus the legacy X-Frame-Options DENY, and Cross-Origin-Opener-Policy is same-origin with Cross-Origin-Resource-Policy same-origin, except on routes listed as embeddable in ops/security/headers.json."
+    boundary: B1
+    verify: test
+    cadence: null
+    owner: Forge
+    issues: [PAP-219, PAP-215]
+    standard: "CSP Level 3 W3C WD 2026-08-13; OWASP CORP control page, retrieved 2026-09-19"
+    status: planned
+  - id: SEC-HDR-06
+    statement: "Permissions-Policy denies camera, microphone, geolocation, payment, usb, serial, display-capture and idle-detection unless the page spec of the route declares the feature, so an undeclared capability cannot be used."
+    boundary: B1
+    verify: lint
+    cadence: null
+    owner: Iris
+    issues: [PAP-219, PAP-114, PAP-16]
+    standard: "Permissions Policy (W3C WD); ASVS 5.0.0 V3 Web Frontend Security"
+    status: planned
+  - id: SEC-HDR-07
+    statement: "No response advertises a server, framework or language version: Server, X-Powered-By and equivalents are stripped at the edge and in Hono."
+    boundary: B3
+    verify: scan
+    cadence: null
+    owner: Forge
+    issues: [PAP-219, PAP-26]
+    standard: "OWASP Top 10:2025 A02 Security Misconfiguration"
+    status: planned
+
+  # --- Content Security Policy ------------------------------------------------------------------
+  - id: SEC-CSP-01
+    statement: "Every HTML response mints a fresh 128-bit CSPRNG nonce, exposes it on the request context key CSP_NONCE, and never reuses or caches it across responses."
+    boundary: B1
+    verify: test
+    cadence: null
+    owner: Forge
+    issues: [PAP-219, PAP-35]
+    standard: "CSP Level 3 W3C WD 2026-08-13, nonce-source"
+    status: planned
+  - id: SEC-CSP-02
+    statement: "The app policy is script-src self plus the per-response nonce plus strict-dynamic, with object-src none, base-uri none, form-action self and default-src self; unsafe-inline and unsafe-eval never appear in an app profile."
+    boundary: B1
+    verify: test
+    cadence: null
+    owner: Forge
+    issues: [PAP-219, PAP-16]
+    standard: "CSP Level 3 W3C WD 2026-08-13, strict-dynamic; OWASP Top 10:2025 A05 Injection"
+    status: planned
+  - id: SEC-CSP-03
+    statement: "connect-src lists exact origins for the API, the Electric shape proxy, the Hocuspocus WebSocket and the telemetry collector, and no CSP directive in an app profile contains a wildcard host or a scheme-only source."
+    boundary: B1
+    verify: lint
+    cadence: null
+    owner: Sentinel
+    issues: [PAP-219, PAP-270, PAP-140, PAP-40]
+    standard: "CSP Level 3 W3C WD 2026-08-13, source expressions"
+    status: planned
+  - id: SEC-CSP-04
+    statement: "Application source contains no inline event handler attributes, no javascript: URLs, no document.write and no eval or new Function; framework-rendered inline scripts carry the nonce."
+    boundary: B1
+    verify: lint
+    cadence: null
+    owner: Sentinel
+    issues: [PAP-219, PAP-80]
+    standard: "ASVS 5.0.0 V1 Encoding and Sanitization; OWASP Top 10:2025 A05"
+    status: planned
+  - id: SEC-CSP-05
+    statement: "CSP violations are reported to /api/v1/security/csp-report with report-to and report-uri, rate limited and sampled, and a new violation class opens a Sentinel finding rather than a policy relaxation."
+    boundary: B3
+    verify: test
+    cadence: null
+    owner: Sentinel
+    issues: [PAP-219, PAP-40]
+    standard: "CSP Level 3 W3C WD 2026-08-13, reporting"
+    status: planned
+  - id: SEC-CSP-06
+    statement: "A relaxed policy exists only for the host profiles named in ops/security/headers.json (storybook, pages-demo, embedded-oss), each scoped to its own origin or route prefix, and never for an app profile."
+    boundary: B1
+    verify: lint
+    cadence: null
+    owner: Sentinel
+    issues: [PAP-219, PAP-215, PAP-76]
+    standard: "ASVS 5.0.0 V13 Configuration"
+    status: planned
+  - id: SEC-CSP-07
+    statement: "Trusted Types (require-trusted-types-for script) ship report-only on apps/web and are only enforced once every Tauri WebView in the device matrix is confirmed to support them."
+    boundary: B2
+    verify: manual
+    cadence: "quarterly, with the device-matrix review (ADR 0022)"
+    owner: Sentinel
+    issues: [PAP-219, PAP-14, PAP-19]
+    standard: "Trusted Types (W3C WD); CSP Level 3 W3C WD 2026-08-13"
+    status: planned
+
+  # --- CSRF ------------------------------------------------------------------------------------
+  - id: SEC-CSRF-01
+    statement: "Every mutating route rejects a request whose Origin or Sec-Fetch-Site does not match an allowlisted origin, before any handler runs."
+    boundary: B3
+    verify: test
+    cadence: null
+    owner: Forge
+    issues: [PAP-219, PAP-35, PAP-57]
+    standard: "OWASP CSRF Prevention Cheat Sheet, retrieved 2026-09-19; ASVS 5.0.0 V4 API and Web Service"
+    status: planned
+  - id: SEC-CSRF-02
+    statement: "A cookie-authenticated mutation requires both the SameSite cookie and the origin check; a bearer-authenticated mutation (Tauri, agents, SDK) is exempt from the origin check and is rejected if it also carries a session cookie."
+    boundary: B3
+    verify: test
+    cadence: null
+    owner: Forge
+    issues: [PAP-219, PAP-225, PAP-60]
+    standard: "OWASP CSRF Prevention Cheat Sheet, retrieved 2026-09-19"
+    status: planned
+  - id: SEC-CSRF-03
+    statement: "GET, HEAD and OPTIONS never change state: no oRPC query procedure and no REST GET route writes, enqueues a job or emits an event."
+    boundary: B3
+    verify: lint
+    cadence: null
+    owner: Sentinel
+    issues: [PAP-219, PAP-80, PAP-267]
+    standard: "RFC 9110 section 9.2.1 safe methods"
+    status: planned
+
+  # --- Cookies ---------------------------------------------------------------------------------
+  - id: SEC-COOK-01
+    statement: "The session cookie is __Host-paperos_session with Secure, HttpOnly, SameSite=Lax, Path=/ and no Domain attribute; no other cookie carries a credential."
+    boundary: B1
+    verify: test
+    cadence: null
+    owner: Forge
+    issues: [PAP-219, PAP-57]
+    standard: "draft-ietf-httpbis-rfc6265bis-20 cookie prefixes (Internet-Draft, current 2026-09-19); ASVS 5.0.0 V7 Session Management"
+    status: planned
+  - id: SEC-COOK-02
+    statement: "No surface stores a token, key or session in localStorage, sessionStorage, IndexedDB or the PGlite local database."
+    boundary: B1
+    verify: lint
+    cadence: null
+    owner: Sentinel
+    issues: [PAP-219, PAP-80, PAP-31]
+    standard: "ASVS 5.0.0 V7 Session Management; ADR 0003 decision 5"
+    status: planned
+  - id: SEC-COOK-03
+    statement: "The Tauri shell keeps its bearer token in the OS keychain only, sends it with requireSignature true, and holds no token in the WebView at rest."
+    boundary: B2
+    verify: test
+    cadence: null
+    owner: Forge
+    issues: [PAP-219, PAP-17, PAP-225, PAP-260]
+    standard: "ADR 0003 decision 5 (2026-09-19); docs/research/auth-libraries.md section 4"
+    status: planned
+
+  # --- CORS ------------------------------------------------------------------------------------
+  - id: SEC-CORS-01
+    statement: "CORS allows credentials only for exact origins from the deployment allowlist plus tauri://localhost, never a wildcard, never an origin reflected from the request, and never a suffix match."
+    boundary: B3
+    verify: test
+    cadence: null
+    owner: Forge
+    issues: [PAP-219, PAP-35, PAP-19]
+    standard: "OWASP Top 10:2025 A02; ASVS 5.0.0 V4 API and Web Service"
+    status: planned
+  - id: SEC-CORS-02
+    statement: "Preflight responses enumerate allowed methods and headers explicitly, cap Access-Control-Max-Age at 600 seconds, and expose only x-request-id and Retry-After."
+    boundary: B3
+    verify: test
+    cadence: null
+    owner: Forge
+    issues: [PAP-219, PAP-35]
+    standard: "Fetch Standard, CORS protocol, retrieved 2026-09-19"
+    status: planned
+
+  # --- Rate limits and quotas -------------------------------------------------------------------
+  - id: SEC-RATE-01
+    statement: "Rate limits are enforced per actor at 600 requests per minute, per API key at its configured limit and per IP at 60 per minute on public routes, all Postgres-backed, answering 429 with Retry-After."
+    boundary: B3
+    verify: test
+    cadence: null
+    owner: Forge
+    issues: [PAP-219, PAP-35, PAP-222]
+    standard: "Contracts section 4 (interface-and-data-contracts.md); ASVS 5.0.0 V4"
+    status: planned
+  - id: SEC-RATE-02
+    statement: "Authentication, password reset, magic link and API-key mint routes are limited to 10 attempts per minute per IP and per identifier with exponential backoff, and lockouts are audited."
+    boundary: B3
+    verify: test
+    cadence: null
+    owner: Forge
+    issues: [PAP-219, PAP-57, PAP-60]
+    standard: "NIST SP 800-63B-4 rate-limiting of authentication attempts (final, 2025-08); OWASP Top 10:2025 A07"
+    status: planned
+  - id: SEC-RATE-03
+    statement: "List inputs cap limit at 100, batch endpoints at 25 mutations and bulk patches at 500 ids, enforced by the shared Zod input schemas rather than per route."
+    boundary: B3
+    verify: test
+    cadence: null
+    owner: Forge
+    issues: [PAP-219, PAP-268, PAP-35]
+    standard: "Contracts section 4; ASVS 5.0.0 V2 Validation and Business Logic"
+    status: planned
+  - id: SEC-RATE-04
+    statement: "Payload caps are enforced before parsing: 1 MB JSON bodies, 100 MB uploads through the file service, 20 MB per Yjs document and 25 MB per shape response."
+    boundary: B3
+    verify: test
+    cadence: null
+    owner: Forge
+    issues: [PAP-219, PAP-37, PAP-140, PAP-270]
+    standard: "ASVS 5.0.0 V2; OWASP Top 10:2025 A10 Mishandling of Exceptional Conditions"
+    status: planned
+
+  # --- Authentication and session ---------------------------------------------------------------
+  - id: SEC-AUTH-01
+    statement: "Passkeys are the primary human factor; password and magic-link fallbacks require a second factor, and any change to the factor set is an ADR."
+    boundary: B1
+    verify: manual
+    cadence: "quarterly, by Sentinel with the identity owner"
+    owner: Sentinel
+    issues: [PAP-219, PAP-57, PAP-220]
+    standard: "NIST SP 800-63B-4 AAL2 syncable authenticators (final, 2025-08); ADR 0003"
+    status: planned
+  - id: SEC-AUTH-02
+    statement: "The desktop shell never calls navigator.credentials inside the WebView: authentication opens the system browser for an authorization-code flow with PKCE and returns on a single-use, PKCE-bound paperos://auth/callback deep link."
+    boundary: B2
+    verify: lint
+    cadence: null
+    owner: Sentinel
+    issues: [PAP-219, PAP-225, PAP-80]
+    standard: "ADR 0003 decision 5; RFC 8252 OAuth 2.0 for Native Apps"
+    status: planned
+  - id: SEC-AUTH-03
+    statement: "Bearer sessions are signed (requireSignature true) with an 8 hour maximum lifetime, are bound to the principal and are revocable by deleting the row, not by waiting for expiry."
+    boundary: B3
+    verify: test
+    cadence: null
+    owner: Forge
+    issues: [PAP-219, PAP-57, PAP-60]
+    standard: "ASVS 5.0.0 V7 Session Management; ADR 0003"
+    status: planned
+  - id: SEC-AUTH-04
+    statement: "Every oRPC procedure and REST route declares an authorize() policy; a route with no policy fails the build rather than defaulting to authenticated."
+    boundary: B3
+    verify: lint
+    cadence: null
+    owner: Sentinel
+    issues: [PAP-219, PAP-80, PAP-229, PAP-59]
+    standard: "OWASP Top 10:2025 A01 Broken Access Control; ASVS 5.0.0 V8 Authorization"
+    status: planned
+  - id: SEC-AUTH-05
+    statement: "Client-side permission helpers only hide UI: every capability they gate is re-checked on the server, and the permission matrix tests assert both layers."
+    boundary: B3
+    verify: test
+    cadence: null
+    owner: Sentinel
+    issues: [PAP-219, PAP-64, PAP-229]
+    standard: "OWASP Top 10:2025 A01; ASVS 5.0.0 V8"
+    status: planned
+  - id: SEC-AUTH-06
+    statement: "The tenant taken from the x-tenant header or subdomain is resolved to an active membership of the authenticated principal before any RLS context is set; a mismatch is 404, never 403 with detail."
+    boundary: B3
+    verify: test
+    cadence: null
+    owner: Forge
+    issues: [PAP-219, PAP-58, PAP-34]
+    standard: "Contracts section 1 and 4; OWASP Top 10:2025 A01"
+    status: planned
+
+  # --- Keys and credentials ---------------------------------------------------------------------
+  - id: SEC-KEY-01
+    statement: "Agent keys with the pos_agent_ prefix are minted only by the orchestrator, carry character, issue, session and scopes metadata, expire within 8 hours and are rate limited per key."
+    boundary: B8
+    verify: test
+    cadence: null
+    owner: Forge
+    issues: [PAP-60, PAP-219, PAP-96]
+    standard: "ADR 0003 decision 4; ASVS 5.0.0 V6 Authentication"
+    status: planned
+  - id: SEC-KEY-02
+    statement: "API keys are stored only as a hash: PAP-60 reads the hashing scheme out of the api-key plugin source before the first key is minted and hashes them in our own code if the library stores anything reversible."
+    boundary: B4
+    verify: test
+    cadence: null
+    owner: Sentinel
+    issues: [PAP-60, PAP-219]
+    standard: "docs/research/auth-libraries.md section 6 open question (2026-09-19); ASVS 5.0.0 V11 Cryptography"
+    status: planned
+  - id: SEC-KEY-03
+    statement: "Tenant keys are prefixed pos_live_ or pos_test_, a test key can only reach test data, and X-PaperOS-Env test never resolves to a live tenant."
+    boundary: B3
+    verify: test
+    cadence: null
+    owner: Ledger
+    issues: [PAP-222, PAP-219]
+    standard: "Contracts section 4; ASVS 5.0.0 V13 Configuration"
+    status: planned
+  - id: SEC-KEY-04
+    statement: "Revocation is immediate: deleting a key or session takes effect within 60 seconds everywhere, and pnpm revoke --all kills every agent credential in under a minute."
+    boundary: B8
+    verify: manual
+    cadence: "monthly, timed, in the incident drill"
+    owner: Sentinel
+    issues: [PAP-60, PAP-219, PAP-111]
+    standard: "NIST SP 800-61r3 containment (2025-04-03)"
+    status: planned
+
+  # --- Tenancy and RLS ---------------------------------------------------------------------------
+  - id: SEC-RLS-01
+    statement: "Every tenant-scoped table has RLS enabled and FORCE ROW LEVEL SECURITY, and a query with no app.tenant_id returns no rows rather than all rows."
+    boundary: B4
+    verify: test
+    cadence: null
+    owner: Forge
+    issues: [PAP-34, PAP-219, PAP-32]
+    standard: "Contracts section 1; OWASP Top 10:2025 A01"
+    status: planned
+  - id: SEC-RLS-02
+    statement: "The application role paperos_app is NOBYPASSRLS and is the only role the API and jobs connect as; paperos_owner is used by the migrator connection only and never by a request path."
+    boundary: B4
+    verify: scan
+    cadence: null
+    owner: Forge
+    issues: [PAP-30, PAP-34, PAP-219]
+    standard: "PostgreSQL 17 row security policies; ASVS 5.0.0 V8"
+    status: planned
+  - id: SEC-RLS-03
+    statement: "Request context is set with SET LOCAL inside the request transaction only, so it cannot leak across pooled connections, and the tenant, actor, actor kind, request id and reason are all set together."
+    boundary: B4
+    verify: lint
+    cadence: null
+    owner: Sentinel
+    issues: [PAP-34, PAP-38, PAP-219]
+    standard: "Contracts section 1"
+    status: planned
+  - id: SEC-RLS-04
+    statement: "app.bypass is never set from a request handler; setting it requires a named platform job, writes an audit row and emits a security event that reaches the weekly digest."
+    boundary: B4
+    verify: lint
+    cadence: null
+    owner: Sentinel
+    issues: [PAP-34, PAP-38, PAP-219]
+    standard: "Contracts section 1; ASVS 5.0.0 V16 Security Logging and Error Handling"
+    status: planned
+  - id: SEC-RLS-05
+    statement: "Every tenant-scoped table is covered by a cross-tenant denial test that fails if a second tenant can read, write or count its rows."
+    boundary: B4
+    verify: test
+    cadence: null
+    owner: Sentinel
+    issues: [PAP-34, PAP-219, PAP-64]
+    standard: "OWASP Top 10:2025 A01; ASVS 5.0.0 V8"
+    status: planned
+  - id: SEC-RLS-06
+    statement: "A policy denial (SQLSTATE 42501) maps to NOT_FOUND on reads and FORBIDDEN on writes, and no error body, header or timing difference reveals that a row exists in another tenant."
+    boundary: B3
+    verify: test
+    cadence: null
+    owner: Forge
+    issues: [PAP-35, PAP-219]
+    standard: "Contracts section 4; ASVS 5.0.0 V16"
+    status: planned
+
+  # --- Sync read path ----------------------------------------------------------------------------
+  - id: SEC-SYNC-01
+    statement: "The Electric HTTP port is never published outside the compose network, and the shape proxy is the only process that may open a connection to it."
+    boundary: B5
+    verify: scan
+    cadence: null
+    owner: Forge
+    issues: [PAP-31, PAP-270, PAP-219]
+    standard: "ADR 0004 consequence C1 (2026-09-19)"
+    status: planned
+  - id: SEC-SYNC-02
+    statement: "Only GET /api/sync/shape reaches Electric, every shape is registered server-side, and an unregistered table or column answers 403 SHAPE_FORBIDDEN."
+    boundary: B5
+    verify: test
+    cadence: null
+    owner: Forge
+    issues: [PAP-270, PAP-219, PAP-31]
+    standard: "ADR 0004 permissionRules"
+    status: planned
+  - id: SEC-SYNC-03
+    statement: "The shape proxy sets the table, the tenant predicate and the column list from the server-side registry; a client-supplied filter may only narrow the result with AND and can never widen or replace the tenant predicate."
+    boundary: B5
+    verify: test
+    cadence: null
+    owner: Forge
+    issues: [PAP-270, PAP-219]
+    standard: "ADR 0004 permissionRules; OWASP Top 10:2025 A01"
+    status: planned
+  - id: SEC-SYNC-04
+    statement: "Each registered shape derives its tenant predicate from the same expression as the table RLS policy, and a drift test fails the build when the two stop matching."
+    boundary: B5
+    verify: test
+    cadence: null
+    owner: Sentinel
+    issues: [PAP-270, PAP-34, PAP-219]
+    standard: "ADR 0004 consequence C1"
+    status: planned
+  - id: SEC-SYNC-05
+    statement: "The local PGlite store is a cache: it holds no secret, no other tenant's rows and no audit data, it is wiped when the principal or tenant changes or the schema hash moves, and the durable outbox lives outside the WebView-owned storage on Tauri."
+    boundary: B5
+    verify: test
+    cadence: null
+    owner: Forge
+    issues: [PAP-31, PAP-272, PAP-219]
+    standard: "ADR 0004 consequences C4 and knownLimits (IndexedDB/OPFS reset across Tauri updates)"
+    status: planned
+
+  # --- Jobs ---------------------------------------------------------------------------------------
+  - id: SEC-JOB-01
+    statement: "Job payloads are Zod-validated on enqueue and again on dequeue, carry tenant and actor, and run inside the same RLS context as the request that enqueued them."
+    boundary: B6
+    verify: test
+    cadence: null
+    owner: Forge
+    issues: [PAP-43, PAP-219, PAP-34]
+    standard: "Contracts section 2 Job row; ASVS 5.0.0 V2"
+    status: planned
+  - id: SEC-JOB-02
+    statement: "No job argument, retry record or dead-letter row contains a secret, a token or a full email address; payloads carry ids and the redaction filter runs before persistence."
+    boundary: B6
+    verify: lint
+    cadence: null
+    owner: Sentinel
+    issues: [PAP-43, PAP-219, PAP-40]
+    standard: "ASVS 5.0.0 V14 Data Protection"
+    status: planned
+  - id: SEC-JOB-03
+    statement: "A job that runs without tenant context must be on the platform-jobs allowlist in ops/security/controls.yaml consumers; any other context-free job fails at enqueue."
+    boundary: B6
+    verify: test
+    cadence: null
+    owner: Forge
+    issues: [PAP-43, PAP-34, PAP-219]
+    standard: "Contracts section 1 fail-closed rule"
+    status: planned
+
+  # --- Realtime and collaboration -----------------------------------------------------------------
+  - id: SEC-RT-01
+    statement: "Hocuspocus onAuthenticate verifies a session cookie or a pos_agent_ key, resolves the principal, calls can() for the room entity and closes unknown entity types with 4403."
+    boundary: B7
+    verify: test
+    cadence: null
+    owner: Forge
+    issues: [PAP-140, PAP-219, PAP-141]
+    standard: "ASVS 5.0.0 V8; OWASP Top 10:2025 A01"
+    status: planned
+  - id: SEC-RT-02
+    statement: "A connection is marked readOnly unless can('document.write') passes for that room, and a readOnly connection's updates are dropped server-side rather than filtered in the client."
+    boundary: B7
+    verify: test
+    cadence: null
+    owner: Forge
+    issues: [PAP-140, PAP-219]
+    standard: "ASVS 5.0.0 V8"
+    status: planned
+  - id: SEC-RT-03
+    statement: "Presence and awareness payloads carry only principalId, display name, colour and cursor, are filtered by the presence.view policy, and never carry email, role or tenant internals."
+    boundary: B7
+    verify: test
+    cadence: null
+    owner: Forge
+    issues: [PAP-141, PAP-219]
+    standard: "ASVS 5.0.0 V14 Data Protection"
+    status: planned
+
+  # --- Files and uploads --------------------------------------------------------------------------
+  - id: SEC-FILE-01
+    statement: "Upload type is decided by server-side content sniffing, not by the client Content-Type or the file name; executables, HTML and archives outside the allowlist are rejected before storage."
+    boundary: B3
+    verify: test
+    cadence: null
+    owner: Forge
+    issues: [PAP-37, PAP-219]
+    standard: "ASVS 5.0.0 V5 File Handling; OWASP Top 10:2025 A08"
+    status: planned
+  - id: SEC-FILE-02
+    statement: "SVG and HTML uploads are either sanitised server-side or served from the file origin with Content-Disposition attachment and a sandbox CSP; neither is ever rendered inline on an app origin."
+    boundary: B3
+    verify: test
+    cadence: null
+    owner: Forge
+    issues: [PAP-37, PAP-219]
+    standard: "ASVS 5.0.0 V5; OWASP Top 10:2025 A05"
+    status: planned
+  - id: SEC-FILE-03
+    statement: "Download URLs are minted per request after an RLS-scoped read of the file row, expire within 5 minutes, are single-tenant and are never listed in a response that the requester could not read row by row."
+    boundary: B3
+    verify: test
+    cadence: null
+    owner: Forge
+    issues: [PAP-37, PAP-219, PAP-34]
+    standard: "Contracts section 2 File row; OWASP Top 10:2025 A01"
+    status: planned
+
+  # --- Agents: deny list, prompt injection, spend -------------------------------------------------
+  - id: SEC-AGENT-01
+    statement: "Every destructive action in ops/security/agent-deny.yaml is blocked by the PreToolUse hook, and every rule with severity S0 also has a server-side or provider-side backstop named in that file."
+    boundary: B8
+    verify: test
+    cadence: null
+    owner: Sentinel
+    issues: [PAP-106, PAP-219, PAP-210]
+    standard: "docs/security/threat-model.md section 14; OWASP Top 10 for LLM Applications 2025 LLM06 Excessive Agency"
+    status: partial
+  - id: SEC-AGENT-02
+    statement: "MCP tools carrying the destructive scope are absent from every character bundle except Atlas, and a bundle that requests one fails validation."
+    boundary: B8
+    verify: lint
+    cadence: null
+    owner: Sentinel
+    issues: [PAP-210, PAP-106, PAP-219]
+    standard: "OWASP Top 10 for LLM Applications 2025 LLM06"
+    status: planned
+  - id: SEC-AGENT-03
+    statement: "Content below trust tier T1 is wrapped in an untrusted block with its source and tier and is never concatenated into the instruction section of a prompt."
+    boundary: B8
+    verify: test
+    cadence: null
+    owner: Sentinel
+    issues: [PAP-92, PAP-219, PAP-107]
+    standard: "OWASP Top 10 for LLM Applications 2025 LLM01 Prompt Injection"
+    status: planned
+  - id: SEC-AGENT-04
+    statement: "Only the orchestrator's rendered prompt (T0) and comments whose Linear author id is Justin's (T1) can instruct a session; approval, kill and state-change grammars accept nothing below T1."
+    boundary: B8
+    verify: test
+    cadence: null
+    owner: Sentinel
+    issues: [PAP-94, PAP-219, PAP-96]
+    standard: "OWASP Top 10 for LLM Applications 2025 LLM01"
+    status: planned
+  - id: SEC-AGENT-05
+    statement: "The injection scanner strips instruction overrides, hidden HTML, zero-width and bidi characters, base64 blobs and tool-call lookalikes from untrusted text and posts what it removed."
+    boundary: B8
+    verify: test
+    cadence: null
+    owner: Sentinel
+    issues: [PAP-219, PAP-107, PAP-110]
+    standard: "OWASP Top 10 for LLM Applications 2025 LLM01"
+    status: planned
+  - id: SEC-AGENT-06
+    statement: "A session holds broker placeholders rather than credential values, the egress proxy injects the real credential per allowlisted host and logs the use, and canary values in fixtures alert if they ever leave the network."
+    boundary: B8
+    verify: test
+    cadence: null
+    owner: Sentinel
+    issues: [PAP-219, PAP-96, PAP-48]
+    standard: "OWASP Top 10 for LLM Applications 2025 LLM02 Sensitive Information Disclosure"
+    status: planned
+  - id: SEC-AGENT-07
+    statement: "Three S0 denials in one session kill it, and per-session and per-day spend caps stop a runaway session before the provider limit does."
+    boundary: B8
+    verify: test
+    cadence: null
+    owner: Sentinel
+    issues: [PAP-111, PAP-219]
+    standard: "OWASP Top 10 for LLM Applications 2025 LLM10 Unbounded Consumption"
+    status: planned
+  - id: SEC-AGENT-08
+    statement: "Reviewer sessions run read-only with no write tools and no MCP servers on fork contributions, and they emit schema-validated findings rather than commits."
+    boundary: B8
+    verify: lint
+    cadence: null
+    owner: Sentinel
+    issues: [PAP-81, PAP-239, PAP-219]
+    standard: "docs/characters/sentinel.md; ASVS 5.0.0 V15 Secure Coding and Architecture"
+    status: planned
+  - id: SEC-AGENT-09
+    statement: "Writes to .claude/**, ops/security/**, roster files and hook definitions are denied to every character except Sentinel, and a diff touching them without a Sentinel session is a blocking finding."
+    boundary: B8
+    verify: lint
+    cadence: null
+    owner: Sentinel
+    issues: [PAP-106, PAP-219, PAP-109]
+    standard: "docs/security/threat-model.md section 14"
+    status: partial
+  - id: SEC-AGENT-10
+    statement: "Memory and character files change only through a reviewed pass: an update containing an imperative, a URL or a credential-shaped string is held for review before it is written."
+    boundary: B8
+    verify: test
+    cadence: null
+    owner: Quill
+    issues: [PAP-109, PAP-219]
+    standard: "OWASP Top 10 for LLM Applications 2025 LLM01"
+    status: planned
+
+  # --- Orchestrator host --------------------------------------------------------------------------
+  - id: SEC-ORCH-01
+    statement: "Only 80 and 443 are reachable from the internet on the orchestrator host; SSH, Postgres, Electric, Hocuspocus and the orchestrator API are tailnet-only and closed in the provider firewall as well as on the host."
+    boundary: B8
+    verify: scan
+    cadence: null
+    owner: Forge
+    issues: [PAP-25, PAP-219, PAP-30]
+    standard: "OWASP Top 10:2025 A02; CIS Benchmarks network hardening"
+    status: planned
+  - id: SEC-ORCH-02
+    statement: "Every inbound webhook is HMAC-verified with a 60 second timestamp window and deduplicated by provider event id before any side effect."
+    boundary: B8
+    verify: test
+    cadence: null
+    owner: Forge
+    issues: [PAP-97, PAP-219, PAP-177]
+    standard: "ASVS 5.0.0 V4; OWASP Top 10:2025 A08"
+    status: planned
+  - id: SEC-ORCH-03
+    statement: "Secrets live only in sops-encrypted files with two age recipients and in the deployment platform's secret store; the repository contains no secret value and .env.example holds placeholder names only."
+    boundary: B8
+    verify: scan
+    cadence: null
+    owner: Forge
+    issues: [PAP-25, PAP-17, PAP-219]
+    standard: "OWASP Top 10:2025 A02; ASVS 5.0.0 V13"
+    status: planned
+  - id: SEC-ORCH-04
+    statement: "Agent containers egress only to hosts on the allowlist (Anthropic, Linear, the forges, the npm and crate registries, the package CDNs); everything else is refused by the proxy and logged."
+    boundary: B8
+    verify: scan
+    cadence: null
+    owner: Forge
+    issues: [PAP-219, PAP-96, PAP-111]
+    standard: "OWASP Top 10 for LLM Applications 2025 LLM02"
+    status: planned
+  - id: SEC-ORCH-05
+    statement: "The orchestrator is the only holder of the Linear, forge, provider and model-provider root keys; a session receives a per-session minted credential and never a root key."
+    boundary: B8
+    verify: manual
+    cadence: "quarterly, key inventory review with Justin"
+    owner: Atlas
+    issues: [PAP-96, PAP-48, PAP-219]
+    standard: "NIST SP 800-63B-4 credential management (2025-08)"
+    status: partial
+
+  # --- Forges, CI and supply chain -----------------------------------------------------------------
+  - id: SEC-FORGE-01
+    statement: "Force-push, branch and tag deletion and direct pushes to main and release/* are denied by forge rulesets on both forges; until the rulesets are applied the build loop pushes to main under the documented exception and the deny list marks it."
+    boundary: B9
+    verify: manual
+    cadence: "weekly, until ADR 0010 build-loop mode ends"
+    owner: Atlas
+    issues: [PAP-46, PAP-219, PAP-48]
+    standard: "ADR 0010 section 1 build-loop mode (2026-09-19)"
+    status: partial
+  - id: SEC-FORGE-02
+    statement: "gitleaks runs on every diff and nightly over full history on both forges; a hit blocks the merge and starts the rotation runbook for that secret class."
+    boundary: B9
+    verify: scan
+    cadence: null
+    owner: Sentinel
+    issues: [PAP-80, PAP-219]
+    standard: "OWASP Top 10:2025 A02; ASVS 5.0.0 V13"
+    status: planned
+  - id: SEC-FORGE-03
+    statement: "CI workflows pin every third-party action by commit SHA, declare permissions with contents: read by default, and never expose a secret to a workflow triggered by a fork."
+    boundary: B9
+    verify: lint
+    cadence: null
+    owner: Forge
+    issues: [PAP-78, PAP-219, PAP-50]
+    standard: "OWASP Top 10:2025 A03 Software Supply Chain Failures"
+    status: partial
+  - id: SEC-FORGE-04
+    statement: "Each character has its own forge bot identity with least-privilege scopes and an SSH signing key, and token rotation keeps a ten minute overlap so no session is locked out mid-run."
+    boundary: B9
+    verify: manual
+    cadence: "monthly token and scope review"
+    owner: Atlas
+    issues: [PAP-48, PAP-219]
+    standard: "ASVS 5.0.0 V6; NIST SP 800-63B-4"
+    status: planned
+  - id: SEC-FORGE-05
+    statement: "Every commit resolves to exactly one Linear issue and one character through its scope or trailers, so an unattributable commit cannot reach main."
+    boundary: B9
+    verify: lint
+    cadence: null
+    owner: Forge
+    issues: [PAP-46, PAP-219]
+    standard: "ADR 0010 section 4.1; Conventional Commits 1.0.0"
+    status: partial
+  - id: SEC-SUP-01
+    statement: "pnpm audit and an OSV scan run on every change and nightly; a critical or high advisory with a fix available blocks the merge, and one without a fix within 14 days becomes a Needs Justin decision."
+    boundary: B9
+    verify: scan
+    cadence: null
+    owner: Sentinel
+    issues: [PAP-80, PAP-219]
+    standard: "OWASP Top 10:2025 A03; ADR template re-open criteria"
+    status: planned
+  - id: SEC-SUP-02
+    statement: "Each release produces a CycloneDX SBOM and build provenance, and the deploy step refuses an artefact whose provenance does not match the commit it claims."
+    boundary: B9
+    verify: scan
+    cadence: null
+    owner: Forge
+    issues: [PAP-52, PAP-26, PAP-219]
+    standard: "OWASP Top 10:2025 A03; SLSA build provenance"
+    status: planned
+  - id: SEC-SUP-03
+    statement: "Security-relevant dependencies (auth, crypto, parsers, the sync engine, the CRDT library) are pinned exactly with no range, and a bump is a reviewed change that runs the conformance suites."
+    boundary: B9
+    verify: lint
+    cadence: null
+    owner: Scout
+    issues: [PAP-211, PAP-219, PAP-56]
+    standard: "ADR 0003 decision 2; OWASP Top 10:2025 A03"
+    status: partial
+  - id: SEC-SUP-04
+    statement: "A new dependency needs a scorecard and a license-policy pass before it enters the lockfile, and a version published less than 14 days ago needs a written reason."
+    boundary: B9
+    verify: lint
+    cadence: null
+    owner: Scout
+    issues: [PAP-209, PAP-211, PAP-219]
+    standard: "docs/platform/library-rubric.md; OWASP Top 10:2025 A03"
+    status: partial
+  - id: SEC-SUP-05
+    statement: "Container images are referenced by digest, not by tag, in every compose file and deployment definition."
+    boundary: B9
+    verify: lint
+    cadence: null
+    owner: Forge
+    issues: [PAP-26, PAP-219, PAP-754]
+    standard: "OWASP Top 10:2025 A03"
+    status: planned
+
+  # --- Secrets and rotation -------------------------------------------------------------------------
+  - id: SEC-SECRET-01
+    statement: "Only environment variables prefixed VITE_ reach a client bundle, and a build that would inline any other variable fails."
+    boundary: B1
+    verify: lint
+    cadence: null
+    owner: Forge
+    issues: [PAP-17, PAP-219, PAP-13]
+    standard: "ASVS 5.0.0 V14; OWASP Top 10:2025 A02"
+    status: planned
+  - id: SEC-SECRET-02
+    statement: "Every secret class in docs/security/hardening-baseline.md section 8 has a rotation runbook naming its blast radius, its rotation steps and the command that proves the old value is dead."
+    boundary: B8
+    verify: manual
+    cadence: "quarterly rehearsal of one class, rotating through the table"
+    owner: Sentinel
+    issues: [PAP-219, PAP-25]
+    standard: "NIST SP 800-57 key management; NIST SP 800-61r3 (2025-04-03)"
+    status: planned
+  - id: SEC-SECRET-03
+    statement: "A leaked or suspected-leaked secret is rotated within its class SLA (one hour for provider and model keys, four hours for database and forge credentials) and the old value is proven dead before the incident is closed."
+    boundary: B8
+    verify: manual
+    cadence: "per incident, plus one drill per quarter"
+    owner: Sentinel
+    issues: [PAP-219, PAP-80]
+    standard: "NIST SP 800-61r3 containment and eradication (2025-04-03)"
+    status: planned
+  - id: SEC-SECRET-04
+    statement: "The sops age keys have two recipients and a sealed offline copy, and decrypting from the offline copy is the first step of every disaster-recovery drill."
+    boundary: B8
+    verify: manual
+    cadence: "quarterly, in the platform DR drill"
+    owner: Atlas
+    issues: [PAP-25, PAP-219]
+    standard: "NIST SP 800-57; ASVS 5.0.0 V11"
+    status: planned
+  - id: SEC-SECRET-05
+    statement: "Stored third-party credentials and connector tokens are encrypted at the field level under a per-tenant data key, and a plaintext-secret column scanner runs in CI."
+    boundary: B4
+    verify: scan
+    cadence: null
+    owner: Forge
+    issues: [PAP-32, PAP-17, PAP-219]
+    standard: "ASVS 5.0.0 V11 and V14; OWASP Top 10:2025 A04 Cryptographic Failures"
+    status: planned
+
+  # --- Logging, audit and privacy -------------------------------------------------------------------
+  - id: SEC-LOG-01
+    statement: "No log, trace, error report or exception message contains an Authorization header, cookie, API key, password, TOTP code or signed URL; the redaction filter is applied at the emitter, not at the sink."
+    boundary: B3
+    verify: lint
+    cadence: null
+    owner: Sentinel
+    issues: [PAP-40, PAP-219, PAP-80]
+    standard: "ASVS 5.0.0 V16; OWASP Top 10:2025 A09 Security Logging and Alerting Failures"
+    status: planned
+  - id: SEC-LOG-02
+    statement: "Prompt and tool-call logs are redacted at the hook and again at ingest, including the calling character's own secret values, and store email addresses as hashes rather than in full."
+    boundary: B8
+    verify: test
+    cadence: null
+    owner: Sentinel
+    issues: [PAP-107, PAP-129, PAP-219]
+    standard: "ASVS 5.0.0 V14; GDPR Article 5(1)(c) data minimisation"
+    status: planned
+  - id: SEC-LOG-03
+    statement: "audit_event is append-only with a per-tenant hash chain, and pnpm audit:verify fails if any row was edited, deleted or reordered."
+    boundary: B4
+    verify: test
+    cadence: null
+    owner: Forge
+    issues: [PAP-38, PAP-219]
+    standard: "ASVS 5.0.0 V16; OWASP Top 10:2025 A09"
+    status: planned
+  - id: SEC-LOG-04
+    statement: "An agent mutation without X-PaperOS-Reason is rejected, and the reason is stored on the audit row with the session and request ids."
+    boundary: B3
+    verify: test
+    cadence: null
+    owner: Forge
+    issues: [PAP-38, PAP-219, PAP-60]
+    standard: "Contracts section 1 and 4"
+    status: planned
+  - id: SEC-LOG-05
+    statement: "Security events have a catalogue with severities, every S0 event alerts immediately, and the weekly digest lists bypasses, denials, lockouts, scanner findings and waivers."
+    boundary: B8
+    verify: manual
+    cadence: "weekly digest reviewed by Sentinel"
+    owner: Sentinel
+    issues: [PAP-40, PAP-219, PAP-97]
+    standard: "OWASP Top 10:2025 A09; NIST SP 800-61r3 detect function (2025-04-03)"
+    status: planned
+  - id: SEC-LOG-06
+    statement: "Telemetry drops request and response payloads and personal data before export, and a span attribute allowlist is enforced in code rather than in the collector alone."
+    boundary: B3
+    verify: test
+    cadence: null
+    owner: Forge
+    issues: [PAP-40, PAP-219]
+    standard: "ASVS 5.0.0 V14; GDPR Article 5(1)(c)"
+    status: planned
+  - id: SEC-PII-01
+    statement: "Every column holding personal data is classified in the schema, and the classification drives redaction, telemetry filters, export, erasure and the retention jobs."
+    boundary: B4
+    verify: manual
+    cadence: "quarterly classification review, and on every migration adding a column"
+    owner: Forge
+    issues: [PAP-33, PAP-43, PAP-219]
+    standard: "GDPR Articles 5, 15 and 17; ASVS 5.0.0 V14"
+    status: planned
+  - id: SEC-PII-02
+    statement: "Per-person export and erasure keep ledger and audit integrity by replacing identifiers with stable pseudonyms rather than deleting rows from an append-only chain."
+    boundary: B4
+    verify: test
+    cadence: null
+    owner: Ledger
+    issues: [PAP-221, PAP-38, PAP-219]
+    standard: "GDPR Articles 15 and 17"
+    status: planned
+  - id: SEC-PII-03
+    statement: "Staff impersonation of a customer requires a reason, is visible to the impersonated customer, is time-boxed and writes an audit row per action taken while impersonating."
+    boundary: B3
+    verify: test
+    cadence: null
+    owner: Forge
+    issues: [PAP-61, PAP-219, PAP-38]
+    standard: "ASVS 5.0.0 V8 and V16"
+    status: planned
+
+  # --- Incident response, recovery and third parties -------------------------------------------------
+  - id: SEC-INC-01
+    statement: "Severities S0 to S3 are defined with response and notification times, and an S0 or S1 pages Justin through a Needs Justin card plus email within 15 minutes."
+    boundary: B8
+    verify: manual
+    cadence: "quarterly tabletop; paging path confirmed by Justin in writing"
+    owner: Atlas
+    issues: [PAP-219, PAP-94]
+    standard: "NIST SP 800-61r3 (2025-04-03)"
+    status: planned
+  - id: SEC-INC-02
+    statement: "Containment steps per boundary are written and rehearsed, including the agent kill switch, credential revocation, shape-proxy shutdown and read-only database mode."
+    boundary: B8
+    verify: manual
+    cadence: "monthly, one boundary per month"
+    owner: Sentinel
+    issues: [PAP-219, PAP-111, PAP-270]
+    standard: "NIST SP 800-61r3 respond function (2025-04-03)"
+    status: planned
+  - id: SEC-INC-03
+    statement: "Evidence (logs, prompt transcripts, audit rows, container images, database snapshot) is preserved and hashed before any remediation touches the affected system."
+    boundary: B8
+    verify: manual
+    cadence: "per incident; checklist reviewed quarterly"
+    owner: Sentinel
+    issues: [PAP-219, PAP-107, PAP-38]
+    standard: "NIST SP 800-61r3 (2025-04-03)"
+    status: planned
+  - id: SEC-INC-04
+    statement: "A personal-data breach starts the 72 hour notification checklist with a named owner, a decision record and the notification text, whether or not notification is ultimately required."
+    boundary: B8
+    verify: manual
+    cadence: "per incident; checklist rehearsed in the quarterly tabletop"
+    owner: Atlas
+    issues: [PAP-219, PAP-221]
+    standard: "GDPR Article 33 (72 hours to the supervisory authority) and Article 34"
+    status: planned
+  - id: SEC-INC-05
+    statement: "A release candidate requires a platform disaster-recovery drill that restored the database, the forge and the object store within the stated RTO in the previous 30 days."
+    boundary: B8
+    verify: manual
+    cadence: "monthly drill; checked at every release candidate"
+    owner: Atlas
+    issues: [PAP-219, PAP-252, PAP-254]
+    standard: "NIST SP 800-61r3 recover function (2025-04-03)"
+    status: planned
+  - id: SEC-TP-01
+    statement: "No agent session can reach a live payment or payroll credential: sk_live_ and equivalent literals are banned in code, live keys exist only in the deployment secret store, and live-mode enablement is a Needs Justin decision."
+    boundary: B10
+    verify: lint
+    cadence: null
+    owner: Ledger
+    issues: [PAP-177, PAP-184, PAP-219]
+    standard: "PCI DSS 4.0.1 SAQ-A scope; OWASP Top 10:2025 A02"
+    status: planned
+  - id: SEC-TP-02
+    statement: "Every third-party webhook verifies its signature with the provider SDK and records the provider event id in an inbox table so a replay is a no-op."
+    boundary: B10
+    verify: test
+    cadence: null
+    owner: Ledger
+    issues: [PAP-177, PAP-219, PAP-97]
+    standard: "ASVS 5.0.0 V4; OWASP Top 10:2025 A08"
+    status: planned
+  - id: SEC-TP-03
+    statement: "No card number, bank account or government identifier is stored, logged or proxied by PaperOS: those flows are provider-hosted, and a PAN-shaped or IBAN-shaped field in a schema or log is a blocking finding."
+    boundary: B10
+    verify: scan
+    cadence: null
+    owner: Sentinel
+    issues: [PAP-184, PAP-219, PAP-80]
+    standard: "PCI DSS 4.0.1 SAQ-A; OWASP Top 10:2025 A04"
+    status: planned

@@ -1,0 +1,372 @@
+# PaperOS agent deny list (PAP-219, ADR 0024) — the destructive-action rules of
+# docs/security/threat-model.md section 14, as data.
+#
+# One file, enforced three times (threat model section 14.1):
+#   1. the PreToolUse hook in every session bundle (PAP-106);
+#   2. removal of destructive-scoped MCP tools from every character except Atlas (PAP-210);
+#   3. a server-side or provider-side backstop, which every S0 rule must have.
+#
+# Shape:
+#   modes:      which operating mode is active; a rule's `exceptions` name the mode they apply in
+#   severities: S0 kill + decision card, S1 deny + finding, S2 warn + log
+#   rules:      - id, severity, action, surface, match (tool + patterns), why, backstop,
+#               exceptions[], issues[]
+#
+# Rules are append-only: retire by setting `action: warn` with a reason, never by deleting an id.
+# Writes to this file are themselves denied to every character except Sentinel (DENY-AGENT-03).
+
+version: 1
+updated: 2026-09-19
+issue: PAP-219
+
+modes:
+  active: build-loop
+  buildLoop:
+    since: 2026-09-19
+    reason: >-
+      Justin's org policy runs the autopilot build loop git-only, with no pull requests, and no
+      forge ruleset has been applied to the target repositories yet (ADR 0010 section 1). Until the
+      rulesets land, a builder session integrates by pushing its rebased, green branch to main.
+    endsWhen: >-
+      ops/forge/rulesets/* are applied to the repository (a Needs Justin action) — the same change
+      that turns DENY-GIT-03 back on and ends this exception.
+  target:
+    reason: >-
+      The plan default: nothing reaches main except through a reviewed pull request with green
+      checks. Every exception below is inactive in this mode.
+
+severities:
+  S0: "Kill the session, preserve evidence, file a PAP-94 decision card. Needs a backstop outside the agent."
+  S1: "Deny the call, post a finding, let the session continue with the refusal recorded."
+  S2: "Warn and log; allowed but always visible in the weekly security digest."
+
+escalation:
+  requestApproval: "/request-approval files a PAP-94 decision card with the blocked command and ends the session (threat model section 14.2)."
+  sessionKill: "Three S0 denials in one session trigger a kill (PAP-111, SEC-AGENT-07)."
+
+rules:
+  # --- Git and history ---------------------------------------------------------------------------
+  - id: DENY-GIT-01
+    severity: S0
+    action: deny
+    surface: Bash
+    match:
+      commands: ["git push --force", "git push -f", "git push --force-with-lease", "git push --mirror"]
+      patterns: ["^git\\s+push\\b.*(--force|-f\\b|--mirror)"]
+    why: "Force-push rewrites history other sessions and the release notes depend on."
+    backstop: "Forge rulesets deny non-fast-forward updates on every protected ref (PAP-46)."
+    exceptions: []
+    issues: [PAP-106, PAP-46, PAP-219]
+  - id: DENY-GIT-02
+    severity: S0
+    action: deny
+    surface: Bash
+    match:
+      patterns: ["^git\\s+push\\b.*(:refs/|--delete|\\s:[a-zA-Z])", "^git\\s+tag\\s+-d", "^git\\s+branch\\s+-D\\s+(main|release/)"]
+    why: "Branch and tag deletion destroys the only copy of work in flight and the release record."
+    backstop: "Forge rulesets deny deletion of main, release/* and tags (PAP-46)."
+    exceptions: []
+    issues: [PAP-106, PAP-46, PAP-219]
+  - id: DENY-GIT-03
+    severity: S1
+    action: deny
+    surface: Bash
+    match:
+      patterns: ["^git\\s+push\\b.*\\bHEAD:main\\b", "^git\\s+push\\b.*\\bmain\\b", "^git\\s+push\\b.*\\brelease/"]
+    why: "The plan requires a reviewed pull request for every change that reaches main or a release branch."
+    backstop: "Forge rulesets require a pull request and status checks on main and release/* (PAP-46)."
+    exceptions:
+      - mode: build-loop
+        allow: >-
+          A builder session may run `git push origin HEAD:main` for its own issue branch, at most
+          twice, after `git fetch origin main && git rebase origin/main` and a green full check.
+          Force is never allowed (DENY-GIT-01 still applies), the branch must be pushed to origin
+          first so the work cannot be lost, and a rejected push hands the branch to the integrator.
+        conditions:
+          - "branch is feat/PAP-<n>-<slug> for the session's own claimed issue"
+          - "pnpm check is green on the rebased commit"
+          - "no force flag, no ref deletion, no other session's commits rewritten"
+          - "at most two attempts, then stop and report branch pushed, awaiting integrator"
+        until: "ops/forge/rulesets/* are applied to the repository (modes.buildLoop.endsWhen)"
+        recordedIn: "docs/security/threat-model.md section 14.3; ADR 0010 section 1; builder brief v1.1 rule 3"
+    issues: [PAP-46, PAP-106, PAP-219]
+  - id: DENY-GIT-04
+    severity: S1
+    action: deny
+    surface: Bash
+    match:
+      patterns: ["^git\\s+(rebase|commit|filter-branch|filter-repo)\\b.*(--amend|--root)", "^git\\s+reset\\s+--hard\\s+origin/"]
+    why: "Rewriting a commit that is not this session's own erases another character's attribution."
+    backstop: "Signed commits plus the merge-only path for main (PAP-48, PAP-46)."
+    exceptions:
+      - mode: any
+        allow: "Amending or rebasing the session's own unpushed commits on its own feat/PAP-<n> branch."
+        conditions: ["every rewritten commit is authored by this session", "the branch is not main or release/*"]
+        until: "always (this is the normal worktree workflow, not a mode exception)"
+        recordedIn: "ADR 0010 section 5"
+    issues: [PAP-46, PAP-219]
+
+  # --- Filesystem ---------------------------------------------------------------------------------
+  - id: DENY-FS-01
+    severity: S0
+    action: deny
+    surface: Bash
+    match:
+      patterns: ["\\brm\\s+-[a-zA-Z]*r[a-zA-Z]*f?\\s+/(?!workspace/wt/)", "\\brm\\s+-rf\\s+(~|\\$HOME)", "\\bfind\\b.*-delete\\s*$"]
+    why: "Recursive deletion outside the session's own worktree can take the host, another worktree or the mirror with it."
+    backstop: "Read-only sandbox root; only the session worktree is writable (agents runtime sandbox)."
+    exceptions:
+      - mode: any
+        allow: "Recursive deletion inside the session's own worktree or its scratchpad directory."
+        conditions: ["path resolves under the session worktree or the scratchpad", "path is not .git"]
+        until: "always"
+        recordedIn: "docs/security/threat-model.md section 14"
+    issues: [PAP-106, PAP-219]
+  - id: DENY-FS-02
+    severity: S0
+    action: deny
+    surface: [Write, Edit, Bash]
+    match:
+      paths: ["ops/secrets/**", "**/*.age", "**/.env", "**/.env.*", "!**/.env.example"]
+    why: "Secret material must never be created, read or edited by a session; only sops and the deployment platform hold values."
+    backstop: "Secrets are absent from session containers; the egress proxy injects credentials per host (PAP-25, credential broker)."
+    exceptions:
+      - mode: any
+        allow: "Editing .env.example to add a placeholder NAME with no value."
+        conditions: ["file is .env.example", "no value is written after the ="]
+        until: "always"
+        recordedIn: "docs/security/hardening-baseline.md section 8"
+    issues: [PAP-17, PAP-25, PAP-219]
+  - id: DENY-FS-03
+    severity: S0
+    action: deny
+    surface: [Write, Edit, Bash]
+    match:
+      paths: [".claude/**", "**/.claude/**", "ops/security/**", "**/roster.json", "**/hooks/**"]
+    why: "A session that can edit its own hooks, bundle, deny list or roster can remove every other control."
+    backstop: "Path-scoped forge code owners plus the review pass; changes require a Sentinel session (SEC-AGENT-09)."
+    exceptions:
+      - mode: any
+        allow: "A Sentinel session that owns the issue may write ops/security/** and .claude/** for that issue only."
+        conditions: ["character is Sentinel", "the issue names the path in its Scope section"]
+        until: "always"
+        recordedIn: "docs/characters/sentinel.md; PAP-219 scope"
+    issues: [PAP-106, PAP-109, PAP-219]
+
+  # --- Database -----------------------------------------------------------------------------------
+  - id: DENY-DB-01
+    severity: S0
+    action: deny
+    surface: [Bash, mcp:postgres]
+    match:
+      patterns: ["\\bDROP\\s+(DATABASE|SCHEMA|TABLE|ROLE)\\b", "\\bTRUNCATE\\b", "\\bDELETE\\s+FROM\\b(?![\\s\\S]*\\bWHERE\\b)", "\\bUPDATE\\b(?![\\s\\S]*\\bWHERE\\b)"]
+    why: "Unqualified destructive SQL is the fastest route to unrecoverable tenant data loss."
+    backstop: "The application role paperos_app cannot drop objects; Postgres is tailnet-only (PAP-30, SEC-RLS-02)."
+    exceptions:
+      - mode: any
+        allow: "A reversible migration in the session's own migration file, and destructive SQL against an ephemeral test database created by the test harness."
+        conditions: ["target host is localhost or a test container", "database name matches *_test or is created by the harness"]
+        until: "always"
+        recordedIn: "docs/security/threat-model.md section 7"
+    issues: [PAP-34, PAP-30, PAP-219]
+  - id: DENY-DB-02
+    severity: S0
+    action: deny
+    surface: [Bash, mcp:postgres]
+    match:
+      patterns: ["DISABLE\\s+ROW\\s+LEVEL\\s+SECURITY", "NO\\s*FORCE\\s+ROW\\s+LEVEL\\s+SECURITY", "\\bALTER\\s+ROLE\\b", "SET\\s+app\\.bypass", "\\bSET\\s+ROLE\\s+paperos_owner\\b"]
+    why: "Turning off RLS, changing a role or setting app.bypass removes the tenant boundary itself."
+    backstop: "paperos_app is NOBYPASSRLS; bypass writes an audit and security event (SEC-RLS-02, SEC-RLS-04)."
+    exceptions: []
+    issues: [PAP-34, PAP-38, PAP-219]
+  - id: DENY-DB-03
+    severity: S0
+    action: deny
+    surface: [Bash, mcp:postgres]
+    match:
+      patterns: ["(psql|pg_dump|pg_restore|drizzle-kit)[^\\n]*(prod|production)", "PAPEROS_ENV=production"]
+    why: "No session connects to production; production changes go through the deploy pipeline."
+    backstop: "Production credentials are absent from session containers and the host is tailnet-only."
+    exceptions: []
+    issues: [PAP-26, PAP-30, PAP-219]
+
+  # --- Linear --------------------------------------------------------------------------------------
+  - id: DENY-LINEAR-01
+    severity: S0
+    action: deny
+    surface: [mcp:linear, Bash]
+    match:
+      patterns: ["issueArchive", "issueDelete", "projectArchive", "projectDelete", "commentDelete", "labelDelete", "customViewDelete", "documentDelete", "attachmentArchive"]
+    why: "Linear is the system of record; nothing in it is ever archived or deleted by an agent."
+    backstop: "The Linear key never leaves the orchestrator; a write proxy allowlists the mutations agents may call (credential broker)."
+    exceptions: []
+    issues: [PAP-96, PAP-219]
+  - id: DENY-LINEAR-02
+    severity: S1
+    action: deny
+    surface: [mcp:linear, Bash]
+    match:
+      patterns: ["stateId.*(Done|Canceled)", "issueUpdate[^\\n]*PAP-(1|2|3|4|5|6|7|8|9|10|11|12)\\b"]
+    why: "Only the merge and review flow moves an issue to Done or Canceled, and PAP-1..PAP-12 are Justin's structure."
+    backstop: "Write-proxy allowlist per character; the review pass is the only path to Done."
+    exceptions:
+      - mode: any
+        allow: "A session moving its own claimed issue along Ready for Claude -> In Progress -> In Review."
+        conditions: ["the issue is the session's own claim", "the target state is In Progress or In Review"]
+        until: "always"
+        recordedIn: "builder brief v1.1 rule 8"
+    issues: [PAP-96, PAP-94, PAP-219]
+
+  # --- Forges and CI -------------------------------------------------------------------------------
+  - id: DENY-FORGE-01
+    severity: S0
+    action: deny
+    surface: [mcp:github, mcp:forgejo, Bash]
+    match:
+      patterns: ["repos/[^\\s]+/rulesets", "branch_protections", "/actions/secrets", "/hooks\\b", "repo(sitory)?\\s*delete", "\\bgh\\s+repo\\s+delete", "\\bgh\\s+secret\\s+set"]
+    why: "Repository deletion and edits to protection, secrets, webhooks or mirrors disable the controls that hold the loop together."
+    backstop: "Bot token scopes exclude admin (PAP-48); applying rulesets is a Needs Justin action (ADR 0010 section 11)."
+    exceptions: []
+    issues: [PAP-48, PAP-46, PAP-219]
+  - id: DENY-FORGE-02
+    severity: S1
+    action: deny
+    surface: [mcp:github, mcp:forgejo]
+    match:
+      patterns: ["pulls/[0-9]+/merge", "mergePullRequest", "\\bgh\\s+pr\\s+merge"]
+    why: "Only the Merger character merges, and reviewers never merge their own findings."
+    backstop: "Ruleset review requirements plus merge rights held by one identity (PAP-46, PAP-48)."
+    exceptions:
+      - mode: build-loop
+        allow: >-
+          No pull requests exist in build-loop mode, so this rule is inert; integration happens
+          through DENY-GIT-03's exception instead.
+        conditions: ["mode is build-loop"]
+        until: "modes.buildLoop.endsWhen"
+        recordedIn: "ADR 0010 section 1"
+    issues: [PAP-46, PAP-219]
+
+  # --- Payments and payroll ------------------------------------------------------------------------
+  - id: DENY-PAY-01
+    severity: S0
+    action: deny
+    surface: [Bash, Write, Edit, mcp:stripe]
+    match:
+      patterns: ["sk_live_", "rk_live_", "\\brefunds?\\.create", "\\bpayouts?\\.create", "\\btransfers?\\.create", "payroll[^\\n]*(submit|approve|pay)"]
+    why: "A live payment or payroll action moves real money and cannot be undone by a session."
+    backstop: "Only restricted test keys exist in session environments; live mode is a Needs Justin decision (SEC-TP-01)."
+    exceptions: []
+    issues: [PAP-177, PAP-184, PAP-219]
+
+  # --- Infrastructure ------------------------------------------------------------------------------
+  - id: DENY-INFRA-01
+    severity: S0
+    action: deny
+    surface: Bash
+    match:
+      patterns: ["hcloud\\s+server\\s+(delete|rebuild|reset)", "docker\\s+(system\\s+prune|volume\\s+rm)", "coolify[^\\n]*(deploy|destroy)", "\\bdns\\b[^\\n]*(update|delete)", "(ufw|iptables|nft)\\s", "tailscale\\s+(logout|down)"]
+    why: "Production deploys, volume pruning, host deletion and firewall or DNS edits are irreversible platform actions."
+    backstop: "Infrastructure credentials are absent from session containers; the provider firewall is managed from ops/ (PAP-25)."
+    exceptions: []
+    issues: [PAP-25, PAP-26, PAP-219]
+  - id: DENY-INFRA-02
+    severity: S0
+    action: deny
+    surface: Bash
+    match:
+      patterns: ["sops\\s+(-d|--decrypt)", "age\\s+(-d|--decrypt)", "\\bgpg\\s+--decrypt"]
+    why: "Decryption outside the platform's secretsFor helper puts plaintext secrets in a session transcript."
+    backstop: "Age private keys are not present in session containers (PAP-25)."
+    exceptions: []
+    issues: [PAP-25, PAP-17, PAP-219]
+
+  # --- Secret exfiltration -------------------------------------------------------------------------
+  - id: DENY-SECRET-01
+    severity: S0
+    action: deny
+    surface: Bash
+    match:
+      patterns: ["^\\s*(env|printenv|set)\\s*$", "/proc/[0-9]+/environ", "\\bcat\\b[^\\n]*\\.(env|age)\\b", "base64[^\\n]*(\\.env|secret|token|key)"]
+    why: "Reading the environment or a secret file is the first step of every exfiltration chain."
+    backstop: "Credentials are broker placeholders in sessions; canary values alert if they ever leave the network (SEC-AGENT-06)."
+    exceptions:
+      - mode: any
+        allow: "Reading a single named, non-secret variable, for example $PAPEROS_WEB_ORIGIN or $CI."
+        conditions: ["the variable is named explicitly", "the name is not on the secret-name list"]
+        until: "always"
+        recordedIn: "docs/security/hardening-baseline.md section 8"
+    issues: [PAP-107, PAP-219]
+  - id: DENY-SECRET-02
+    severity: S0
+    action: deny
+    surface: Bash
+    match:
+      patterns: ["curl[^\\n]*(--data|-d\\s|--upload-file|-T\\s)", "\\bwget\\b[^\\n]*--post", "\\bnc\\b\\s+-", "python[^\\n]*requests\\.post"]
+    why: "An outbound POST to a host that is not on the allowlist is how data leaves, whether a human or an injection asked for it."
+    backstop: "Egress allowlist in the session proxy: everything not allowlisted is refused and logged (SEC-ORCH-04)."
+    exceptions:
+      - mode: any
+        allow: "POSTs to allowlisted hosts: the model provider, Linear, the forges, the package registries."
+        conditions: ["destination host is on the egress allowlist", "no secret-shaped string in the body"]
+        until: "always"
+        recordedIn: "docs/security/threat-model.md section 11"
+    issues: [PAP-107, PAP-111, PAP-219]
+
+  # --- Communications ------------------------------------------------------------------------------
+  - id: DENY-COMMS-01
+    severity: S1
+    action: deny
+    surface: [Bash, mcp:resend, mcp:slack]
+    match:
+      patterns: ["resend[^\\n]*emails\\.send", "twilio[^\\n]*messages\\.create", "chat\\.postMessage", "tweets?\\.create", "\\bpublish\\b[^\\n]*(post|campaign)"]
+    why: "A message an agent sends to a real recipient cannot be recalled, and the org policy is that agents do not post."
+    backstop: "Sandbox provider keys in non-production; the approved-queue item is the only publish path (PAP-190, PAP-191)."
+    exceptions:
+      - mode: any
+        allow: "Sending to the provider sandbox or to an address on the test-recipient allowlist."
+        conditions: ["provider is in sandbox or test mode", "recipient is on the test allowlist"]
+        until: "always"
+        recordedIn: "docs/security/threat-model.md section 14"
+    issues: [PAP-190, PAP-191, PAP-219]
+
+  # --- Agents --------------------------------------------------------------------------------------
+  - id: DENY-AGENT-01
+    severity: S0
+    action: deny
+    surface: Bash
+    match:
+      patterns: ["pkill\\s+-9", "kill\\s+--all", "claude[^\\n]*--dangerously", "orchestrator[^\\n]*(stop|kill)\\s+--all"]
+    why: "One session must not be able to stop the loop or widen its own permissions."
+    backstop: "The orchestrator owns session lifecycle; sessions have no orchestrator credential (PAP-96)."
+    exceptions: []
+    issues: [PAP-96, PAP-111, PAP-219]
+  - id: DENY-AGENT-02
+    severity: S1
+    action: warn
+    surface: [Write, Edit]
+    match:
+      paths: ["docs/memory/**"]
+    why: "Memory is an instruction surface: an imperative or a link written into it steers every later session."
+    backstop: "The memory review pass holds any update containing an imperative, a URL or a credential-shaped string (PAP-109, SEC-AGENT-10)."
+    exceptions:
+      - mode: any
+        allow: "Appending a dated, declarative fact about work this session did."
+        conditions: ["entry is declarative", "entry carries a date and the issue key"]
+        until: "always"
+        recordedIn: "PAP-109"
+    issues: [PAP-109, PAP-219]
+  - id: DENY-AGENT-03
+    severity: S0
+    action: deny
+    surface: [Write, Edit]
+    match:
+      paths: ["ops/security/agent-deny.yaml", "ops/security/controls.yaml", "ops/security/headers.json"]
+    why: "The control files are the thing every other control is measured against; only their owner may change them."
+    backstop: "Duplicate of DENY-FS-03 at file granularity so a partial path allowlist cannot reach these three files."
+    exceptions:
+      - mode: any
+        allow: "A Sentinel session whose claimed issue names the file in its Scope section."
+        conditions: ["character is Sentinel", "the change is recorded in a changelog fragment and an ADR when it changes a decision"]
+        until: "always"
+        recordedIn: "PAP-219 scope; docs/characters/sentinel.md"
+    issues: [PAP-219, PAP-106]
