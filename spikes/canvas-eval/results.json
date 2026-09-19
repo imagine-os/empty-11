@@ -1,0 +1,32 @@
+{
+  "measuredAt": "2026-09-19T01:32:55.862Z",
+  "method": "vite build (production, esbuild minify) of a minimal single-entry app per library; gzip -9 of every emitted .js asset under dist/<entry>/assets. React/react-dom are included in every number, so the four totals are directly comparable to each other. No headless browser was available in this session (network-restricted Playwright Chromium download did not complete), so fps300 and ttfcrMs are not measured here and are left null with a note; see docs/research/canvas-and-editor-libraries.md.",
+  "canvas": {
+    "xyflow": {
+      "lib": "@xyflow/react",
+      "version": "12.11.6",
+      "fps300": null,
+      "gzipKb": 126.6
+    },
+    "tldraw": {
+      "lib": "tldraw",
+      "version": "5.4.2",
+      "fps300": null,
+      "gzipKb": 574
+    }
+  },
+  "editor": {
+    "tiptap": {
+      "lib": "@tiptap/core + y-prosemirror",
+      "version": "3.31.3 / 1.3.7",
+      "ttfcrMs": null,
+      "gzipKb": 219.9
+    },
+    "blocknote": {
+      "lib": "@blocknote/react",
+      "version": "0.54.2",
+      "ttfcrMs": null,
+      "gzipKb": 397.7
+    }
+  }
+}

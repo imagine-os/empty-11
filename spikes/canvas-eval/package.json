@@ -1,0 +1,27 @@
+{
+  "name": "spike-canvas-eval",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "description": "Throwaway spike for PAP-127: production-build gzip size comparison for tldraw vs @xyflow/react and Tiptap vs BlockNote. Not part of the pnpm workspace; not shipped.",
+  "scripts": {
+    "bench": "node scripts/measure.mjs"
+  },
+  "dependencies": {
+    "@blocknote/core": "0.54.2",
+    "@blocknote/react": "0.54.2",
+    "@tiptap/core": "3.31.3",
+    "@tiptap/extension-collaboration": "3.31.3",
+    "@tiptap/starter-kit": "3.31.3",
+    "@xyflow/react": "12.11.6",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "tldraw": "5.4.2",
+    "y-prosemirror": "1.3.7",
+    "yjs": "13.6.32"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "5.2.0",
+    "vite": "7.3.6"
+  }
+}

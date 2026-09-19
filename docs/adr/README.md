@@ -13,7 +13,7 @@ Numbers are pre-assigned by the plan; take yours, do not renumber.
 | 0003 | [auth-library](0003-auth-library.md) | PAP-56 | Accepted |
 | 0004 | local-first-sync | PAP-31 | Planned |
 | 0005 | crdt-library | PAP-139 | Planned |
-| 0006 | canvas-and-editor-libraries | PAP-127 | Planned |
+| 0006 | [canvas-and-editor-libraries](0006-canvas-and-editor-libraries.md) | PAP-127 | Accepted |
 | 0007 | payroll-provider | PAP-176 | Planned |
 | 0008 | [crm-marketing-stack](0008-crm-marketing-stack.md) | PAP-188 | Proposed |
 | 0009 | library-evaluation-rubric | PAP-209 | Planned |
