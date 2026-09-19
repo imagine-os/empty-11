@@ -6,11 +6,14 @@
   "description": "Shared Biome preset for the PaperOS monorepo.",
   "exports": {
     ".": "./src/index.ts",
-    "./preset.json": "./preset.json"
+    "./preset.json": "./preset.json",
+    "./events": "./src/events.ts",
+    "./plugins/no-publish-outside-transaction.grit": "./plugins/no-publish-outside-transaction.grit"
   },
   "files": [
     "preset.json",
-    "src"
+    "src",
+    "plugins"
   ],
   "scripts": {
     "lint": "biome check .",

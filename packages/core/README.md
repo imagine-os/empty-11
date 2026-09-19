@@ -12,11 +12,23 @@ export it through the barrel **only with an app-shell review** (Interface & Data
 | -- | -- | -- |
 | `types/` | data-layer | shared value types (ADR 0011) |
 | `filter/` | data-layer | filter grammar (ADR 0012) |
-| `events/` | data-layer | event envelope and topics |
+| `events/` | data-layer | event envelope, topic registry and `publish()` (ADR 0013) — **landed**, PAP-555 |
 | `audience/` | identity | audience model (ADR 0017) |
 | `principal.ts` | identity | `Principal` |
 | `modules/` | app-shell | module manifest + generated JSON Schema (ADR 0014) |
 | `pwa/`, `windows/`, `native/`, `flags/` | app-shell | shell capabilities |
 | `i18n/` | app-shell | message catalog (EN + ES) |
 
-Nothing in this list exists yet; this scaffold ships the barrel and `PAPEROS_VERSION` only.
+Only `events/` exists so far (PAP-555); the rest land with their issues.
+
+## Subpath exports
+
+| Specifier | What |
+| -- | -- |
+| `@paperos/core` | the barrel: `PAPEROS_VERSION` and everything re-exported from the sub-folders |
+| `@paperos/core/events` | domain events: envelope, `defineTopic`, `publish`, `on`, catalogue |
+| `@paperos/core/events/testing` | `collectEvents`, `expectEvent`, the in-memory outbox driver |
+
+`events/` keeps the package's purity rule: it depends on Zod and nothing else. `publish()` writes
+through an `OutboxDriver` port that `@paperos/db` registers at boot, so no database type crosses
+this boundary.

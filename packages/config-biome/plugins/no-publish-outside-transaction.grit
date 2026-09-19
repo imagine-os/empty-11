@@ -1,0 +1,26 @@
+// no-publish-outside-transaction (PAP-555, ADR 0013)
+//
+// STATUS: stub. Biome 2.5.14 loads GritQL plugins by path from the `plugins` array of a
+// `biome.json`, which is a root file this issue does not own, and it cannot yet resolve a plugin
+// from a package subpath. The enforcing check today is the scanner in
+// `@paperos/config-biome/events`, run over the repository by a Vitest fixture test. Wiring this
+// file into the root `biome.json` is a one-line follow-up for the root owner:
+//
+//   "plugins": ["./packages/config-biome/plugins/no-publish-outside-transaction.grit"]
+//
+// `publish()` must receive a transaction handle so the outbox row and the row change it
+// describes commit or roll back together. These call shapes pass a connection instead.
+language js
+
+or {
+  `publish(db, $_)`,
+  `publish(database, $_)`,
+  `publish(client, $_)`,
+  `publish(pool, $_)`,
+  `publish(conn, $_)`,
+  `publish(connection, $_)`,
+  `publish(this.db, $_)`,
+  `publish(ctx.db, $_)`
+} where {
+  register_diagnostic(span=$filename, message="publish() needs a transaction handle, not a connection: wrap the row change and the publish in db.transaction(async (tx) => ...) so the event and the row commit together (PAP-555, ADR 0013).", severity="error")
+}

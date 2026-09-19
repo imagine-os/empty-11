@@ -2,9 +2,10 @@
 
 Platform reference. Two kinds of file live here and they are treated differently:
 
-* **Generated, never hand-edited** — `dependency-map.json` and its Mermaid rendering
-  (`pnpm gen:dep-map`), `compat-matrix.md` / `compat-matrix.json` (CI job `compat`), and any
-  JSON Schema emitted by `pnpm gen:schemas`. Editing one is a merge conflict waiting to happen and
+* **Generated, never hand-edited** — `events.md`
+  (`pnpm --filter @paperos/core run events:catalogue`), `dependency-map.json` and its Mermaid
+  rendering (`pnpm gen:dep-map`), `compat-matrix.md` / `compat-matrix.json` (CI job `compat`), and
+  any JSON Schema emitted by `pnpm gen:schemas`. Editing one is a merge conflict waiting to happen and
   CI fails when the committed copy is stale.
 * **Hand-written** — the swap playbook, the kernel walkthrough, runbooks.
 
@@ -23,6 +24,9 @@ Here now:
 * [`filter.md`](filter.md) — the shared filter and condition grammar `@paperos/core/filter`:
   shape, operator table per field type, null semantics, variables, encoding, extension hook
   (PAP-279, ADR 0012).
+* [`events.md`](events.md) — the domain event catalogue: every topic, its version, producer,
+  known consumers and payload fields. **Generated** from the `@paperos/core/events` registry
+  (PAP-555, ADR 0013); `--check` drift mode runs in Gate 1.
 * [`forge-topology.md`](forge-topology.md) — Forgejo/GitHub mirroring topology, failover and
   failure modes (PAP-44, hand-written; implemented by PAP-47).
 * [`view-model.md`](view-model.md) — `ViewSpec`, `FieldDef`, `DatasetRef`, the dataset registry

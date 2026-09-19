@@ -47,6 +47,11 @@ or `-`), **Status** (`live`, `stub`, `planned`).
 | CLI | `node scripts/security-controls.ts --boundary B<n>` / `--summary` — list one trust boundary's controls, or counts per boundary | PAP-219 | - | live |
 | API | `POST /api/v1/security/csp-report` — CSP violation report sink (`report-to paperos-csp`), rate limited 30/min/IP and sampled | PAP-219 | - | planned (profile in `ops/security/headers.json`; route lands with `apps/api`) |
 | API | `securityHeaders({ profile })` — the baseline header and CSP middleware contract every surface calls; `CSP_NONCE` request-context key | PAP-219 | - | planned (contract frozen in `docs/security/hardening-baseline.md` section 13; Forge implements) |
+| CLI | `pnpm --filter @paperos/core run events:catalogue [-- --check]` — regenerate `docs/platform/events.md` from the topic registry; `--check` fails on drift and runs as part of `lint` | PAP-555 | repo write | live |
+| CLI | `pnpm --filter @paperos/db run events:example` — the transactional-outbox demo on in-process Postgres (also `pnpm dlx tsx examples/events.ts`) | PAP-555 | - | live |
+| API | `publish(tx, event)` from `@paperos/core/events` — write one domain event to the outbox inside the caller's transaction | PAP-555 | caller's own | live |
+| API | `on(topic, handler, { name, idempotent })` and `drainInProcess(tx)` — register an in-process subscriber and deliver after commit (the job dispatcher is PAP-556) | PAP-555 | - | live |
+| API | `defineTopic(name, payloadSchema, options)` / `topics()` — register a topic at import time and read the registry | PAP-555 | - | live |
 
 The placeholder route declares no actions: it has no controls. The first page with a control adds
 its actions registry and its rows here; the shape it declares against is the `Action` row above

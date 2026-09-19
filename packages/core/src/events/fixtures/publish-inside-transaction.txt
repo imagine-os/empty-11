@@ -1,0 +1,10 @@
+// The correct shape, kept next to the bad fixture so the scanner is proven not to flag it.
+import { publish } from '@paperos/core/events';
+import { db } from './db';
+
+export async function markPaid(invoiceId: string) {
+  return db.transaction(async (tx) => {
+    await tx.update(invoice).set({ status: 'paid' }).where(eq(invoice.id, invoiceId));
+    return publish(tx, { topic: 'invoice.paid', payload: { invoiceId } });
+  });
+}

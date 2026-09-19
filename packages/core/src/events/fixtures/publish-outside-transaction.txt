@@ -1,0 +1,17 @@
+// Lint fixture for `no-publish-outside-transaction` (PAP-555). Not TypeScript on purpose: the
+// file must not compile or lint, it only has to be scanned. Every line below is a violation.
+import { publish } from '@paperos/core/events';
+import { db } from './db';
+
+export async function markPaidWrong(invoiceId: string) {
+  await db.update(invoice).set({ status: 'paid' }).where(eq(invoice.id, invoiceId));
+  // The update above has already committed on its own connection; if this throws, or if a later
+  // step fails, the row and the event disagree forever.
+  await publish(db, { topic: 'invoice.paid', payload: { invoiceId } });
+}
+
+export async function alsoWrong(ctx) {
+  await publish(ctx.db, { topic: 'invoice.paid', payload: {} });
+  await publish(client, { topic: 'invoice.paid', payload: {} });
+  await publish(this.db, { topic: 'invoice.paid', payload: {} });
+}

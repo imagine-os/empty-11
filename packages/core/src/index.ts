@@ -10,4 +10,7 @@
 /** Version of the PaperOS platform contract this checkout implements. */
 export const PAPEROS_VERSION = '0.1.0' as const;
 
+/** Domain events: envelope, topic registry, transactional outbox `publish()` (PAP-555, ADR 0013). */
+export * from './events/index.js';
+
 export * from './filter/index.js';
