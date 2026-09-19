@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>PaperOS template</title>
+    <!--
+      GitHub Pages SPA fallback (PAP-15). GitHub Pages serves this file for
+      any path it doesn't have a real file for, instead of routing through
+      the app. Deep links (e.g. /<repo>/pr/<n>/some/route) land here.
+
+      This encodes the real path into a query string and redirects to the
+      app's index.html, which the app's router decodes and restores with
+      history.replaceState before rendering — the classic rafgraph
+      spa-github-pages technique: https://github.com/rafgraph/spa-github-pages
+
+      `pathSegmentsToKeep` is the number of leading path segments that make
+      up the deployed base path (BASE_PATH in .github/workflows/pages.yml),
+      not part of the app's own route: 1 for the production base
+      (/<repo>/) and 3 for a preview base (/<repo>/previews/<name>/). It is
+      computed from the URL itself so a repo rename or a new preview name
+      needs no edit here.
+
+      The decoder half of this technique (reading the redirected query
+      string back into history.replaceState on boot) is not wired into the
+      app yet: apps/web has no client-side router today (PAP-16, in
+      flight). Add it to the router's boot sequence when PAP-16 lands
+      rather than here, so this file does not race that work.
+    -->
+    <script>
+      ((l) => {
+        var segments = l.pathname.replace(/^\//, '').split('/');
+        var pathSegmentsToKeep = segments[1] === 'previews' ? 3 : 1;
+        l.replace(
+          l.protocol +
+            '//' +
+            l.hostname +
+            (l.port ? `:${l.port}` : '') +
+            l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') +
+            '/?/' +
+            l.pathname
+              .slice(1)
+              .split('/')
+              .slice(pathSegmentsToKeep)
+              .join('/')
+              .replace(/&/g, '~and~') +
+            (l.search ? `&${l.search.slice(1).replace(/&/g, '~and~')}` : '') +
+            l.hash,
+        );
+      })(window.location);
+    </script>
+  </head>
+  <body></body>
+</html>

@@ -1,0 +1,169 @@
+name: pages
+
+# Publishes `apps/web` to GitHub Pages (PAP-15). Pages source for this repo is
+# "GitHub Actions" (org policy — Needs Justin: repo Settings > Pages > Source:
+# GitHub Actions), so every deploy goes through `upload-pages-artifact` +
+# `deploy-pages`, which replace the whole published site in one shot. That
+# mechanism has no server-side merge: it cannot splice a preview sub-folder
+# in alongside whatever is already live without a bespoke artifact-merge step
+# (fetch the current live tree, add the preview folder, re-upload the
+# combined artifact as one deployment). Building that merge step is out of
+# this issue's path list, so today:
+#
+#   - push to main            -> builds and deploys production to the site
+#                                 root, https://imagine-os.github.io/<repo>/.
+#   - pull_request             -> dormant: the build-loop has no open PRs
+#                                 today (git-only integration, no PR flow —
+#                                 see BRIEF.md), so this trigger is defined
+#                                 and ready but does not fire in practice.
+#                                 When PRs exist it builds a preview at
+#                                 BASE_PATH=/<repo>/previews/pr-<n>/ and
+#                                 uploads it as a downloadable workflow
+#                                 artifact (NOT a live Pages deploy, to avoid
+#                                 clobbering production — see the merge-step
+#                                 note above).
+#   - workflow_dispatch        -> same preview build, named by the
+#                                 `preview_name` input (or the branch name),
+#                                 for publishing a named preview without an
+#                                 open PR. Also artifact-only, same reason.
+#
+# The sub-path merge strategy that would make previews live at
+# /<repo>/previews/<name>/ alongside production is documented, not built,
+# in docs/platform/pages-deploy.md ("Sub-path preview strategy") and
+# ops/ci/pages/README.md ("Follow-ups") — track it as its own issue before
+# wiring a live preview deploy.
+#
+# BASE_PATH is always derived from `github.event.repository.name` at build
+# time (never hard-coded), so a repo rename (Justin renames this repo later)
+# needs no workflow edit.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - apps/web/**
+      - packages/ui/**
+      - packages/core/**
+      - .github/workflows/pages.yml
+  pull_request:
+    paths:
+      - apps/web/**
+      - packages/ui/**
+      - packages/core/**
+      - .github/workflows/pages.yml
+  workflow_dispatch:
+    inputs:
+      preview_name:
+        description: >-
+          Name for a manually published preview (e.g. a branch slug). Builds
+          apps/web with BASE_PATH=/<repo>/previews/<preview_name>/ and
+          uploads it as a downloadable workflow artifact — it is not
+          deployed live (see the header comment above). Defaults to the
+          dispatch ref's branch name when left empty.
+        required: false
+        type: string
+        default: ''
+
+concurrency:
+  group: pages-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  DO_NOT_TRACK: '1'
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      base-path: ${{ steps.base-path.outputs.value }}
+      is-production: ${{ steps.base-path.outputs.is-production }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      # Edge case (spec): repo renamed -> derive base from the event payload,
+      # never a hard-coded slug. Fork PRs (no write token for a live deploy
+      # anyway) get the same artifact-only preview as same-repo PRs.
+      - name: Derive BASE_PATH and build info
+        id: base-path
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          REPO_NAME: ${{ github.event.repository.name }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          DISPATCH_PREVIEW_NAME: ${{ inputs.preview_name }}
+          REF_NAME: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          if [ "$EVENT_NAME" = 'push' ]; then
+            base="/${REPO_NAME}/"
+            is_prod=true
+          elif [ "$EVENT_NAME" = 'pull_request' ]; then
+            base="/${REPO_NAME}/previews/pr-${PR_NUMBER}/"
+            is_prod=false
+          else
+            name="${DISPATCH_PREVIEW_NAME:-${REF_NAME//\//-}}"
+            base="/${REPO_NAME}/previews/${name}/"
+            is_prod=false
+          fi
+          {
+            echo "value=${base}"
+            echo "is-production=${is_prod}"
+            echo "build-time=$(date -u +%FT%TZ)"
+          } >> "$GITHUB_OUTPUT"
+          echo "Resolved BASE_PATH=${base} (production=${is_prod})"
+
+      - name: Build apps/web
+        env:
+          BASE_PATH: ${{ steps.base-path.outputs.value }}
+          VITE_GIT_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          VITE_BUILD_TIME: ${{ steps.base-path.outputs.build-time }}
+          VITE_PR_NUMBER: ${{ github.event.pull_request.number && format('{0}', github.event.pull_request.number) || '' }}
+        run: pnpm --filter web build
+
+      - name: Upload production artifact (Pages)
+        if: steps.base-path.outputs.is-production == 'true'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: apps/web/dist
+
+      - name: Upload preview artifact (workflow artifact, not deployed live)
+        if: steps.base-path.outputs.is-production != 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: pages-preview-${{ steps.base-path.outputs.value }}
+          path: apps/web/dist
+          retention-days: 14
+          if-no-files-found: error
+
+  # Only the production build reaches a live deploy-pages call — see the
+  # header comment for why preview builds stop at the artifact upload above.
+  deploy:
+    name: deploy
+    needs: build
+    if: needs.build.outputs.is-production == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      pages: write
+      id-token: write
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

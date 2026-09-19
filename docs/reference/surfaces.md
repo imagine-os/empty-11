@@ -47,6 +47,8 @@ or `-`), **Status** (`live`, `stub`, `planned`).
 | CLI | `node scripts/security-controls.ts --boundary B<n>` / `--summary` — list one trust boundary's controls, or counts per boundary | PAP-219 | - | live |
 | API | `POST /api/v1/security/csp-report` — CSP violation report sink (`report-to paperos-csp`), rate limited 30/min/IP and sampled | PAP-219 | - | planned (profile in `ops/security/headers.json`; route lands with `apps/api`) |
 | API | `securityHeaders({ profile })` — the baseline header and CSP middleware contract every surface calls; `CSP_NONCE` request-context key | PAP-219 | - | planned (contract frozen in `docs/security/hardening-baseline.md` section 13; Forge implements) |
+| Action | `pages` workflow (`push`/`pull_request`/`workflow_dispatch`) — builds `apps/web` with `BASE_PATH` derived from `github.event.repository.name` and deploys it to GitHub Pages on a push to `main`; PR and manual-dispatch builds upload a downloadable preview artifact instead of a live sub-path deploy (see `docs/platform/pages-deploy.md` "Sub-path preview strategy") | PAP-15 | `pages: write`, `id-token: write` (deploy job only) | live (production deploy); preview artifact-only |
+| CLI | `node ops/ci/pages/smoke.mjs <dist-dir> <base-path>` — serves a built `apps/web/dist` under a base path and confirms `index.html` and every referenced asset resolve there | PAP-15 | - | live |
 
 The placeholder route declares no actions: it has no controls. The first page with a control adds
 its actions registry and its rows here; the shape it declares against is the `Action` row above

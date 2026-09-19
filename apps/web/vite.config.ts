@@ -24,7 +24,15 @@ export default defineConfig({
   build: {
     target: 'es2022',
     outDir: 'dist',
-    sourcemap: true,
+    // 'hidden' (not `true`): PAP-15 publishes this build's output publicly on
+    // GitHub Pages. `true` writes a `//# sourceMappingURL` comment into the
+    // shipped JS, so a public visitor's devtools auto-fetch and display the
+    // original source; 'hidden' still emits the .map files (kept for our own
+    // error-correlation tooling) but omits that comment, so a public devtools
+    // session sees only the built output. Flagged by review; tracked for a
+    // stricter follow-up (drop maps from the public artifact entirely, or
+    // gate this behind an env check) as Triage PAP-1012.
+    sourcemap: 'hidden',
   },
   server: {
     port: 5173,

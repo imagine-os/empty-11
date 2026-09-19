@@ -39,3 +39,7 @@ The module-system issues (PAP-433 onwards) land the generated files.
 * [`character-schema.md`](character-schema.md) — the character schema every agent character is
   declared in: fields, scope registry, validation codes, inheritance, editor wiring (PAP-103,
   ADR 0020). Generated JSON Schema lives in `packages/agents/schema/`.
+* [`pages-deploy.md`](pages-deploy.md) — GitHub Pages demo deploy for `apps/web`: the URL scheme,
+  the Actions-source deploy mechanism, why previews are artifact-only today and the sub-path merge
+  strategy that would make them live (PAP-15). Workflow: `.github/workflows/pages.yml`; operator
+  checklist: [`ops/ci/pages/README.md`](../../ops/ci/pages/README.md).
