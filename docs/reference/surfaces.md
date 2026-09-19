@@ -73,3 +73,11 @@ specs (`logic.actions`, PAP-114): `specs/pages/customer-invoices.spec.yaml` decl
 `payInvoice`, `downloadPdf` (not wired), `retryLoad`; `specs/pages/staff-settings.spec.yaml` declares
 `inviteMember`, `changeRole`, `removeMember`, `saveBranding` (not wired), `toggleModule`, `retryLoad`.
 They become live WebMCP abilities when PAP-16 mounts the registry.
+
+### PAP-239: gate artifact contract
+
+| Surface | Ability | Owner issue | Permission | Status |
+| -- | -- | -- | -- | -- |
+| CLI | `pnpm --filter @paperos/contract-quality validate <artifact.json> [--kind <kind>] [--json]` — validate one gate artifact against its `GateReport<kind>` schema; exit 0 valid, 1 invalid (every issue with its path), 2 usage or unknown kind. Root alias `pnpm contracts:validate` is an owed PAP-13 edit | PAP-239 | - | live |
+| CLI | `pnpm --filter @paperos/contract-quality build:schemas` now also writes `schemas/<kind>.schema.json` for the seventeen gate kinds plus `artifact-ref.schema.json` and `gate-status.schema.json`; `build:docs` regenerates the tables of `docs/quality/gates.md` (drift-tested; Gate 1's `gen:schemas` step will call it) | PAP-239 | - | live |
+| API | `@paperos/contract-quality/gates`, `/status`, `/artifacts`, `/validate` — `GATE_KINDS`, `GATE_REPORT_SCHEMAS`, `GateReportOf<K>`, `GATE_STATUSES`, `GATE_STATES`, `ArtifactRefSchema`, `artifactUrl()`, `artifactRef()`, `validateArtifact()`, `parseArtifact()`, `readGateReport()`, `kindFromFileName()` | PAP-239 | - | live |

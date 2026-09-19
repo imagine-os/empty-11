@@ -1,0 +1,29 @@
+{
+  "kind": "coverage",
+  "version": 1,
+  "sha": "9f1c2d3e4b5a67890abcdef1234567890abcdef1",
+  "pr": 42,
+  "startedAt": "2026-09-25T10:00:00.000Z",
+  "finishedAt": "2026-09-25T10:01:47.000Z",
+  "status": "pass",
+  "summary": "Diff coverage 91% of 210 changed lines (floor 80%).",
+  "findings": [],
+  "artifacts": [
+    {
+      "kind": "report",
+      "path": "coverage.json"
+    }
+  ],
+  "data": {
+    "changedLines": 210,
+    "coveredLines": 191,
+    "ratio": 0.9095,
+    "floor": 0.8,
+    "files": [
+      {
+        "file": "packages/finance/src/invoices/listInvoices.ts",
+        "uncovered": [44, 45, 61]
+      }
+    ]
+  }
+}

@@ -1,0 +1,114 @@
+{
+  "kind": "gate1",
+  "version": 1,
+  "sha": "9f1c2d3e4b5a67890abcdef1234567890abcdef1",
+  "pr": 42,
+  "startedAt": "2026-09-25T10:00:00.000Z",
+  "finishedAt": "2026-09-25T10:01:47.000Z",
+  "status": "fail",
+  "summary": "Gate 1 failed: lint failed (1 finding).",
+  "findings": [
+    {
+      "id": "308b8e8cde",
+      "reviewer": "gate-1",
+      "rubricId": "RUB-COR-01",
+      "severity": "S1",
+      "title": "lint failed: lint/correctness/noUnusedImports: This import is unused.",
+      "body": "Gate 1 job `lint` failed.\n\nlint/correctness/noUnusedImports: This import is unused.\n\nReproduce locally with `pnpm gate:1`.",
+      "file": "packages/ui/src/index.ts",
+      "line": 14,
+      "evidence": [
+        {
+          "kind": "log",
+          "ref": "gate1/lint.log"
+        }
+      ],
+      "confidence": 1,
+      "autofixable": false
+    }
+  ],
+  "artifacts": [
+    {
+      "kind": "report",
+      "path": "gate1.json"
+    },
+    {
+      "kind": "log",
+      "path": "gate1/lint.log"
+    }
+  ],
+  "data": {
+    "jobs": [
+      {
+        "name": "install",
+        "status": "pass",
+        "durationMs": 1544,
+        "command": "pnpm install --frozen-lockfile"
+      },
+      {
+        "name": "lint",
+        "status": "fail",
+        "durationMs": 8100,
+        "command": "pnpm run lint"
+      },
+      {
+        "name": "lint:root",
+        "status": "pass",
+        "durationMs": 3024,
+        "command": "pnpm run lint:root"
+      },
+      {
+        "name": "typecheck",
+        "status": "pass",
+        "durationMs": 7117,
+        "command": "pnpm run typecheck"
+      },
+      {
+        "name": "typecheck:root",
+        "status": "pass",
+        "durationMs": 6271,
+        "command": "pnpm run typecheck:root"
+      },
+      {
+        "name": "test",
+        "status": "pass",
+        "durationMs": 1371,
+        "command": "pnpm run test"
+      },
+      {
+        "name": "coverage",
+        "status": "pass",
+        "durationMs": 13189,
+        "command": "pnpm run test:gate"
+      },
+      {
+        "name": "build",
+        "status": "pass",
+        "durationMs": 861,
+        "command": "pnpm run build"
+      },
+      {
+        "name": "drift",
+        "status": "pass",
+        "durationMs": 4516,
+        "command": "pnpm run drift"
+      }
+    ],
+    "failures": [
+      {
+        "job": "lint",
+        "file": "packages/ui/src/index.ts",
+        "line": 14,
+        "message": "lint/correctness/noUnusedImports: This import is unused."
+      }
+    ],
+    "statusName": "gate/1-static",
+    "prClass": "code",
+    "totalDurationMs": 45900,
+    "env": {
+      "TZ": "UTC",
+      "LANG": "en_US.UTF-8",
+      "node": "v22.22.2"
+    }
+  }
+}

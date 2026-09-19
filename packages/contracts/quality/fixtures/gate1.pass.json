@@ -1,0 +1,94 @@
+{
+  "kind": "gate1",
+  "version": 1,
+  "sha": "9f1c2d3e4b5a67890abcdef1234567890abcdef1",
+  "pr": 42,
+  "startedAt": "2026-09-25T10:00:00.000Z",
+  "finishedAt": "2026-09-25T10:01:47.000Z",
+  "status": "pass",
+  "summary": "Gate 1 passed: 9 jobs in 39.1s.",
+  "findings": [],
+  "artifacts": [
+    {
+      "kind": "report",
+      "path": "gate1.json"
+    },
+    {
+      "kind": "log",
+      "path": "gate1/lint.log"
+    }
+  ],
+  "data": {
+    "jobs": [
+      {
+        "name": "install",
+        "status": "pass",
+        "durationMs": 1544,
+        "command": "pnpm install --frozen-lockfile"
+      },
+      {
+        "name": "lint",
+        "status": "pass",
+        "durationMs": 1188,
+        "command": "pnpm run lint"
+      },
+      {
+        "name": "lint:root",
+        "status": "pass",
+        "durationMs": 3024,
+        "command": "pnpm run lint:root"
+      },
+      {
+        "name": "typecheck",
+        "status": "pass",
+        "durationMs": 7117,
+        "command": "pnpm run typecheck"
+      },
+      {
+        "name": "typecheck:root",
+        "status": "pass",
+        "durationMs": 6271,
+        "command": "pnpm run typecheck:root"
+      },
+      {
+        "name": "test",
+        "status": "pass",
+        "durationMs": 1371,
+        "command": "pnpm run test"
+      },
+      {
+        "name": "coverage",
+        "status": "pass",
+        "durationMs": 13189,
+        "command": "pnpm run test:gate"
+      },
+      {
+        "name": "build",
+        "status": "pass",
+        "durationMs": 861,
+        "command": "pnpm run build"
+      },
+      {
+        "name": "drift",
+        "status": "pass",
+        "durationMs": 4516,
+        "command": "pnpm run drift"
+      },
+      {
+        "name": "boundaries",
+        "status": "skipped",
+        "durationMs": 0,
+        "command": "pnpm run lint:boundaries"
+      }
+    ],
+    "failures": [],
+    "statusName": "gate/1-static",
+    "prClass": "code",
+    "totalDurationMs": 39081,
+    "env": {
+      "TZ": "UTC",
+      "LANG": "en_US.UTF-8",
+      "node": "v22.22.2"
+    }
+  }
+}

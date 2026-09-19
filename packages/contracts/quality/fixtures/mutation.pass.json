@@ -1,0 +1,61 @@
+{
+  "kind": "mutation",
+  "version": 1,
+  "sha": "9f1c2d3e4b5a67890abcdef1234567890abcdef1",
+  "pr": 42,
+  "startedAt": "2026-09-25T10:00:00.000Z",
+  "finishedAt": "2026-09-25T10:01:47.000Z",
+  "status": "pass",
+  "summary": "Mutation score 84% on @paperos/core (floor 80%), 1 survivor.",
+  "findings": [
+    {
+      "id": "2f1f5dd936",
+      "reviewer": "mutation",
+      "rubricId": "RUB-COR-10",
+      "severity": "S3",
+      "title": "Survived mutant: ConditionalExpression in filter/evaluate.ts",
+      "body": "Replacing the null-check branch with true is not caught by any test. Test: evaluate an `is_empty` condition against null.",
+      "file": "packages/core/src/filter/evaluate.ts",
+      "line": 88,
+      "evidence": [
+        {
+          "kind": "report",
+          "ref": "mutation/core.html"
+        }
+      ],
+      "confidence": 0.7,
+      "autofixable": false
+    }
+  ],
+  "artifacts": [
+    {
+      "kind": "report",
+      "path": "mutation.json"
+    },
+    {
+      "kind": "report",
+      "path": "mutation/core.html"
+    }
+  ],
+  "data": {
+    "packages": [
+      {
+        "name": "@paperos/core",
+        "score": 84.2,
+        "floor": 80,
+        "killed": 412,
+        "survived": 1,
+        "timeout": 6,
+        "noCoverage": 12,
+        "survivors": [
+          {
+            "file": "packages/core/src/filter/evaluate.ts",
+            "line": 88,
+            "mutator": "ConditionalExpression"
+          }
+        ]
+      }
+    ],
+    "reportUrl": "https://imagine-os.github.io/paperos/nightly/2026-09-25/mutation/"
+  }
+}

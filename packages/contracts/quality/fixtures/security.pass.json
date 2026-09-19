@@ -1,0 +1,90 @@
+{
+  "kind": "security",
+  "version": 1,
+  "sha": "9f1c2d3e4b5a67890abcdef1234567890abcdef1",
+  "pr": 42,
+  "startedAt": "2026-09-25T10:00:00.000Z",
+  "finishedAt": "2026-09-25T10:01:47.000Z",
+  "status": "fail",
+  "summary": "Security gate failed: 1 S0 (gitleaks), 0 S1; 2 waivers active.",
+  "findings": [
+    {
+      "id": "2a09953440",
+      "reviewer": "security",
+      "rubricId": "RUB-SEC-03",
+      "severity": "S0",
+      "title": "AWS access key committed in ops/compose/.env",
+      "body": "gitleaks rule aws-access-key-id matched AKIA... in ops/compose/.env (SEC-12). Rotate the key and purge the history.",
+      "file": "ops/compose/.env",
+      "line": 3,
+      "evidence": [
+        {
+          "kind": "sarif",
+          "ref": "security/gitleaks.sarif"
+        }
+      ],
+      "confidence": 1,
+      "autofixable": false
+    }
+  ],
+  "artifacts": [
+    {
+      "kind": "report",
+      "path": "security.json"
+    },
+    {
+      "kind": "sarif",
+      "path": "security/gitleaks.sarif"
+    },
+    {
+      "kind": "sarif",
+      "path": "security/semgrep.sarif"
+    },
+    {
+      "kind": "report",
+      "path": "security/sbom.cdx.json"
+    }
+  ],
+  "data": {
+    "tools": [
+      {
+        "name": "gitleaks",
+        "version": "8.21.2",
+        "status": "fail",
+        "findings": 1,
+        "waived": 0,
+        "durationMs": 4200,
+        "sarif": "security/gitleaks.sarif"
+      },
+      {
+        "name": "osv-scanner",
+        "version": "2.0.2",
+        "status": "pass",
+        "findings": 0,
+        "waived": 2,
+        "durationMs": 9100
+      },
+      {
+        "name": "semgrep",
+        "version": "1.99.0",
+        "status": "pass",
+        "findings": 0,
+        "waived": 0,
+        "durationMs": 31000,
+        "sarif": "security/semgrep.sarif"
+      },
+      {
+        "name": "trivy",
+        "version": "0.61.0",
+        "status": "skipped",
+        "findings": 0,
+        "waived": 0
+      }
+    ],
+    "sbom": "security/sbom.cdx.json",
+    "waivers": {
+      "active": 2,
+      "expired": 0
+    }
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "kind": "review-cost",
+  "version": 1,
+  "sha": "9f1c2d3e4b5a67890abcdef1234567890abcdef1",
+  "pr": 42,
+  "startedAt": "2026-09-25T10:00:00.000Z",
+  "finishedAt": "2026-09-25T10:01:47.000Z",
+  "status": "pass",
+  "summary": "Three reviewers ran for $1.42 in 6m12s.",
+  "findings": [],
+  "artifacts": [
+    {
+      "kind": "report",
+      "path": "review-cost.json"
+    }
+  ],
+  "data": {
+    "runs": [
+      {
+        "reviewer": "correctness",
+        "model": "reviewer-default",
+        "effort": "high",
+        "inputTokens": 118000,
+        "outputTokens": 4200,
+        "cacheReadTokens": 90000,
+        "costUsd": 0.61,
+        "durationMs": 142000,
+        "turns": 18
+      },
+      {
+        "reviewer": "security",
+        "model": "reviewer-default",
+        "effort": "high",
+        "inputTokens": 96000,
+        "outputTokens": 2900,
+        "cacheReadTokens": 80000,
+        "costUsd": 0.47,
+        "durationMs": 118000,
+        "turns": 14
+      },
+      {
+        "reviewer": "spec-conformance",
+        "model": "reviewer-default",
+        "effort": "high",
+        "inputTokens": 71000,
+        "outputTokens": 2100,
+        "cacheReadTokens": 60000,
+        "costUsd": 0.34,
+        "durationMs": 112000,
+        "turns": 11
+      }
+    ],
+    "totalUsd": 1.42
+  }
+}

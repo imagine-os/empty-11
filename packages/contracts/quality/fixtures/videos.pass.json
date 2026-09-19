@@ -1,0 +1,68 @@
+{
+  "kind": "videos",
+  "version": 1,
+  "sha": "9f1c2d3e4b5a67890abcdef1234567890abcdef1",
+  "pr": 42,
+  "startedAt": "2026-09-25T10:00:00.000Z",
+  "finishedAt": "2026-09-25T10:01:47.000Z",
+  "status": "pass",
+  "summary": "Recorded 2 flows at 2 widths; MinIO links valid 30 days.",
+  "findings": [],
+  "artifacts": [
+    {
+      "kind": "report",
+      "path": "videos.json"
+    },
+    {
+      "kind": "video",
+      "path": "videos/sign-in/375-light.mp4",
+      "url": "https://minio.paperos.dev/qa-videos/paperos/42/9f1c2d3/sign-in-375-light.mp4",
+      "expiresAt": "2026-10-25T10:01:47.000Z"
+    }
+  ],
+  "data": {
+    "videos": [
+      {
+        "flowId": "sign-in",
+        "width": 375,
+        "theme": "light",
+        "mp4": "videos/sign-in/375-light.mp4",
+        "poster": "videos/sign-in/375-light.poster.png",
+        "sheet": "videos/sign-in/375-light.sheet.png",
+        "durationMs": 8400,
+        "steps": [
+          {
+            "note": "open /login",
+            "atMs": 0
+          },
+          {
+            "note": "submit credentials",
+            "atMs": 3200
+          },
+          {
+            "note": "dashboard visible",
+            "atMs": 7900
+          }
+        ]
+      },
+      {
+        "flowId": "sign-in",
+        "width": 1280,
+        "theme": "dark",
+        "mp4": "videos/sign-in/1280-dark.mp4",
+        "poster": "videos/sign-in/1280-dark.poster.png",
+        "durationMs": 7100,
+        "steps": [
+          {
+            "note": "open /login",
+            "atMs": 0
+          },
+          {
+            "note": "dashboard visible",
+            "atMs": 6800
+          }
+        ]
+      }
+    ]
+  }
+}

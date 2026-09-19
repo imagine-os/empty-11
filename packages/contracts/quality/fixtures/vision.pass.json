@@ -1,0 +1,64 @@
+{
+  "kind": "vision",
+  "version": 1,
+  "sha": "9f1c2d3e4b5a67890abcdef1234567890abcdef1",
+  "pr": 42,
+  "startedAt": "2026-09-25T10:00:00.000Z",
+  "finishedAt": "2026-09-25T10:01:47.000Z",
+  "status": "fail",
+  "summary": "Vision inspected 2 diff images: 1 S2 overflow at 360.",
+  "findings": [
+    {
+      "id": "b230c4fe0f",
+      "reviewer": "vision",
+      "rubricId": "RUB-VIS-01",
+      "severity": "S2",
+      "title": "Invoice table overflows the viewport at 360",
+      "body": "The amount column pushes the table past the viewport at 360 px; horizontal scroll appears. Test: render /invoices at 360 and assert scrollWidth <= clientWidth.",
+      "evidence": [
+        {
+          "kind": "screenshot",
+          "ref": "visual/customer-invoices/360-dark.png"
+        }
+      ],
+      "confidence": 0.9,
+      "autofixable": false
+    }
+  ],
+  "artifacts": [
+    {
+      "kind": "report",
+      "path": "vision.json"
+    },
+    {
+      "kind": "screenshot",
+      "path": "vision/customer-invoices/360-dark.annotated.png"
+    }
+  ],
+  "data": {
+    "images": [
+      {
+        "id": "customer-invoices@360/dark",
+        "layoutScore": 0.62,
+        "findings": ["b230c4fe0f"],
+        "boxes": [
+          {
+            "findingId": "b230c4fe0f",
+            "x": 71,
+            "y": 38,
+            "w": 29,
+            "h": 44
+          }
+        ]
+      },
+      {
+        "id": "customer-invoices@390/dark",
+        "layoutScore": 0.91,
+        "findings": [],
+        "boxes": []
+      }
+    ],
+    "model": "vision-default",
+    "costUsd": 0.18
+  }
+}

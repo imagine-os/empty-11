@@ -1,0 +1,59 @@
+{
+  "kind": "perf",
+  "version": 1,
+  "sha": "9f1c2d3e4b5a67890abcdef1234567890abcdef1",
+  "pr": 42,
+  "startedAt": "2026-09-25T10:00:00.000Z",
+  "finishedAt": "2026-09-25T10:01:47.000Z",
+  "status": "pass",
+  "summary": "Performance within budget: LCP 1.8s mobile on /, bundles under limit.",
+  "findings": [],
+  "artifacts": [
+    {
+      "kind": "report",
+      "path": "perf.json"
+    },
+    {
+      "kind": "report",
+      "path": "perf/lhci/index.html"
+    }
+  ],
+  "data": {
+    "web": [
+      {
+        "url": "/",
+        "preset": "mobile",
+        "lcp": 1800,
+        "tbt": 120,
+        "cls": 0.02,
+        "scores": {
+          "performance": 94,
+          "accessibility": 100
+        },
+        "budget": 2500,
+        "status": "pass"
+      },
+      {
+        "url": "/",
+        "preset": "desktop",
+        "lcp": 900,
+        "tbt": 40,
+        "cls": 0.01,
+        "scores": {
+          "performance": 99,
+          "accessibility": 100
+        },
+        "budget": 2500,
+        "status": "pass"
+      }
+    ],
+    "bundles": [
+      {
+        "name": "apps/web main",
+        "sizeBytes": 148213,
+        "budget": 200000,
+        "status": "pass"
+      }
+    ]
+  }
+}

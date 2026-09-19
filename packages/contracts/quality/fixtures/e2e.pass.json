@@ -1,0 +1,48 @@
+{
+  "kind": "e2e",
+  "version": 1,
+  "sha": "9f1c2d3e4b5a67890abcdef1234567890abcdef1",
+  "pr": 42,
+  "startedAt": "2026-09-25T10:00:00.000Z",
+  "finishedAt": "2026-09-25T10:01:47.000Z",
+  "status": "pass",
+  "summary": "Functional flows: 38 passed, 1 flaky, 0 failed across chromium and webkit.",
+  "findings": [],
+  "artifacts": [
+    {
+      "kind": "report",
+      "path": "e2e.json"
+    },
+    {
+      "kind": "report",
+      "path": "e2e/playwright-report/index.html"
+    }
+  ],
+  "data": {
+    "runs": [
+      {
+        "project": "smoke-chromium",
+        "target": "web",
+        "engine": "chromium",
+        "status": "pass",
+        "passed": 20,
+        "failed": 0,
+        "flaky": 1,
+        "skipped": 0,
+        "durationMs": 184000
+      },
+      {
+        "project": "smoke-webkit",
+        "target": "web",
+        "engine": "webkit",
+        "status": "pass",
+        "passed": 18,
+        "failed": 0,
+        "flaky": 0,
+        "skipped": 2,
+        "durationMs": 201000
+      }
+    ],
+    "failures": []
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "kind": "review",
+  "version": 1,
+  "sha": "9f1c2d3e4b5a67890abcdef1234567890abcdef1",
+  "pr": 42,
+  "startedAt": "2026-09-25T10:00:00.000Z",
+  "finishedAt": "2026-09-25T10:01:47.000Z",
+  "status": "fail",
+  "summary": "Correctness review: 1 S2; request-changes not required, verdict comment.",
+  "findings": [
+    {
+      "id": "33f979a9ee",
+      "reviewer": "correctness",
+      "rubricId": "RUB-COR-10",
+      "severity": "S2",
+      "title": "New pagination test asserts nothing about the cursor",
+      "body": "listInvoices.test.ts checks only that the call resolves. Test: assert nextCursor after page 1 equals the id of item 20.",
+      "file": "packages/finance/src/invoices/listInvoices.test.ts",
+      "line": 18,
+      "evidence": [
+        {
+          "kind": "code",
+          "ref": "packages/finance/src/invoices/listInvoices.test.ts:18"
+        }
+      ],
+      "confidence": 0.8,
+      "autofixable": false
+    }
+  ],
+  "artifacts": [
+    {
+      "kind": "report",
+      "path": "review.json"
+    }
+  ],
+  "data": {
+    "reviewer": "correctness",
+    "statusName": "gate/2-correctness",
+    "rubricCoverage": {
+      "RUB-COR-01": "checked",
+      "RUB-COR-02": "checked",
+      "RUB-COR-10": "checked",
+      "RUB-COR-05": "n/a"
+    },
+    "verdict": "comment",
+    "model": "reviewer-default",
+    "effort": "high",
+    "changedLines": 412,
+    "incremental": false
+  }
+}

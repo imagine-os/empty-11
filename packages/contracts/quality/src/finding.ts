@@ -29,10 +29,11 @@ export const RubricIdSchema = z
   .string()
   .regex(RUBRIC_ID_PATTERN, 'rubricId must look like RUB-<DOMAIN>-<nn>');
 
-export const EVIDENCE_KINDS = ['code', 'screenshot', 'video', 'log'] as const;
+/** Aligned with `ARTIFACT_KINDS` (PAP-239): `sarif` and `report` let a finding cite the scanner or gate file it came from. */
+export const EVIDENCE_KINDS = ['code', 'screenshot', 'video', 'log', 'sarif', 'report'] as const;
 export const EvidenceSchema = z.object({
   kind: z.enum(EVIDENCE_KINDS),
-  /** Path, URL or artefact reference (PAP-239 `ArtifactRef.path` once it lands). */
+  /** `file:line` for code; otherwise an artefact path relative to `reports/` (PAP-239 `ArtifactRef.path`) or a URL. */
   ref: z.string().min(1),
 });
 export type Evidence = z.infer<typeof EvidenceSchema>;

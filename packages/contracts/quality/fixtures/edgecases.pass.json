@@ -1,0 +1,79 @@
+{
+  "kind": "edgecases",
+  "version": 1,
+  "sha": "9f1c2d3e4b5a67890abcdef1234567890abcdef1",
+  "pr": 42,
+  "startedAt": "2026-09-25T10:00:00.000Z",
+  "finishedAt": "2026-09-25T10:01:47.000Z",
+  "status": "fail",
+  "summary": "Edge cases: 17 scenarios in 6 classes, 1 S1 (empty projects list).",
+  "findings": [
+    {
+      "id": "362b7a7946",
+      "reviewer": "edge-case",
+      "rubricId": "RUB-COR-02",
+      "severity": "S1",
+      "title": "Projects list throws on a tenant with zero projects",
+      "body": "Scenario empty/projects-list: TypeError reading first.id. Test: seed zero projects, open /projects.",
+      "file": "apps/web/src/routes/projects/List.tsx",
+      "line": 4,
+      "evidence": [
+        {
+          "kind": "video",
+          "ref": "edgecases/projects-list-empty.mp4"
+        }
+      ],
+      "confidence": 0.95,
+      "autofixable": false
+    }
+  ],
+  "artifacts": [
+    {
+      "kind": "report",
+      "path": "edgecases.json"
+    },
+    {
+      "kind": "video",
+      "path": "edgecases/projects-list-empty.mp4"
+    }
+  ],
+  "data": {
+    "matrix": [
+      {
+        "page": "projects-list",
+        "scenarioId": "empty-01",
+        "class": "empty",
+        "status": "fail",
+        "findings": ["362b7a7946"],
+        "repro": "apps/web/e2e/generated/projects-list/empty-01.spec.ts",
+        "durationMs": 3100
+      },
+      {
+        "page": "projects-list",
+        "scenarioId": "huge-01",
+        "class": "huge",
+        "status": "pass",
+        "findings": [],
+        "durationMs": 6400
+      },
+      {
+        "page": "customer-invoices",
+        "scenarioId": "unicode-01",
+        "class": "unicode",
+        "status": "pass",
+        "findings": [],
+        "durationMs": 2800
+      },
+      {
+        "page": "customer-invoices",
+        "scenarioId": "network-01",
+        "class": "network-failure",
+        "status": "pass",
+        "findings": [],
+        "durationMs": 5100
+      }
+    ],
+    "planned": 18,
+    "dropped": 1
+  }
+}

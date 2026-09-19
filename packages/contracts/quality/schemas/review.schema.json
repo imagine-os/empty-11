@@ -1,0 +1,339 @@
+{
+  "$id": "https://paperos.dev/schemas/quality/review.schema.json",
+  "title": "GateReport<review>",
+  "description": "reports/review.json (PAP-243): one reviewer run: findings, rubric coverage, verdict, model routing. Envelope version 1.",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "kind": {
+      "type": "string",
+      "const": "review"
+    },
+    "version": {
+      "type": "number",
+      "const": 1
+    },
+    "sha": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{7,40}$"
+    },
+    "pr": {
+      "type": "integer",
+      "exclusiveMinimum": 0,
+      "maximum": 9007199254740991
+    },
+    "startedAt": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+    },
+    "finishedAt": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pass",
+        "fail",
+        "error",
+        "skipped"
+      ]
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{10}$"
+          },
+          "reviewer": {
+            "type": "string",
+            "minLength": 1
+          },
+          "rubricId": {
+            "type": "string",
+            "pattern": "^RUB-(COR|SEC|SPEC|VIS|A11Y|PERF|DOC|AGENT)-\\d{2}$"
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "S0",
+              "S1",
+              "S2",
+              "S3",
+              "question",
+              "praise"
+            ]
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "body": {
+            "type": "string",
+            "minLength": 1
+          },
+          "file": {
+            "type": "string",
+            "minLength": 1
+          },
+          "line": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          },
+          "endLine": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          },
+          "suggestion": {
+            "type": "string"
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "enum": [
+                    "code",
+                    "screenshot",
+                    "video",
+                    "log",
+                    "sarif",
+                    "report"
+                  ]
+                },
+                "ref": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "kind",
+                "ref"
+              ]
+            }
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "autofixable": {
+            "type": "boolean"
+          },
+          "waiver": {
+            "type": "object",
+            "properties": {
+              "reason": {
+                "type": "string",
+                "minLength": 1
+              },
+              "approvedBy": {
+                "type": "string",
+                "minLength": 1
+              },
+              "expires": {
+                "type": "string",
+                "format": "date",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+              }
+            },
+            "required": [
+              "reason",
+              "approvedBy",
+              "expires"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "reviewer",
+          "rubricId",
+          "severity",
+          "title",
+          "body",
+          "evidence",
+          "confidence",
+          "autofixable"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "screenshot",
+              "video",
+              "report",
+              "log",
+              "sarif"
+            ]
+          },
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          }
+        },
+        "required": [
+          "kind",
+          "path"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "producer": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "human",
+            "agent",
+            "service",
+            "anonymous"
+          ]
+        },
+        "character": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        }
+      },
+      "required": [
+        "id",
+        "type"
+      ],
+      "additionalProperties": false
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "reviewer": {
+          "type": "string",
+          "minLength": 1
+        },
+        "statusName": {
+          "type": "string",
+          "enum": [
+            "gate/1-static",
+            "gate/1-security",
+            "gate/1-perf",
+            "gate/1-coverage",
+            "gate/1-migrations",
+            "gate/2-correctness",
+            "gate/2-security",
+            "gate/2-spec",
+            "gate/2-docs",
+            "gate/2-review",
+            "gate/3-visual",
+            "gate/3-video",
+            "gate/3-vision",
+            "gate/3-e2e",
+            "gate/4-edge",
+            "gate/dast"
+          ]
+        },
+        "rubricCoverage": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string",
+            "pattern": "^RUB-(COR|SEC|SPEC|VIS|A11Y|PERF|DOC|AGENT)-\\d{2}$"
+          },
+          "additionalProperties": {
+            "type": "string",
+            "enum": [
+              "checked",
+              "n/a",
+              "skipped"
+            ]
+          }
+        },
+        "verdict": {
+          "type": "string",
+          "enum": [
+            "comment",
+            "request-changes"
+          ]
+        },
+        "model": {
+          "type": "string",
+          "minLength": 1
+        },
+        "effort": {
+          "type": "string",
+          "enum": [
+            "low",
+            "medium",
+            "high",
+            "max"
+          ]
+        },
+        "changedLines": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "incremental": {
+          "default": false,
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "reviewer",
+        "statusName",
+        "rubricCoverage",
+        "verdict"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "kind",
+    "version",
+    "sha",
+    "startedAt",
+    "finishedAt",
+    "status",
+    "findings",
+    "summary",
+    "artifacts",
+    "data"
+  ],
+  "additionalProperties": false
+}

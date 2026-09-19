@@ -3,10 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Quality contract: review rubrics, severity taxonomy, Finding schema, review rendering and calibration scoring (PAP-79). Gate artefact schemas join in PAP-239; published as the quality module contract by PAP-462.",
+  "description": "Quality contract: review rubrics, severity taxonomy, Finding schema, review rendering and calibration scoring (PAP-79); gate artefact contract, status registry, ArtifactRef and validateArtifact (PAP-239). Published as the quality module contract by PAP-462.",
   "exports": {
     ".": "./src/index.ts",
     "./finding": "./src/finding.ts",
+    "./gates": "./src/gates/index.ts",
+    "./artifacts": "./src/artifacts.ts",
+    "./status": "./src/status.ts",
+    "./validate": "./src/validate.ts",
     "./rubrics": "./src/rubrics.ts",
     "./render": "./src/render.ts",
     "./calibrate": "./src/calibrate.ts",
@@ -28,6 +32,7 @@
     "build:schemas": "tsx scripts/build-schemas.ts",
     "build:docs": "tsx scripts/build-docs.ts",
     "calibrate": "tsx scripts/calibrate.ts",
+    "validate": "tsx scripts/validate.ts",
     "clean": "node -e \"require('node:fs').rmSync('coverage',{recursive:true,force:true})\""
   },
   "dependencies": {

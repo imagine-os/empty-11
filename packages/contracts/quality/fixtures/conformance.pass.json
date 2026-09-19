@@ -1,0 +1,57 @@
+{
+  "kind": "conformance",
+  "version": 1,
+  "sha": "9f1c2d3e4b5a67890abcdef1234567890abcdef1",
+  "pr": 42,
+  "startedAt": "2026-09-25T10:00:00.000Z",
+  "finishedAt": "2026-09-25T10:01:47.000Z",
+  "status": "pass",
+  "summary": "Conformance: 3 suites, 42 cases passed, 1 unsupported (declared).",
+  "findings": [],
+  "artifacts": [
+    {
+      "kind": "report",
+      "path": "conformance.json"
+    }
+  ],
+  "data": {
+    "suites": [
+      {
+        "module": "quality",
+        "contractVersion": "0.1.0",
+        "implementation": "memory",
+        "cases": [
+          {
+            "id": "quality.GateRunnerPort.1",
+            "status": "passed",
+            "durationMs": 12
+          },
+          {
+            "id": "quality.GateRunnerPort.2",
+            "status": "passed",
+            "durationMs": 9
+          },
+          {
+            "id": "quality.TestSeedPort.1",
+            "status": "unsupported",
+            "capability": "seed.reset"
+          }
+        ]
+      },
+      {
+        "module": "identity",
+        "contractVersion": "0.1.0",
+        "implementation": "memory",
+        "fixturesLock": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "cases": [
+          {
+            "id": "identity.PrincipalPort.1",
+            "status": "passed",
+            "durationMs": 3
+          }
+        ]
+      }
+    ],
+    "diffs": []
+  }
+}

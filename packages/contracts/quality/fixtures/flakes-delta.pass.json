@@ -1,0 +1,30 @@
+{
+  "kind": "flakes-delta",
+  "version": 1,
+  "sha": "9f1c2d3e4b5a67890abcdef1234567890abcdef1",
+  "pr": 42,
+  "startedAt": "2026-09-25T10:00:00.000Z",
+  "finishedAt": "2026-09-25T10:01:47.000Z",
+  "status": "pass",
+  "summary": "1 flaky test detected, not blocking, tracked as FL-123.",
+  "findings": [],
+  "artifacts": [
+    {
+      "kind": "report",
+      "path": "flakes-delta.json"
+    }
+  ],
+  "data": {
+    "workflow": "ci",
+    "flakes": [
+      {
+        "testId": "packages/realtime/src/presence.test.ts::reconnects after a dropped socket",
+        "source": "vitest",
+        "file": "packages/realtime/src/presence.test.ts",
+        "retries": 1,
+        "passedOnRetry": true,
+        "flakeId": "FL-123"
+      }
+    ]
+  }
+}

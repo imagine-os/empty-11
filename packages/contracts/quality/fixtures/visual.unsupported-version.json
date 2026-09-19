@@ -1,0 +1,90 @@
+{
+  "kind": "visual",
+  "version": 2,
+  "sha": "9f1c2d3e4b5a67890abcdef1234567890abcdef1",
+  "pr": 42,
+  "startedAt": "2026-09-25T10:00:00.000Z",
+  "finishedAt": "2026-09-25T10:01:47.000Z",
+  "status": "fail",
+  "summary": "Visual: 2 of 14 images differ (customer-invoices at 360 and 390 dark).",
+  "findings": [],
+  "artifacts": [
+    {
+      "kind": "report",
+      "path": "visual.json"
+    },
+    {
+      "kind": "screenshot",
+      "path": "visual/customer-invoices/360-dark.png",
+      "url": "https://imagine-os.github.io/paperos/pr/42/visual/customer-invoices/360-dark.png"
+    },
+    {
+      "kind": "screenshot",
+      "path": "visual/sheets/customer-invoices.png"
+    }
+  ],
+  "data": {
+    "images": [
+      {
+        "id": "customer-invoices@360/dark",
+        "project": "w360",
+        "theme": "dark",
+        "page": "customer-invoices",
+        "width": 360,
+        "status": "diff",
+        "diffRatio": 0.043,
+        "paths": {
+          "actual": "visual/customer-invoices/360-dark.png",
+          "expected": "visual/customer-invoices/360-dark.expected.png",
+          "diff": "visual/customer-invoices/360-dark.diff.png"
+        }
+      },
+      {
+        "id": "customer-invoices@390/dark",
+        "project": "w390",
+        "theme": "dark",
+        "page": "customer-invoices",
+        "width": 390,
+        "status": "diff",
+        "diffRatio": 0.031,
+        "paths": {
+          "actual": "visual/customer-invoices/390-dark.png",
+          "expected": "visual/customer-invoices/390-dark.expected.png",
+          "diff": "visual/customer-invoices/390-dark.diff.png"
+        }
+      },
+      {
+        "id": "customer-invoices@1280/light",
+        "project": "w1280",
+        "theme": "light",
+        "page": "customer-invoices",
+        "width": 1280,
+        "status": "pass",
+        "diffRatio": 0,
+        "paths": {
+          "actual": "visual/customer-invoices/1280-light.png",
+          "expected": "visual/customer-invoices/1280-light.expected.png"
+        }
+      },
+      {
+        "id": "staff-settings@3840/light",
+        "project": "w3840",
+        "theme": "light",
+        "page": "staff-settings",
+        "width": 3840,
+        "status": "new",
+        "diffRatio": 1,
+        "paths": {
+          "actual": "visual/staff-settings/3840-light.png"
+        }
+      }
+    ],
+    "sheets": [
+      {
+        "page": "customer-invoices",
+        "path": "visual/sheets/customer-invoices.png"
+      }
+    ],
+    "baselineSha": "e525acd0b3f1c2d4e5f60718293a4b5c6d7e8f90"
+  }
+}

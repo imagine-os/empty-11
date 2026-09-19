@@ -1,0 +1,46 @@
+{
+  "kind": "calibration",
+  "version": 1,
+  "sha": "9f1c2d3e4b5a67890abcdef1234567890abcdef1",
+  "pr": 42,
+  "startedAt": "2026-09-25T10:00:00.000Z",
+  "finishedAt": "2026-09-25T10:01:47.000Z",
+  "status": "pass",
+  "summary": "Week 39 calibration: 0.87 agreement across 3 reviewers (threshold 0.8).",
+  "findings": [],
+  "artifacts": [
+    {
+      "kind": "report",
+      "path": "calibration.json"
+    }
+  ],
+  "data": {
+    "week": "2026-W39",
+    "agreement": 0.87,
+    "threshold": 0.8,
+    "perReviewer": [
+      {
+        "reviewer": "correctness",
+        "agreement": 0.9,
+        "falsePositives": 1,
+        "missed": 1,
+        "cases": 15
+      },
+      {
+        "reviewer": "security",
+        "agreement": 0.86,
+        "falsePositives": 0,
+        "missed": 2,
+        "cases": 15
+      },
+      {
+        "reviewer": "spec-conformance",
+        "agreement": 0.85,
+        "falsePositives": 2,
+        "missed": 1,
+        "cases": 15
+      }
+    ],
+    "newCases": ["16-sec-expired-waiver"]
+  }
+}

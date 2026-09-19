@@ -1,0 +1,68 @@
+{
+  "kind": "certification",
+  "version": 1,
+  "sha": "9f1c2d3e4b5a67890abcdef1234567890abcdef1",
+  "pr": 42,
+  "startedAt": "2026-09-25T10:00:00.000Z",
+  "finishedAt": "2026-09-25T10:01:47.000Z",
+  "status": "pass",
+  "summary": "RC release/2026-09-25 certified: 16 statuses green, no open S0/S1, backup 3h old.",
+  "findings": [],
+  "artifacts": [
+    {
+      "kind": "report",
+      "path": "certification.json"
+    }
+  ],
+  "data": {
+    "rc": {
+      "branch": "release/2026-09-25",
+      "sha": "9f1c2d3e4b5a67890abcdef1234567890abcdef1",
+      "tag": "v0.1.0-rc.1"
+    },
+    "statuses": {
+      "gate/1-static": "pass",
+      "gate/1-security": "pass",
+      "gate/1-perf": "pass",
+      "gate/2-review": "pass",
+      "gate/3-visual": "pass",
+      "gate/3-video": "pass",
+      "gate/3-vision": "pass",
+      "gate/3-e2e": "pass",
+      "gate/4-edge": "pass",
+      "gate/dast": "pass"
+    },
+    "checks": [
+      {
+        "name": "statuses-green",
+        "status": "pass"
+      },
+      {
+        "name": "no-open-s0-s1",
+        "status": "pass"
+      },
+      {
+        "name": "no-expired-waivers",
+        "status": "pass"
+      },
+      {
+        "name": "perf-within-budget",
+        "status": "pass"
+      },
+      {
+        "name": "migrations-reversible",
+        "status": "pass"
+      },
+      {
+        "name": "backup-fresh",
+        "status": "pass",
+        "detail": "last backup 2026-09-25T07:02:11Z"
+      },
+      {
+        "name": "staging-test-mode-off",
+        "status": "pass"
+      }
+    ],
+    "certified": true
+  }
+}

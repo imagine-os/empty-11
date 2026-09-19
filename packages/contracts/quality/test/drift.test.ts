@@ -2,8 +2,16 @@
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
-import { generateDocs, generateSchemas, stableJson } from '../scripts/generate.js';
-import { DOCS_RUBRICS, SCHEMAS_DIR } from '../scripts/paths.js';
+import {
+  GATES_BLOCK_END,
+  GATES_BLOCK_START,
+  generateDocs,
+  generateGatesTables,
+  generateSchemas,
+  stableJson,
+} from '../scripts/generate.js';
+import { DOCS_RUBRICS, GATES_DOC, SCHEMAS_DIR } from '../scripts/paths.js';
+import { GATE_KINDS } from '../src/gates/index.js';
 import { allRubricItems, RUBRICS } from '../src/rubrics.js';
 
 describe('generated artefacts are current', () => {
@@ -14,6 +22,23 @@ describe('generated artefacts are current', () => {
     expect(readFileSync(resolve(DOCS_RUBRICS, 'finding.schema.json'), 'utf8')).toBe(
       stableJson(generateSchemas()['finding.schema.json']),
     );
+  });
+  it('schemas/ holds one file per gate kind plus artifact-ref and gate-status, and nothing stale', () => {
+    const generated = Object.keys(generateSchemas()).sort();
+    for (const kind of GATE_KINDS) expect(generated).toContain(`${kind}.schema.json`);
+    expect(generated).toContain('artifact-ref.schema.json');
+    expect(generated).toContain('gate-status.schema.json');
+    const onDisk = readdirSync(SCHEMAS_DIR)
+      .filter((f) => f.endsWith('.schema.json'))
+      .sort();
+    expect(onDisk).toEqual(generated);
+  });
+  it('the artifacts-and-statuses block of docs/quality/gates.md matches the registries', () => {
+    const doc = readFileSync(GATES_DOC, 'utf8');
+    const start = doc.indexOf(GATES_BLOCK_START);
+    const end = doc.indexOf(GATES_BLOCK_END) + GATES_BLOCK_END.length;
+    expect(start).toBeGreaterThan(0);
+    expect(doc.slice(start, end)).toBe(generateGatesTables());
   });
   it('docs/quality/rubrics/<domain>.md match the rubric JSON', () => {
     for (const [name, text] of Object.entries(generateDocs())) {

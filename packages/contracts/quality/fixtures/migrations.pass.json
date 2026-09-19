@@ -1,0 +1,56 @@
+{
+  "kind": "migrations",
+  "version": 1,
+  "sha": "9f1c2d3e4b5a67890abcdef1234567890abcdef1",
+  "pr": 42,
+  "startedAt": "2026-09-25T10:00:00.000Z",
+  "finishedAt": "2026-09-25T10:01:47.000Z",
+  "status": "fail",
+  "summary": "Migration gate failed: 0042 drops a column without expand-contract; no migration-ack.",
+  "findings": [
+    {
+      "id": "89f22faec8",
+      "reviewer": "migrations",
+      "rubricId": "RUB-COR-07",
+      "severity": "S0",
+      "title": "Migration 0042 drops column invoice.legacy_ref without an expand-contract step",
+      "body": "destructive rule: DROP COLUMN in a single migration. Add the column-removal in a later release after readers stop using it.",
+      "file": "packages/db/migrations/0042_drop_legacy_ref.sql",
+      "line": 2,
+      "evidence": [
+        {
+          "kind": "log",
+          "ref": "migrations/0042.log"
+        }
+      ],
+      "confidence": 1,
+      "autofixable": false
+    }
+  ],
+  "artifacts": [
+    {
+      "kind": "report",
+      "path": "migrations.json"
+    },
+    {
+      "kind": "log",
+      "path": "migrations/0042.log"
+    }
+  ],
+  "data": {
+    "migrations": [
+      {
+        "file": "packages/db/migrations/0041_add_invoice_due.sql",
+        "reversible": true,
+        "findings": [],
+        "rules": []
+      },
+      {
+        "file": "packages/db/migrations/0042_drop_legacy_ref.sql",
+        "reversible": false,
+        "findings": ["89f22faec8"],
+        "rules": ["destructive"]
+      }
+    ]
+  }
+}

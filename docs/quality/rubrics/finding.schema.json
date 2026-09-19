@@ -64,7 +64,9 @@
               "code",
               "screenshot",
               "video",
-              "log"
+              "log",
+              "sarif",
+              "report"
             ]
           },
           "ref": {
