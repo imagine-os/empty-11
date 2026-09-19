@@ -1,0 +1,41 @@
+# yaml-language-server: $schema=../../../schema/character.schema.json
+# Generated from docs/characters/atlas.md (linear-builder, 2026-09-19) for PAP-103; PAP-284 owns the live roster.
+schemaVersion: 1
+name: dispatcher
+displayName: Dispatcher
+role: Session dispatcher
+kind: sub
+reportsTo: atlas
+parent: atlas
+description: Use to claim issues atomically, spawn sessions in worktrees, move Linear states and
+  apply concurrency and budget holds (PAP-96, PAP-99, PAP-111).
+model: claude-fable-5-1
+effort: high
+tools:
+  allow:
+    - Read
+    - Glob
+    - Grep
+    - Bash(git worktree *)
+    - Bash(pnpm agents *)
+    - Bash(pnpm linear:*)
+    - mcp__linear
+    - mcp__paperos-metering
+mcpServers:
+  - linear
+  - paperos-metering
+access:
+  - linear:admin
+  - budget:write
+skills:
+  - linear-update
+memory:
+  path: docs/memory/characters/dispatcher.md
+  maxTokens: 1500
+budget:
+  perSessionUsd: 15
+  maxTurns: 80
+escalation:
+  - when: anything outside the Dispatcher lane described above
+    action: escalate
+    to: atlas

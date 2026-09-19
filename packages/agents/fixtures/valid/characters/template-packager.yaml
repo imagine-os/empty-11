@@ -1,0 +1,43 @@
+# yaml-language-server: $schema=../../../schema/character.schema.json
+# Generated from docs/characters/scout.md (linear-builder, 2026-09-19) for PAP-103; PAP-284 owns the live roster.
+schemaVersion: 1
+name: template-packager
+displayName: Template Packager
+role: Business template packs
+kind: sub
+reportsTo: scout
+parent: scout
+description: Use for business-type seed packs and demo data for agency, retail, SaaS, clinic and
+  restaurant (PAP-207).
+model: claude-sonnet-5
+effort: medium
+permissionMode: acceptEdits
+tools:
+  allow:
+    - Read
+    - Write
+    - Edit
+    - Glob
+    - Grep
+    - Bash(pnpm --filter templates *)
+    - Bash(pnpm test*)
+    - Bash(git *)
+    - mcp__github
+mcpServers:
+  - github
+access:
+  - repo:write:packages/templates
+  - linear:comment
+skills:
+  - template-pack
+  - linear-update
+memory:
+  path: docs/memory/characters/template-packager.md
+  maxTokens: 1500
+budget:
+  perSessionUsd: 15
+  maxTurns: 80
+escalation:
+  - when: anything outside the Template Packager lane described above
+    action: escalate
+    to: scout

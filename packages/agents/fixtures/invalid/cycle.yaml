@@ -1,0 +1,41 @@
+# yaml-language-server: $schema=../../schema/roster.schema.json
+# expect: REPORTS_TO_CYCLE
+# alpha -> beta -> gamma -> alpha; the error names the cycle
+schemaVersion: 1
+characters:
+  - schemaVersion: 1
+    name: alpha
+    displayName: Alpha
+    role: Test lead
+    kind: lead
+    reportsTo: beta
+    description: A minimal lead used by the invalid fixtures to isolate one rule.
+    tools: { allow: [Read, Grep, 'Bash(pnpm test*)', mcp__linear] }
+    mcpServers: [linear]
+    access: [linear:comment]
+    budget: { perSessionUsd: 60, perDayUsd: 56, maxTurns: 200 }
+    linearLabel: Character/Alpha
+  - schemaVersion: 1
+    name: beta
+    displayName: Beta
+    role: Test lead
+    kind: lead
+    reportsTo: gamma
+    description: A minimal lead used by the invalid fixtures to isolate one rule.
+    tools: { allow: [Read, Grep, 'Bash(pnpm test*)', mcp__linear] }
+    mcpServers: [linear]
+    access: [linear:comment]
+    budget: { perSessionUsd: 60, perDayUsd: 56, maxTurns: 200 }
+    linearLabel: Character/Beta
+  - schemaVersion: 1
+    name: gamma
+    displayName: Gamma
+    role: Test lead
+    kind: lead
+    reportsTo: alpha
+    description: A minimal lead used by the invalid fixtures to isolate one rule.
+    tools: { allow: [Read, Grep, 'Bash(pnpm test*)', mcp__linear] }
+    mcpServers: [linear]
+    access: [linear:comment]
+    budget: { perSessionUsd: 60, perDayUsd: 56, maxTurns: 200 }
+    linearLabel: Character/Gamma

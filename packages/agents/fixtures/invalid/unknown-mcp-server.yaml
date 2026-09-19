@@ -1,0 +1,17 @@
+# yaml-language-server: $schema=../../schema/roster.schema.json
+# expect: UNKNOWN_MCP_SERVER
+# an MCP server id missing from the catalog, and a tool naming a server the character does not list
+schemaVersion: 1
+characters:
+  - schemaVersion: 1
+    name: alpha
+    displayName: Alpha
+    role: Test lead
+    kind: lead
+    reportsTo: justin
+    description: A minimal lead used by the invalid fixtures to isolate one rule.
+    tools: { allow: [Read, Grep, 'Bash(pnpm test*)', mcp__linear, mcp__github__create_issue] }
+    mcpServers: [linear, jira]
+    access: [linear:comment]
+    budget: { perSessionUsd: 60, perDayUsd: 56, maxTurns: 200 }
+    linearLabel: Character/Alpha

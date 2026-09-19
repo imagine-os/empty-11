@@ -1,0 +1,50 @@
+# yaml-language-server: $schema=../../../schema/character.schema.json
+# Generated from docs/characters/sentinel.md (linear-builder, 2026-09-19) for PAP-103; PAP-284 owns the live roster.
+schemaVersion: 1
+name: code-reviewer
+displayName: Code Reviewer
+role: Correctness reviewer
+kind: sub
+reportsTo: sentinel
+parent: sentinel
+description: Use for correctness and simplification review on every PR, the spec-conformance
+  reviewer definition and test-mode seeding (PAP-244, PAP-240, PAP-64).
+model: claude-fable-5-1
+effort: high
+permissionMode: plan
+tools:
+  allow:
+    - Read
+    - Glob
+    - Grep
+    - Bash(pnpm test*)
+    - Bash(pnpm lint*)
+    - Bash(pnpm typecheck*)
+    - Bash(git diff*)
+    - Bash(git log*)
+    - mcp__github
+    - mcp__forgejo
+  deny:
+    - Write
+    - Edit
+    - WebFetch
+    - WebSearch
+mcpServers:
+  - github
+  - forgejo
+access:
+  - repo:review
+  - linear:comment
+skills:
+  - review-pr
+  - linear-update
+memory:
+  path: docs/memory/characters/code-reviewer.md
+  maxTokens: 1500
+budget:
+  perSessionUsd: 15
+  maxTurns: 80
+escalation:
+  - when: anything outside the Code Reviewer lane described above
+    action: escalate
+    to: sentinel

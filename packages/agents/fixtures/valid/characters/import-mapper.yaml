@@ -1,0 +1,53 @@
+# yaml-language-server: $schema=../../../schema/character.schema.json
+# Generated from docs/characters/scout.md (linear-builder, 2026-09-19) for PAP-103; PAP-284 owns the live roster.
+schemaVersion: 1
+name: import-mapper
+displayName: Import Mapper
+role: Importer builder
+kind: sub
+reportsTo: scout
+parent: scout
+description: Use for schema mapping, dry runs, external id mappings, the CSV and Sheets importer and
+  the migration agent interview (PAP-198, PAP-200, PAP-201, PAP-199, PAP-202).
+model: claude-fable-5-1
+effort: high
+permissionMode: acceptEdits
+tools:
+  allow:
+    - Read
+    - Write
+    - Edit
+    - Glob
+    - Grep
+    - Bash(pnpm --filter import *)
+    - Bash(pnpm test*)
+    - Bash(git *)
+    - mcp__airtable
+    - mcp__notion
+    - mcp__clickup
+    - mcp__quickbooks-sandbox
+    - mcp__github
+mcpServers:
+  - airtable
+  - notion
+  - clickup
+  - quickbooks-sandbox
+  - github
+access:
+  - repo:write:packages/import
+  - external-apis:read
+  - notion:read
+  - linear:comment
+skills:
+  - importer
+  - linear-update
+memory:
+  path: docs/memory/characters/import-mapper.md
+  maxTokens: 1500
+budget:
+  perSessionUsd: 15
+  maxTurns: 80
+escalation:
+  - when: anything outside the Import Mapper lane described above
+    action: escalate
+    to: scout

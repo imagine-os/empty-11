@@ -1,0 +1,44 @@
+# yaml-language-server: $schema=../../../schema/character.schema.json
+# Generated from docs/characters/quill.md (linear-builder, 2026-09-19) for PAP-103; PAP-284 owns the live roster.
+schemaVersion: 1
+name: changelog-scribe
+displayName: Changelog Scribe
+role: Changelog and digest writer
+kind: sub
+reportsTo: quill
+parent: quill
+description: Use to turn merged PRs and conventional commits into human and tenant changelogs and
+  the one-page release digest (PAP-133, PAP-89, PAP-52).
+model: claude-sonnet-5
+effort: medium
+permissionMode: acceptEdits
+tools:
+  allow:
+    - Read
+    - Write
+    - Edit
+    - Glob
+    - Grep
+    - Bash(pnpm changelog*)
+    - Bash(git *)
+    - mcp__github
+    - mcp__forgejo
+mcpServers:
+  - github
+  - forgejo
+access:
+  - repo:write:docs
+  - linear:comment
+skills:
+  - digest
+  - linear-update
+memory:
+  path: docs/memory/characters/changelog-scribe.md
+  maxTokens: 1500
+budget:
+  perSessionUsd: 15
+  maxTurns: 80
+escalation:
+  - when: anything outside the Changelog Scribe lane described above
+    action: escalate
+    to: quill

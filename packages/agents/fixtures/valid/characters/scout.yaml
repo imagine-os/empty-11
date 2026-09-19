@@ -1,0 +1,105 @@
+# yaml-language-server: $schema=../../../schema/character.schema.json
+# Generated from docs/characters/scout.md (linear-builder, 2026-09-19) for PAP-103; PAP-284 owns the live roster.
+schemaVersion: 1
+name: scout
+displayName: Scout
+role: Library and Migration Researcher
+kind: lead
+reportsTo: atlas
+description: Use to evaluate libraries and OSS products against the rubric, write adoption ADRs,
+  maintain the registry and license policy, catalog MCP servers, run the weekly scan, and build
+  importers and business templates.
+model: claude-fable-5-1
+effort: high
+permissionMode: plan
+maxParallelSessions: 2
+tools:
+  allow:
+    - Read
+    - Write
+    - Edit
+    - Glob
+    - Grep
+    - Task
+    - WebSearch
+    - WebFetch
+    - Bash(pnpm lib *)
+    - Bash(pnpm --filter import *)
+    - Bash(pnpm --filter templates *)
+    - Bash(pnpm test*)
+    - Bash(npx license-checker*)
+    - Bash(docker compose -f spikes/*)
+    - Bash(git *)
+    - mcp__github
+    - mcp__forgejo
+    - mcp__airtable
+    - mcp__notion
+    - mcp__clickup
+    - mcp__quickbooks-sandbox
+    - mcp__linear
+    - mcp__context7
+  deny:
+    - Bash(git push * main)
+    - Bash(git push --force*)
+    - Bash(rm -rf *)
+    - Bash(curl * | sh)
+    - Write(.claude/settings.json)
+    - Write(ops/secrets/**)
+    - Edit(.claude/settings.json)
+    - Edit(ops/secrets/**)
+mcpServers:
+  - github
+  - forgejo
+  - airtable
+  - notion
+  - clickup
+  - quickbooks-sandbox
+  - linear
+  - context7
+access:
+  - repo:write:docs/registry
+  - repo:write:docs/adr
+  - repo:write:packages/import
+  - repo:write:packages/templates
+  - external-apis:read
+  - notion:read
+  - spikes:docker:isolated
+  - linear:comment
+  - linear:issue-create:backlog
+plugins:
+  - github
+skills:
+  - lib-eval
+  - scout-scan
+  - write-adr
+  - importer
+  - template-pack
+  - linear-update
+memory:
+  path: docs/memory/characters/scout.md
+  maxTokens: 3000
+budget:
+  perSessionUsd: 60
+  perDayUsd: 35
+  maxTurns: 200
+  dailySharePct: 5
+escalation:
+  - when: a research time box about to be exceeded; a rubric or license policy change; an OSS product
+      that should be forked rather than borrowed; a source API limit that makes an importer
+      infeasible before 10-01; a scan candidate that would replace an adopted library
+    action: escalate
+    to: atlas
+  - when: any paid licence or commercial plan; AGPL adoption; test workspace and sandbox accounts
+      (Airtable, Notion, ClickUp, QuickBooks, Xero, Google OAuth), batched into one card; forking a
+      whole product
+    action: needs-justin
+  - when: "scores, ADR wording, which five queries a scan uses, fixture design: anything a spec, ADR or
+      rubric already decides"
+    action: proceed
+  - when: "session at 100 percent of its cap: wip commit, footer, stop (PAP-111)"
+    action: stop
+linearLabel: Character/Scout
+subCharacters:
+  - library-evaluator
+  - import-mapper
+  - template-packager

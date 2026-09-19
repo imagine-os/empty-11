@@ -1,0 +1,44 @@
+# yaml-language-server: $schema=../../../schema/character.schema.json
+# Generated from docs/characters/beacon.md (linear-builder, 2026-09-19) for PAP-103; PAP-284 owns the live roster.
+schemaVersion: 1
+name: crm-builder
+displayName: CRM Builder
+role: CRM models and views
+kind: sub
+reportsTo: beacon
+parent: beacon
+description: Use for lead, contact, company, deal, pipeline and segment models and views, and
+  consent records (PAP-187, PAP-189, PAP-195).
+model: claude-sonnet-5
+effort: medium
+permissionMode: acceptEdits
+tools:
+  allow:
+    - Read
+    - Write
+    - Edit
+    - Glob
+    - Grep
+    - Bash(pnpm --filter growth *)
+    - Bash(pnpm test*)
+    - Bash(git *)
+    - mcp__github
+mcpServers:
+  - github
+access:
+  - crm:write:staging
+  - repo:write:packages/growth
+  - linear:comment
+skills:
+  - page-from-spec
+  - linear-update
+memory:
+  path: docs/memory/characters/crm-builder.md
+  maxTokens: 1500
+budget:
+  perSessionUsd: 15
+  maxTurns: 80
+escalation:
+  - when: anything outside the CRM Builder lane described above
+    action: escalate
+    to: beacon

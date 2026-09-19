@@ -1,0 +1,31 @@
+{
+  "$comment": "Stub of the PAP-210 MCP catalog (`.claude/mcp-catalog.json`). Server ids only; PAP-210 replaces this file with the generated catalog and the validator stops warning MCP_CATALOG_STUB. Ids are taken from the nine character sheets (docs/characters/*.md).",
+  "stub": true,
+  "schemaVersion": 1,
+  "servers": [
+    { "id": "linear", "description": "Linear GraphQL (issues, comments, states)" },
+    { "id": "github", "description": "GitHub org imagine-os" },
+    { "id": "forgejo", "description": "Self-hosted Forgejo (thin server, PAP-210)" },
+    { "id": "paperos-metering", "description": "Credit totals from PAP-98" },
+    { "id": "postgres-ro", "description": "Read-only Postgres (staging, orchestrator db)" },
+    { "id": "postgres-rw", "description": "Read-write Postgres (dev and staging only)" },
+    { "id": "coolify", "description": "Coolify deploy API" },
+    { "id": "context7", "description": "Library documentation" },
+    { "id": "playwright", "description": "Browser automation and artefacts" },
+    { "id": "vision", "description": "Screenshot inspection (PAP-84)" },
+    { "id": "figma-tokens", "description": "Figma tokens export, read-only (PAP-77)" },
+    { "id": "notion", "description": "Notion workspace" },
+    { "id": "google-drive", "description": "Google Drive, read" },
+    { "id": "prompt-log-ro", "description": "Prompt-log store, read (PAP-129)" },
+    { "id": "stripe", "description": "Stripe, test mode" },
+    { "id": "stripe-live-ro", "description": "Stripe live, read-only (once keys exist)" },
+    { "id": "webflow", "description": "Webflow site and CMS" },
+    { "id": "resend", "description": "Resend email, sandbox" },
+    { "id": "twilio", "description": "Twilio SMS, sandbox" },
+    { "id": "gamma", "description": "Gamma decks, read" },
+    { "id": "miro", "description": "Miro boards, read" },
+    { "id": "airtable", "description": "Airtable fixture workspaces, read" },
+    { "id": "clickup", "description": "ClickUp fixture workspaces, read" },
+    { "id": "quickbooks-sandbox", "description": "QuickBooks sandbox, read" }
+  ]
+}

@@ -1,0 +1,16 @@
+# yaml-language-server: $schema=../../schema/roster.schema.json
+# expect: LEAD_LABEL_MISSING
+# a lead without a Linear label
+schemaVersion: 1
+characters:
+  - schemaVersion: 1
+    name: alpha
+    displayName: Alpha
+    role: Test lead
+    kind: lead
+    reportsTo: justin
+    description: A minimal lead used by the invalid fixtures to isolate one rule.
+    tools: { allow: [Read, Grep, 'Bash(pnpm test*)', mcp__linear] }
+    mcpServers: [linear]
+    access: [linear:comment]
+    budget: { perSessionUsd: 60, perDayUsd: 56, maxTurns: 200 }

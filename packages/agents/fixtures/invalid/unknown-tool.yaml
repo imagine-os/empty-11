@@ -1,0 +1,17 @@
+# yaml-language-server: $schema=../../schema/roster.schema.json
+# expect: UNKNOWN_TOOL
+# a built-in that does not exist and a rule argument on a tool that takes none (a malformed mcp name such as mcp_linear is SCHEMA_INVALID instead)
+schemaVersion: 1
+characters:
+  - schemaVersion: 1
+    name: alpha
+    displayName: Alpha
+    role: Test lead
+    kind: lead
+    reportsTo: justin
+    description: A minimal lead used by the invalid fixtures to isolate one rule.
+    tools: { allow: [Read, Teleport, "Glob(src/**)"] }
+    mcpServers: [linear]
+    access: [linear:comment]
+    budget: { perSessionUsd: 60, perDayUsd: 56, maxTurns: 200 }
+    linearLabel: Character/Alpha

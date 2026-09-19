@@ -1,0 +1,19 @@
+# yaml-language-server: $schema=../../schema/roster.schema.json
+# expect: SCHEMA_INVALID
+# an unknown key and a bad permissionMode fail the strict schema
+schemaVersion: 1
+characters:
+  - schemaVersion: 1
+    name: alpha
+    displayName: Alpha
+    role: Test lead
+    kind: lead
+    reportsTo: justin
+    description: A minimal lead used by the invalid fixtures to isolate one rule.
+    tools: { allow: [Read, Grep, 'Bash(pnpm test*)', mcp__linear] }
+    mcpServers: [linear]
+    access: [linear:comment]
+    budget: { perSessionUsd: 60, perDayUsd: 56, maxTurns: 200 }
+    linearLabel: Character/Alpha
+    permissionMode: yolo
+    colour: blue

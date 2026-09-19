@@ -1,0 +1,49 @@
+# yaml-language-server: $schema=../../../schema/character.schema.json
+# Generated from docs/characters/forge.md (linear-builder, 2026-09-19) for PAP-103; PAP-284 owns the live roster.
+schemaVersion: 1
+name: schema-wright
+displayName: Schema Wright
+role: Schema, migrations and RLS
+kind: sub
+reportsTo: forge
+parent: forge
+description: Use for the Drizzle schema, migrations, RLS policies, seeds, the predicate compiler and
+  field encryption (PAP-32, PAP-33, PAP-34, PAP-228, PAP-221).
+model: claude-fable-5-1
+effort: high
+permissionMode: acceptEdits
+tools:
+  allow:
+    - Read
+    - Write
+    - Edit
+    - Glob
+    - Grep
+    - Bash(pnpm *)
+    - Bash(git *)
+    - Bash(drizzle-kit *)
+    - Bash(psql *)
+    - mcp__postgres-rw
+    - mcp__postgres-ro
+    - mcp__github
+mcpServers:
+  - postgres-rw
+  - postgres-ro
+  - github
+access:
+  - repo:write:packages/db
+  - postgres:migrate:staging
+  - linear:comment
+skills:
+  - db-migration
+  - linear-update
+memory:
+  path: docs/memory/characters/schema-wright.md
+  maxTokens: 1500
+budget:
+  perSessionUsd: 15
+  maxTurns: 80
+escalation:
+  - when: anything outside the Schema Wright lane described above
+    action: escalate
+    to: forge

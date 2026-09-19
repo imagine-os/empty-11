@@ -1,0 +1,17 @@
+# yaml-language-server: $schema=../../schema/roster.schema.json
+# expect: BUDGET_MISSING
+# no roster defaults and the lead omits perDayUsd: never unlimited
+schemaVersion: 1
+characters:
+  - schemaVersion: 1
+    name: alpha
+    displayName: Alpha
+    role: Test lead
+    kind: lead
+    reportsTo: justin
+    description: A minimal lead used by the invalid fixtures to isolate one rule.
+    tools: { allow: [Read, Grep, 'Bash(pnpm test*)', mcp__linear] }
+    mcpServers: [linear]
+    access: [linear:comment]
+    budget: { perSessionUsd: 60 }
+    linearLabel: Character/Alpha

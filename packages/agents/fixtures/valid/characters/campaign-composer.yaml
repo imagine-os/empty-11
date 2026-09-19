@@ -1,0 +1,41 @@
+# yaml-language-server: $schema=../../../schema/character.schema.json
+# Generated from docs/characters/beacon.md (linear-builder, 2026-09-19) for PAP-103; PAP-284 owns the live roster.
+schemaVersion: 1
+name: campaign-composer
+displayName: Campaign Composer
+role: Content drafter
+kind: sub
+reportsTo: beacon
+parent: beacon
+description: Use to draft posts, emails and landing copy from changelogs, specs and ADRs for
+  approval; the content agent character of PAP-192.
+model: claude-fable-5-1
+effort: high
+permissionMode: acceptEdits
+tools:
+  allow:
+    - Read
+    - Write
+    - Edit
+    - Glob
+    - Grep
+    - Bash(git *)
+    - mcp__linear
+mcpServers:
+  - linear
+access:
+  - repo:write:packages/growth
+  - linear:comment
+skills:
+  - campaign-draft
+  - linear-update
+memory:
+  path: docs/memory/characters/campaign-composer.md
+  maxTokens: 1500
+budget:
+  perSessionUsd: 15
+  maxTurns: 80
+escalation:
+  - when: anything outside the Campaign Composer lane described above
+    action: escalate
+    to: beacon

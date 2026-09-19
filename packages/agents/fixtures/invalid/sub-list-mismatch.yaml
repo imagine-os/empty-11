@@ -1,0 +1,28 @@
+# yaml-language-server: $schema=../../schema/roster.schema.json
+# expect: SUB_LIST_MISMATCH
+# the lead lists a sub the roster does not have
+schemaVersion: 1
+characters:
+  - schemaVersion: 1
+    name: alpha
+    displayName: Alpha
+    role: Test lead
+    kind: lead
+    reportsTo: justin
+    description: A minimal lead used by the invalid fixtures to isolate one rule.
+    tools: { allow: [Read, Grep, 'Bash(pnpm test*)', mcp__linear] }
+    mcpServers: [linear]
+    access: [linear:comment]
+    budget: { perSessionUsd: 60, perDayUsd: 56, maxTurns: 200 }
+    linearLabel: Character/Alpha
+    subCharacters: [first, missing]
+  - schemaVersion: 1
+    name: first
+    displayName: Sub
+    role: Test sub
+    kind: sub
+    reportsTo: alpha
+    parent: alpha
+    description: A minimal sub used by the invalid fixtures to isolate one rule.
+    tools: { allow: [Read] }
+    budget: { perSessionUsd: 15, maxTurns: 80 }

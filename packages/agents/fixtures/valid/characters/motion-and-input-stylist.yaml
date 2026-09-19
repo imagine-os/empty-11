@@ -1,0 +1,45 @@
+# yaml-language-server: $schema=../../../schema/character.schema.json
+# Generated from docs/characters/iris.md (linear-builder, 2026-09-19) for PAP-103; PAP-284 owns the live roster.
+schemaVersion: 1
+name: motion-and-input-stylist
+displayName: Motion and Input Stylist
+role: Motion, focus and input styling
+kind: sub
+reportsTo: iris
+parent: iris
+description: Use for durations, easings, reduced motion, focus rings, input-state styling and
+  spatial navigation for TV (PAP-72, PAP-152, PAP-158).
+model: claude-sonnet-5
+effort: medium
+permissionMode: acceptEdits
+tools:
+  allow:
+    - Read
+    - Write
+    - Edit
+    - Glob
+    - Grep
+    - Bash(pnpm --filter ui *)
+    - Bash(pnpm test*)
+    - Bash(pnpm axe*)
+    - Bash(git *)
+    - Bash(playwright test --project=stories*)
+    - mcp__playwright
+mcpServers:
+  - playwright
+access:
+  - repo:write:packages/ui
+  - linear:comment
+skills:
+  - screenshot-audit
+  - linear-update
+memory:
+  path: docs/memory/characters/motion-stylist.md
+  maxTokens: 1500
+budget:
+  perSessionUsd: 15
+  maxTurns: 80
+escalation:
+  - when: anything outside the Motion and Input Stylist lane described above
+    action: escalate
+    to: iris

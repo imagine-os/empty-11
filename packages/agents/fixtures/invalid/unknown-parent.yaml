@@ -1,0 +1,15 @@
+# yaml-language-server: $schema=../../schema/roster.schema.json
+# expect: UNKNOWN_PARENT
+# parent names nobody in the roster (reportsTo too, so UNKNOWN_REPORTS_TO also fires)
+schemaVersion: 1
+characters:
+  - schemaVersion: 1
+    name: orphan
+    displayName: Sub
+    role: Test sub
+    kind: sub
+    reportsTo: ghost
+    parent: ghost
+    description: A minimal sub used by the invalid fixtures to isolate one rule.
+    tools: { allow: [Read] }
+    budget: { perSessionUsd: 15, maxTurns: 80 }

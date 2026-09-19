@@ -1,0 +1,49 @@
+# yaml-language-server: $schema=../../../schema/character.schema.json
+# Generated from docs/characters/ledger.md (linear-builder, 2026-09-19) for PAP-103; PAP-284 owns the live roster.
+schemaVersion: 1
+name: bookkeeper
+displayName: Bookkeeper
+role: Ledger and reports
+kind: sub
+reportsTo: ledger
+parent: ledger
+description: Use for journal tables, balance and immutability triggers, the hash chain, reversals,
+  period close, posting rules, trial balance, P&L, balance sheet, cash flow and aging (PAP-179,
+  PAP-183, PAP-180, PAP-186).
+model: claude-fable-5-1
+effort: xhigh
+permissionMode: acceptEdits
+tools:
+  allow:
+    - Read
+    - Write
+    - Edit
+    - Glob
+    - Grep
+    - Bash(pnpm --filter finance *)
+    - Bash(pnpm test*)
+    - Bash(psql *)
+    - Bash(git *)
+    - mcp__postgres-ro
+    - mcp__github
+mcpServers:
+  - postgres-ro
+  - github
+access:
+  - ledger:post:staging
+  - repo:write:packages/finance
+  - linear:comment
+skills:
+  - posting-rule
+  - money-math
+  - linear-update
+memory:
+  path: docs/memory/characters/bookkeeper.md
+  maxTokens: 1500
+budget:
+  perSessionUsd: 15
+  maxTurns: 80
+escalation:
+  - when: anything outside the Bookkeeper lane described above
+    action: escalate
+    to: ledger

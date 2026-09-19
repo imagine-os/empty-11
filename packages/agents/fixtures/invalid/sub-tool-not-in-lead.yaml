@@ -1,0 +1,27 @@
+# yaml-language-server: $schema=../../schema/roster.schema.json
+# expect: SUB_TOOL_NOT_IN_LEAD
+# sub allows Bash(cargo *) and Write; the lead allows neither
+schemaVersion: 1
+characters:
+  - schemaVersion: 1
+    name: alpha
+    displayName: Alpha
+    role: Test lead
+    kind: lead
+    reportsTo: justin
+    description: A minimal lead used by the invalid fixtures to isolate one rule.
+    tools: { allow: [Read, Grep, 'Bash(pnpm test*)', mcp__linear] }
+    mcpServers: [linear]
+    access: [linear:comment]
+    budget: { perSessionUsd: 60, perDayUsd: 56, maxTurns: 200 }
+    linearLabel: Character/Alpha
+  - schemaVersion: 1
+    name: first
+    displayName: Sub
+    role: Test sub
+    kind: sub
+    reportsTo: alpha
+    parent: alpha
+    description: A minimal sub used by the invalid fixtures to isolate one rule.
+    tools: { allow: [Read, Write, 'Bash(cargo *)'] }
+    budget: { perSessionUsd: 15, maxTurns: 80 }

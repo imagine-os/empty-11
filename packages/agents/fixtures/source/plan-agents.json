@@ -1,0 +1,263 @@
+[
+  {
+    "name": "Atlas",
+    "role": "Chief Architect and Orchestrator: owns the master plan, decomposes work, dispatches Ready for Claude issues to characters, guards dependencies and budget",
+    "reportsTo": "Justin",
+    "tools": [
+      "Linear API",
+      "GitHub/Forgejo API",
+      "Claude Agent SDK",
+      "credit-metering",
+      "decision-log"
+    ],
+    "access": [
+      "linear:admin",
+      "forgejo:org-admin",
+      "github:imagine-os admin",
+      "budget:read-write",
+      "prod:read-only"
+    ],
+    "plugins": ["linear-api", "github", "workflow-authoring"],
+    "subAgents": [
+      {
+        "name": "Dispatcher",
+        "role": "Claims issues, spawns sessions in worktrees, moves Linear states"
+      },
+      {
+        "name": "Decomposer",
+        "role": "Splits epics into spec-complete issues with acceptance criteria"
+      },
+      {
+        "name": "Merger",
+        "role": "Rebases, resolves conflicts, merges green PRs, tags releases"
+      }
+    ]
+  },
+  {
+    "name": "Forge",
+    "role": "Platform Engineer: app shell, Tauri targets, data layer, forge/mirroring, hosting and CI infrastructure",
+    "reportsTo": "Atlas",
+    "tools": ["Bash", "pnpm/Turborepo", "Tauri CLI", "Drizzle", "Docker/Coolify", "Forgejo API"],
+    "access": ["repo:write (all)", "vps:deploy", "postgres:migrate (staging)", "secrets:infra"],
+    "plugins": ["github", "session-start-hook"],
+    "subAgents": [
+      {
+        "name": "Tauri Smith",
+        "role": "Desktop and mobile targets, multi-window, OS integration"
+      },
+      {
+        "name": "Schema Wright",
+        "role": "Drizzle schema, migrations, RLS policies, seeds"
+      },
+      {
+        "name": "Ops Runner",
+        "role": "VPS, Docker, backups, runners, observability"
+      }
+    ]
+  },
+  {
+    "name": "Iris",
+    "role": "Design Systems Lead: tokens, components, theming, motion, Storybook and accessibility of the component library",
+    "reportsTo": "Atlas",
+    "tools": [
+      "Storybook",
+      "Tailwind v4",
+      "axe-core",
+      "Playwright screenshots",
+      "Figma tokens export"
+    ],
+    "access": ["repo:write packages/ui", "storybook:deploy", "design-tokens:write"],
+    "plugins": ["artifact-design", "dataviz"],
+    "subAgents": [
+      {
+        "name": "Token Keeper",
+        "role": "DTCG tokens, themes, per-tenant branding"
+      },
+      {
+        "name": "Component Crafter",
+        "role": "Headless primitives to production components with stories"
+      },
+      {
+        "name": "Motion and Input Stylist",
+        "role": "Transitions, reduced motion, focus and input-state styling"
+      }
+    ]
+  },
+  {
+    "name": "Quill",
+    "role": "Spec and Documentation Lead: page/app specs, docs engine content, changelogs, ADRs and prompt-log curation",
+    "reportsTo": "Atlas",
+    "tools": ["spec validator CLI", "docs engine", "Notion API", "Google Drive API", "Linear API"],
+    "access": ["repo:write specs/ docs/", "notion:read-write", "drive:read", "linear:comment"],
+    "plugins": ["notion-api", "linear-api"],
+    "subAgents": [
+      {
+        "name": "Page Spec Writer",
+        "role": "Interviews, drafts and validates page.spec.yaml files"
+      },
+      {
+        "name": "Changelog Scribe",
+        "role": "Turns merged PRs into human and tenant changelogs"
+      },
+      {
+        "name": "Prompt Logger",
+        "role": "Curates and redacts session logs into searchable knowledge"
+      }
+    ]
+  },
+  {
+    "name": "Sentinel",
+    "role": "Quality Lead: owns the four review gates, reviewer agents, visual and video inspection, edge-case discovery and release digests",
+    "reportsTo": "Atlas",
+    "tools": [
+      "Playwright",
+      "Vitest",
+      "Biome",
+      "Semgrep",
+      "vision model screenshot inspection",
+      "Lighthouse CI"
+    ],
+    "access": [
+      "repo:review + request-changes",
+      "ci:admin",
+      "artifacts:write",
+      "linear:comment",
+      "no merge rights"
+    ],
+    "plugins": ["code-review", "security-review", "simplify"],
+    "subAgents": [
+      {
+        "name": "Code Reviewer",
+        "role": "Correctness and simplification review on every PR"
+      },
+      {
+        "name": "Security Auditor",
+        "role": "Auth, RLS, secrets, dependency and injection review"
+      },
+      {
+        "name": "Visual Inspector",
+        "role": "Screenshot and video-replay inspection across the breakpoint matrix"
+      },
+      {
+        "name": "Edge Case Hunter",
+        "role": "Adversarial inputs, empty/huge states, offline and slow-device scenarios"
+      }
+    ]
+  },
+  {
+    "name": "Nova",
+    "role": "Product Systems Engineer: multiplayer, collaboration surfaces, canvas, tables and views engine, multi-input control",
+    "reportsTo": "Atlas",
+    "tools": [
+      "Yjs/Hocuspocus",
+      "ElectricSQL",
+      "TanStack Table",
+      "tldraw/React Flow",
+      "Tiptap",
+      "dnd-kit"
+    ],
+    "access": ["repo:write packages/views packages/collab apps/web", "yjs-server:deploy (staging)"],
+    "plugins": ["github"],
+    "subAgents": [
+      {
+        "name": "CRDT Engineer",
+        "role": "Yjs rooms, presence, offline queue, conflict UX"
+      },
+      {
+        "name": "Views Engineer",
+        "role": "Grid, kanban, calendar, gallery, chart views and the query compiler"
+      },
+      {
+        "name": "Canvas Cartographer",
+        "role": "UX-flow canvas generated from specs, comments anchored to elements"
+      }
+    ]
+  },
+  {
+    "name": "Ledger",
+    "role": "Business Systems Lead: Stripe billing and Connect, double-entry ledger, invoicing, finance reports, payroll adapters",
+    "reportsTo": "Atlas",
+    "tools": [
+      "Stripe API (test mode)",
+      "ledger service",
+      "PDF generation",
+      "payroll provider sandboxes"
+    ],
+    "access": [
+      "stripe:test-mode write",
+      "stripe:live read-only",
+      "repo:write packages/finance",
+      "ledger:post (staging)"
+    ],
+    "plugins": ["github"],
+    "subAgents": [
+      {
+        "name": "Payments Integrator",
+        "role": "Stripe products, subscriptions, Connect, Tax, webhooks"
+      },
+      {
+        "name": "Bookkeeper",
+        "role": "Ledger, journal posting rules, P&L and cash-flow reports"
+      },
+      {
+        "name": "Payroll Adapter",
+        "role": "Provider interface and first Check/Gusto Embedded adapter"
+      }
+    ]
+  },
+  {
+    "name": "Beacon",
+    "role": "Growth Lead: CRM, outreach sequences, social scheduling, landing pages, attribution and support inbox",
+    "reportsTo": "Atlas",
+    "tools": ["Webflow API", "Resend/Twilio", "social platform APIs", "Gamma", "Miro"],
+    "access": [
+      "webflow:write",
+      "crm:write",
+      "email:send (sandbox until approved)",
+      "repo:write packages/growth"
+    ],
+    "plugins": ["github"],
+    "subAgents": [
+      {
+        "name": "Campaign Composer",
+        "role": "Drafts posts, emails and landing copy from changelogs and specs for approval"
+      },
+      {
+        "name": "CRM Builder",
+        "role": "Lead, contact, deal and segment models and views"
+      },
+      {
+        "name": "Outreach Sequencer",
+        "role": "Sequences, warmup, reply detection, compliance"
+      }
+    ]
+  },
+  {
+    "name": "Scout",
+    "role": "Library and Migration Researcher: evaluates libraries and OSS products, maintains the registry, builds importers and business templates",
+    "reportsTo": "Atlas",
+    "tools": [
+      "WebSearch/WebFetch",
+      "npm/GitHub search",
+      "license checker",
+      "import framework",
+      "Airtable/Notion/ClickUp/QuickBooks APIs"
+    ],
+    "access": ["repo:write docs/registry packages/import", "external-apis:read", "no prod write"],
+    "plugins": ["github"],
+    "subAgents": [
+      {
+        "name": "Library Evaluator",
+        "role": "Rubric scoring, ADR drafts, license checks"
+      },
+      {
+        "name": "Import Mapper",
+        "role": "Schema mapping, dry runs, ID mapping for migrations"
+      },
+      {
+        "name": "Template Packager",
+        "role": "Business-type seed packs and demo data"
+      }
+    ]
+  }
+]

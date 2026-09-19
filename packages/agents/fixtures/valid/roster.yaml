@@ -1,0 +1,34 @@
+# yaml-language-server: $schema=../../schema/roster.schema.json
+# Roster defaults (PAP-103 golden fixture). Characters live in characters/*.yaml; PAP-284 owns the live roster.
+# Budgets: daily allowance about $700 (PAP-111); per-session cap 60 = the S issue cap; sub sessions 15 / 80 turns (PAP-284).
+schemaVersion: 1
+dailyAllowanceUsd: 700
+defaults:
+  lead:
+    model: claude-fable-5-1
+    fallbackModel: claude-opus-5
+    effort: high
+    permissionMode: acceptEdits
+    budget:
+      perSessionUsd: 60
+      perDayUsd: 56
+      maxTurns: 200
+    memoryMaxTokens:
+      global: 1000
+      project: 2000
+      character: 3000
+    denyList: ops/security/agent-deny.yaml
+  sub:
+    model: claude-fable-5-1
+    fallbackModel: claude-sonnet-5
+    effort: high
+    permissionMode: acceptEdits
+    budget:
+      perSessionUsd: 15
+      perDayUsd: 56
+      maxTurns: 80
+    memoryMaxTokens:
+      global: 1000
+      project: 2000
+      character: 1500
+    denyList: ops/security/agent-deny.yaml

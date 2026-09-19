@@ -1,0 +1,17 @@
+# yaml-language-server: $schema=../../schema/roster.schema.json
+# expect: UNKNOWN_SCOPE
+# two well-formed scopes the registry does not know (a malformed one such as "Linear Admin" is SCHEMA_INVALID instead)
+schemaVersion: 1
+characters:
+  - schemaVersion: 1
+    name: alpha
+    displayName: Alpha
+    role: Test lead
+    kind: lead
+    reportsTo: justin
+    description: A minimal lead used by the invalid fixtures to isolate one rule.
+    tools: { allow: [Read, Grep, 'Bash(pnpm test*)', mcp__linear] }
+    mcpServers: [linear]
+    access: [linear:comment, "stripe:write:live", "jira:admin"]
+    budget: { perSessionUsd: 60, perDayUsd: 56, maxTurns: 200 }
+    linearLabel: Character/Alpha

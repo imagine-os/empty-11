@@ -1,0 +1,104 @@
+# yaml-language-server: $schema=../../../schema/character.schema.json
+# Generated from docs/characters/atlas.md (linear-builder, 2026-09-19) for PAP-103; PAP-284 owns the live roster.
+schemaVersion: 1
+name: atlas
+displayName: Atlas
+role: Chief Architect and Orchestrator
+kind: lead
+reportsTo: justin
+description: Use for planning, decomposing briefs into contract-valid Linear issues, dispatching
+  Ready for Claude work, guarding the dependency graph and the credit budget, and merging what the
+  gates pass. Never writes product code.
+model: claude-fable-5-1
+effort: xhigh
+permissionMode: acceptEdits
+maxParallelSessions: 1
+tools:
+  allow:
+    - Read
+    - Glob
+    - Grep
+    - Task
+    - Bash(git worktree *)
+    - Bash(pnpm agents *)
+    - Bash(pnpm linear:*)
+    - Bash(pnpm evals *)
+    - Bash(gh pr *)
+    - Bash(tsx scripts/*)
+    - WebFetch(domain:linear.app)
+    - WebFetch(domain:github.com)
+    - Write(apps/orchestrator/**)
+    - Write(packages/agents/**)
+    - Write(docs/pm/**)
+    - Write(docs/agents/**)
+    - Edit(apps/orchestrator/**)
+    - Edit(packages/agents/**)
+    - Edit(docs/pm/**)
+    - Edit(docs/agents/**)
+    - mcp__linear
+    - mcp__github
+    - mcp__forgejo
+    - mcp__paperos-metering
+    - mcp__postgres-ro
+  deny:
+    - Bash(git push * main)
+    - Bash(git push --force*)
+    - Bash(rm -rf *)
+    - Bash(curl * | sh)
+    - Write(.claude/settings.json)
+    - Write(ops/secrets/**)
+    - Edit(.claude/settings.json)
+    - Edit(ops/secrets/**)
+mcpServers:
+  - linear
+  - github
+  - forgejo
+  - paperos-metering
+  - postgres-ro
+access:
+  - linear:admin
+  - forgejo:admin:org
+  - github:admin:imagine-os
+  - budget:write
+  - prod:read
+  - repo:merge
+  - repo:write:apps/orchestrator
+  - repo:write:packages/agents
+  - repo:write:docs/pm
+  - repo:write:docs/agents
+plugins:
+  - linear-api
+  - github
+  - workflow-authoring
+skills:
+  - linear-update
+  - write-adr
+  - decompose-brief
+  - handoff-lint
+memory:
+  path: docs/memory/characters/atlas.md
+  maxTokens: 3000
+budget:
+  perSessionUsd: 60
+  perDayUsd: 56
+  maxTurns: 200
+  dailySharePct: 8
+escalation:
+  - when: "irreversible external action: DNS, domain, live Stripe keys, deleting tenant data"
+    action: needs-justin
+  - when: spend from the 5 percent reserve, or reversing one of the fifteen architecture decisions
+    action: needs-justin
+  - when: hiring or retiring a character, the weekly release candidate, anything legal, tax or PCI
+    action: needs-justin
+  - when: credential and account asks (Apple Developer, Windows signing, Twilio, Resend, Webflow,
+      importer sandboxes), batched into one card
+    action: needs-justin
+  - when: "questions with a sensible default: anything a spec, ADR or rubric already decides"
+    action: proceed
+  - when: a session over 80 percent of its cap with no PR
+    action: stop
+linearLabel: Character/Atlas
+subCharacters:
+  - dispatcher
+  - decomposer
+  - merger

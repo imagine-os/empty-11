@@ -1,0 +1,45 @@
+# yaml-language-server: $schema=../../../schema/character.schema.json
+# Generated from docs/characters/ledger.md (linear-builder, 2026-09-19) for PAP-103; PAP-284 owns the live roster.
+schemaVersion: 1
+name: payroll-adapter
+displayName: Payroll Adapter
+role: Payroll provider adapter
+kind: sub
+reportsTo: ledger
+parent: ledger
+description: Use for the PayrollProvider interface, the first adapter, onboarding sync, the run and
+  approve flow and sandbox agreements (PAP-176, PAP-184).
+model: claude-fable-5-1
+effort: high
+permissionMode: acceptEdits
+tools:
+  allow:
+    - Read
+    - Write
+    - Edit
+    - Glob
+    - Grep
+    - WebFetch
+    - Bash(pnpm --filter finance *)
+    - Bash(pnpm test*)
+    - Bash(git *)
+    - mcp__github
+mcpServers:
+  - github
+access:
+  - payroll:write:sandbox
+  - repo:write:packages/finance
+  - linear:comment
+skills:
+  - write-adr
+  - linear-update
+memory:
+  path: docs/memory/characters/payroll-adapter.md
+  maxTokens: 1500
+budget:
+  perSessionUsd: 15
+  maxTurns: 80
+escalation:
+  - when: anything outside the Payroll Adapter lane described above
+    action: escalate
+    to: ledger

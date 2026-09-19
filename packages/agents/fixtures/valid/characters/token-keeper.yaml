@@ -1,0 +1,46 @@
+# yaml-language-server: $schema=../../../schema/character.schema.json
+# Generated from docs/characters/iris.md (linear-builder, 2026-09-19) for PAP-103; PAP-284 owns the live roster.
+schemaVersion: 1
+name: token-keeper
+displayName: Token Keeper
+role: Tokens and themes
+kind: sub
+reportsTo: iris
+parent: iris
+description: Use for DTCG tokens, theme builds, per-tenant branding, brandingToInlineCss and the
+  email and PDF theme (PAP-66, PAP-75, PAP-235, PAP-77).
+model: claude-sonnet-5
+effort: medium
+permissionMode: acceptEdits
+tools:
+  allow:
+    - Read
+    - Write
+    - Edit
+    - Glob
+    - Grep
+    - Bash(pnpm --filter ui *)
+    - Bash(pnpm test*)
+    - Bash(git *)
+    - mcp__figma-tokens
+    - mcp__github
+mcpServers:
+  - figma-tokens
+  - github
+access:
+  - repo:write:packages/tokens
+  - design-tokens:write
+  - linear:comment
+skills:
+  - theme-check
+  - linear-update
+memory:
+  path: docs/memory/characters/token-keeper.md
+  maxTokens: 1500
+budget:
+  perSessionUsd: 15
+  maxTurns: 80
+escalation:
+  - when: anything outside the Token Keeper lane described above
+    action: escalate
+    to: iris

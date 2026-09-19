@@ -1,0 +1,48 @@
+# yaml-language-server: $schema=../../../schema/character.schema.json
+# Generated from docs/characters/nova.md (linear-builder, 2026-09-19) for PAP-103; PAP-284 owns the live roster.
+schemaVersion: 1
+name: views-engineer
+displayName: Views Engineer
+role: Views engine
+kind: sub
+reportsTo: nova
+parent: nova
+description: Use for the view model to SQL compiler, grid, every view kind, filter builder,
+  formulas, saved views, dashboards and PM boards (PAP-163, PAP-165 to PAP-173, PAP-102, PAP-189).
+model: claude-fable-5-1
+effort: xhigh
+permissionMode: acceptEdits
+tools:
+  allow:
+    - Read
+    - Write
+    - Edit
+    - Glob
+    - Grep
+    - Bash(pnpm --filter views *)
+    - Bash(pnpm test*)
+    - Bash(pnpm bench*)
+    - Bash(psql *)
+    - Bash(git *)
+    - mcp__github
+    - mcp__postgres-ro
+mcpServers:
+  - github
+  - postgres-ro
+access:
+  - repo:write:packages/views
+  - linear:comment
+skills:
+  - view-kind
+  - bench-report
+  - linear-update
+memory:
+  path: docs/memory/characters/views-engineer.md
+  maxTokens: 1500
+budget:
+  perSessionUsd: 15
+  maxTurns: 80
+escalation:
+  - when: anything outside the Views Engineer lane described above
+    action: escalate
+    to: nova

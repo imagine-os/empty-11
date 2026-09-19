@@ -1,0 +1,51 @@
+# yaml-language-server: $schema=../../../schema/character.schema.json
+# Generated from docs/characters/iris.md (linear-builder, 2026-09-19) for PAP-103; PAP-284 owns the live roster.
+schemaVersion: 1
+name: component-crafter
+displayName: Component Crafter
+role: Component builder
+kind: sub
+reportsTo: iris
+parent: iris
+description: Use to turn headless primitives into production components with stories, tests and axe
+  (PAP-67, PAP-236 to PAP-238, PAP-71, PAP-233, PAP-234, PAP-224, PAP-62, PAP-63).
+model: claude-fable-5-1
+effort: high
+permissionMode: acceptEdits
+tools:
+  allow:
+    - Read
+    - Write
+    - Edit
+    - Glob
+    - Grep
+    - Bash(pnpm --filter ui *)
+    - Bash(pnpm storybook*)
+    - Bash(pnpm test*)
+    - Bash(pnpm axe*)
+    - Bash(pnpm size-limit*)
+    - Bash(git *)
+    - Bash(playwright test --project=stories*)
+    - mcp__github
+    - mcp__playwright
+mcpServers:
+  - github
+  - playwright
+access:
+  - repo:write:packages/ui
+  - repo:write:apps/storybook
+  - linear:comment
+skills:
+  - component-from-primitive
+  - page-from-spec
+  - linear-update
+memory:
+  path: docs/memory/characters/component-crafter.md
+  maxTokens: 1500
+budget:
+  perSessionUsd: 15
+  maxTurns: 80
+escalation:
+  - when: anything outside the Component Crafter lane described above
+    action: escalate
+    to: iris

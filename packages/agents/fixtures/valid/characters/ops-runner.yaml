@@ -1,0 +1,50 @@
+# yaml-language-server: $schema=../../../schema/character.schema.json
+# Generated from docs/characters/forge.md (linear-builder, 2026-09-19) for PAP-103; PAP-284 owns the live roster.
+schemaVersion: 1
+name: ops-runner
+displayName: Ops Runner
+role: VPS, Docker, backups and runners
+kind: sub
+reportsTo: forge
+parent: forge
+description: Use for the VPS, Docker, Coolify, Caddy, backups, runners, OpenTelemetry and nightly
+  workflows (PAP-25, PAP-26, PAP-30, PAP-45, PAP-50, PAP-253).
+model: claude-fable-5-1
+effort: high
+permissionMode: acceptEdits
+tools:
+  allow:
+    - Read
+    - Write
+    - Edit
+    - Glob
+    - Grep
+    - Bash(git *)
+    - Bash(docker compose *)
+    - Bash(ssh vps-staging *)
+    - Bash(restic *)
+    - Bash(caddy validate*)
+    - mcp__coolify
+    - mcp__github
+mcpServers:
+  - coolify
+  - github
+access:
+  - repo:write:ops
+  - vps:deploy:staging
+  - secrets:read:infra
+  - linear:comment
+skills:
+  - deploy-staging
+  - runbook
+  - linear-update
+memory:
+  path: docs/memory/characters/ops-runner.md
+  maxTokens: 1500
+budget:
+  perSessionUsd: 15
+  maxTurns: 80
+escalation:
+  - when: anything outside the Ops Runner lane described above
+    action: escalate
+    to: forge

@@ -1,0 +1,47 @@
+# yaml-language-server: $schema=../../../schema/character.schema.json
+# Generated from docs/characters/forge.md (linear-builder, 2026-09-19) for PAP-103; PAP-284 owns the live roster.
+schemaVersion: 1
+name: tauri-smith
+displayName: Tauri Smith
+role: Desktop and mobile targets
+kind: sub
+reportsTo: forge
+parent: forge
+description: Use for desktop and mobile targets, WindowManager, updater, deep links and native shims
+  (PAP-19, PAP-20, PAP-21, PAP-255 to PAP-263, PAP-225).
+model: claude-fable-5-1
+effort: high
+permissionMode: acceptEdits
+tools:
+  allow:
+    - Read
+    - Write
+    - Edit
+    - Glob
+    - Grep
+    - Bash(pnpm *)
+    - Bash(git *)
+    - Bash(cargo *)
+    - Bash(tauri *)
+    - mcp__github
+    - mcp__context7
+mcpServers:
+  - github
+  - context7
+access:
+  - repo:write:apps/desktop
+  - repo:write:apps/mobile
+  - linear:comment
+skills:
+  - write-adr
+  - linear-update
+memory:
+  path: docs/memory/characters/tauri-smith.md
+  maxTokens: 1500
+budget:
+  perSessionUsd: 15
+  maxTurns: 80
+escalation:
+  - when: anything outside the Tauri Smith lane described above
+    action: escalate
+    to: forge
