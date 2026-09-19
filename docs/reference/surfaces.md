@@ -59,6 +59,10 @@ or `-`), **Status** (`live`, `stub`, `planned`).
 | CLI | `pnpm --filter @paperos/tokens ramps` — regenerate one colour ramp's OKLCH steps with `culori`, print DTCG JSON to stdout for hand-review before pasting into `core.tokens.json` | PAP-66 | - | live |
 | CLI | `pnpm --filter @paperos/tokens tokens:lint` — DTCG schema (kebab names), alias resolvability, cycle detection, unused alias-only primitives | PAP-66 | - | live |
 | CLI | `pnpm --filter @paperos/tokens tokens:check` — WCAG contrast assertions (`fg.default` 4.5:1, `fg.muted` 3:1, status and on-accent pairs) across light/dark/hc; `--report <path>` writes the JSON the evidence swatch page reads | PAP-66 | - | live |
+| CLI | `node scripts/spike-new.mjs PAP-<n> <slug>` — scaffolds `spikes/<PAP-n>-<slug>/` from `spikes/_kit`'s template (package.json, `bench.config.ts`, one example candidate) | PAP-753 | repo write | live |
+| CLI | `pnpm bench` / `pnpm bench:browser` (from a scaffolded spike) — `tsx ../_kit/src/run.ts . [--bundle] [--runtime] [--browser]`: measures bundle gzip size, wall time/memory and (when Chromium is cached) browser FPS per candidate, writes `results/<lib>.json`, `results/summary.json` and `results.md` | PAP-753 | - | live |
+| CLI | `pnpm scorecard <candidate-id> --issue PAP-<n> [--out path]` (from a scaffolded spike) — `tsx ../_kit/src/scorecard.ts .`: fills a `docs/platform/library-rubric.md` section 9 scorecard's `facts` from a measured `results/<id>.json`; `scores`/`gates`/`verdict` are always emitted as placeholders | PAP-753 | - | live |
+| CLI | `pnpm gen:schema` / `pnpm gen:schema:check` (from `spikes/_kit/`, standalone — not `pnpm --filter`, this package is outside the pnpm workspace) — regenerate/verify `spikes/_kit/schema/results.schema.json` from the Zod source `src/schema.ts` | PAP-753 | - | live |
 
 The placeholder route declares no actions: it has no controls. The first page with a control adds
 its actions registry and its rows here; the shape it declares against is the `Action` row above
