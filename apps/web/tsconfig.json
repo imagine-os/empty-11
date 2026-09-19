@@ -1,0 +1,13 @@
+{
+  "extends": "@paperos/config-ts/react.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "types": ["vite/client", "node"],
+    "paths": {
+      "@paperos/contract-*": ["../../packages/contracts/*/src"],
+      "@paperos/*": ["../../packages/*/src"]
+    }
+  },
+  "include": ["src", "vite.config.ts", "vitest.config.ts"],
+  "exclude": ["node_modules", "dist", "coverage"]
+}

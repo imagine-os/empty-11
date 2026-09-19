@@ -1,0 +1,37 @@
+{
+  "name": "@paperos/web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "PaperOS web shell (placeholder route until PAP-16 lands the router).",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "biome check .",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "vitest run --passWithNoTests",
+    "clean": "node -e \"for (const d of ['dist','coverage','.vite']) require('node:fs').rmSync(d,{recursive:true,force:true})\""
+  },
+  "dependencies": {
+    "@paperos/core": "workspace:*",
+    "@paperos/ui": "workspace:*",
+    "react": "catalog:",
+    "react-dom": "catalog:"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "catalog:",
+    "@paperos/config-ts": "workspace:*",
+    "@testing-library/dom": "catalog:",
+    "@testing-library/jest-dom": "catalog:",
+    "@testing-library/react": "catalog:",
+    "@types/node": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "@vitejs/plugin-react": "catalog:",
+    "jsdom": "catalog:",
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "vitest": "catalog:"
+  }
+}
