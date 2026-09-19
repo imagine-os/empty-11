@@ -1,0 +1,7 @@
+
+> paperos-template@0.1.0 lint:deps /workspace/wt/PAP-305
+> tsx packages/boundaries/scripts/lint-deps.ts
+
+
+✔ no dependency violations found (78 modules, 146 dependencies cruised)
+

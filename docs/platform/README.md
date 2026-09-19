@@ -27,6 +27,12 @@ Here now:
 * [`events.md`](events.md) — the domain event catalogue: every topic, its version, producer,
   known consumers and payload fields. **Generated** from the `@paperos/core/events` registry
   (PAP-555, ADR 0013); `--check` drift mode runs in Gate 1.
+* [`package-boundaries.md`](package-boundaries.md) — who owns which package, the allowed
+  dependency graph and the rules `pnpm lint:deps` enforces (PAP-305, ADR 0026). Source of truth:
+  [`ownership.json`](../../ownership.json).
+* [`dependency-map.json`](dependency-map.json) / [`dependency-map.md`](dependency-map.md) —
+  **generated** by `pnpm gen:dep-map` (PAP-305): nodes, owners, the allowed graph and the imports
+  that exist today.
 * [`forge-topology.md`](forge-topology.md) — Forgejo/GitHub mirroring topology, failover and
   failure modes (PAP-44, hand-written; implemented by PAP-47).
 * [`view-model.md`](view-model.md) — `ViewSpec`, `FieldDef`, `DatasetRef`, the dataset registry

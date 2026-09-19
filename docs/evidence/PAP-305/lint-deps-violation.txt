@@ -1,0 +1,20 @@
+
+> paperos-template@0.1.0 lint:deps /workspace/wt/PAP-305
+> tsx packages/boundaries/scripts/lint-deps.ts
+
+
+  error R3-cross-module-packages-pm: packages/views/src/index.ts → packages/pm/src/index.ts
+    R3/R8 -> packages/pm: optional modules must couple via
+    @paperos/core/events, a @paperos/contract-* port or the kernel, never by
+    importing another module's implementation (type-only imports included).
+    Owner: pm-linear — ask them for a contract port (ownership.json
+    packages."packages/pm", issues PAP-100, PAP-305).
+
+
+x 1 dependency violations (1 errors, 0 warnings). 78 modules, 147 dependencies cruised.
+
+stale generated file docs/platform/dependency-map.json: the committed map no longer matches ownership.json and the import graph
+  fix: pnpm gen:dep-map
+stale generated file docs/platform/dependency-map.md: the committed Mermaid rendering is out of date
+  fix: pnpm gen:dep-map
+ ELIFECYCLE  Command failed with exit code 1.
