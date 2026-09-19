@@ -1,11 +1,11 @@
 /**
- * In-process subscriptions: `on()` registers a handler at boot, `drainInProcess()` delivers the
+ * In-process subscriptions: `on()` registers a handler at boot, `drainInProcess(tx)` delivers the
  * events a transaction published once that transaction has committed.
  *
  * This is the interim delivery path. The real dispatcher — the `events.dispatch` job polling
  * `outbox_event where published_at is null` with `FOR UPDATE SKIP LOCKED`, fanning out to jobs,
  * live events, tenant webhooks and the orchestrator — is the sibling issue PAP-556. Until it
- * merges, `drainInProcess()` gives dev and tests the same at-least-once, idempotent-handler
+ * merges, `drainInProcess(tx)` gives dev and tests the same at-least-once, idempotent-handler
  * contract on a much smaller surface. Nothing a subscriber sees changes when the dispatcher
  * lands: the handler signature and the `event.id` idempotency rule are the contract.
  */
@@ -89,14 +89,28 @@ export function subscriptions(): readonly Subscription[] {
 
 export function resetSubscriptionsForTests(): void {
   subscribers.clear();
-  pending.clear();
+  pending = new WeakMap();
   delivered.clear();
   deliveredOrder.length = 0;
 }
 
 /* ------------------------------------------------------------------ pending queue */
 
-const pending = new Map<object, DomainEvent[]>();
+/**
+ * Events published on a transaction and not yet drained, keyed **weakly** by the transaction
+ * handle. A transaction that rolls back, or one that is never drained because the dispatcher
+ * (PAP-556) owns delivery, releases its events together with the handle instead of pinning them
+ * in this process for its lifetime.
+ */
+let pending = new WeakMap<object, DomainEvent[]>();
+
+function assertTransactionHandle(tx: unknown, caller: string): asserts tx is object {
+  if (typeof tx !== 'object' || tx === null) {
+    throw new TypeError(
+      `${caller}(tx) needs the transaction handle the events were published on; there is no "every transaction" form because it would deliver events whose transaction rolled back`,
+    );
+  }
+}
 const delivered = new Set<string>();
 const deliveredOrder: string[] = [];
 const DELIVERED_MEMORY = 10_000;
@@ -108,10 +122,10 @@ export function enqueuePending(tx: object, event: DomainEvent): void {
   else queue.push(event);
 }
 
-/** Events published on `tx` (or on every transaction) that have not been delivered yet. */
-export function pendingEvents(tx?: object): readonly DomainEvent[] {
-  if (tx !== undefined) return pending.get(tx) ?? [];
-  return [...pending.values()].flat();
+/** Events published on `tx` that have not been delivered yet. */
+export function pendingEvents(tx: object): readonly DomainEvent[] {
+  assertTransactionHandle(tx, 'pendingEvents');
+  return pending.get(tx) ?? [];
 }
 
 export interface DrainFailure {
@@ -140,22 +154,16 @@ function remember(key: string): void {
 
 /**
  * Deliver the events published on `tx` to the in-process subscribers — **after the transaction
- * has committed**, never inside it. Omit `tx` to drain every transaction (dev convenience).
+ * has committed**, never inside it. The handle is required: only the caller knows that `tx`
+ * committed, so there is deliberately no "drain everything" form.
  *
  * A handler that throws does not stop the others: the failure is returned so the caller can log
  * it. Under the real dispatcher the same event is retried with backoff and then dead-lettered.
  */
-export async function drainInProcess(tx?: object): Promise<DrainResult> {
-  const batch: DomainEvent[] = [];
-  if (tx === undefined) {
-    for (const [handle, queue] of pending) {
-      batch.push(...queue);
-      pending.delete(handle);
-    }
-  } else {
-    batch.push(...(pending.get(tx) ?? []));
-    pending.delete(tx);
-  }
+export async function drainInProcess(tx: object): Promise<DrainResult> {
+  assertTransactionHandle(tx, 'drainInProcess');
+  const batch: DomainEvent[] = [...(pending.get(tx) ?? [])];
+  pending.delete(tx);
 
   let deliveredCount = 0;
   let skipped = 0;

@@ -8,7 +8,7 @@ import {
   TopicVersionMismatchError,
 } from './publish.js';
 import { uuidv7 } from './refs.js';
-import { drainInProcess, on, resetSubscriptionsForTests } from './subscribe.js';
+import { drainInProcess, on, pendingEvents, resetSubscriptionsForTests } from './subscribe.js';
 import './catalogue/index.js';
 import {
   collectEvents,
@@ -216,6 +216,19 @@ describe('drainInProcess', () => {
     expect(handler).toHaveBeenCalledTimes(1);
     await drainInProcess(two);
     expect(handler).toHaveBeenCalledTimes(2);
+  });
+
+  it('refuses to drain without the transaction handle', async () => {
+    const handler = vi.fn();
+    on('invoice.paid', handler, { name: 'guarded', idempotent: true });
+    const tx = createTestTransaction();
+    await publish(tx, paidInput());
+    // @ts-expect-error tx is required: an implicit "every transaction" drain would deliver
+    // events whose transaction rolled back
+    await expect(drainInProcess()).rejects.toBeInstanceOf(TypeError);
+    expect(handler).not.toHaveBeenCalled();
+    // The events are still there for the handle that actually committed.
+    expect(pendingEvents(tx)).toHaveLength(1);
   });
 
   it('refuses a duplicate subscription name', () => {
