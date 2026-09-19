@@ -22,6 +22,9 @@
     "gen:schemas:check": "tsx scripts/gen-schemas.ts --check",
     "schema:build": "pnpm run gen:schemas",
     "parse": "tsx src/cli/parse.ts",
+    "fixtures:build": "tsx fixtures/generate.ts",
+    "fixtures:build:large": "tsx fixtures/generate.ts large",
+    "fixtures:validate": "tsx src/cli/parse.ts fixtures/corpus/medium/*.spec.yaml",
     "clean": "node -e \"require('node:fs').rmSync('coverage',{recursive:true,force:true})\""
   },
   "devDependencies": {

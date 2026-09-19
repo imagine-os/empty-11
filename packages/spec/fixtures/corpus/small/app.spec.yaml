@@ -1,0 +1,27 @@
+# Generated app spec
+meta:
+  id: app
+  title: Generated App
+  specVersion: 1
+pages:
+
+  - route: /fx-invoice-0000
+    spec: fx-invoice-0000.spec.yaml
+  - route: /fx-order-0001
+    spec: fx-order-0001.spec.yaml
+  - route: /fx-user-0002
+    spec: fx-user-0002.spec.yaml
+  - route: /fx-product-0003
+    spec: fx-product-0003.spec.yaml
+  - route: /fx-report-0004
+    spec: fx-report-0004.spec.yaml
+  - route: /fx-document-0005
+    spec: fx-document-0005.spec.yaml
+  - route: /fx-setting-0006
+    spec: fx-setting-0006.spec.yaml
+  - route: /fx-member-0007
+    spec: fx-member-0007.spec.yaml
+  - route: /fx-project-0008
+    spec: fx-project-0008.spec.yaml
+  - route: /fx-task-0009
+    spec: fx-task-0009.spec.yaml

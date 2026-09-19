@@ -1,0 +1,127 @@
+# Generated app spec
+meta:
+  id: app
+  title: Generated App
+  specVersion: 1
+pages:
+
+  - route: /fx-invoice-0000
+    spec: fx-invoice-0000.spec.yaml
+  - route: /fx-order-0001
+    spec: fx-order-0001.spec.yaml
+  - route: /fx-user-0002
+    spec: fx-user-0002.spec.yaml
+  - route: /fx-product-0003
+    spec: fx-product-0003.spec.yaml
+  - route: /fx-report-0004
+    spec: fx-report-0004.spec.yaml
+  - route: /fx-document-0005
+    spec: fx-document-0005.spec.yaml
+  - route: /fx-setting-0006
+    spec: fx-setting-0006.spec.yaml
+  - route: /fx-member-0007
+    spec: fx-member-0007.spec.yaml
+  - route: /fx-project-0008
+    spec: fx-project-0008.spec.yaml
+  - route: /fx-task-0009
+    spec: fx-task-0009.spec.yaml
+  - route: /fx-template-0010
+    spec: fx-template-0010.spec.yaml
+  - route: /fx-config-0011
+    spec: fx-config-0011.spec.yaml
+  - route: /fx-status-0012
+    spec: fx-status-0012.spec.yaml
+  - route: /fx-event-0013
+    spec: fx-event-0013.spec.yaml
+  - route: /fx-log-0014
+    spec: fx-log-0014.spec.yaml
+  - route: /fx-audit-0015
+    spec: fx-audit-0015.spec.yaml
+  - route: /fx-invoice-0016
+    spec: fx-invoice-0016.spec.yaml
+  - route: /fx-order-0017
+    spec: fx-order-0017.spec.yaml
+  - route: /fx-user-0018
+    spec: fx-user-0018.spec.yaml
+  - route: /fx-product-0019
+    spec: fx-product-0019.spec.yaml
+  - route: /fx-report-0020
+    spec: fx-report-0020.spec.yaml
+  - route: /fx-document-0021
+    spec: fx-document-0021.spec.yaml
+  - route: /fx-setting-0022
+    spec: fx-setting-0022.spec.yaml
+  - route: /fx-member-0023
+    spec: fx-member-0023.spec.yaml
+  - route: /fx-project-0024
+    spec: fx-project-0024.spec.yaml
+  - route: /fx-task-0025
+    spec: fx-task-0025.spec.yaml
+  - route: /fx-template-0026
+    spec: fx-template-0026.spec.yaml
+  - route: /fx-config-0027
+    spec: fx-config-0027.spec.yaml
+  - route: /fx-status-0028
+    spec: fx-status-0028.spec.yaml
+  - route: /fx-event-0029
+    spec: fx-event-0029.spec.yaml
+  - route: /fx-log-0030
+    spec: fx-log-0030.spec.yaml
+  - route: /fx-audit-0031
+    spec: fx-audit-0031.spec.yaml
+  - route: /fx-invoice-0032
+    spec: fx-invoice-0032.spec.yaml
+  - route: /fx-order-0033
+    spec: fx-order-0033.spec.yaml
+  - route: /fx-user-0034
+    spec: fx-user-0034.spec.yaml
+  - route: /fx-product-0035
+    spec: fx-product-0035.spec.yaml
+  - route: /fx-report-0036
+    spec: fx-report-0036.spec.yaml
+  - route: /fx-document-0037
+    spec: fx-document-0037.spec.yaml
+  - route: /fx-setting-0038
+    spec: fx-setting-0038.spec.yaml
+  - route: /fx-member-0039
+    spec: fx-member-0039.spec.yaml
+  - route: /fx-project-0040
+    spec: fx-project-0040.spec.yaml
+  - route: /fx-task-0041
+    spec: fx-task-0041.spec.yaml
+  - route: /fx-template-0042
+    spec: fx-template-0042.spec.yaml
+  - route: /fx-config-0043
+    spec: fx-config-0043.spec.yaml
+  - route: /fx-status-0044
+    spec: fx-status-0044.spec.yaml
+  - route: /fx-event-0045
+    spec: fx-event-0045.spec.yaml
+  - route: /fx-log-0046
+    spec: fx-log-0046.spec.yaml
+  - route: /fx-audit-0047
+    spec: fx-audit-0047.spec.yaml
+  - route: /fx-invoice-0048
+    spec: fx-invoice-0048.spec.yaml
+  - route: /fx-order-0049
+    spec: fx-order-0049.spec.yaml
+  - route: /fx-user-0050
+    spec: fx-user-0050.spec.yaml
+  - route: /fx-product-0051
+    spec: fx-product-0051.spec.yaml
+  - route: /fx-report-0052
+    spec: fx-report-0052.spec.yaml
+  - route: /fx-document-0053
+    spec: fx-document-0053.spec.yaml
+  - route: /fx-setting-0054
+    spec: fx-setting-0054.spec.yaml
+  - route: /fx-member-0055
+    spec: fx-member-0055.spec.yaml
+  - route: /fx-project-0056
+    spec: fx-project-0056.spec.yaml
+  - route: /fx-task-0057
+    spec: fx-task-0057.spec.yaml
+  - route: /fx-template-0058
+    spec: fx-template-0058.spec.yaml
+  - route: /fx-config-0059
+    spec: fx-config-0059.spec.yaml

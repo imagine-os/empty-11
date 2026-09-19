@@ -1,0 +1,118 @@
+# yaml-language-server: $schema=../../schema/page.spec.schema.json
+# Generated spec for stress testing
+meta:
+  id: fx-report-0004
+  title:
+    id: fx-report-0004.title
+    default: Create report
+  route: /reports
+  surface: staff
+  owner: spec-builder
+  status: ready
+  specVersion: 1
+  tags:
+
+    - generated
+    - form
+    - report
+purpose:
+  summary: This is a generated form page for report showing synthetic data for stress testing.
+  successMetric: Users can efficiently perform operations on this page.
+logic:
+  actions:
+    createreport:
+      intent:
+        id: action.create
+        default: create
+      permission: report.create
+      steps:
+
+        - Perform the create operation on report.
+      input:
+        id: uuid
+    retry:
+      intent:
+        id: action.retry
+        default: retry
+      permission: page.view
+      steps:
+
+        - Re-run the query.
+access:
+  view:
+
+    - customer
+  actions: {}
+data:
+  entities:
+
+    - report
+  queries:
+    items:
+      entity: report
+      filter:
+        op: and
+        children: []
+      sort:
+
+        - field: updatedAt
+          dir: desc
+      fields:
+
+        - id
+      sync: live
+      page: 25
+layout:
+  template: app
+  slots:
+    main: {}
+    inspector:
+      collapsible: true
+      defaultCollapsed: true
+components:
+
+  - id: ui.heading
+    key: title
+    props:
+      level: 1
+      text: page.title
+  - id: ui.textInput
+    key: nameField
+    props:
+      label: Name
+  - id: ui.button
+    key: submitBtn
+    props:
+      text: Submit
+      variant: primary
+states:
+  loading:
+    copy: states.loading
+    component: ui.loadingState
+  error:
+    copy: states.error
+    component: ui.errorState
+    action: retry
+  empty:
+    copy: states.empty
+  offline:
+    copy: states.offline
+    component: ui.offlineBanner
+    action: retry
+  denied:
+    copy: states.denied
+    component: ui.deniedState
+edgeCases:
+
+  - id: edge-case-1
+    scenario: User performs action with invalid input
+    expected: Page shows validation error
+    test: unit
+  - id: edge-case-2
+    scenario: Network request fails
+    expected: Page enters error state
+    test: e2e
+  - id: edge-case-3
+    scenario: User has insufficient permissions
+    expected: Page shows access denied message
+    test: manual

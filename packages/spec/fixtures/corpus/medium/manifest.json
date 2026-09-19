@@ -1,0 +1,249 @@
+{
+  "corpusVersion": 1,
+  "seed": 42,
+  "size": "medium",
+  "pageCount": 60,
+  "generatedAt": "2026-09-19T03:00:31.680Z",
+  "specs": [
+    {
+      "id": "fx-invoice-0000",
+      "hash": "39134a87"
+    },
+    {
+      "id": "fx-order-0001",
+      "hash": "76cacf14"
+    },
+    {
+      "id": "fx-user-0002",
+      "hash": "7bc2ac88"
+    },
+    {
+      "id": "fx-product-0003",
+      "hash": "1cc1c1b7"
+    },
+    {
+      "id": "fx-report-0004",
+      "hash": "509891fc"
+    },
+    {
+      "id": "fx-document-0005",
+      "hash": "15b0ae91"
+    },
+    {
+      "id": "fx-setting-0006",
+      "hash": "4853a6d4"
+    },
+    {
+      "id": "fx-member-0007",
+      "hash": "5b892786"
+    },
+    {
+      "id": "fx-project-0008",
+      "hash": "3d1b528f"
+    },
+    {
+      "id": "fx-task-0009",
+      "hash": "181d77cb"
+    },
+    {
+      "id": "fx-template-0010",
+      "hash": "3d763dd6"
+    },
+    {
+      "id": "fx-config-0011",
+      "hash": "48b18980"
+    },
+    {
+      "id": "fx-status-0012",
+      "hash": "611567c2"
+    },
+    {
+      "id": "fx-event-0013",
+      "hash": "2c022145"
+    },
+    {
+      "id": "fx-log-0014",
+      "hash": "2f2722bd"
+    },
+    {
+      "id": "fx-audit-0015",
+      "hash": "29654b69"
+    },
+    {
+      "id": "fx-invoice-0016",
+      "hash": "5c9d5eec"
+    },
+    {
+      "id": "fx-order-0017",
+      "hash": "553701bf"
+    },
+    {
+      "id": "fx-user-0018",
+      "hash": "5c281ce3"
+    },
+    {
+      "id": "fx-product-0019",
+      "hash": "6f66263f"
+    },
+    {
+      "id": "fx-report-0020",
+      "hash": "0f38d1db"
+    },
+    {
+      "id": "fx-document-0021",
+      "hash": "1d1c687c"
+    },
+    {
+      "id": "fx-setting-0022",
+      "hash": "5f24aa87"
+    },
+    {
+      "id": "fx-member-0023",
+      "hash": "1efa190c"
+    },
+    {
+      "id": "fx-project-0024",
+      "hash": "3c53fd48"
+    },
+    {
+      "id": "fx-task-0025",
+      "hash": "4d8b2602"
+    },
+    {
+      "id": "fx-template-0026",
+      "hash": "2fe07ba0"
+    },
+    {
+      "id": "fx-config-0027",
+      "hash": "3527cd45"
+    },
+    {
+      "id": "fx-status-0028",
+      "hash": "20718e59"
+    },
+    {
+      "id": "fx-event-0029",
+      "hash": "07bf3fa2"
+    },
+    {
+      "id": "fx-log-0030",
+      "hash": "7f5c260d"
+    },
+    {
+      "id": "fx-audit-0031",
+      "hash": "14273b5b"
+    },
+    {
+      "id": "fx-invoice-0032",
+      "hash": "1a408fef"
+    },
+    {
+      "id": "fx-order-0033",
+      "hash": "0c2a8ebe"
+    },
+    {
+      "id": "fx-user-0034",
+      "hash": "7ae96205"
+    },
+    {
+      "id": "fx-product-0035",
+      "hash": "314c4e8b"
+    },
+    {
+      "id": "fx-report-0036",
+      "hash": "21178641"
+    },
+    {
+      "id": "fx-document-0037",
+      "hash": "1f519b40"
+    },
+    {
+      "id": "fx-setting-0038",
+      "hash": "6bb72b20"
+    },
+    {
+      "id": "fx-member-0039",
+      "hash": "01245d14"
+    },
+    {
+      "id": "fx-project-0040",
+      "hash": "091770d3"
+    },
+    {
+      "id": "fx-task-0041",
+      "hash": "137ffa6e"
+    },
+    {
+      "id": "fx-template-0042",
+      "hash": "2b3bd1c7"
+    },
+    {
+      "id": "fx-config-0043",
+      "hash": "63e9061b"
+    },
+    {
+      "id": "fx-status-0044",
+      "hash": "76eb5b86"
+    },
+    {
+      "id": "fx-event-0045",
+      "hash": "57d1852b"
+    },
+    {
+      "id": "fx-log-0046",
+      "hash": "53c8b864"
+    },
+    {
+      "id": "fx-audit-0047",
+      "hash": "4023884f"
+    },
+    {
+      "id": "fx-invoice-0048",
+      "hash": "00988b2a"
+    },
+    {
+      "id": "fx-order-0049",
+      "hash": "68d9cb20"
+    },
+    {
+      "id": "fx-user-0050",
+      "hash": "4de697a6"
+    },
+    {
+      "id": "fx-product-0051",
+      "hash": "62577bcf"
+    },
+    {
+      "id": "fx-report-0052",
+      "hash": "1383ba52"
+    },
+    {
+      "id": "fx-document-0053",
+      "hash": "36880b37"
+    },
+    {
+      "id": "fx-setting-0054",
+      "hash": "2742302b"
+    },
+    {
+      "id": "fx-member-0055",
+      "hash": "67dec255"
+    },
+    {
+      "id": "fx-project-0056",
+      "hash": "321c4d7d"
+    },
+    {
+      "id": "fx-task-0057",
+      "hash": "72eeac63"
+    },
+    {
+      "id": "fx-template-0058",
+      "hash": "04d7527e"
+    },
+    {
+      "id": "fx-config-0059",
+      "hash": "7a571ffd"
+    }
+  ]
+}

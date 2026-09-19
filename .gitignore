@@ -17,3 +17,7 @@ Thumbs.db
 
 playwright-report/
 test-results/
+
+# Generated corpus (large size is generated on demand in CI)
+packages/spec/fixtures/corpus/large/
+bench/results/

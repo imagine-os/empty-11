@@ -1,0 +1,121 @@
+# yaml-language-server: $schema=../../schema/page.spec.schema.json
+# Generated spec for stress testing
+meta:
+  id: fx-member-0023
+  title:
+    id: fx-member-0023.title
+    default: Edit member
+  route: /members
+  surface: agent
+  owner: spec-builder
+  status: ready
+  specVersion: 1
+  tags:
+
+    - generated
+    - detail
+    - member
+purpose:
+  summary: This is a generated detail page for member showing synthetic data for stress testing.
+  successMetric: Users can efficiently perform operations on this page.
+logic:
+  actions:
+    createmember:
+      intent:
+        id: action.create
+        default: create
+      permission: member.create
+      steps:
+
+        - Perform the create operation on member.
+      input:
+        id: uuid
+    retry:
+      intent:
+        id: action.retry
+        default: retry
+      permission: page.view
+      steps:
+
+        - Re-run the query.
+access:
+  view:
+
+    - customer
+  actions: {}
+data:
+  entities:
+
+    - member
+  queries:
+    items:
+      entity: member
+      filter:
+        op: and
+        children: []
+      sort:
+
+        - field: updatedAt
+          dir: desc
+      fields:
+
+        - id
+        - name
+        - status
+        - createdAt
+      sync: live
+      page: 25
+layout:
+  template: app
+  slots:
+    main: {}
+    inspector:
+      collapsible: true
+      defaultCollapsed: true
+components:
+
+  - id: ui.heading
+    key: title
+    props:
+      level: 1
+      text: page.title
+  - id: ui.card
+    key: detailCard
+    props:
+      variant: default
+  - id: ui.button
+    key: editBtn
+    props:
+      text: Edit
+      variant: secondary
+states:
+  loading:
+    copy: states.loading
+    component: ui.loadingState
+  error:
+    copy: states.error
+    component: ui.errorState
+    action: retry
+  empty:
+    copy: states.empty
+  offline:
+    copy: states.offline
+    component: ui.offlineBanner
+    action: retry
+  denied:
+    copy: states.denied
+    component: ui.deniedState
+edgeCases:
+
+  - id: edge-case-1
+    scenario: User performs action with invalid input
+    expected: Page shows validation error
+    test: unit
+  - id: edge-case-2
+    scenario: Network request fails
+    expected: Page enters error state
+    test: e2e
+  - id: edge-case-3
+    scenario: User has insufficient permissions
+    expected: Page shows access denied message
+    test: manual

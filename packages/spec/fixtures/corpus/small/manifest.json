@@ -1,0 +1,49 @@
+{
+  "corpusVersion": 1,
+  "seed": 42,
+  "size": "small",
+  "pageCount": 10,
+  "generatedAt": "2026-09-19T03:00:29.848Z",
+  "specs": [
+    {
+      "id": "fx-invoice-0000",
+      "hash": "09a67ad2"
+    },
+    {
+      "id": "fx-order-0001",
+      "hash": "5e69a494"
+    },
+    {
+      "id": "fx-user-0002",
+      "hash": "61b3d9c6"
+    },
+    {
+      "id": "fx-product-0003",
+      "hash": "6384f7ce"
+    },
+    {
+      "id": "fx-report-0004",
+      "hash": "3d16ec1e"
+    },
+    {
+      "id": "fx-document-0005",
+      "hash": "7dc626be"
+    },
+    {
+      "id": "fx-setting-0006",
+      "hash": "596018fa"
+    },
+    {
+      "id": "fx-member-0007",
+      "hash": "386c5a91"
+    },
+    {
+      "id": "fx-project-0008",
+      "hash": "536a42b4"
+    },
+    {
+      "id": "fx-task-0009",
+      "hash": "2b2e2c8c"
+    }
+  ]
+}
