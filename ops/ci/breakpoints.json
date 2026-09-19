@@ -1,0 +1,61 @@
+{
+  "version": 1,
+  "breakpoints": [
+    {
+      "name": "xs",
+      "width": 360,
+      "height": 800,
+      "deviceScaleFactor": 3,
+      "hasTouch": true,
+      "isMobile": true
+    },
+    {
+      "name": "sm",
+      "width": 390,
+      "height": 844,
+      "deviceScaleFactor": 3,
+      "hasTouch": true,
+      "isMobile": true
+    },
+    {
+      "name": "md",
+      "width": 768,
+      "height": 1024,
+      "deviceScaleFactor": 2,
+      "hasTouch": true,
+      "isMobile": false
+    },
+    {
+      "name": "lg",
+      "width": 1280,
+      "height": 800,
+      "deviceScaleFactor": 1,
+      "hasTouch": false,
+      "isMobile": false
+    },
+    {
+      "name": "xl",
+      "width": 1920,
+      "height": 1080,
+      "deviceScaleFactor": 1,
+      "hasTouch": false,
+      "isMobile": false
+    },
+    {
+      "name": "2xl",
+      "width": 2560,
+      "height": 1440,
+      "deviceScaleFactor": 1,
+      "hasTouch": false,
+      "isMobile": false
+    },
+    {
+      "name": "3xl",
+      "width": 3840,
+      "height": 2160,
+      "deviceScaleFactor": 1,
+      "hasTouch": false,
+      "isMobile": false
+    }
+  ]
+}

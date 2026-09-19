@@ -1,0 +1,65 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`gen:breakpoints output > matches the committed snapshot 1`] = `
+{
+  "breakpoints": [
+    {
+      "deviceScaleFactor": 3,
+      "hasTouch": true,
+      "height": 800,
+      "isMobile": true,
+      "name": "xs",
+      "width": 360,
+    },
+    {
+      "deviceScaleFactor": 3,
+      "hasTouch": true,
+      "height": 844,
+      "isMobile": true,
+      "name": "sm",
+      "width": 390,
+    },
+    {
+      "deviceScaleFactor": 2,
+      "hasTouch": true,
+      "height": 1024,
+      "isMobile": false,
+      "name": "md",
+      "width": 768,
+    },
+    {
+      "deviceScaleFactor": 1,
+      "hasTouch": false,
+      "height": 800,
+      "isMobile": false,
+      "name": "lg",
+      "width": 1280,
+    },
+    {
+      "deviceScaleFactor": 1,
+      "hasTouch": false,
+      "height": 1080,
+      "isMobile": false,
+      "name": "xl",
+      "width": 1920,
+    },
+    {
+      "deviceScaleFactor": 1,
+      "hasTouch": false,
+      "height": 1440,
+      "isMobile": false,
+      "name": "2xl",
+      "width": 2560,
+    },
+    {
+      "deviceScaleFactor": 1,
+      "hasTouch": false,
+      "height": 2160,
+      "isMobile": false,
+      "name": "3xl",
+      "width": 3840,
+    },
+  ],
+  "version": 1,
+}
+`;
