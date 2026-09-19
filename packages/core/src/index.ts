@@ -22,3 +22,4 @@ export * from './filter/index.js';
 /** Shared value types and wire encodings (data-layer, PAP-302, ADR 0011). */
 export * from './types/index.js';
 export * from './audience/index.js';
+export * from './filter/index.js';
