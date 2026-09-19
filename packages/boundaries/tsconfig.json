@@ -1,0 +1,12 @@
+{
+  "extends": "@paperos/config-ts/node.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@paperos/contract-*": ["../contracts/*/src"],
+      "@paperos/*": ["../*/src"]
+    }
+  },
+  "include": ["src", "scripts", "test"],
+  "exclude": ["node_modules", "dist", "coverage", "test/fixtures"]
+}

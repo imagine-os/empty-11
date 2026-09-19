@@ -19,14 +19,19 @@
     "test": "turbo run test",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
+    "lint:deps": "tsx packages/boundaries/scripts/lint-deps.ts",
+    "gen:deps-rules": "tsx packages/boundaries/scripts/gen-deps-rules.ts",
+    "gen:dep-map": "tsx packages/boundaries/scripts/gen-dep-map.ts",
     "clean": "turbo run clean",
-    "check": "turbo run lint typecheck test build"
+    "check": "turbo run lint typecheck test build lint:deps"
   },
   "devDependencies": {
     "@biomejs/biome": "catalog:",
     "@paperos/config-biome": "workspace:*",
     "@paperos/config-ts": "workspace:*",
     "@vitest/coverage-v8": "catalog:",
+    "dependency-cruiser": "18.3.1",
+    "tsx": "^4.23.13",
     "turbo": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:"
