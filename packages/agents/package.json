@@ -5,7 +5,8 @@
   "type": "module",
   "description": "Character schema, handoff artefacts and agent runtime ports.",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./mcp": "./src/mcp/index.ts"
   },
   "main": "./src/index.ts",
   "types": "./src/index.ts",
@@ -16,12 +17,17 @@
     "lint": "biome check .",
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "test": "vitest run --passWithNoTests",
-    "clean": "node -e \"require('node:fs').rmSync('coverage',{recursive:true,force:true})\""
+    "clean": "node -e \"require('node:fs').rmSync('coverage',{recursive:true,force:true})\"",
+    "mcp:check": "vitest run src/mcp"
   },
   "devDependencies": {
     "@biomejs/biome": "catalog:",
     "@paperos/config-ts": "workspace:*",
+    "@types/node": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:"
+  },
+  "dependencies": {
+    "zod": "^4.6.5"
   }
 }

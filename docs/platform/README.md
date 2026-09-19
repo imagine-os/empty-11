@@ -19,6 +19,10 @@ Here now:
 * [`filter.md`](filter.md) — the shared filter and condition grammar `@paperos/core/filter`:
   shape, operator table per field type, null semantics, variables, encoding, extension hook
   (PAP-279, ADR 0012).
+* [`mcp-catalog.md`](mcp-catalog.md) — the eleven MCP servers agents can reach, their scope
+  classes, owners, broker placeholders and rubric scores (PAP-210, ADR 0021, hand-written).
+  Source of truth is [`.claude/mcp/catalog.json`](../../.claude/mcp/catalog.json); the validator
+  is `packages/agents/src/mcp/`.
 * [`forge-topology.md`](forge-topology.md) — Forgejo/GitHub mirroring topology, failover and
   failure modes (PAP-44, hand-written; implemented by PAP-47).
 * [`view-model.md`](view-model.md) — `ViewSpec`, `FieldDef`, `DatasetRef`, the dataset registry

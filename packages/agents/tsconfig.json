@@ -1,5 +1,5 @@
 {
-  "extends": "@paperos/config-ts/base.json",
+  "extends": "@paperos/config-ts/node.json",
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {

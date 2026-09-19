@@ -1,0 +1,27 @@
+{
+  "_character": "atlas",
+  "_issue": "PAP-210",
+  "_source": ".claude/mcp/catalog.json — this fragment is checked against it by packages/agents/src/mcp",
+  "_note": "Atlas is the only character that may hold a destructive tool, and holds none by default: a destructive-capable server is granted for one session through a scope:+<name> label and a PAP-94 approval card.",
+  "mcpServers": {
+    "linear": {
+      "type": "http",
+      "url": "https://mcp.linear.app/mcp",
+      "headers": {
+        "Authorization": "Bearer broker:linear/api-key"
+      }
+    },
+    "github": {
+      "type": "http",
+      "url": "https://api.githubcopilot.com/mcp/",
+      "headers": {
+        "Authorization": "Bearer broker:github/app-installation-token",
+        "X-MCP-Toolsets": "context,repos,issues,pull_requests"
+      }
+    },
+    "playwright": {
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp@0.0.82", "--isolated", "--browser", "chromium"]
+    }
+  }
+}

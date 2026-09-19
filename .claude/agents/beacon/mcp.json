@@ -1,0 +1,23 @@
+{
+  "_character": "beacon",
+  "_issue": "PAP-210",
+  "_source": ".claude/mcp/catalog.json — this fragment is checked against it by packages/agents/src/mcp",
+  "_note": "Read-only. Webflow, Miro and Gamma are Beacon's servers in the catalogue but all three wait on an account.",
+  "mcpServers": {
+    "linear": {
+      "type": "http",
+      "url": "https://mcp.linear.app/mcp/readonly",
+      "headers": {
+        "Authorization": "Bearer broker:linear/api-key"
+      }
+    },
+    "github": {
+      "type": "http",
+      "url": "https://api.githubcopilot.com/mcp/readonly",
+      "headers": {
+        "Authorization": "Bearer broker:github/app-installation-token",
+        "X-MCP-Readonly": "true"
+      }
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "_character": "ledger",
+  "_issue": "PAP-210",
+  "_source": ".claude/mcp/catalog.json — this fragment is checked against it by packages/agents/src/mcp",
+  "_note": "Ledger owns Stripe. stripe_api_write is destructive and is removed here; a Ledger session that needs it files a PAP-94 card.",
+  "mcpServers": {
+    "linear": {
+      "type": "http",
+      "url": "https://mcp.linear.app/mcp/readonly",
+      "headers": {
+        "Authorization": "Bearer broker:linear/api-key"
+      }
+    },
+    "github": {
+      "type": "http",
+      "url": "https://api.githubcopilot.com/mcp/readonly",
+      "headers": {
+        "Authorization": "Bearer broker:github/app-installation-token",
+        "X-MCP-Readonly": "true"
+      }
+    },
+    "stripe": {
+      "type": "http",
+      "url": "https://mcp.stripe.com",
+      "headers": {
+        "Authorization": "Bearer broker:stripe/restricted-key-test"
+      }
+    }
+  }
+}

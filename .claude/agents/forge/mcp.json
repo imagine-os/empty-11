@@ -1,0 +1,23 @@
+{
+  "_character": "forge",
+  "_issue": "PAP-210",
+  "_source": ".claude/mcp/catalog.json — this fragment is checked against it by packages/agents/src/mcp",
+  "_note": "Forge writes to GitHub (branches, PRs on its own worktree) and reads Linear. Postgres and Forgejo are Forge's servers in the catalogue but are candidates, so they are not wired yet.",
+  "mcpServers": {
+    "linear": {
+      "type": "http",
+      "url": "https://mcp.linear.app/mcp/readonly",
+      "headers": {
+        "Authorization": "Bearer broker:linear/api-key"
+      }
+    },
+    "github": {
+      "type": "http",
+      "url": "https://api.githubcopilot.com/mcp/",
+      "headers": {
+        "Authorization": "Bearer broker:github/app-installation-token",
+        "X-MCP-Toolsets": "context,repos,issues,pull_requests"
+      }
+    }
+  }
+}

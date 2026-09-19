@@ -14,7 +14,12 @@ or `-`), **Status** (`live`, `stub`, `planned`).
 | CLI | `pnpm dev` — run `apps/web` on :5173 with hot reload | PAP-13 | - | live |
 | CLI | `pnpm build` — build every app; `BASE_PATH` and `VITE_GIT_SHA` are the build inputs | PAP-13 | - | live |
 | WebMCP | page actions registry (id, intent phrase, permission) per page | PAP-16 | per action | planned |
-| MCP | connector catalog | PAP-210 | per connector | planned |
+| MCP | connector catalog — `.claude/mcp/catalog.json`: 11 servers, every tool scope-classed, auth as `broker:<service>/<credential>` placeholders, owner and rubric score per server | PAP-210 | per server, per character | live |
+| MCP | `mcp__<server>__<tool>` — the tool-name grammar PAP-106 allowlists and PAP-711's hook match on; built by `qualifiedToolName()` in `@paperos/agents/mcp` | PAP-210 | per tool scope class | live |
+| MCP | per-character bundles `.claude/agents/<character>/mcp.json` — a Claude Code `.mcp.json` body per lead; read-only endpoints for every character outside a server's `writeCharacters` | PAP-210 | character bundle | live (stubs; PAP-106 generates them) |
+| CLI | `pnpm --filter @paperos/agents mcp:check` — validate the catalogue and the nine fragments: schema, allowlists, destructive-tool removal, secret scan, rubric totals. Exit 0 ok, 1 drift | PAP-210 | - | live |
+| CLI | `pnpm mcp check` — probe each stdio server and each remote endpoint, diff the live `tools/list` against the catalogue, report missing broker placeholders. Exit 0 ok or skipped, 1 drift, 2 missing required credential | PAP-210 | broker access | planned (static checker is live; network probe is a follow-up) |
+| API | `validateCatalog(catalog, fragments)` / `effectiveToolsFor(server, character)` from `@paperos/agents/mcp` — the tool list a character may be granted, and the findings that fail the gate | PAP-210 | - | live |
 | CLI | `node ops/ci/compose-smoke/discover.mjs` — finds compose stacks under `ops/compose/**` and `spikes/oss-products/*` that ship a `smoke.json`, prints the CI job matrix | PAP-754 | - | live |
 | CLI | `node ops/ci/compose-smoke/probe.mjs --url <url>` — polls a health endpoint until it answers or a timeout elapses | PAP-754 | - | live |
 | CLI | `node ops/ci/compose-smoke/validate.mjs --type <smoke\|result> <file>` — validates a `smoke.json` config or a compose-smoke result JSON | PAP-754 | - | live |

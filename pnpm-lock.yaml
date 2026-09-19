@@ -137,6 +137,10 @@ importers:
         version: 3.2.7(@types/node@22.20.4)(jsdom@26.1.0)(tsx@4.23.13)
 
   packages/agents:
+    dependencies:
+      zod:
+        specifier: ^4.6.5
+        version: 4.6.5
     devDependencies:
       '@biomejs/biome':
         specifier: 'catalog:'
@@ -144,6 +148,9 @@ importers:
       '@paperos/config-ts':
         specifier: workspace:*
         version: link:../config-ts
+      '@types/node':
+        specifier: 'catalog:'
+        version: 22.20.4
       typescript:
         specifier: 'catalog:'
         version: 5.9.3

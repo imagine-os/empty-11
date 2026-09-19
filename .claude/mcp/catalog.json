@@ -1,0 +1,1406 @@
+{
+  "catalogVersion": 1,
+  "issue": "PAP-210",
+  "adr": "docs/adr/0021-mcp-catalog.md",
+  "updatedAt": "2026-09-19",
+  "note": "Hand-written source of truth. Facts verified on the dates in each entry's verifiedOn. No secret ever appears here: every credential is a broker placeholder (Threat Model section 5).",
+  "characters": [
+    "atlas",
+    "forge",
+    "iris",
+    "quill",
+    "sentinel",
+    "nova",
+    "ledger",
+    "beacon",
+    "scout"
+  ],
+  "rubric": {
+    "source": "docs/platform/library-rubric.md (PAP-209, ADR 0009)",
+    "baseWeights": {
+      "license": 20,
+      "maintenance": 20,
+      "bundle": 15,
+      "a11y": 15,
+      "ts": 15,
+      "agent": 15
+    },
+    "domainExtras": {
+      "scopeSafety": {
+        "weight": 10,
+        "what": "Can the blast radius be bounded before a tool call is made? Read-only endpoint or header, per-toolset scoping, restricted keys, human confirmation on mutating calls.",
+        "anchors": {
+          "4": "A first-party read-only endpoint or an enforced read-only flag, plus per-toolset or per-scope narrowing, and no generic passthrough write tool.",
+          "3": "Restricted credentials or a documented human-confirmation step bound the damage, but a generic write tool exists.",
+          "2": "Write tools are present with no read-only mode; scope is set only at credential-issue time.",
+          "1": "Scope is all-or-nothing and the surface includes deletion.",
+          "0": "No scoping at all and destructive tools cannot be removed."
+        }
+      },
+      "headlessAuth": {
+        "weight": 5,
+        "what": "Can an unattended session authenticate without a human at a browser? Decided by the Needs Justin cost of every new agent identity.",
+        "anchors": {
+          "4": "A long-lived API key or token in an Authorization header; provisioned once, no browser.",
+          "3": "OAuth preferred but a documented token fallback works headless.",
+          "2": "OAuth only; a human authorises once per identity and the session then reuses the grant.",
+          "1": "OAuth plus a manual access request, a paid seat, or a per-device flow.",
+          "0": "Cannot be used headless at all."
+        }
+      }
+    },
+    "gatesNotApplicable": ["webviewIncompatible", "vendorNoSelfHost"],
+    "gatesNotApplicableReason": "An MCP server is agent tooling, not code shipped inside a PaperOS deployment: nothing reaches a Tauri WebView and nothing is hosted for a customer. The remaining gates (licenseTier, noTypes, openAdvisory) still apply. Recorded in ADR 0021.",
+    "thresholds": {
+      "adopt": 75,
+      "trial": 60
+    }
+  },
+  "denied": [
+    {
+      "id": "postgres-reference",
+      "package": "@modelcontextprotocol/server-postgres",
+      "reason": "Deprecated and archived by the MCP reference-server project in July 2025 after a SQL-injection finding: the server wraps queries in a read-only transaction but accepts semicolon-separated statements, so `COMMIT; DROP SCHEMA public CASCADE;` escapes the transaction and runs with the connection's full privileges. Latest publish is 0.6.2 (2024-12-04) and there is no patched release.",
+      "evidence": "https://github.com/modelcontextprotocol/servers-archived/tree/main/src/postgres",
+      "supersededBy": "postgres",
+      "date": "2026-09-19"
+    },
+    {
+      "id": "webflow-mcp-server-npm-unverified",
+      "package": "webflow-mcp-server",
+      "reason": "The npm record for the name Webflow's docs point at carries no `license` and no `repository` field and its latest publish is 1.0.0 (2025-09-17). Until the publisher is confirmed as Webflow, only the hosted endpoint is wired; the stdio package is not.",
+      "evidence": "https://registry.npmjs.org/webflow-mcp-server",
+      "supersededBy": "webflow",
+      "date": "2026-09-19"
+    }
+  ],
+  "servers": [
+    {
+      "id": "linear",
+      "name": "Linear",
+      "kind": "remote",
+      "transport": "http",
+      "url": "https://mcp.linear.app/mcp",
+      "readOnlyUrl": "https://mcp.linear.app/mcp/readonly",
+      "package": null,
+      "version": null,
+      "auth": {
+        "mode": "oauth",
+        "brokerPlaceholders": ["broker:linear/oauth", "broker:linear/api-key"],
+        "headless": true,
+        "notes": "Interactive setup uses OAuth 2.1 with dynamic client registration; a bearer token or Linear API key in the Authorization header works headless, which is what agent sessions use. The key itself never enters a session: the egress proxy swaps broker:linear/api-key per host (Threat Model section 5)."
+      },
+      "scopeClass": "destructive",
+      "toolsComplete": false,
+      "tools": [
+        {
+          "name": "list_issues",
+          "scope": "read",
+          "source": "inferred"
+        },
+        {
+          "name": "get_issue",
+          "scope": "read",
+          "source": "inferred"
+        },
+        {
+          "name": "list_comments",
+          "scope": "read",
+          "source": "inferred"
+        },
+        {
+          "name": "list_projects",
+          "scope": "read",
+          "source": "inferred"
+        },
+        {
+          "name": "create_issue",
+          "scope": "write",
+          "source": "inferred"
+        },
+        {
+          "name": "update_issue",
+          "scope": "write",
+          "source": "inferred"
+        },
+        {
+          "name": "create_comment",
+          "scope": "write",
+          "source": "inferred"
+        },
+        {
+          "name": "create_project",
+          "scope": "write",
+          "source": "inferred"
+        },
+        {
+          "name": "update_project",
+          "scope": "write",
+          "source": "inferred"
+        }
+      ],
+      "destructiveTools": [
+        "delete_issue",
+        "archive_issue",
+        "delete_project",
+        "archive_project",
+        "delete_comment"
+      ],
+      "destructiveNote": "Threat Model section 4 Linear row: archive or delete of anything, a state change to Done or Canceled, and any write touching PAP-1..PAP-12 or a view. A state change to Done is reachable through update_issue, so update_issue is write-scoped for Atlas only and the deny-list hook (PAP-711) matches on the payload, not the tool name.",
+      "owners": ["atlas"],
+      "writeCharacters": ["atlas"],
+      "allowedCharacters": [
+        "atlas",
+        "forge",
+        "iris",
+        "quill",
+        "sentinel",
+        "nova",
+        "ledger",
+        "beacon",
+        "scout"
+      ],
+      "sandbox": {
+        "available": true,
+        "how": "Issues carrying the PAP-SANDBOX label; never PAP-1..PAP-12."
+      },
+      "vendorRateLimit": "unknown — Linear documents per-key GraphQL limits, not MCP limits; measure before relying on a number.",
+      "budgetPerSession": 300,
+      "docsUrl": "https://linear.app/docs/mcp",
+      "healthCheck": "tools/list over Streamable HTTP against readOnlyUrl",
+      "aliases": [],
+      "prefer": null,
+      "status": "adopted",
+      "verifiedOn": "2026-09-19",
+      "rubric": {
+        "scores": {
+          "license": {
+            "score": 3,
+            "evidence": "https://linear.app/docs/mcp — first-party hosted endpoint used under the existing Linear subscription (service context); vendor terms, no separate grant."
+          },
+          "maintenance": {
+            "score": 4,
+            "evidence": "https://linear.app/docs/mcp — Linear hosts and maintains the server; shipped 2025-05-01 and expanded in February 2026 with initiatives, project milestones, project updates and project labels."
+          },
+          "bundle": {
+            "score": "na",
+            "evidence": "Hosted endpoint; nothing reaches a browser bundle."
+          },
+          "a11y": {
+            "score": "na",
+            "evidence": "No user interface."
+          },
+          "ts": {
+            "score": "na",
+            "evidence": "No JavaScript surface we import; the client is Claude Code."
+          },
+          "agent": {
+            "score": 4,
+            "evidence": "https://linear.app/docs/mcp — Markdown docs, one documented endpoint, Claude Code supported as a first-class client."
+          }
+        },
+        "extras": [
+          {
+            "id": "scopeSafety",
+            "score": 4,
+            "evidence": "https://linear.app/docs/mcp — a dedicated https://mcp.linear.app/mcp/readonly endpoint that only ever exposes read tools, plus an OAuth read scope."
+          },
+          {
+            "id": "headlessAuth",
+            "score": 3,
+            "evidence": "https://linear.app/docs/mcp — bearer token or Linear API key accepted alongside the interactive OAuth flow."
+          }
+        ],
+        "total": 91,
+        "verdict": "adopt"
+      }
+    },
+    {
+      "id": "github",
+      "name": "GitHub",
+      "kind": "remote",
+      "transport": "http",
+      "url": "https://api.githubcopilot.com/mcp/",
+      "readOnlyUrl": "https://api.githubcopilot.com/mcp/readonly",
+      "package": "ghcr.io/github/github-mcp-server",
+      "version": null,
+      "auth": {
+        "mode": "bearer",
+        "brokerPlaceholders": ["broker:github/app-installation-token", "broker:github/oauth"],
+        "headless": true,
+        "notes": "OAuth 2.1 + PKCE is the interactive path and needs a Copilot licence; agent sessions use a per-session GitHub App installation token in the Authorization header (PAP-48). Toolsets are narrowed per URL or with the X-MCP-Toolsets / X-MCP-Readonly headers."
+      },
+      "scopeClass": "destructive",
+      "toolsComplete": false,
+      "tools": [
+        {
+          "name": "get_file_contents",
+          "scope": "read",
+          "source": "docs"
+        },
+        {
+          "name": "list_issues",
+          "scope": "read",
+          "source": "docs"
+        },
+        {
+          "name": "list_pull_requests",
+          "scope": "read",
+          "source": "docs"
+        },
+        {
+          "name": "list_commits",
+          "scope": "read",
+          "source": "docs"
+        },
+        {
+          "name": "search_code",
+          "scope": "read",
+          "source": "docs"
+        },
+        {
+          "name": "create_pull_request",
+          "scope": "write",
+          "source": "docs"
+        },
+        {
+          "name": "add_issue_comment",
+          "scope": "write",
+          "source": "docs"
+        },
+        {
+          "name": "update_pull_request",
+          "scope": "write",
+          "source": "docs"
+        },
+        {
+          "name": "merge_pull_request",
+          "scope": "destructive",
+          "source": "docs"
+        }
+      ],
+      "destructiveTools": [
+        "merge_pull_request",
+        "delete_file",
+        "delete_repository",
+        "create_or_update_repository_ruleset",
+        "delete_ref",
+        "create_repository_webhook",
+        "update_repository_secret"
+      ],
+      "destructiveNote": "Threat Model section 4 Forges row: repository deletion, protection, secret, webhook and mirror edits. merge_pull_request is here too: a merge lands commits on main, which the Git row denies outright, and the backstop is the PAP-46 ref protection rather than the tool list. Atlas only.",
+      "owners": ["atlas"],
+      "writeCharacters": ["atlas", "forge"],
+      "allowedCharacters": [
+        "atlas",
+        "forge",
+        "iris",
+        "quill",
+        "sentinel",
+        "nova",
+        "ledger",
+        "beacon",
+        "scout"
+      ],
+      "sandbox": {
+        "available": true,
+        "how": "The per-issue feature branch and the worktree; no session writes to main or release/*."
+      },
+      "vendorRateLimit": "GitHub REST secondary rate limits apply to the token behind the server; unknown for the MCP endpoint itself.",
+      "budgetPerSession": 300,
+      "docsUrl": "https://github.com/github/github-mcp-server",
+      "healthCheck": "tools/list against readOnlyUrl",
+      "aliases": [],
+      "prefer": "forgejo",
+      "preferNote": "ADR 0002 (PAP-44) makes Forgejo the forge of record and GitHub the mirror. Until the Forgejo instance exists (PAP-47) GitHub is the only live forge, so prefer is recorded but not yet enforced.",
+      "status": "adopted",
+      "verifiedOn": "2026-09-19",
+      "rubric": {
+        "scores": {
+          "license": {
+            "score": 3,
+            "evidence": "https://github.com/github/github-mcp-server — the server itself is GitHub's official open-source implementation; the hosted endpoint is used under GitHub's terms and OAuth there requires a Copilot licence, which is friction we carry."
+          },
+          "maintenance": {
+            "score": 4,
+            "evidence": "https://github.com/github/github-mcp-server — first-party, written in Go, remote server GA 2025-09-04, 19 toolsets."
+          },
+          "bundle": {
+            "score": "na",
+            "evidence": "Hosted endpoint or a container; nothing reaches a browser bundle."
+          },
+          "a11y": {
+            "score": "na",
+            "evidence": "No user interface."
+          },
+          "ts": {
+            "score": "na",
+            "evidence": "Go binary; no JavaScript surface we import."
+          },
+          "agent": {
+            "score": 4,
+            "evidence": "https://github.com/github/github-mcp-server/blob/main/docs/remote-server.md — Markdown docs with the endpoint table, toolset names and header switches."
+          }
+        },
+        "extras": [
+          {
+            "id": "scopeSafety",
+            "score": 4,
+            "evidence": "https://github.com/github/github-mcp-server/blob/main/docs/remote-server.md — /readonly variants of every URL, per-toolset URLs https://api.githubcopilot.com/mcp/x/{toolset}, and X-MCP-Toolsets / X-MCP-Tools / X-MCP-Readonly headers."
+          },
+          {
+            "id": "headlessAuth",
+            "score": 4,
+            "evidence": "https://github.com/github/github-mcp-server — PAT or GitHub App installation token in the Authorization header; no browser needed."
+          }
+        ],
+        "total": 92,
+        "verdict": "adopt"
+      }
+    },
+    {
+      "id": "forgejo",
+      "name": "Forgejo",
+      "kind": "stdio",
+      "transport": "stdio",
+      "url": null,
+      "readOnlyUrl": null,
+      "package": "code.forgejo.org/forgejo/forgejo-mcp",
+      "version": null,
+      "auth": {
+        "mode": "bearer",
+        "brokerPlaceholders": ["broker:forgejo/bot-token"],
+        "headless": true,
+        "notes": "Per-lead Forgejo bot tokens (PAP-48). Not provisioned: the Forgejo instance is PAP-47 and the Hetzner account is a Needs Justin item."
+      },
+      "scopeClass": "destructive",
+      "toolsComplete": false,
+      "tools": [
+        {
+          "name": "list_repos",
+          "scope": "read",
+          "source": "inferred"
+        },
+        {
+          "name": "get_file",
+          "scope": "read",
+          "source": "inferred"
+        },
+        {
+          "name": "list_pull_requests",
+          "scope": "read",
+          "source": "inferred"
+        },
+        {
+          "name": "create_pull_request",
+          "scope": "write",
+          "source": "inferred"
+        },
+        {
+          "name": "comment_on_pull_request",
+          "scope": "write",
+          "source": "inferred"
+        }
+      ],
+      "destructiveTools": [
+        "delete_repo",
+        "edit_branch_protection",
+        "create_webhook",
+        "edit_mirror",
+        "delete_release"
+      ],
+      "destructiveNote": "Same Forges row of Threat Model section 4 as GitHub; the backstop is the Forgejo branch-protection payloads in ops/forge/rulesets/.",
+      "owners": ["forge"],
+      "writeCharacters": ["forge", "atlas"],
+      "allowedCharacters": [],
+      "sandbox": {
+        "available": false,
+        "how": "unknown — no instance yet (PAP-47)."
+      },
+      "vendorRateLimit": "Self-hosted; set by our own instance.",
+      "budgetPerSession": 0,
+      "docsUrl": "https://code.forgejo.org/forgejo/forgejo-mcp",
+      "healthCheck": "skipped: no instance",
+      "aliases": [],
+      "prefer": null,
+      "status": "candidate",
+      "statusNote": "Not wired into any character bundle. Two blockers: the Forgejo instance does not exist (PAP-47, Needs Justin for Hetzner), and the SPDX expression of the official server has not been read from a release artefact. PAP-210's spec asked for a thin in-repo wrapper package; an official first-party server now exists, so the wrapper is a follow-up decision rather than an assumption (see ADR 0021, Consequences).",
+      "verifiedOn": "2026-09-19",
+      "rubric": {
+        "scores": {
+          "license": {
+            "score": 1,
+            "evidence": "unknown — the official repository is named by the Forgejo project but the SPDX expression was not read from a release artefact in this pass. Score capped at 1 until it is; re-score before any character is granted the server."
+          },
+          "maintenance": {
+            "score": 2,
+            "evidence": "https://code.forgejo.org/forgejo/forgejo-mcp — a first-party repository exists alongside several community forks (kunde21, raohwork, goern, Sqcows), which is the signal of a young project, not a settled one."
+          },
+          "bundle": {
+            "score": "na",
+            "evidence": "Go binary over stdio."
+          },
+          "a11y": {
+            "score": "na",
+            "evidence": "No user interface."
+          },
+          "ts": {
+            "score": "na",
+            "evidence": "Go binary; no JavaScript surface we import."
+          },
+          "agent": {
+            "score": 2,
+            "evidence": "Documentation is a repository README; tool names below are inferred from the Gitea/Forgejo REST surface and are marked source: inferred."
+          }
+        },
+        "extras": [
+          {
+            "id": "scopeSafety",
+            "score": 2,
+            "evidence": "Scope is whatever the bot token carries; no documented read-only mode."
+          },
+          {
+            "id": "headlessAuth",
+            "score": 4,
+            "evidence": "https://code.forgejo.org/forgejo/forgejo-mcp — a Forgejo access token in an environment variable; no browser."
+          }
+        ],
+        "total": 45,
+        "verdict": "reject"
+      }
+    },
+    {
+      "id": "stripe",
+      "name": "Stripe",
+      "kind": "remote",
+      "transport": "http",
+      "url": "https://mcp.stripe.com",
+      "readOnlyUrl": null,
+      "package": "@stripe/mcp",
+      "version": "0.3.3",
+      "auth": {
+        "mode": "bearer",
+        "brokerPlaceholders": ["broker:stripe/restricted-key-test", "broker:stripe/oauth"],
+        "headless": true,
+        "notes": "A restricted API key as a bearer token is the headless path; OAuth is the interactive one. Only the test-mode restricted key is ever brokered. Threat Model section 4 forbids any sk_live_ use, refunds, payouts and transfers outright, so the live key has no broker placeholder at all."
+      },
+      "scopeClass": "destructive",
+      "toolsComplete": true,
+      "tools": [
+        {
+          "name": "stripe_api_search",
+          "scope": "read",
+          "source": "docs"
+        },
+        {
+          "name": "stripe_api_details",
+          "scope": "read",
+          "source": "docs"
+        },
+        {
+          "name": "stripe_api_read",
+          "scope": "read",
+          "source": "docs"
+        },
+        {
+          "name": "get_stripe_account_info",
+          "scope": "read",
+          "source": "docs"
+        },
+        {
+          "name": "stripe_analytics",
+          "scope": "read",
+          "source": "docs"
+        },
+        {
+          "name": "get_balance_summary",
+          "scope": "read",
+          "source": "docs"
+        },
+        {
+          "name": "search_stripe_documentation",
+          "scope": "read",
+          "source": "docs"
+        },
+        {
+          "name": "stripe_implementation_planner",
+          "scope": "read",
+          "source": "docs"
+        },
+        {
+          "name": "send_stripe_mcp_feedback",
+          "scope": "write",
+          "source": "docs"
+        },
+        {
+          "name": "stripe_api_write",
+          "scope": "destructive",
+          "source": "docs"
+        }
+      ],
+      "destructiveTools": ["stripe_api_write"],
+      "destructiveNote": "stripe_api_write is a generic passthrough for POST, PATCH, PUT and DELETE across the whole Stripe API, so it reaches refunds, payouts and transfers in one call. Threat Model section 4 puts all three on the deny list, which is why the single most useful tool on this server is classed destructive and is removed from every character except Atlas. Stripe's own human-confirmation step on refunds and outbound payments is a second backstop, not the first.",
+      "owners": ["ledger"],
+      "writeCharacters": ["ledger", "atlas"],
+      "allowedCharacters": ["atlas", "ledger", "sentinel"],
+      "sandbox": {
+        "available": true,
+        "how": "Stripe sandbox / test mode; the brokered key is test-mode and restricted."
+      },
+      "vendorRateLimit": "Stripe documents 100 read and 100 write requests per second in test mode against the REST API; not documented for the MCP endpoint.",
+      "budgetPerSession": 120,
+      "docsUrl": "https://docs.stripe.com/mcp",
+      "healthCheck": "tools/list with the test-mode restricted key",
+      "aliases": [],
+      "prefer": null,
+      "status": "adopted",
+      "verifiedOn": "2026-09-19",
+      "rubric": {
+        "scores": {
+          "license": {
+            "score": 3,
+            "evidence": "https://docs.stripe.com/mcp — first-party hosted endpoint under the existing Stripe account (service context); the @stripe/mcp helper is MIT (https://registry.npmjs.org/@stripe/mcp)."
+          },
+          "maintenance": {
+            "score": 4,
+            "evidence": "https://docs.stripe.com/mcp — first-party, with a published tool table, OAuth session management in the Dashboard and MCP tool-call logs in Workbench."
+          },
+          "bundle": {
+            "score": "na",
+            "evidence": "Hosted endpoint; nothing reaches a browser bundle."
+          },
+          "a11y": {
+            "score": "na",
+            "evidence": "No user interface."
+          },
+          "ts": {
+            "score": "na",
+            "evidence": "We call the hosted endpoint; we do not import the @stripe/mcp CLI."
+          },
+          "agent": {
+            "score": 4,
+            "evidence": "https://docs.stripe.com/mcp — the whole page is Markdown, the tool table is verbatim and copy-pasteable, and the client configuration for Claude Code is given as one command."
+          }
+        },
+        "extras": [
+          {
+            "id": "scopeSafety",
+            "score": 3,
+            "evidence": "https://docs.stripe.com/mcp — restricted API keys and a required human confirmation on refunds and outbound payments bound the damage, but stripe_api_write is an unrestricted passthrough, so scope must be set on the key rather than on the tool list."
+          },
+          {
+            "id": "headlessAuth",
+            "score": 4,
+            "evidence": "https://docs.stripe.com/mcp — Authorization: Bearer <restricted_api_key> is documented as the non-OAuth path."
+          }
+        ],
+        "total": 90,
+        "verdict": "adopt"
+      }
+    },
+    {
+      "id": "notion",
+      "name": "Notion",
+      "kind": "remote",
+      "transport": "http",
+      "url": "https://mcp.notion.com/mcp",
+      "readOnlyUrl": null,
+      "package": "@notionhq/notion-mcp-server",
+      "version": "2.5.1",
+      "auth": {
+        "mode": "oauth",
+        "brokerPlaceholders": ["broker:notion/oauth", "broker:notion/integration-token"],
+        "headless": false,
+        "notes": "The hosted server initiates an OAuth flow on connect and has no documented token header, so a headless session cannot bring it up on its own: the grant is provisioned once per agent identity and reused. The stdio package takes an internal integration token and is the headless fallback."
+      },
+      "scopeClass": "write",
+      "toolsComplete": false,
+      "tools": [
+        {
+          "name": "search",
+          "scope": "read",
+          "source": "docs"
+        },
+        {
+          "name": "fetch",
+          "scope": "read",
+          "source": "docs"
+        },
+        {
+          "name": "create-pages",
+          "scope": "write",
+          "source": "docs"
+        },
+        {
+          "name": "update-page",
+          "scope": "write",
+          "source": "docs"
+        },
+        {
+          "name": "move-pages",
+          "scope": "write",
+          "source": "docs"
+        },
+        {
+          "name": "create-database",
+          "scope": "write",
+          "source": "docs"
+        },
+        {
+          "name": "update-database",
+          "scope": "write",
+          "source": "docs"
+        },
+        {
+          "name": "create-comment",
+          "scope": "write",
+          "source": "docs"
+        }
+      ],
+      "destructiveTools": ["delete-page", "delete-database"],
+      "destructiveNote": "Notion has no hard delete over the API — a page moves to trash — so the destructive class here is about irreversibility for the workspace, not for the data. Anything outside the Sandbox tree is off limits for every character.",
+      "owners": ["quill"],
+      "writeCharacters": ["quill", "atlas"],
+      "allowedCharacters": ["atlas", "quill", "scout"],
+      "sandbox": {
+        "available": true,
+        "how": "A Sandbox page tree; the integration is shared only with that tree, so scope is set by Notion's own sharing model."
+      },
+      "vendorRateLimit": "Notion's public API averages 3 requests per second per integration; not documented for the MCP endpoint.",
+      "budgetPerSession": 120,
+      "docsUrl": "https://developers.notion.com/guides/mcp/overview",
+      "healthCheck": "skipped: interactive-only (OAuth on connect)",
+      "aliases": [],
+      "prefer": null,
+      "status": "needs-account",
+      "statusNote": "Needs Justin: a Notion workspace, a Sandbox tree and one OAuth grant per agent identity.",
+      "verifiedOn": "2026-09-19",
+      "rubric": {
+        "scores": {
+          "license": {
+            "score": 3,
+            "evidence": "https://developers.notion.com/guides/mcp/overview — hosted first-party endpoint under vendor terms; the stdio package is MIT (https://registry.npmjs.org/@notionhq/notion-mcp-server)."
+          },
+          "maintenance": {
+            "score": 3,
+            "evidence": "https://github.com/makenotion/notion-mcp-server — first-party, latest publish 2.5.1 on 2026-07-25, but Notion states it is prioritising the remote server only and may sunset the local repository, so the fallback we would rely on headless is the one being wound down."
+          },
+          "bundle": {
+            "score": "na",
+            "evidence": "Hosted endpoint or a stdio process; nothing reaches a browser bundle."
+          },
+          "a11y": {
+            "score": "na",
+            "evidence": "No user interface."
+          },
+          "ts": {
+            "score": "na",
+            "evidence": "We call the hosted endpoint; the stdio package is executed, not imported."
+          },
+          "agent": {
+            "score": 3,
+            "evidence": "https://developers.notion.com/guides/mcp/overview — good Markdown docs and a stable endpoint, but the tool list is described rather than tabulated, so a session checks capabilities on connect."
+          }
+        },
+        "extras": [
+          {
+            "id": "scopeSafety",
+            "score": 2,
+            "evidence": "No read-only endpoint and no read-only flag; the only scoping is which pages the integration is shared with."
+          },
+          {
+            "id": "headlessAuth",
+            "score": 2,
+            "evidence": "https://developers.notion.com/guides/mcp/overview — the remote server initiates OAuth on connect and documents no token header; only the local server takes an integration token."
+          }
+        ],
+        "total": 71,
+        "verdict": "trial"
+      }
+    },
+    {
+      "id": "google-drive",
+      "name": "Google Drive",
+      "kind": "connector",
+      "transport": "http",
+      "url": null,
+      "readOnlyUrl": null,
+      "package": null,
+      "version": null,
+      "auth": {
+        "mode": "oauth",
+        "brokerPlaceholders": ["broker:google-drive/oauth"],
+        "headless": false,
+        "notes": "An organisation connector enabled in the Claude account's Connectors settings by a human, not a server declared in .mcp.json. It cannot be provisioned from a session and cannot be probed in CI: every check reports skipped: interactive-only, never green."
+      },
+      "scopeClass": "write",
+      "toolsComplete": false,
+      "tools": [
+        {
+          "name": "search_files",
+          "scope": "read",
+          "source": "docs"
+        },
+        {
+          "name": "list_recent_files",
+          "scope": "read",
+          "source": "docs"
+        },
+        {
+          "name": "get_file_metadata",
+          "scope": "read",
+          "source": "docs"
+        },
+        {
+          "name": "get_permissions",
+          "scope": "read",
+          "source": "docs"
+        },
+        {
+          "name": "read_file_content",
+          "scope": "read",
+          "source": "docs"
+        },
+        {
+          "name": "download_file_content",
+          "scope": "read",
+          "source": "docs"
+        },
+        {
+          "name": "create_file",
+          "scope": "write",
+          "source": "docs"
+        }
+      ],
+      "destructiveTools": [],
+      "destructiveNote": "The connector exposes no move, rename, trash, delete or copy tool, which is the reason its blast radius is low. If a future version adds one, it is destructive and this entry is re-scored before the connector is re-enabled.",
+      "owners": ["quill"],
+      "writeCharacters": ["quill", "atlas"],
+      "allowedCharacters": ["atlas", "quill"],
+      "sandbox": {
+        "available": true,
+        "how": "A dedicated Drive folder shared with the connector account; nothing else is visible to it."
+      },
+      "vendorRateLimit": "Google Drive API per-user quotas apply to the connector's identity.",
+      "budgetPerSession": 60,
+      "docsUrl": "https://support.anthropic.com/en/articles/connectors",
+      "healthCheck": "skipped: interactive-only",
+      "aliases": ["gdrive"],
+      "prefer": null,
+      "status": "needs-account",
+      "statusNote": "Needs Justin: a Google account for the agent identity, a shared Drive folder, and the connector enabled on a paid Claude plan. Not wired in any .mcp.json fragment because a connector is not declared there.",
+      "verifiedOn": "2026-09-19",
+      "rubric": {
+        "scores": {
+          "license": {
+            "score": 3,
+            "evidence": "https://support.anthropic.com/en/articles/connectors — first-party connector under the Claude plan and Google's terms; no separate grant, but it requires a paid seat."
+          },
+          "maintenance": {
+            "score": 4,
+            "evidence": "https://support.anthropic.com/en/articles/connectors — first-party and actively extended; Google Sheets support was added on top of Docs and Slides."
+          },
+          "bundle": {
+            "score": "na",
+            "evidence": "Hosted connector; nothing reaches a browser bundle."
+          },
+          "a11y": {
+            "score": "na",
+            "evidence": "No user interface of its own."
+          },
+          "ts": {
+            "score": "na",
+            "evidence": "No JavaScript surface we import."
+          },
+          "agent": {
+            "score": 3,
+            "evidence": "https://support.anthropic.com/en/articles/connectors — tools are named and predictable (mcp__..._Google_Drive__search_files), but the documentation is support-article prose rather than a tool reference."
+          }
+        },
+        "extras": [
+          {
+            "id": "scopeSafety",
+            "score": 3,
+            "evidence": "https://support.anthropic.com/en/articles/connectors — six of the seven tools are read-only and the connector exposes no delete, move, rename, trash or copy path at all; scope beyond that is set by Drive sharing."
+          },
+          {
+            "id": "headlessAuth",
+            "score": 1,
+            "evidence": "Enabled by a human in browser settings on a paid plan; there is no token path an unattended session can use."
+          }
+        ],
+        "total": 80,
+        "verdict": "adopt"
+      }
+    },
+    {
+      "id": "webflow",
+      "name": "Webflow",
+      "kind": "remote",
+      "transport": "sse",
+      "url": "https://mcp.webflow.com/sse",
+      "readOnlyUrl": null,
+      "package": null,
+      "version": null,
+      "auth": {
+        "mode": "oauth",
+        "brokerPlaceholders": ["broker:webflow/oauth"],
+        "headless": false,
+        "notes": "OAuth against the Webflow sites the grant covers. The stdio package named in Webflow's docs is not wired: see the denied list."
+      },
+      "scopeClass": "destructive",
+      "toolsComplete": false,
+      "tools": [
+        {
+          "name": "sites_list",
+          "scope": "read",
+          "source": "docs"
+        },
+        {
+          "name": "sites_get",
+          "scope": "read",
+          "source": "docs"
+        },
+        {
+          "name": "collections_list",
+          "scope": "read",
+          "source": "docs"
+        },
+        {
+          "name": "collection_items_list_items",
+          "scope": "read",
+          "source": "docs"
+        },
+        {
+          "name": "pages_list",
+          "scope": "read",
+          "source": "docs"
+        },
+        {
+          "name": "collection_items_create_item",
+          "scope": "write",
+          "source": "docs"
+        },
+        {
+          "name": "collection_items_update_items",
+          "scope": "write",
+          "source": "docs"
+        },
+        {
+          "name": "pages_update_page_settings",
+          "scope": "write",
+          "source": "docs"
+        }
+      ],
+      "destructiveTools": ["sites_publish", "collection_items_delete_items", "collections_delete"],
+      "destructiveNote": "Publishing a site is a public publication, which Threat Model section 4 puts in the Communications row and the escalation matrix routes to Justin. It is destructive here even though Webflow calls it a write.",
+      "owners": ["beacon"],
+      "writeCharacters": ["beacon", "atlas"],
+      "allowedCharacters": ["atlas", "beacon", "iris"],
+      "sandbox": {
+        "available": true,
+        "how": "A staging Webflow site; the OAuth grant covers that site only."
+      },
+      "vendorRateLimit": "Webflow Data API allows 60 requests per minute per site on the default plan.",
+      "budgetPerSession": 60,
+      "docsUrl": "https://developers.webflow.com/data/docs/ai-tools",
+      "healthCheck": "skipped: interactive-only (OAuth on connect)",
+      "aliases": [],
+      "prefer": null,
+      "status": "needs-account",
+      "statusNote": "Needs Justin: a Webflow account with a staging site and one OAuth grant.",
+      "verifiedOn": "2026-09-19",
+      "rubric": {
+        "scores": {
+          "license": {
+            "score": 3,
+            "evidence": "https://developers.webflow.com/data/docs/ai-tools — first-party hosted endpoint under the Webflow account's terms."
+          },
+          "maintenance": {
+            "score": 2,
+            "evidence": "https://registry.npmjs.org/webflow-mcp-server — the package Webflow's docs name last published 1.0.0 on 2025-09-17, over a year ago, with no license and no repository field in the npm record. The hosted endpoint is the maintained surface; the published artefact is not evidence of an active one."
+          },
+          "bundle": {
+            "score": "na",
+            "evidence": "Hosted endpoint; nothing reaches a browser bundle."
+          },
+          "a11y": {
+            "score": "na",
+            "evidence": "No user interface."
+          },
+          "ts": {
+            "score": "na",
+            "evidence": "We call the hosted endpoint."
+          },
+          "agent": {
+            "score": 3,
+            "evidence": "https://developers.webflow.com/data/docs/ai-tools — documented endpoint and two clearly separated tool families (Data API and Designer API)."
+          }
+        },
+        "extras": [
+          {
+            "id": "scopeSafety",
+            "score": 2,
+            "evidence": "No read-only endpoint; scope is the OAuth grant's site list, and publish sits in the same grant as read."
+          },
+          {
+            "id": "headlessAuth",
+            "score": 2,
+            "evidence": "https://developers.webflow.com/data/docs/ai-tools — OAuth only; no documented token header."
+          }
+        ],
+        "total": 64,
+        "verdict": "trial"
+      }
+    },
+    {
+      "id": "miro",
+      "name": "Miro",
+      "kind": "remote",
+      "transport": "http",
+      "url": "https://mcp.miro.com/",
+      "readOnlyUrl": null,
+      "package": null,
+      "version": null,
+      "auth": {
+        "mode": "oauth",
+        "brokerPlaceholders": ["broker:miro/oauth"],
+        "headless": false,
+        "notes": "OAuth flow in Miro with a team selection step, so the grant is per team and a human picks the team once."
+      },
+      "scopeClass": "write",
+      "toolsComplete": false,
+      "tools": [
+        {
+          "name": "list_boards",
+          "scope": "read",
+          "source": "inferred"
+        },
+        {
+          "name": "get_board_content",
+          "scope": "read",
+          "source": "inferred"
+        },
+        {
+          "name": "get_comments",
+          "scope": "read",
+          "source": "inferred"
+        },
+        {
+          "name": "create_board",
+          "scope": "write",
+          "source": "inferred"
+        },
+        {
+          "name": "update_board_items",
+          "scope": "write",
+          "source": "inferred"
+        },
+        {
+          "name": "create_diagram",
+          "scope": "write",
+          "source": "inferred"
+        },
+        {
+          "name": "reply_to_comment",
+          "scope": "write",
+          "source": "inferred"
+        }
+      ],
+      "destructiveTools": ["delete_board", "delete_items"],
+      "destructiveNote": "Deleting a board or its items destroys work no version history restores; Atlas only, and via an approval card in practice.",
+      "owners": ["beacon"],
+      "writeCharacters": ["beacon", "atlas"],
+      "allowedCharacters": ["atlas", "beacon", "iris", "nova"],
+      "sandbox": {
+        "available": true,
+        "how": "A dedicated Miro team the grant is scoped to."
+      },
+      "vendorRateLimit": "Miro REST API uses a credit-based limit per app; not documented for the MCP endpoint.",
+      "budgetPerSession": 60,
+      "docsUrl": "https://developers.miro.com/docs/miro-mcp",
+      "healthCheck": "skipped: interactive-only (OAuth on connect)",
+      "aliases": [],
+      "prefer": null,
+      "status": "needs-account",
+      "statusNote": "Needs Justin: a Miro account, a dedicated team, and one OAuth grant. Tool names are inferred from Miro's documented capabilities and must be reconciled against a live tools/list before any of them is allowed.",
+      "verifiedOn": "2026-09-19",
+      "rubric": {
+        "scores": {
+          "license": {
+            "score": 3,
+            "evidence": "https://developers.miro.com/docs/miro-mcp — first-party hosted endpoint under the Miro account's terms."
+          },
+          "maintenance": {
+            "score": 4,
+            "evidence": "https://developers.miro.com/docs/miro-mcp — first-party, released December 2025 and extended since; Miro documents it as a secure gateway for organisation boards."
+          },
+          "bundle": {
+            "score": "na",
+            "evidence": "Hosted endpoint; nothing reaches a browser bundle."
+          },
+          "a11y": {
+            "score": "na",
+            "evidence": "No user interface of its own."
+          },
+          "ts": {
+            "score": "na",
+            "evidence": "We call the hosted endpoint."
+          },
+          "agent": {
+            "score": 3,
+            "evidence": "https://developers.miro.com/docs/connecting-to-miro-mcp — a getting-started guide with the endpoint and the OAuth flow, but capabilities are described in prose rather than a tool table, which is why every tool here is marked source: inferred."
+          }
+        },
+        "extras": [
+          {
+            "id": "scopeSafety",
+            "score": 2,
+            "evidence": "No read-only endpoint documented; scope is the team the OAuth grant selects."
+          },
+          {
+            "id": "headlessAuth",
+            "score": 2,
+            "evidence": "https://developers.miro.com/docs/connecting-to-miro-mcp — OAuth with an interactive team selection; no documented token header."
+          }
+        ],
+        "total": 79,
+        "verdict": "adopt"
+      }
+    },
+    {
+      "id": "gamma",
+      "name": "Gamma",
+      "kind": "remote",
+      "transport": "http",
+      "url": "https://mcp.gamma.app/mcp",
+      "readOnlyUrl": null,
+      "package": null,
+      "version": null,
+      "auth": {
+        "mode": "oauth",
+        "brokerPlaceholders": ["broker:gamma/oauth"],
+        "headless": false,
+        "notes": "OAuth with dynamic client registration, behind an access-request form. Two human steps before a session can connect."
+      },
+      "scopeClass": "write",
+      "toolsComplete": false,
+      "tools": [
+        {
+          "name": "get_gammas",
+          "scope": "read",
+          "source": "docs"
+        },
+        {
+          "name": "export_gamma",
+          "scope": "read",
+          "source": "docs"
+        },
+        {
+          "name": "generate",
+          "scope": "write",
+          "source": "docs"
+        }
+      ],
+      "destructiveTools": ["delete_gamma"],
+      "destructiveNote": "Not confirmed to exist. Listed so that if it appears, it is denied by default rather than silently allowed: the validator's rule is that an unlisted tool on a destructive-capable server is not automatically read.",
+      "owners": ["beacon"],
+      "writeCharacters": ["beacon", "atlas"],
+      "allowedCharacters": ["atlas", "beacon", "quill"],
+      "sandbox": {
+        "available": false,
+        "how": "unknown — Gamma documents no sandbox workspace."
+      },
+      "vendorRateLimit": "unknown — not documented.",
+      "budgetPerSession": 30,
+      "docsUrl": "https://developers.gamma.app/mcp/gamma-mcp-server",
+      "healthCheck": "skipped: interactive-only (OAuth on connect, access by request)",
+      "aliases": [],
+      "prefer": null,
+      "status": "needs-account",
+      "statusNote": "Needs Justin: a Gamma account and an approved MCP access request. The lowest-value server in the catalogue and the one with the most human steps, so it is last in the wiring order.",
+      "verifiedOn": "2026-09-19",
+      "rubric": {
+        "scores": {
+          "license": {
+            "score": 3,
+            "evidence": "https://developers.gamma.app/mcp/gamma-mcp-server — first-party hosted endpoint under the Gamma account's terms."
+          },
+          "maintenance": {
+            "score": 3,
+            "evidence": "https://developers.gamma.app/mcp/gamma-mcp-server — first-party and current, but gated behind an access-request form, which is a young-product signal."
+          },
+          "bundle": {
+            "score": "na",
+            "evidence": "Hosted endpoint; nothing reaches a browser bundle."
+          },
+          "a11y": {
+            "score": "na",
+            "evidence": "No user interface of its own."
+          },
+          "ts": {
+            "score": "na",
+            "evidence": "We call the hosted endpoint."
+          },
+          "agent": {
+            "score": 2,
+            "evidence": "https://developers.gamma.app/mcp/gamma-mcp-server — the page names generate, get_gammas and export_gamma but defers the parameter tables, the endpoint and the auth details to a tools reference that did not resolve on 2026-09-19. A session needs a doc fetch per non-trivial use."
+          }
+        },
+        "extras": [
+          {
+            "id": "scopeSafety",
+            "score": 3,
+            "evidence": "https://developers.gamma.app/mcp/gamma-mcp-server — the documented surface is create, read and export with no documented deletion, so the blast radius is bounded by what the tools can do rather than by configuration."
+          },
+          {
+            "id": "headlessAuth",
+            "score": 1,
+            "evidence": "https://developers.gamma.app/mcp/gamma-mcp-server — OAuth with dynamic client registration plus an access-request form; no token path."
+          }
+        ],
+        "total": 67,
+        "verdict": "trial"
+      }
+    },
+    {
+      "id": "playwright",
+      "name": "Playwright",
+      "kind": "stdio",
+      "transport": "stdio",
+      "url": null,
+      "readOnlyUrl": null,
+      "package": "@playwright/mcp",
+      "version": "0.0.82",
+      "auth": {
+        "mode": "none",
+        "brokerPlaceholders": [],
+        "headless": true,
+        "notes": "No credential of its own. The risk is not authentication, it is egress: a browser can reach any host and can carry a session cookie it was handed. Run with --isolated and an origin allowlist."
+      },
+      "scopeClass": "write",
+      "toolsComplete": false,
+      "tools": [
+        {
+          "name": "browser_snapshot",
+          "scope": "read",
+          "source": "docs"
+        },
+        {
+          "name": "browser_take_screenshot",
+          "scope": "read",
+          "source": "docs"
+        },
+        {
+          "name": "browser_console_messages",
+          "scope": "read",
+          "source": "docs"
+        },
+        {
+          "name": "browser_network_requests",
+          "scope": "read",
+          "source": "docs"
+        },
+        {
+          "name": "browser_navigate",
+          "scope": "write",
+          "source": "docs"
+        },
+        {
+          "name": "browser_click",
+          "scope": "write",
+          "source": "docs"
+        },
+        {
+          "name": "browser_type",
+          "scope": "write",
+          "source": "docs"
+        },
+        {
+          "name": "browser_evaluate",
+          "scope": "write",
+          "source": "docs"
+        }
+      ],
+      "destructiveTools": ["browser_install"],
+      "destructiveNote": "browser_install downloads and installs a browser build into the session, which is a filesystem and network side effect outside the worktree; Atlas only, and in CI the browsers are baked into the image instead.",
+      "owners": ["sentinel"],
+      "writeCharacters": ["sentinel", "atlas"],
+      "allowedCharacters": ["atlas", "sentinel", "iris", "nova"],
+      "sandbox": {
+        "available": true,
+        "how": "--isolated for a throwaway profile and --allowed-origins for an egress allowlist; localhost only by default."
+      },
+      "vendorRateLimit": "None — local process.",
+      "budgetPerSession": 180,
+      "docsUrl": "https://playwright.dev/docs/getting-started-mcp",
+      "healthCheck": "npx -y @playwright/mcp@0.0.82 --help then tools/list over stdio",
+      "aliases": [],
+      "prefer": null,
+      "status": "adopted",
+      "verifiedOn": "2026-09-19",
+      "rubric": {
+        "scores": {
+          "license": {
+            "score": 4,
+            "evidence": "https://registry.npmjs.org/@playwright/mcp — Apache-2.0, an allow-tier SPDX for a dev-context tool."
+          },
+          "maintenance": {
+            "score": 4,
+            "evidence": "https://registry.npmjs.org/@playwright/mcp — 0.0.82 published 2026-09-18, one day before this pass; Microsoft, repository github.com/microsoft/playwright-mcp."
+          },
+          "bundle": {
+            "score": "na",
+            "evidence": "Dev-context stdio process; nothing reaches a browser bundle."
+          },
+          "a11y": {
+            "score": "na",
+            "evidence": "No user interface of its own; it reads other pages' accessibility trees."
+          },
+          "ts": {
+            "score": "na",
+            "evidence": "Executed as a binary over stdio; we import no JavaScript from it."
+          },
+          "agent": {
+            "score": 4,
+            "evidence": "https://playwright.dev/docs/getting-started-mcp — first-party Markdown docs plus a configuration reference at https://playwright.dev/mcp/configuration/options; the accessibility-snapshot model means a session does not need a vision model to act."
+          }
+        },
+        "extras": [
+          {
+            "id": "scopeSafety",
+            "score": 3,
+            "evidence": "https://playwright.dev/mcp/configuration/options — --isolated, --allowed-origins and --blocked-origins bound where the browser may go, but browser_evaluate runs arbitrary JavaScript in the page, so the tool list itself is not the boundary."
+          },
+          {
+            "id": "headlessAuth",
+            "score": 4,
+            "evidence": "https://playwright.dev/docs/getting-started-mcp — no credential at all; the process starts with no provisioning."
+          }
+        ],
+        "total": 98,
+        "verdict": "adopt"
+      }
+    },
+    {
+      "id": "postgres",
+      "name": "Postgres (Postgres MCP Pro)",
+      "kind": "stdio",
+      "transport": "stdio",
+      "url": null,
+      "readOnlyUrl": null,
+      "package": "crystaldba/postgres-mcp",
+      "version": null,
+      "auth": {
+        "mode": "api-key",
+        "brokerPlaceholders": ["broker:postgres/staging-dsn"],
+        "headless": true,
+        "notes": "A connection string, brokered per host. Only the staging DSN has a placeholder: Threat Model section 4 puts any production host on the deny list, and the server-side backstop is the paperos_app role plus tailnet-only Postgres (PAP-30, PAP-34)."
+      },
+      "scopeClass": "destructive",
+      "toolsComplete": false,
+      "tools": [
+        {
+          "name": "list_schemas",
+          "scope": "read",
+          "source": "docs"
+        },
+        {
+          "name": "list_objects",
+          "scope": "read",
+          "source": "docs"
+        },
+        {
+          "name": "get_object_details",
+          "scope": "read",
+          "source": "docs"
+        },
+        {
+          "name": "explain_query",
+          "scope": "read",
+          "source": "docs"
+        },
+        {
+          "name": "analyze_db_health",
+          "scope": "read",
+          "source": "docs"
+        },
+        {
+          "name": "get_top_queries",
+          "scope": "read",
+          "source": "docs"
+        },
+        {
+          "name": "analyze_workload_indexes",
+          "scope": "read",
+          "source": "docs"
+        },
+        {
+          "name": "execute_sql",
+          "scope": "destructive",
+          "source": "docs"
+        }
+      ],
+      "destructiveTools": ["execute_sql"],
+      "destructiveNote": "execute_sql in unrestricted mode is the whole SQL surface: DROP, TRUNCATE, an unqualified DELETE or UPDATE, disabling RLS, ALTER ROLE. All of those are Threat Model section 4 Database rows. Restricted mode is the default here and execute_sql is removed from every character except Atlas regardless of mode, because a mode is configuration and configuration drifts.",
+      "owners": ["forge"],
+      "writeCharacters": ["atlas"],
+      "allowedCharacters": ["atlas", "forge", "nova"],
+      "sandbox": {
+        "available": true,
+        "how": "The staging database only; restricted access mode, read-only transactions, and a statement timeout."
+      },
+      "vendorRateLimit": "None — local process against our own database.",
+      "budgetPerSession": 60,
+      "docsUrl": "https://github.com/crystaldba/postgres-mcp",
+      "healthCheck": "skipped: no staging database yet (PAP-30)",
+      "aliases": [],
+      "prefer": null,
+      "status": "candidate",
+      "statusNote": "Replaces the archived reference server (see denied). Not wired until the staging Postgres exists (PAP-30, PAP-34). Chosen over the Zed and pgEdge forks because it is the one with a documented restricted access mode, which is what makes the destructive tool removable rather than merely discouraged.",
+      "verifiedOn": "2026-09-19",
+      "rubric": {
+        "scores": {
+          "license": {
+            "score": 3,
+            "evidence": "https://github.com/crystaldba/postgres-mcp — MIT per the repository; not yet read from a release artefact, which is the one step short of a 4."
+          },
+          "maintenance": {
+            "score": 3,
+            "evidence": "https://github.com/crystaldba/postgres-mcp — a company (Crystal DBA) behind it and the de-facto successor after the reference server was archived in July 2025; a single-vendor project, so not a 4."
+          },
+          "bundle": {
+            "score": "na",
+            "evidence": "Python stdio process; nothing reaches a browser bundle."
+          },
+          "a11y": {
+            "score": "na",
+            "evidence": "No user interface."
+          },
+          "ts": {
+            "score": "na",
+            "evidence": "Python; no JavaScript surface we import."
+          },
+          "agent": {
+            "score": 3,
+            "evidence": "https://github.com/crystaldba/postgres-mcp — README with the tool list, access modes and container invocation; enough for a session to get it right after one fetch."
+          }
+        },
+        "extras": [
+          {
+            "id": "scopeSafety",
+            "score": 3,
+            "evidence": "https://github.com/crystaldba/postgres-mcp — a restricted access mode with read-only transactions and a statement timeout, but execute_sql is still one tool away from the whole SQL surface if the mode is wrong."
+          },
+          {
+            "id": "headlessAuth",
+            "score": 4,
+            "evidence": "https://github.com/crystaldba/postgres-mcp — a DATABASE_URI connection string; no browser."
+          }
+        ],
+        "total": 76,
+        "verdict": "adopt"
+      }
+    }
+  ]
+}

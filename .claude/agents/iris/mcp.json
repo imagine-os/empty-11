@@ -1,0 +1,27 @@
+{
+  "_character": "iris",
+  "_issue": "PAP-210",
+  "_source": ".claude/mcp/catalog.json — this fragment is checked against it by packages/agents/src/mcp",
+  "_note": "Read-only everywhere plus Playwright for visual work; Iris never writes to a forge or a tracker from a session.",
+  "mcpServers": {
+    "linear": {
+      "type": "http",
+      "url": "https://mcp.linear.app/mcp/readonly",
+      "headers": {
+        "Authorization": "Bearer broker:linear/api-key"
+      }
+    },
+    "github": {
+      "type": "http",
+      "url": "https://api.githubcopilot.com/mcp/readonly",
+      "headers": {
+        "Authorization": "Bearer broker:github/app-installation-token",
+        "X-MCP-Readonly": "true"
+      }
+    },
+    "playwright": {
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp@0.0.82", "--isolated", "--browser", "chromium"]
+    }
+  }
+}
