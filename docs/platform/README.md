@@ -39,6 +39,11 @@ Here now:
   port, the Airtable / Notion / ClickUp equivalence column and the planned `dataset|field|record|view`
   tables (PAP-161, ADR 0016). Generated JSON Schema lives beside the code in
   `packages/views/schema/`.
+* [`config.md`](config.md) — the typed env layer (`publicEnvSchema` / `serverEnvSchema`), the
+  extension pattern other modules use to add their own keys, the per-target `SecretStore` and its
+  four adapters (`web` live, `desktop` / `ios` / `android` not wired yet), and the bundle guard that
+  keeps a server-only value out of a client build (PAP-17). Code: `packages/core/src/config/`,
+  subpath `@paperos/core/config`.
 
 * [`page-spec.md`](page-spec.md) — **generated** field reference and issue codes of `page.spec.yaml`
   v1 (`pnpm --filter @paperos/spec gen:schemas`, PAP-114, ADR 0015). Never hand-edited.

@@ -19,3 +19,13 @@ export const PAPEROS_VERSION = '0.1.0' as const;
 export * from './events/index.js';
 
 export * from './filter/index.js';
+
+/**
+ * Typed env schemas, `loadConfig()`, `SecretStore` per target (PAP-17). Also reachable directly
+ * as `@paperos/core/config` — prefer that subpath in a browser/webview app (`apps/web`,
+ * `apps/desktop`'s webview, `apps/mobile`'s webview): it is exactly the same module, this line only
+ * exists to satisfy rule R12 (the barrel re-exports `./<folder>/index.js`, nothing deeper).
+ * `docs/platform/config.md` §5 covers why importing only the public accessors still tree-shakes
+ * the server-only schema out of a real (minified) client build either way.
+ */
+export * from './config/index.js';

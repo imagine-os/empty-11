@@ -265,6 +265,9 @@ importers:
       '@paperos/config-ts':
         specifier: workspace:*
         version: link:../config-ts
+      '@types/node':
+        specifier: 'catalog:'
+        version: 22.20.4
       fast-check:
         specifier: ^4.10.1
         version: 4.10.1
@@ -274,6 +277,9 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
+      vite:
+        specifier: 'catalog:'
+        version: 7.3.6(@types/node@22.20.4)(tsx@4.23.13)(yaml@2.9.1)
       vitest:
         specifier: 'catalog:'
         version: 3.2.7(@types/node@22.20.4)(jsdom@26.1.0)(tsx@4.23.13)(yaml@2.9.1)

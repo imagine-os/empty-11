@@ -1,6 +1,8 @@
 # @paperos/core
 
-Contract-zero primitives. Pure TypeScript: **no React, no database, no network, no env reads.**
+Contract-zero primitives. Pure TypeScript: **no React, no database, no network.** The one exception
+is `config/`, below: it is the one sub-folder allowed to read `process.env` / `import.meta.env` —
+that is its whole job — everything else in this package stays a pure function of its inputs.
 Every other package (including every `@paperos/contract-*`) may import this one.
 
 ## Sub-folder ownership
@@ -24,11 +26,12 @@ sub-folder with no entry there fails `pnpm lint:deps`
 | `audience/` | identity | audience model (ADR 0017) |
 | `principal.ts` | identity | `Principal` |
 | `modules/` | app-shell | module manifest + generated JSON Schema (ADR 0014) |
+| `config/` | app-shell | typed env schemas, `loadConfig()`, `SecretStore` per target (PAP-17), subpath `@paperos/core/config` |
 | `pwa/`, `windows/`, `native/`, `flags/` | app-shell | shell capabilities |
 | `nav/` | app-shell | router and navigation primitives (PAP-16) |
 | `i18n/` | app-shell | message catalog (EN + ES) |
 
-Only `events/`, `devices/` and `modules/` exist so far; the rest land with their issues.
+`events/`, `devices/`, `modules/` and `config/` are landed; the rest land with their issues.
 
 ## Subpath exports
 
@@ -37,6 +40,7 @@ Only `events/`, `devices/` and `modules/` exist so far; the rest land with their
 | `@paperos/core` | the barrel: `PAPEROS_VERSION` and everything re-exported from the sub-folders |
 | `@paperos/core/events` | domain events: envelope, `defineTopic`, `publish`, `on`, catalogue |
 | `@paperos/core/events/testing` | `collectEvents`, `expectEvent`, the in-memory outbox driver |
+| `@paperos/core/config` | typed env schemas, `loadConfig()`, `SecretStore` per target (PAP-17) — prefer this subpath in a browser/webview app; the root barrel re-exports the same module (rule R12) |
 
 `events/` keeps the package's purity rule: it depends on Zod and nothing else. `publish()` writes
 through an `OutboxDriver` port that `@paperos/db` registers at boot, so no database type crosses
@@ -46,3 +50,7 @@ this boundary.
 TypeScript, no `node:*`, so any package can read the types. There is deliberately **no `pm/`
 folder** — PM entities and their Drizzle schema live in
 [`packages/pm`](../pm/README.md), because core holds no database (ADR 0026).
+
+`config/` is the one sub-folder allowed to read `process.env` / `import.meta.env` (its whole job);
+`docs/platform/config.md` covers the schema, the extension pattern, `SecretStore` and the bundle
+guard that keeps a server-only value out of a client build.

@@ -59,6 +59,9 @@ or `-`), **Status** (`live`, `stub`, `planned`).
 | CLI | `pnpm --filter @paperos/tokens ramps` — regenerate one colour ramp's OKLCH steps with `culori`, print DTCG JSON to stdout for hand-review before pasting into `core.tokens.json` | PAP-66 | - | live |
 | CLI | `pnpm --filter @paperos/tokens tokens:lint` — DTCG schema (kebab names), alias resolvability, cycle detection, unused alias-only primitives | PAP-66 | - | live |
 | CLI | `pnpm --filter @paperos/tokens tokens:check` — WCAG contrast assertions (`fg.default` 4.5:1, `fg.muted` 3:1, status and on-accent pairs) across light/dark/hc; `--report <path>` writes the JSON the evidence swatch page reads | PAP-66 | - | live |
+| CLI | `pnpm --filter @paperos/core env:check` — validate that `.env.example` still declares every key `publicEnvSchema` / `serverEnvSchema` (and every registered extension) requires; prints a table of missing keys and exits 1 | PAP-17 | - | live |
+| API | `@paperos/core/config`: `publicEnv`, `serverEnv`, `getPublicEnv()`, `getServerEnv()`, `loadConfig(target)` — the typed, fail-fast env accessors every server/browser context reads instead of `process.env` / `import.meta.env` | PAP-17 | - | live |
+| API | `@paperos/core/config`: `SecretStore` / `getSecretStore()` — client-side secret storage per target (`WebSecretStore` live; `TauriKeychainStore` / `MobileSecureStore` not wired yet, see `apps/desktop/README.md` / `apps/mobile/README.md`) | PAP-17 | - | live (web) / stub (desktop, mobile) |
 
 The placeholder route declares no actions: it has no controls. The first page with a control adds
 its actions registry and its rows here; the shape it declares against is the `Action` row above
