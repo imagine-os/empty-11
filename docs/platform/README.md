@@ -8,4 +8,7 @@ Platform reference. Two kinds of file live here and they are treated differently
   CI fails when the committed copy is stale.
 * **Hand-written** — the swap playbook, the kernel walkthrough, runbooks.
 
-Nothing here yet; the module-system issues (PAP-433 onwards) land the first files.
+* [`forge-topology.md`](forge-topology.md) — Forgejo/GitHub mirroring topology, failover and
+  failure modes (PAP-44, hand-written; implemented by PAP-47).
+
+The module-system issues (PAP-433 onwards) land the generated files.

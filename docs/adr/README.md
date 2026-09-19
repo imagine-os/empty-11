@@ -9,7 +9,7 @@ Numbers are pre-assigned by the plan; take yours, do not renumber.
 | # | Slug | Issue | Status |
 | -- | -- | -- | -- |
 | 0001 | [monorepo-stack](0001-monorepo-stack.md) | PAP-13 | Accepted |
-| 0002 | git-forgejo-mirror | PAP-44 | Planned |
+| 0002 | [git-forgejo-mirror](0002-git-forgejo-mirror.md) | PAP-44 | Accepted |
 | 0003 | auth-library | PAP-56 | Planned |
 | 0004 | local-first-sync | PAP-31 | Planned |
 | 0005 | crdt-library | PAP-139 | Planned |
