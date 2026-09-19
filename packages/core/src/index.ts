@@ -19,3 +19,5 @@ export const PAPEROS_VERSION = '0.1.0' as const;
 export * from './events/index.js';
 
 export * from './filter/index.js';
+/** Shared value types and wire encodings (data-layer, PAP-302, ADR 0011). */
+export * from './types/index.js';

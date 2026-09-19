@@ -33,6 +33,9 @@ Here now:
 * [`dependency-map.json`](dependency-map.json) / [`dependency-map.md`](dependency-map.md) —
   **generated** by `pnpm gen:dep-map` (PAP-305): nodes, owners, the allowed graph and the imports
   that exist today.
+* [`types.md`](types.md) — the shared value types and their TypeScript / Postgres / JSON
+  encodings: `Money`, `ActorRef`, `EntityRef`, UUIDv7 ids, timestamps, signed cursors and the API
+  error body (PAP-302, ADR 0011). Code in `packages/core/src/types` and `packages/db`.
 * [`forge-topology.md`](forge-topology.md) — Forgejo/GitHub mirroring topology, failover and
   failure modes (PAP-44, hand-written; implemented by PAP-47).
 * [`view-model.md`](view-model.md) — `ViewSpec`, `FieldDef`, `DatasetRef`, the dataset registry

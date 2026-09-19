@@ -8,7 +8,8 @@
     ".": "./src/index.ts",
     "./events": "./src/events/index.ts",
     "./events/testing": "./src/events/testing.ts",
-    "./filter": "./src/filter/index.ts"
+    "./filter": "./src/filter/index.ts",
+    "./types": "./src/types/index.ts"
   },
   "main": "./src/index.ts",
   "types": "./src/index.ts",
@@ -21,7 +22,8 @@
     "test": "vitest run --passWithNoTests",
     "clean": "node -e \"require('node:fs').rmSync('coverage',{recursive:true,force:true})\"",
     "example:filter": "tsx examples/filter.ts",
-    "events:catalogue": "tsx ../../scripts/events-catalogue.ts"
+    "events:catalogue": "tsx ../../scripts/events-catalogue.ts",
+    "example:types": "tsx examples/types.ts"
   },
   "dependencies": {
     "drizzle-orm": "^0.45.2",
@@ -34,6 +36,7 @@
     "fast-check": "^4.10.1",
     "tsx": "^4.23.13",
     "typescript": "catalog:",
-    "vitest": "catalog:"
+    "vitest": "catalog:",
+    "@vitest/coverage-v8": "catalog:"
   }
 }

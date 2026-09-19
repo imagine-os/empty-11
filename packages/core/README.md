@@ -19,6 +19,7 @@ sub-folder with no entry there fails `pnpm lint:deps`
 | -- | -- | -- |
 | `types/` | data-layer | shared value types (ADR 0011) |
 | `devices/` | app-shell | device and breakpoint matrix (PAP-14, ADR 0022) |
+| `types/` | data-layer | **landed** — shared value types, PAP-302 ([ADR 0011](../../docs/adr/0011-shared-value-types.md), [reference](../../docs/platform/types.md)) |
 | `filter/` | data-layer | filter grammar (ADR 0012) |
 | `events/` | data-layer | event envelope, topic registry and `publish()` (ADR 0013) — **landed**, PAP-555 |
 | `audience/` | identity | audience model (ADR 0017) |
@@ -46,3 +47,11 @@ this boundary.
 TypeScript, no `node:*`, so any package can read the types. There is deliberately **no `pm/`
 folder** — PM entities and their Drizzle schema live in
 [`packages/pm`](../pm/README.md), because core holds no database (ADR 0026).
+`types/` has landed and is re-exported from the barrel and from the subpath `@paperos/core/types`.
+The rest of the list is still to come.
+
+## Environment
+
+The one exception to "no env reads": `signCursor` / `verifyCursor` read `CURSOR_SECRET` and
+`CURSOR_SECRET_PREVIOUS` **at the call site** when no `CursorSecrets` argument is passed, never at
+import. Importing this package can never fail on a missing variable.
