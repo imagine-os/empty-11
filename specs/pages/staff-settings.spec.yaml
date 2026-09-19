@@ -1,0 +1,213 @@
+# yaml-language-server: $schema=../../packages/spec/schema/page.spec.schema.json
+# Staff settings: members, roles, branding, modules and the audit log (golden path §4, `staff/settings`).
+meta:
+  id: staff-settings
+  title: { id: staff-settings.meta.title, default: Settings }
+  description: Tenant admins invite members, assign roles, set branding, toggle modules and read the audit log.
+  route: /settings
+  surface: staff
+  owner: app-shell
+  status: ready
+  specVersion: 1
+  tags: [admin, golden-path]
+
+purpose:
+  summary: A tenant admin lands here to add a colleague, change what they may do, put the company logo on, switch a module on or off and see who changed what.
+  successMetric: A new member is invited and signed in within five minutes, without staff support.
+
+logic:
+  actions:
+    inviteMember:
+      intent: { id: staff-settings.actions.inviteMember.intent, default: invite a member }
+      permission: settings.members.invite
+      steps:
+        - Validate the email and role.
+        - Create the invitation and send the email through the connector.
+        - Show the pending row with a resend option.
+      effects:
+        - { kind: mutation, ref: inviteMember }
+        - { kind: integration, ref: mail.send }
+        - { kind: notify, copy: staff-settings.actions.inviteMember.sent }
+      onError:
+        strategy: inline
+        copy: staff-settings.actions.inviteMember.error
+      input: { email: string, role: string }
+    changeRole:
+      intent: { id: staff-settings.actions.changeRole.intent, default: change a member's role }
+      permission: settings.members.manage
+      guard: the actor is not demoting the last owner
+      steps:
+        - Update the membership role.
+        - Refresh the member's sessions so the new role applies.
+      effects:
+        - { kind: mutation, ref: changeRole }
+        - { kind: emit, ref: identity.membership.roleChanged }
+      input: { memberId: uuid, role: string }
+    removeMember:
+      intent: { id: staff-settings.actions.removeMember.intent, default: remove a member }
+      permission: settings.members.manage
+      guard: the member is not the actor and not the last owner
+      steps:
+        - Confirm in a modal.
+        - Soft-delete the membership and revoke sessions.
+      effects:
+        - { kind: mutation, ref: removeMember }
+      input: { memberId: uuid }
+    saveBranding:
+      intent: { id: staff-settings.actions.saveBranding.intent, default: save branding }
+      permission: settings.branding.edit
+      steps:
+        - Upload the logo, store the colours, refresh the theme.
+      effects:
+        - { kind: mutation, ref: saveBranding }
+      status: not-wired
+    toggleModule:
+      intent: { id: staff-settings.actions.toggleModule.intent, default: turn a module on or off }
+      permission: settings.modules.manage
+      steps:
+        - Flip the module flag; the shell re-composes routes.
+      effects:
+        - { kind: mutation, ref: toggleModule }
+        - { kind: emit, ref: modules.toggled }
+      input: { moduleId: string, enabled: boolean }
+    retryLoad:
+      intent: staff-settings.actions.retryLoad.intent
+      permission: page.view
+      steps: [Re-run the settings queries.]
+
+access:
+  view: [staff-admin, staff-owner]
+  actions:
+    inviteMember: { audiences: [staff-admin, staff-owner] }
+    changeRole: { audiences: [staff-owner] }
+    removeMember: { audiences: [staff-owner] }
+    saveBranding: { audiences: [staff-admin, staff-owner] }
+    toggleModule: { audiences: [staff-owner] }
+    retryLoad: { audiences: [staff-admin, staff-owner] }
+  rows:
+    membership: { field: tenantId, operator: eq, value: { $var: principal.tenantId } }
+    audit-entry: { field: tenantId, operator: eq, value: { $var: principal.tenantId } }
+  fields:
+    membership.email: { view: [staff-admin, staff-owner] }
+
+data:
+  entities: [membership, tenant, module-flag, audit-entry]
+  queries:
+    members:
+      entity: membership
+      sort: [{ field: createdAt, dir: asc }]
+      fields: [email, role, status, lastSeenAt]
+      sync: live
+    branding:
+      entity: tenant
+      fields: [name, logoUrl, primaryColor]
+      sync: server
+      page: 1
+    modules:
+      entity: module-flag
+      sync: live
+    auditLog:
+      entity: audit-entry
+      sort: [{ field: createdAt, dir: desc }]
+      sync: server
+      page: 50
+  mutations:
+    inviteMember: { entity: membership, action: create, input: { email: string, role: string } }
+    changeRole: { entity: membership, action: update, input: { memberId: uuid, role: string } }
+    removeMember: { entity: membership, action: delete, input: { memberId: uuid }, optimistic: false }
+    saveBranding: { entity: tenant, action: update, input: { logoUrl: string, primaryColor: string } }
+    toggleModule: { entity: module-flag, action: update, input: { moduleId: string, enabled: boolean } }
+
+integrations:
+  - connector: resend
+    capabilities: [mail.send]
+    mode: test
+    onFailure: queue
+
+layout:
+  template: app
+  slots:
+    main: {}
+    inspector: { collapsible: true, defaultCollapsed: true }
+  density: default
+
+components:
+  - id: ui.heading
+    key: pageTitle
+    props: { level: 1, text: staff-settings.meta.title }
+  - id: ui.tabs
+    key: settingsTabs
+    props:
+      tabs:
+        - { id: members, label: staff-settings.components.settingsTabs.members }
+        - { id: branding, label: staff-settings.components.settingsTabs.branding }
+        - { id: modules, label: staff-settings.components.settingsTabs.modules }
+        - { id: audit, label: staff-settings.components.settingsTabs.audit }
+    children:
+      - id: ui.dataTable
+        key: membersTable
+        props:
+          query: members
+          columns: [email, role, status, lastSeenAt]
+          rowActions: [changeRole, removeMember]
+        events:
+          onRowAction: changeRole
+        children:
+          - id: ui.button
+            key: inviteButton
+            props: { variant: primary, label: staff-settings.components.inviteButton.label }
+            events: { onClick: inviteMember }
+      - id: ui.form
+        key: brandingForm
+        props: { query: branding, fields: [name, logoUrl, primaryColor] }
+        events: { onSubmit: saveBranding }
+        status: not-wired
+      - id: ui.toggleList
+        key: modulesList
+        props: { query: modules }
+        events: { onToggle: toggleModule }
+      - id: ui.dataTable
+        key: auditTable
+        props: { query: auditLog, columns: [createdAt, actor, action, target] }
+  - id: ui.card
+    key: helpCard
+    slot: inspector
+    props: { title: staff-settings.components.helpCard.title }
+
+states:
+  loading: { copy: staff-settings.states.loading.copy, component: ui.skeletonTable }
+  empty: { copy: { id: staff-settings.states.empty.copy, default: You are the only member so far }, component: ui.emptyState, action: inviteMember }
+  error: { copy: staff-settings.states.error.copy, component: ui.errorState, action: retryLoad }
+  offline: { copy: staff-settings.states.offline.copy, component: ui.offlineBanner }
+  denied: { copy: staff-settings.states.denied.copy, component: ui.deniedState }
+
+events:
+  - { on: inviteMember, to: /settings }
+  - { on: membersTable.onRowSelect, to: /settings/members/$memberId, kind: modal }
+  - { on: helpCard.onClick, to: https://docs.paperos.dev/settings, kind: external }
+
+edgeCases:
+  - id: last-owner
+    scenario: The only owner tries to demote or remove themselves.
+    expected: The action is disabled with a tooltip; the server rejects it too.
+    test: e2e
+    action: changeRole
+  - id: duplicate-invite
+    scenario: An email that already has a pending invitation is invited again.
+    expected: The existing invitation is resent; no duplicate row.
+    test: unit
+    action: inviteMember
+  - id: mail-down
+    scenario: The mail connector is unavailable.
+    expected: The invitation is queued with a pending badge and sent when the connector recovers.
+    test: e2e
+    action: inviteMember
+  - id: concurrent-role-change
+    scenario: Two owners change the same member's role at the same time.
+    expected: Last write wins; both clients converge on the stored role within a second.
+    test: e2e
+    action: changeRole
+  - id: audit-log-large
+    scenario: A tenant with 100,000 audit entries opens the audit tab.
+    expected: The first 50 render under 300 ms; older entries page in.
+    test: manual

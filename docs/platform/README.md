@@ -30,6 +30,11 @@ Here now:
   tables (PAP-161, ADR 0016). Generated JSON Schema lives beside the code in
   `packages/views/schema/`.
 
+* [`page-spec.md`](page-spec.md) — **generated** field reference and issue codes of `page.spec.yaml`
+  v1 (`pnpm --filter @paperos/spec gen:schemas`, PAP-114, ADR 0015). Never hand-edited.
+* [`page-spec-versioning.md`](page-spec-versioning.md) — the versioning skeleton that exists and what
+  PAP-751 adds (PAP-114, hand-written).
+
 The module-system issues (PAP-433 onwards) land the generated files.
 * [`character-schema.md`](character-schema.md) — the character schema every agent character is
   declared in: fields, scope registry, validation codes, inheritance, editor wiring (PAP-103,

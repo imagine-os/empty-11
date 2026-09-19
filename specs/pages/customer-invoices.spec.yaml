@@ -1,0 +1,155 @@
+# yaml-language-server: $schema=../../packages/spec/schema/page.spec.schema.json
+# Customer-facing invoice list: the golden-path page (docs/new-app-in-ten-minutes.md §4).
+meta:
+  id: customer-invoices
+  title: { id: customer-invoices.meta.title, default: Your invoices }
+  description: Customers see every invoice on their account, pay the open ones and download PDFs.
+  route: /invoices
+  surface: customer
+  owner: spec-builder
+  status: ready
+  specVersion: 1
+  tags: [billing, golden-path]
+
+purpose:
+  summary: A customer opens the page to see what they owe, pay an open invoice in two taps and keep a PDF for their books.
+  successMetric: 80 percent of open invoices are paid from this page without contacting staff.
+
+logic:
+  actions:
+    openInvoice:
+      intent: { id: customer-invoices.actions.openInvoice.intent, default: open invoice }
+      permission: invoice.view
+      steps:
+        - Navigate to the invoice detail page for the selected row.
+      input: { invoiceId: uuid }
+    payInvoice:
+      intent: { id: customer-invoices.actions.payInvoice.intent, default: pay invoice }
+      permission: invoice.pay
+      guard: invoice.status is open and the tenant has Stripe enabled
+      steps:
+        - Create a Stripe checkout session for the invoice total.
+        - Redirect to Stripe; on return, refresh the invoice.
+      effects:
+        - { kind: integration, ref: payments.createCheckout }
+        - { kind: notify, copy: customer-invoices.actions.payInvoice.paid }
+      onError:
+        strategy: toast
+        copy: customer-invoices.actions.payInvoice.error
+      input: { invoiceId: uuid }
+    downloadPdf:
+      intent: customer-invoices.actions.downloadPdf.intent
+      permission: invoice.view
+      steps:
+        - Request the signed PDF URL and open it in a new tab.
+      input: { invoiceId: uuid }
+      status: not-wired
+    retryLoad:
+      intent: customer-invoices.actions.retryLoad.intent
+      permission: page.view
+      steps: [Re-run the invoices query.]
+
+access:
+  view: [customer]
+  actions:
+    openInvoice: { audiences: [customer] }
+    payInvoice:
+      audiences: [customer]
+      condition: { field: status, operator: eq, value: open }
+    downloadPdf: { audiences: [customer] }
+    retryLoad: { audiences: [customer] }
+  rows:
+    invoice: { field: customerId, operator: eq, value: { $var: principal.id } }
+
+data:
+  entities: [invoice]
+  queries:
+    invoices:
+      entity: invoice
+      filter:
+        op: and
+        children:
+          - { field: deletedAt, operator: isNull }
+      sort: [{ field: issuedAt, dir: desc }]
+      fields: [number, status, total, issuedAt, dueAt]
+      sync: live
+      page: 25
+  mutations:
+    payInvoice:
+      entity: invoice
+      action: custom
+      input: { invoiceId: uuid }
+      optimistic: false
+
+integrations:
+  - connector: stripe
+    capabilities: [payments.createCheckout]
+    mode: test
+    onFailure: block
+
+layout:
+  template: app
+  slots:
+    main: {}
+    inspector: { collapsible: true, defaultCollapsed: true }
+
+components:
+  - id: ui.heading
+    key: pageTitle
+    props: { level: 1, text: customer-invoices.meta.title }
+  - id: ui.dataTable
+    key: invoiceTable
+    props:
+      query: invoices
+      columns: [number, status, total, issuedAt, dueAt]
+      rowActions: [payInvoice, downloadPdf]
+    events:
+      onRowSelect: openInvoice
+    children:
+      - id: ui.button
+        key: payButton
+        props: { variant: primary, label: customer-invoices.components.payButton.label }
+        events: { onClick: payInvoice }
+      - id: ui.button
+        key: pdfButton
+        props: { variant: secondary, label: customer-invoices.components.pdfButton.label }
+        events: { onClick: downloadPdf }
+        status: not-wired
+  - id: ui.card
+    key: balanceCard
+    slot: inspector
+    props: { title: customer-invoices.components.balanceCard.title }
+
+states:
+  loading: { copy: customer-invoices.states.loading.copy, component: ui.skeletonTable }
+  empty: { copy: { id: customer-invoices.states.empty.copy, default: No invoices yet }, component: ui.emptyState }
+  error: { copy: customer-invoices.states.error.copy, component: ui.errorState, action: retryLoad }
+  offline: { copy: customer-invoices.states.offline.copy, component: ui.offlineBanner }
+  denied: { copy: customer-invoices.states.denied.copy, component: ui.deniedState }
+  paying: { copy: customer-invoices.states.paying.copy, component: ui.progressState }
+
+events:
+  - { on: openInvoice, to: /invoices/$invoiceId }
+  - { on: payInvoice, to: https://checkout.stripe.com, kind: external, guard: checkout session created }
+  - { on: invoiceTable.onRowSelect, to: /invoices/$invoiceId, kind: navigate }
+
+edgeCases:
+  - id: pay-already-paid
+    scenario: Two tabs; the invoice is paid in one, Pay is tapped in the other.
+    expected: The mutation is rejected server-side; the row refreshes to paid and a toast explains.
+    test: e2e
+    action: payInvoice
+  - id: offline-list
+    scenario: The device goes offline after the first load.
+    expected: The cached list stays visible with the offline banner; Pay is disabled with a tooltip.
+    test: unit
+  - id: stripe-down
+    scenario: Stripe returns 5xx when creating the checkout session.
+    expected: The error state shows with retry; nothing is charged.
+    test: e2e
+    action: payInvoice
+  - id: large-account
+    scenario: A customer with 3,000 invoices opens the page.
+    expected: The first 25 render under 300 ms; the rest page in on scroll.
+    test: manual
+
