@@ -4,8 +4,10 @@
  * ids, shadowed built-ins, invalid segments, over-deep trees, unknown references and
  * cycles, with a path for each.
  */
-import type { Audience, AudienceDeclarations, AudienceId } from './audience.js';
-import { audienceDeclarationSchema, audienceIdSchema } from './audience.js';
+import type { Audience, AudienceDeclarations } from './audience.js';
+import { audienceDeclarationSchema } from './audience.js';
+import type { AudienceId } from './audience-id.js';
+import { audienceIdSchema } from './audience-id.js';
 import { BUILTIN_AUDIENCES } from './builtin.js';
 import { describe as describeSegment } from './describe.js';
 import type { AudienceResolver } from './matches.js';

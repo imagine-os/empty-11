@@ -3,7 +3,7 @@
  * lookups. It throws only for a broken registry: an unknown audience reference or a
  * reference cycle, both of which `validateAudiences` catches ahead of time.
  */
-import type { AudienceId } from './audience.js';
+import type { AudienceId } from './audience-id.js';
 import { BUILTIN_AUDIENCES } from './builtin.js';
 import { AudienceCycleError, UnknownAudienceError } from './errors.js';
 import type { AttributeValue, Principal } from './principal.js';

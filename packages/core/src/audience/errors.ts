@@ -1,4 +1,4 @@
-import type { AudienceId } from './audience.js';
+import type { AudienceId } from './audience-id.js';
 
 /** Base class of every error this module throws. Attribute lookups never throw; references may. */
 export class AudienceError extends Error {

@@ -12,8 +12,8 @@
  * `audience` references another audience by id (resolved by the registry, cycles rejected).
  */
 import { z } from 'zod';
-import type { AudienceId } from './audience.js';
-import { audienceIdSchema } from './audience.js';
+import type { AudienceId } from './audience-id.js';
+import { audienceIdSchema } from './audience-id.js';
 import type { PrincipalType } from './principal.js';
 import { principalTypeSchema } from './principal.js';
 import type { TenantRole } from './role.js';

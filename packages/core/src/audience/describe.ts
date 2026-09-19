@@ -6,7 +6,8 @@
  * English only by design: the phrase is a developer-facing explanation (spec validator
  * messages, `audience explain`, docs). User-facing copy goes through the message catalog.
  */
-import type { Audience, AudienceId } from './audience.js';
+import type { Audience } from './audience.js';
+import type { AudienceId } from './audience-id.js';
 import { BUILTIN_AUDIENCES } from './builtin.js';
 import type { PrincipalType } from './principal.js';
 import type { TenantRole } from './role.js';

@@ -7,25 +7,17 @@
  * `staff.<kind>`, `agent.<character>` — a derived id never collides with a built-in.
  */
 import { z } from 'zod';
+import type { AudienceId } from './audience-id.js';
+import { audienceIdSchema } from './audience-id.js';
 import type { Segment } from './segment.js';
 import { segmentSchema } from './segment.js';
 
-export const AUDIENCE_ID_PATTERN =
-  /^[a-z][a-z0-9]*(?:-[a-z0-9]+)*(?:\.[a-z][a-z0-9]*(?:-[a-z0-9]+)*)*$/;
-
-/** A validated audience id. Plain string at the type level; the grammar is enforced at boundaries. */
-export type AudienceId = string;
-
-export const audienceIdSchema = z
-  .string()
-  .regex(
-    AUDIENCE_ID_PATTERN,
-    'audience ids are kebab-case segments joined by dots, e.g. "customer-pro" or "agent.forge"',
-  );
-
-export function isAudienceId(value: unknown): value is AudienceId {
-  return typeof value === 'string' && AUDIENCE_ID_PATTERN.test(value);
-}
+export {
+  AUDIENCE_ID_PATTERN,
+  type AudienceId,
+  audienceIdSchema,
+  isAudienceId,
+} from './audience-id.js';
 
 /** What an app declares under `audiences:` in `app.spec.yaml` — an {@link Audience} without its id. */
 export type AudienceDeclaration = {

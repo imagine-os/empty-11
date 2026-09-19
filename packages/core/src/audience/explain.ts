@@ -2,7 +2,7 @@
  * `explainPrincipal` — which audiences a principal belongs to and why. Backs the demo
  * CLI (`pnpm --filter @paperos/core audience explain`) and PAP-59's non-production `explain`.
  */
-import type { AudienceId } from './audience.js';
+import type { AudienceId } from './audience-id.js';
 import type { Principal } from './principal.js';
 import type { AudienceRegistry } from './registry.js';
 import { BUILTIN_REGISTRY } from './registry.js';
