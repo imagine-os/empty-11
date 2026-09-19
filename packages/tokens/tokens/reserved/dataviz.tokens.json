@@ -1,0 +1,6 @@
+{
+  "$description": "Reserved namespace for PAP-665 (dataviz tokens and micro-charts): categorical, sequential and diverging palettes validated for contrast and colour-vision deficiency. Empty on purpose -- `color.dataviz.*` is wired into the build's merge and CSS-variable emission (see scripts/build.ts TOKEN_FILES) today, so PAP-665 lands tokens here without any build-config change.",
+  "color": {
+    "dataviz": {}
+  }
+}

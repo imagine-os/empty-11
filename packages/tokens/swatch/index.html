@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>PaperOS design tokens (PAP-66)</title>
+<link rel="stylesheet" href="../src/generated/tokens.css" />
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--pos-color-bg-canvas);
+    color: var(--pos-color-fg-default);
+    font-family: var(--pos-font-family-sans);
+    font-size: var(--pos-type-role-body-font-size);
+    line-height: var(--pos-type-role-body-line-height);
+    transition: background var(--pos-motion-duration-base) var(--pos-motion-ease-standard),
+      color var(--pos-motion-duration-base) var(--pos-motion-ease-standard);
+  }
+  header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--pos-space-16);
+    padding: var(--pos-space-24) var(--pos-space-32);
+    border-bottom: 1px solid var(--pos-color-border-default);
+    position: sticky;
+    top: 0;
+    background: var(--pos-color-bg-surface);
+    z-index: var(--pos-z-sticky);
+  }
+  h1 {
+    font-size: var(--pos-type-role-heading-lg-font-size);
+    font-weight: var(--pos-type-role-heading-lg-font-weight);
+    line-height: var(--pos-type-role-heading-lg-line-height);
+    margin: 0;
+    flex: 1 1 auto;
+  }
+  .theme-buttons { display: flex; gap: var(--pos-space-8); border: 0; margin: 0; padding: 0; }
+  .visually-hidden {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+  }
+  button.theme-btn {
+    min-height: var(--pos-size-control-md);
+    min-width: var(--pos-size-target-min);
+    padding: 0 var(--pos-space-16);
+    border-radius: var(--pos-radius-role-control);
+    border: 1px solid var(--pos-color-border-default);
+    background: var(--pos-color-bg-surface);
+    color: var(--pos-color-fg-default);
+    font: inherit;
+    font-weight: var(--pos-font-weight-medium);
+    cursor: pointer;
+  }
+  button.theme-btn[aria-pressed="true"] {
+    background: var(--pos-color-accent-default);
+    color: var(--pos-color-fg-on-accent);
+    border-color: var(--pos-color-accent-default);
+  }
+  button.theme-btn:focus-visible {
+    outline: var(--pos-focus-ring-width) solid var(--pos-color-focus);
+    outline-offset: var(--pos-focus-ring-offset);
+  }
+  main { padding: var(--pos-space-32); max-width: 1400px; margin: 0 auto; }
+  section { margin-bottom: var(--pos-space-48); }
+  h2 {
+    font-size: var(--pos-type-role-heading-md-font-size);
+    font-weight: var(--pos-type-role-heading-md-font-weight);
+    border-bottom: 1px solid var(--pos-color-border-default);
+    padding-bottom: var(--pos-space-8);
+  }
+  p.lead {
+    font-size: var(--pos-type-role-lead-font-size);
+    line-height: var(--pos-type-role-lead-line-height);
+    color: var(--pos-color-fg-muted);
+    max-width: 70ch;
+  }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: var(--pos-space-16); }
+  .swatch {
+    border-radius: var(--pos-radius-role-card);
+    overflow: hidden;
+    border: 1px solid var(--pos-color-border-default);
+    background: var(--pos-color-bg-surface);
+  }
+  .swatch .fill { height: 64px; }
+  .swatch .label {
+    padding: var(--pos-space-8) var(--pos-space-12);
+    font-size: var(--pos-type-role-label-font-size);
+    font-weight: var(--pos-type-role-label-font-weight);
+  }
+  .ramp-row { display: flex; margin-bottom: var(--pos-space-8); border-radius: var(--pos-radius-md); overflow: hidden; border: 1px solid var(--pos-color-border-default); }
+  .ramp-row .step { flex: 1 1 0; height: 48px; }
+  .role-card {
+    padding: var(--pos-space-16);
+    border-radius: var(--pos-radius-role-card);
+    border: 1px solid var(--pos-color-border-default);
+  }
+  .status-row { display: flex; flex-wrap: wrap; gap: var(--pos-space-16); }
+  .status-chip {
+    padding: var(--pos-space-12) var(--pos-space-16);
+    border-radius: var(--pos-radius-role-pill);
+    border: 1px solid;
+    font-weight: var(--pos-font-weight-medium);
+  }
+  .type-specimen { margin-bottom: var(--pos-space-16); display: flex; align-items: baseline; gap: var(--pos-space-16); }
+  .type-specimen .name { width: 110px; flex: none; font-family: var(--pos-font-family-mono); font-size: var(--pos-type-role-caption-font-size); color: var(--pos-color-fg-muted); }
+  .type-specimen .sample { font-family: var(--pos-font-family-sans); }
+  .display-sample { font-size: var(--pos-type-role-display-font-size); font-weight: var(--pos-type-role-display-font-weight); line-height: var(--pos-type-role-display-line-height); }
+  .heading-lg-sample { font-size: var(--pos-type-role-heading-lg-font-size); font-weight: var(--pos-type-role-heading-lg-font-weight); }
+  .heading-md-sample { font-size: var(--pos-type-role-heading-md-font-size); font-weight: var(--pos-type-role-heading-md-font-weight); }
+  .heading-sm-sample { font-size: var(--pos-type-role-heading-sm-font-size); font-weight: var(--pos-type-role-heading-sm-font-weight); }
+  .lead-sample { font-size: var(--pos-type-role-lead-font-size); }
+  .body-sample { font-size: var(--pos-type-role-body-font-size); }
+  .caption-sample { font-size: var(--pos-type-role-caption-font-size); }
+  .label-sample { font-size: var(--pos-type-role-label-font-size); font-weight: var(--pos-type-role-label-font-weight); text-transform: uppercase; letter-spacing: 0.04em; }
+  .code-sample { font-family: var(--pos-font-family-mono); font-size: var(--pos-type-role-code-font-size); background: var(--pos-color-bg-raised); padding: 2px 6px; border-radius: var(--pos-radius-sm); }
+  .space-row { display: flex; align-items: end; gap: var(--pos-space-8); flex-wrap: wrap; }
+  .space-block { background: var(--pos-color-accent-default); }
+  .space-label { font-size: var(--pos-type-role-caption-font-size); color: var(--pos-color-fg-muted); text-align: center; margin-top: var(--pos-space-4); }
+  .space-item { display: flex; flex-direction: column; align-items: center; }
+  .radius-row, .shadow-row { display: flex; gap: var(--pos-space-24); flex-wrap: wrap; }
+  .radius-item, .shadow-item { display: flex; flex-direction: column; align-items: center; gap: var(--pos-space-8); }
+  .radius-box, .shadow-box {
+    width: 88px; height: 88px; background: var(--pos-color-bg-raised);
+    border: 1px solid var(--pos-color-border-default);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .motion-row { display: flex; gap: var(--pos-space-24); flex-wrap: wrap; }
+  .motion-item { display: flex; flex-direction: column; align-items: center; gap: var(--pos-space-8); }
+  .motion-dot {
+    width: 32px; height: 32px; border-radius: var(--pos-radius-full);
+    background: var(--pos-color-accent-default);
+    transition-property: transform;
+  }
+  .motion-item:hover .motion-dot,
+  .motion-item:focus-within .motion-dot { transform: translateY(-24px); }
+  .contrast-table { border-collapse: collapse; width: 100%; }
+  .contrast-table th, .contrast-table td {
+    text-align: left; padding: var(--pos-space-8) var(--pos-space-12);
+    border-bottom: 1px solid var(--pos-color-border-default);
+    font-size: var(--pos-type-role-caption-font-size);
+  }
+  .badge-pass { color: var(--pos-color-success-fg); font-weight: var(--pos-font-weight-semibold); }
+  .badge-fail { color: var(--pos-color-danger-fg); font-weight: var(--pos-font-weight-semibold); }
+  .z-demo { position: relative; height: 160px; }
+  .z-demo .layer {
+    position: absolute; width: 120px; height: 80px; border-radius: var(--pos-radius-md);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--pos-font-family-mono); font-size: var(--pos-type-role-caption-font-size);
+    color: var(--pos-color-fg-on-accent); background: var(--pos-color-accent-default);
+    border: 1px solid var(--pos-color-border-default);
+  }
+  /* Placed last so it wins on source order without needing !important:
+     each selector here matches the specificity of the rule it overrides. */
+  @media (prefers-reduced-motion: reduce) {
+    body { transition: none; }
+    .motion-dot { transition: none; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>PaperOS design tokens -- PAP-66</h1>
+  <fieldset class="theme-buttons">
+    <legend class="visually-hidden">Theme</legend>
+    <button type="button" class="theme-btn" data-theme-choice="light" aria-pressed="true">Light</button>
+    <button type="button" class="theme-btn" data-theme-choice="dark" aria-pressed="false">Dark</button>
+    <button type="button" class="theme-btn" data-theme-choice="hc" aria-pressed="false">High contrast</button>
+  </fieldset>
+</header>
+
+<main>
+  <section>
+    <p class="lead">
+      Every colour, size and motion value on this page reads a <code class="code-sample">--pos-*</code>
+      CSS custom property from <code class="code-sample">tokens.css</code>. Switch themes above; only the
+      variable values change, not the markup or the stylesheet.
+    </p>
+  </section>
+
+  <section>
+    <h2>Semantic colour roles</h2>
+    <div class="grid" id="semantic-swatches"></div>
+  </section>
+
+  <section>
+    <h2>Status roles</h2>
+    <div class="status-row">
+      <div class="status-chip" style="background: var(--pos-color-success-bg); color: var(--pos-color-success-fg); border-color: var(--pos-color-success-border);">Success</div>
+      <div class="status-chip" style="background: var(--pos-color-warning-bg); color: var(--pos-color-warning-fg); border-color: var(--pos-color-warning-border);">Warning</div>
+      <div class="status-chip" style="background: var(--pos-color-danger-bg); color: var(--pos-color-danger-fg); border-color: var(--pos-color-danger-border);">Danger</div>
+      <div class="status-chip" style="background: var(--pos-color-info-bg); color: var(--pos-color-info-fg); border-color: var(--pos-color-info-border);">Info</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Colour ramps (50-950)</h2>
+    <div id="ramps"></div>
+  </section>
+
+  <section>
+    <h2>Type scale and roles (fluid 360px&ndash;3840px)</h2>
+    <div class="type-specimen"><span class="name">display</span><span class="sample display-sample">Design tokens</span></div>
+    <div class="type-specimen"><span class="name">heading-lg</span><span class="sample heading-lg-sample">Design tokens</span></div>
+    <div class="type-specimen"><span class="name">heading-md</span><span class="sample heading-md-sample">Design tokens</span></div>
+    <div class="type-specimen"><span class="name">heading-sm</span><span class="sample heading-sm-sample">Design tokens</span></div>
+    <div class="type-specimen"><span class="name">lead</span><span class="sample lead-sample">The quick brown fox jumps over the lazy dog.</span></div>
+    <div class="type-specimen"><span class="name">body</span><span class="sample body-sample">The quick brown fox jumps over the lazy dog.</span></div>
+    <div class="type-specimen"><span class="name">caption</span><span class="sample caption-sample">The quick brown fox jumps over the lazy dog.</span></div>
+    <div class="type-specimen"><span class="name">label</span><span class="sample label-sample">Label text</span></div>
+    <div class="type-specimen"><span class="name">code</span><span class="sample code-sample">const x = 1;</span></div>
+  </section>
+
+  <section>
+    <h2>Space (4px grid)</h2>
+    <div class="space-row" id="space-row"></div>
+  </section>
+
+  <section>
+    <h2>Radius</h2>
+    <div class="radius-row" id="radius-row"></div>
+  </section>
+
+  <section>
+    <h2>Elevation (shadow)</h2>
+    <div class="shadow-row" id="shadow-row"></div>
+  </section>
+
+  <section>
+    <h2>Motion (hover or focus a dot; respects prefers-reduced-motion)</h2>
+    <div class="motion-row" id="motion-row"></div>
+  </section>
+
+  <section>
+    <h2>Z-index scale</h2>
+    <div class="z-demo" id="z-demo"></div>
+  </section>
+
+  <section>
+    <h2>Focus ring and 44px minimum target</h2>
+    <p>Tab to the button below: the ring uses <code class="code-sample">--pos-color-focus</code> and never disappears.</p>
+    <button type="button" class="theme-btn" style="min-width: var(--pos-size-target-min); min-height: var(--pos-size-target-min);">Focusable target</button>
+  </section>
+
+  <section>
+    <h2>Contrast (WCAG AA, computed at build time by tokens:check)</h2>
+    <table class="contrast-table" id="contrast-table">
+      <thead><tr><th>Pair</th><th>Ratio</th><th>Needs</th><th>Result</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </section>
+</main>
+
+<script type="module">
+  // Fetched, not imported: tokens.ts is TypeScript (and uses `as const` /
+  // `export type`), so a static page with no bundler reads the plain-JSON
+  // sibling the same build step emits instead.
+  const rawTokens = await fetch('../src/generated/raw-tokens.json').then((r) => r.json());
+
+  const semanticRoles = [
+    ['bg.canvas', 'color.bg.canvas'],
+    ['bg.surface', 'color.bg.surface'],
+    ['bg.raised', 'color.bg.raised'],
+    ['fg.default', 'color.fg.default'],
+    ['fg.muted', 'color.fg.muted'],
+    ['fg.subtle', 'color.fg.subtle'],
+    ['border.default', 'color.border.default'],
+    ['border.strong', 'color.border.strong'],
+    ['accent.default', 'color.accent.default'],
+    ['accent.hover', 'color.accent.hover'],
+    ['accent.active', 'color.accent.active'],
+    ['focus', 'color.focus'],
+  ];
+
+  function byPath(obj, path) {
+    return path.split('.').reduce((o, k) => (o == null ? undefined : o[k]), obj);
+  }
+
+  function renderSwatches(theme) {
+    const container = document.getElementById('semantic-swatches');
+    container.innerHTML = '';
+    for (const [label, path] of semanticRoles) {
+      const value = byPath(rawTokens[theme], path);
+      const div = document.createElement('div');
+      div.className = 'swatch';
+      div.innerHTML = `<div class="fill" style="background:${value}"></div><div class="label">${label}</div>`;
+      container.appendChild(div);
+    }
+  }
+
+  const RAMP_FAMILIES = ['neutral', 'accent', 'success', 'warning', 'danger', 'info'];
+  const RAMP_STEPS = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950];
+
+  function renderRamps(theme) {
+    const container = document.getElementById('ramps');
+    container.innerHTML = '';
+    for (const family of RAMP_FAMILIES) {
+      const row = document.createElement('div');
+      row.className = 'ramp-row';
+      for (const step of RAMP_STEPS) {
+        const value = byPath(rawTokens[theme], `color.${family}.${step}`);
+        const div = document.createElement('div');
+        div.className = 'step';
+        div.style.background = value;
+        div.title = `${family}.${step}`;
+        row.appendChild(div);
+      }
+      container.appendChild(row);
+    }
+  }
+
+  const SPACE_STEPS = ['0', '4', '8', '12', '16', '20', '24', '32', '40', '48', '64', '80', '96'];
+  function renderSpace() {
+    const row = document.getElementById('space-row');
+    row.innerHTML = '';
+    for (const step of SPACE_STEPS) {
+      const item = document.createElement('div');
+      item.className = 'space-item';
+      item.innerHTML = `<div class="space-block" style="width: var(--pos-space-${step}); height: 24px;"></div><div class="space-label">${step}</div>`;
+      row.appendChild(item);
+    }
+  }
+
+  const RADIUS_STEPS = ['none', 'xs', 'sm', 'md', 'lg', 'xl', '2xl', 'full'];
+  function renderRadius() {
+    const row = document.getElementById('radius-row');
+    row.innerHTML = '';
+    for (const step of RADIUS_STEPS) {
+      const item = document.createElement('div');
+      item.className = 'radius-item';
+      item.innerHTML = `<div class="radius-box" style="border-radius: var(--pos-radius-${step});"></div><div class="space-label">${step}</div>`;
+      row.appendChild(item);
+    }
+  }
+
+  const SHADOW_STEPS = ['1', '2', '3', '4', '5'];
+  function renderShadow() {
+    const row = document.getElementById('shadow-row');
+    row.innerHTML = '';
+    for (const step of SHADOW_STEPS) {
+      const item = document.createElement('div');
+      item.className = 'shadow-item';
+      item.innerHTML = `<div class="shadow-box" style="box-shadow: var(--pos-shadow-role-${step});"></div><div class="space-label">shadow.${step}</div>`;
+      row.appendChild(item);
+    }
+  }
+
+  const MOTION_ROLES = ['instant', 'micro', 'entrance', 'exit', 'moderate', 'emphasis'];
+  function renderMotion() {
+    const row = document.getElementById('motion-row');
+    row.innerHTML = '';
+    for (const role of MOTION_ROLES) {
+      const item = document.createElement('div');
+      item.className = 'motion-item';
+      item.tabIndex = 0;
+      item.innerHTML = `<div class="motion-dot" style="transition-duration: var(--pos-motion-role-${role}-duration); transition-timing-function: var(--pos-motion-role-${role}-easing);"></div><div class="space-label">${role}</div>`;
+      row.appendChild(item);
+    }
+  }
+
+  function renderZDemo() {
+    const demo = document.getElementById('z-demo');
+    demo.innerHTML = '';
+    const layers = [
+      ['base', 0, 0, 'base'],
+      ['raised', 20, 20, 'raised'],
+      ['sticky', 40, 40, 'sticky'],
+      ['modal', 60, 60, 'modal'],
+      ['toast', 80, 80, 'toast'],
+    ];
+    for (const [name, top, left] of layers) {
+      const div = document.createElement('div');
+      div.className = 'layer';
+      div.style.top = `${top}px`;
+      div.style.left = `${left}px`;
+      div.style.zIndex = `var(--pos-z-${name})`;
+      div.textContent = `z-${name}`;
+      demo.appendChild(div);
+    }
+  }
+
+  // Precomputed by `tokens:check` (culori's WCAG contrast math against the
+  // fully alias-resolved token values) and written to contrast-report.json
+  // -- not recomputed here, so the page never disagrees with the gate that
+  // actually decides pass/fail.
+  const contrastReport = await fetch('../../../docs/evidence/PAP-66/contrast-report.json')
+    .then((r) => (r.ok ? r.json() : []))
+    .catch(() => []);
+
+  function renderContrast(theme) {
+    const tbody = document.querySelector('#contrast-table tbody');
+    tbody.innerHTML = '';
+    for (const row of contrastReport.filter((r) => r.theme === theme)) {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${row.label}</td><td>${row.ratio.toFixed(2)}:1</td><td>${row.minRatio}:1</td><td class="${row.pass ? 'badge-pass' : 'badge-fail'}">${row.pass ? 'PASS' : 'FAIL'}</td>`;
+      tbody.appendChild(tr);
+    }
+  }
+
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    for (const btn of document.querySelectorAll('[data-theme-choice]')) {
+      btn.setAttribute('aria-pressed', String(btn.dataset.themeChoice === theme));
+    }
+    renderSwatches(theme);
+    renderRamps(theme);
+    renderContrast(theme);
+    try {
+      localStorage.setItem('pap-66-swatch-theme', theme);
+    } catch {
+      /* private browsing / blocked storage: theme choice just won't persist */
+    }
+  }
+
+  for (const btn of document.querySelectorAll('[data-theme-choice]')) {
+    btn.addEventListener('click', () => applyTheme(btn.dataset.themeChoice));
+  }
+
+  renderSpace();
+  renderRadius();
+  renderShadow();
+  renderMotion();
+  renderZDemo();
+
+  let initial = 'light';
+  try {
+    initial = localStorage.getItem('pap-66-swatch-theme') || 'light';
+  } catch {
+    /* ignore */
+  }
+  applyTheme(initial);
+</script>
+</body>
+</html>

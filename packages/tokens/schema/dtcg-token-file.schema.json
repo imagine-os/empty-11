@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://paperos.dev/schema/dtcg-token-file.schema.json",
+  "title": "PaperOS DTCG token file",
+  "description": "A W3C Design Tokens Community Group (DTCG) format token file, restricted to the token types this build understands (see packages/tokens/docs/platform/design-tokens.md). Every object is either a *group* (nests further groups/tokens, may carry $description) or a *token* (carries $type and $value, may carry $description). Group and token keys must be lower-kebab-case or a bare number, so a token path maps cleanly onto a CSS custom property name.",
+  "$ref": "#/$defs/group",
+  "$defs": {
+    "kebabKey": {
+      "type": "string",
+      "pattern": "^\\$|^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "tokenType": {
+      "enum": [
+        "color",
+        "dimension",
+        "duration",
+        "cubic-bezier",
+        "font-family",
+        "font-weight",
+        "number",
+        "shadow",
+        "fluid-size"
+      ]
+    },
+    "token": {
+      "type": "object",
+      "properties": {
+        "$type": { "$ref": "#/$defs/tokenType" },
+        "$value": {},
+        "$description": { "type": "string" }
+      },
+      "required": ["$type", "$value"],
+      "additionalProperties": false
+    },
+    "group": {
+      "type": "object",
+      "properties": {
+        "$description": { "type": "string" }
+      },
+      "propertyNames": { "$ref": "#/$defs/kebabKey" },
+      "additionalProperties": {
+        "anyOf": [{ "$ref": "#/$defs/token" }, { "$ref": "#/$defs/group" }]
+      }
+    }
+  }
+}

@@ -52,6 +52,10 @@ or `-`), **Status** (`live`, `stub`, `planned`).
 | API | `publish(tx, event)` from `@paperos/core/events` — write one domain event to the outbox inside the caller's transaction | PAP-555 | caller's own | live |
 | API | `on(topic, handler, { name, idempotent })` and `drainInProcess(tx)` — register an in-process subscriber and deliver after commit (the job dispatcher is PAP-556) | PAP-555 | - | live |
 | API | `defineTopic(name, payloadSchema, options)` / `topics()` — register a topic at import time and read the registry | PAP-555 | - | live |
+| CLI | `pnpm --filter @paperos/tokens build` / `build:check` — compile DTCG token JSON to `tokens.css`, `theme.css`, `tokens.ts`, `raw-tokens.json`; `--check` diffs against committed output for CI drift detection | PAP-66 | - | live |
+| CLI | `pnpm --filter @paperos/tokens ramps` — regenerate one colour ramp's OKLCH steps with `culori`, print DTCG JSON to stdout for hand-review before pasting into `core.tokens.json` | PAP-66 | - | live |
+| CLI | `pnpm --filter @paperos/tokens tokens:lint` — DTCG schema (kebab names), alias resolvability, cycle detection, unused alias-only primitives | PAP-66 | - | live |
+| CLI | `pnpm --filter @paperos/tokens tokens:check` — WCAG contrast assertions (`fg.default` 4.5:1, `fg.muted` 3:1, status and on-accent pairs) across light/dark/hc; `--report <path>` writes the JSON the evidence swatch page reads | PAP-66 | - | live |
 
 The placeholder route declares no actions: it has no controls. The first page with a control adds
 its actions registry and its rows here; the shape it declares against is the `Action` row above

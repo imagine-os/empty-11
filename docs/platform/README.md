@@ -38,6 +38,9 @@ Here now:
   v1 (`pnpm --filter @paperos/spec gen:schemas`, PAP-114, ADR 0015). Never hand-edited.
 * [`page-spec-versioning.md`](page-spec-versioning.md) — the versioning skeleton that exists and what
   PAP-751 adds (PAP-114, hand-written).
+* [`design-tokens.md`](design-tokens.md) — DTCG token source, the `--pos-*` naming grammar, theme
+  switching, fluid type, sRGB fallback, and validation (`tokens:lint`/`tokens:check`/`build:check`)
+  for `@paperos/tokens` (PAP-66, ADR 0018).
 
 The module-system issues (PAP-433 onwards) land the generated files.
 * [`character-schema.md`](character-schema.md) — the character schema every agent character is

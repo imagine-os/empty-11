@@ -1,0 +1,109 @@
+{
+  "$description": "Theme-invariant semantic roles: aliases into core.tokens.json that mean the same thing in light, dark and hc. Per-theme colour roles (bg, fg, border, accent, status) live in tokens/themes/*.tokens.json instead, because those values differ by theme. Each leaf here is exactly one CSS custom property -- no composite objects -- so a component reads `var(--pos-type-role-body-font-size)` directly instead of destructuring a shorthand.",
+  "type": {
+    "role": {
+      "body": {
+        "font-family": { "$type": "font-family", "$value": "{font.family.sans}" },
+        "font-size": { "$type": "fluid-size", "$value": "{font.size.md}" },
+        "line-height": { "$type": "number", "$value": "{font.line-height.normal}" },
+        "font-weight": { "$type": "font-weight", "$value": "{font.weight.regular}" }
+      },
+      "body-strong": {
+        "font-family": { "$type": "font-family", "$value": "{font.family.sans}" },
+        "font-size": { "$type": "fluid-size", "$value": "{font.size.md}" },
+        "line-height": { "$type": "number", "$value": "{font.line-height.normal}" },
+        "font-weight": { "$type": "font-weight", "$value": "{font.weight.semibold}" }
+      },
+      "caption": {
+        "font-family": { "$type": "font-family", "$value": "{font.family.sans}" },
+        "font-size": { "$type": "fluid-size", "$value": "{font.size.sm}" },
+        "line-height": { "$type": "number", "$value": "{font.line-height.normal}" },
+        "font-weight": { "$type": "font-weight", "$value": "{font.weight.regular}" }
+      },
+      "label": {
+        "font-family": { "$type": "font-family", "$value": "{font.family.sans}" },
+        "font-size": { "$type": "fluid-size", "$value": "{font.size.xs}" },
+        "line-height": { "$type": "number", "$value": "{font.line-height.normal}" },
+        "font-weight": { "$type": "font-weight", "$value": "{font.weight.medium}" }
+      },
+      "lead": {
+        "font-family": { "$type": "font-family", "$value": "{font.family.sans}" },
+        "font-size": { "$type": "fluid-size", "$value": "{font.size.lg}" },
+        "line-height": { "$type": "number", "$value": "{font.line-height.relaxed}" },
+        "font-weight": { "$type": "font-weight", "$value": "{font.weight.regular}" }
+      },
+      "heading-sm": {
+        "font-family": { "$type": "font-family", "$value": "{font.family.sans}" },
+        "font-size": { "$type": "fluid-size", "$value": "{font.size.xl}" },
+        "line-height": { "$type": "number", "$value": "{font.line-height.snug}" },
+        "font-weight": { "$type": "font-weight", "$value": "{font.weight.semibold}" }
+      },
+      "heading-md": {
+        "font-family": { "$type": "font-family", "$value": "{font.family.sans}" },
+        "font-size": { "$type": "fluid-size", "$value": "{font.size.2xl}" },
+        "line-height": { "$type": "number", "$value": "{font.line-height.snug}" },
+        "font-weight": { "$type": "font-weight", "$value": "{font.weight.semibold}" }
+      },
+      "heading-lg": {
+        "font-family": { "$type": "font-family", "$value": "{font.family.sans}" },
+        "font-size": { "$type": "fluid-size", "$value": "{font.size.3xl}" },
+        "line-height": { "$type": "number", "$value": "{font.line-height.tight}" },
+        "font-weight": { "$type": "font-weight", "$value": "{font.weight.bold}" }
+      },
+      "display": {
+        "font-family": { "$type": "font-family", "$value": "{font.family.sans}" },
+        "font-size": { "$type": "fluid-size", "$value": "{font.size.4xl}" },
+        "line-height": { "$type": "number", "$value": "{font.line-height.tight}" },
+        "font-weight": { "$type": "font-weight", "$value": "{font.weight.bold}" }
+      },
+      "code": {
+        "font-family": { "$type": "font-family", "$value": "{font.family.mono}" },
+        "font-size": { "$type": "fluid-size", "$value": "{font.size.sm}" },
+        "line-height": { "$type": "number", "$value": "{font.line-height.normal}" },
+        "font-weight": { "$type": "font-weight", "$value": "{font.weight.regular}" }
+      }
+    }
+  },
+  "radius": {
+    "role": {
+      "control": { "$type": "dimension", "$value": "{radius.sm}" },
+      "card": { "$type": "dimension", "$value": "{radius.md}" },
+      "overlay": { "$type": "dimension", "$value": "{radius.lg}" },
+      "pill": { "$type": "dimension", "$value": "{radius.full}" }
+    }
+  },
+  "motion": {
+    "role": {
+      "instant": {
+        "duration": { "$type": "duration", "$value": "{motion.duration.instant}" },
+        "easing": { "$type": "cubic-bezier", "$value": "{motion.ease.standard}" }
+      },
+      "micro": {
+        "duration": { "$type": "duration", "$value": "{motion.duration.fast}" },
+        "easing": { "$type": "cubic-bezier", "$value": "{motion.ease.standard}" }
+      },
+      "entrance": {
+        "duration": { "$type": "duration", "$value": "{motion.duration.base}" },
+        "easing": { "$type": "cubic-bezier", "$value": "{motion.ease.enter}" }
+      },
+      "exit": {
+        "duration": { "$type": "duration", "$value": "{motion.duration.fast}" },
+        "easing": { "$type": "cubic-bezier", "$value": "{motion.ease.exit}" }
+      },
+      "moderate": {
+        "duration": { "$type": "duration", "$value": "{motion.duration.slow}" },
+        "easing": { "$type": "cubic-bezier", "$value": "{motion.ease.standard}" }
+      },
+      "emphasis": {
+        "duration": { "$type": "duration", "$value": "{motion.duration.deliberate}" },
+        "easing": { "$type": "cubic-bezier", "$value": "{motion.ease.spring}" }
+      }
+    }
+  },
+  "focus": {
+    "ring": {
+      "width": { "$type": "dimension", "$value": "2px" },
+      "offset": { "$type": "dimension", "$value": "2px" }
+    }
+  }
+}

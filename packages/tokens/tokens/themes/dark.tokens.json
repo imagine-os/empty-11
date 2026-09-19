@@ -1,0 +1,57 @@
+{
+  "$description": "Dark theme: color.* semantic roles for data-theme=\"dark\" (also applied when no data-theme attribute is set and prefers-color-scheme is dark).",
+  "color": {
+    "bg": {
+      "canvas": { "$type": "color", "$value": "{color.neutral.950}" },
+      "surface": { "$type": "color", "$value": "{color.neutral.900}" },
+      "raised": { "$type": "color", "$value": "{color.neutral.800}" },
+      "overlay": { "$type": "color", "$value": "oklch(0% 0 0 / 0.60)" }
+    },
+    "fg": {
+      "default": { "$type": "color", "$value": "{color.neutral.50}" },
+      "muted": { "$type": "color", "$value": "{color.neutral.300}" },
+      "subtle": { "$type": "color", "$value": "{color.neutral.400}" },
+      "on-accent": { "$type": "color", "$value": "{color.neutral.950}" }
+    },
+    "border": {
+      "default": { "$type": "color", "$value": "{color.neutral.800}" },
+      "strong": { "$type": "color", "$value": "{color.neutral.600}" },
+      "focus": { "$type": "color", "$value": "{color.accent.400}" }
+    },
+    "accent": {
+      "default": { "$type": "color", "$value": "{color.accent.400}" },
+      "hover": { "$type": "color", "$value": "{color.accent.300}" },
+      "active": { "$type": "color", "$value": "{color.accent.200}" }
+    },
+    "success": {
+      "bg": { "$type": "color", "$value": "{color.success.950}" },
+      "fg": { "$type": "color", "$value": "{color.success.300}" },
+      "border": { "$type": "color", "$value": "{color.success.700}" }
+    },
+    "warning": {
+      "bg": { "$type": "color", "$value": "{color.warning.950}" },
+      "fg": { "$type": "color", "$value": "{color.warning.300}" },
+      "border": { "$type": "color", "$value": "{color.warning.700}" }
+    },
+    "danger": {
+      "bg": { "$type": "color", "$value": "{color.danger.950}" },
+      "fg": { "$type": "color", "$value": "{color.danger.300}" },
+      "border": { "$type": "color", "$value": "{color.danger.700}" }
+    },
+    "info": {
+      "bg": { "$type": "color", "$value": "{color.info.950}" },
+      "fg": { "$type": "color", "$value": "{color.info.300}" },
+      "border": { "$type": "color", "$value": "{color.info.700}" }
+    },
+    "focus": { "$type": "color", "$value": "{color.accent.400}" }
+  },
+  "shadow": {
+    "role": {
+      "1": { "$type": "shadow", "$value": "{shadow-dark.1}" },
+      "2": { "$type": "shadow", "$value": "{shadow-dark.2}" },
+      "3": { "$type": "shadow", "$value": "{shadow-dark.3}" },
+      "4": { "$type": "shadow", "$value": "{shadow-dark.4}" },
+      "5": { "$type": "shadow", "$value": "{shadow-dark.5}" }
+    }
+  }
+}

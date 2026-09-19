@@ -25,7 +25,7 @@ Numbers are pre-assigned by the plan; take yours, do not renumber.
 | 0015 | [page-spec-schema](0015-page-spec-schema.md) | PAP-114 | Accepted |
 | 0016 | [view-model](0016-view-model.md) | PAP-161 | Accepted |
 | 0017 | audience-model | PAP-55 | Planned |
-| 0018 | design-tokens | PAP-66 | Planned |
+| 0018 | [design-tokens](0018-design-tokens.md) | PAP-66 | Accepted |
 | 0019 | [input-events](0019-input-events.md) | PAP-150 | Accepted |
 | 0020 | [character-schema](0020-character-schema.md) | PAP-103 | Accepted |
 | 0021 | mcp-catalog | PAP-210 | Planned |

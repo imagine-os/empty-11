@@ -1,0 +1,233 @@
+[
+  {
+    "theme": "light",
+    "label": "fg.default on color.bg.canvas",
+    "ratio": 16.34267503059735,
+    "minRatio": 4.5,
+    "pass": true
+  },
+  {
+    "theme": "light",
+    "label": "fg.muted on color.bg.canvas",
+    "ratio": 6.72565018862538,
+    "minRatio": 3,
+    "pass": true
+  },
+  {
+    "theme": "light",
+    "label": "fg.default on color.bg.surface",
+    "ratio": 17.311730729150423,
+    "minRatio": 4.5,
+    "pass": true
+  },
+  {
+    "theme": "light",
+    "label": "fg.muted on color.bg.surface",
+    "ratio": 7.124454523262129,
+    "minRatio": 3,
+    "pass": true
+  },
+  {
+    "theme": "light",
+    "label": "fg.default on color.bg.raised",
+    "ratio": 17.311730729150423,
+    "minRatio": 4.5,
+    "pass": true
+  },
+  {
+    "theme": "light",
+    "label": "fg.muted on color.bg.raised",
+    "ratio": 7.124454523262129,
+    "minRatio": 3,
+    "pass": true
+  },
+  {
+    "theme": "light",
+    "label": "success.fg on success.bg",
+    "ratio": 9.070116734228014,
+    "minRatio": 4.5,
+    "pass": true
+  },
+  {
+    "theme": "light",
+    "label": "warning.fg on warning.bg",
+    "ratio": 12.953501338491765,
+    "minRatio": 4.5,
+    "pass": true
+  },
+  {
+    "theme": "light",
+    "label": "danger.fg on danger.bg",
+    "ratio": 10.059662592839677,
+    "minRatio": 4.5,
+    "pass": true
+  },
+  {
+    "theme": "light",
+    "label": "info.fg on info.bg",
+    "ratio": 9.308978911364974,
+    "minRatio": 4.5,
+    "pass": true
+  },
+  {
+    "theme": "light",
+    "label": "fg.on-accent on accent.default",
+    "ratio": 4.97937204954765,
+    "minRatio": 4.5,
+    "pass": true
+  },
+  {
+    "theme": "dark",
+    "label": "fg.default on color.bg.canvas",
+    "ratio": 16.34267503059735,
+    "minRatio": 4.5,
+    "pass": true
+  },
+  {
+    "theme": "dark",
+    "label": "fg.muted on color.bg.canvas",
+    "ratio": 10.253862955071702,
+    "minRatio": 3,
+    "pass": true
+  },
+  {
+    "theme": "dark",
+    "label": "fg.default on color.bg.surface",
+    "ratio": 12.871099652801139,
+    "minRatio": 4.5,
+    "pass": true
+  },
+  {
+    "theme": "dark",
+    "label": "fg.muted on color.bg.surface",
+    "ratio": 8.075697012502477,
+    "minRatio": 3,
+    "pass": true
+  },
+  {
+    "theme": "dark",
+    "label": "fg.default on color.bg.raised",
+    "ratio": 9.449568997884585,
+    "minRatio": 4.5,
+    "pass": true
+  },
+  {
+    "theme": "dark",
+    "label": "fg.muted on color.bg.raised",
+    "ratio": 5.928930564145295,
+    "minRatio": 3,
+    "pass": true
+  },
+  {
+    "theme": "dark",
+    "label": "success.fg on success.bg",
+    "ratio": 10.498119928274452,
+    "minRatio": 4.5,
+    "pass": true
+  },
+  {
+    "theme": "dark",
+    "label": "warning.fg on warning.bg",
+    "ratio": 10.205258424074646,
+    "minRatio": 4.5,
+    "pass": true
+  },
+  {
+    "theme": "dark",
+    "label": "danger.fg on danger.bg",
+    "ratio": 10.09397051678456,
+    "minRatio": 4.5,
+    "pass": true
+  },
+  {
+    "theme": "dark",
+    "label": "info.fg on info.bg",
+    "ratio": 10.40068687403151,
+    "minRatio": 4.5,
+    "pass": true
+  },
+  {
+    "theme": "dark",
+    "label": "fg.on-accent on accent.default",
+    "ratio": 7.458164911335537,
+    "minRatio": 4.5,
+    "pass": true
+  },
+  {
+    "theme": "hc",
+    "label": "fg.default on color.bg.canvas",
+    "ratio": 20.99999999999999,
+    "minRatio": 4.5,
+    "pass": true
+  },
+  {
+    "theme": "hc",
+    "label": "fg.muted on color.bg.canvas",
+    "ratio": 10.009890895562055,
+    "minRatio": 3,
+    "pass": true
+  },
+  {
+    "theme": "hc",
+    "label": "fg.default on color.bg.surface",
+    "ratio": 20.99999999999999,
+    "minRatio": 4.5,
+    "pass": true
+  },
+  {
+    "theme": "hc",
+    "label": "fg.muted on color.bg.surface",
+    "ratio": 10.009890895562055,
+    "minRatio": 3,
+    "pass": true
+  },
+  {
+    "theme": "hc",
+    "label": "fg.default on color.bg.raised",
+    "ratio": 20.99999999999999,
+    "minRatio": 4.5,
+    "pass": true
+  },
+  {
+    "theme": "hc",
+    "label": "fg.muted on color.bg.raised",
+    "ratio": 10.009890895562055,
+    "minRatio": 3,
+    "pass": true
+  },
+  {
+    "theme": "hc",
+    "label": "success.fg on success.bg",
+    "ratio": 17.05439523474646,
+    "minRatio": 4.5,
+    "pass": true
+  },
+  {
+    "theme": "hc",
+    "label": "warning.fg on warning.bg",
+    "ratio": 17.372018599138645,
+    "minRatio": 4.5,
+    "pass": true
+  },
+  {
+    "theme": "hc",
+    "label": "danger.fg on danger.bg",
+    "ratio": 17.665928123069925,
+    "minRatio": 4.5,
+    "pass": true
+  },
+  {
+    "theme": "hc",
+    "label": "info.fg on info.bg",
+    "ratio": 17.210382540022824,
+    "minRatio": 4.5,
+    "pass": true
+  },
+  {
+    "theme": "hc",
+    "label": "fg.on-accent on accent.default",
+    "ratio": 17.401552385202688,
+    "minRatio": 4.5,
+    "pass": true
+  }
+]
