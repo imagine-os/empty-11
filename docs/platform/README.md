@@ -18,5 +18,9 @@ Here now:
   [`packages/agents/src/rubric/library-rubric.json`](../../packages/agents/src/rubric/library-rubric.json).
 * [`forge-topology.md`](forge-topology.md) — Forgejo/GitHub mirroring topology, failover and
   failure modes (PAP-44, hand-written; implemented by PAP-47).
+* [`view-model.md`](view-model.md) — `ViewSpec`, `FieldDef`, `DatasetRef`, the dataset registry
+  port, the Airtable / Notion / ClickUp equivalence column and the planned `dataset|field|record|view`
+  tables (PAP-161, ADR 0016). Generated JSON Schema lives beside the code in
+  `packages/views/schema/`.
 
 The module-system issues (PAP-433 onwards) land the generated files.
