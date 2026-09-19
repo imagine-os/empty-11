@@ -1,0 +1,50 @@
+{
+  "id": "0192a000-0000-7000-8000-0000000000a6",
+  "version": 3,
+  "kind": "gallery",
+  "datasetRef": { "kind": "custom", "datasetId": "0192a000-0000-7000-8000-0000000000d1" },
+  "name": "Cards",
+  "fields": [
+    { "fieldId": "0192a000-0000-7000-8000-0000000000f1", "visible": true, "order": 0 },
+    { "fieldId": "0192a000-0000-7000-8000-0000000000f2", "visible": true, "order": 1 },
+    { "fieldId": "0192a000-0000-7000-8000-0000000000f8", "visible": true, "order": 2 }
+  ],
+  "sorts": [{ "fieldId": "0192a000-0000-7000-8000-0000000000ff", "direction": "desc" }],
+  "groups": [
+    {
+      "fieldId": "0192a000-0000-7000-8000-0000000000f8",
+      "direction": "asc",
+      "expandMulti": true,
+      "collapsed": false,
+      "hideEmpty": true
+    }
+  ],
+  "aggregations": [],
+  "rowHeight": "tall",
+  "visibility": "public",
+  "ownerUserId": "11111111-1111-4111-8111-111111111111",
+  "permissions": { "canEditRecords": [], "canEditView": ["owner"] },
+  "sharing": {
+    "publicFieldIds": [
+      "0192a000-0000-7000-8000-0000000000f1",
+      "0192a000-0000-7000-8000-0000000000f2",
+      "0192a000-0000-7000-8000-0000000000f8"
+    ],
+    "allowExport": false,
+    "allowEmbed": true,
+    "allowCopy": false,
+    "allowViewerFilters": true
+  },
+  "locked": true,
+  "options": {
+    "coverFieldId": "0192a000-0000-7000-8000-0000000000f9",
+    "coverFit": "cover",
+    "cardSize": "medium",
+    "titleFieldId": "0192a000-0000-7000-8000-0000000000f1",
+    "cardFieldIds": [
+      "0192a000-0000-7000-8000-0000000000f2",
+      "0192a000-0000-7000-8000-0000000000f8"
+    ],
+    "showFieldNames": false
+  }
+}

@@ -1,0 +1,130 @@
+{
+  "datasetId": "0192a000-0000-7000-8000-0000000000d1",
+  "name": "Tasks",
+  "fields": [
+    {
+      "id": "0192a000-0000-7000-8000-0000000000f1",
+      "key": "title",
+      "name": "Title",
+      "type": "text",
+      "required": true
+    },
+    {
+      "id": "0192a000-0000-7000-8000-0000000000f2",
+      "key": "status",
+      "name": "Status",
+      "type": "select",
+      "options": {
+        "kind": "status",
+        "choices": [
+          { "id": "todo", "name": "To do", "color": "gray", "group": "todo" },
+          { "id": "doing", "name": "Doing", "color": "blue", "group": "inProgress" },
+          { "id": "done", "name": "Done", "color": "green", "group": "done" }
+        ]
+      }
+    },
+    {
+      "id": "0192a000-0000-7000-8000-0000000000f3",
+      "key": "assignee",
+      "name": "Assignee",
+      "type": "user",
+      "options": { "multiple": false }
+    },
+    {
+      "id": "0192a000-0000-7000-8000-0000000000f4",
+      "key": "due",
+      "name": "Due",
+      "type": "date",
+      "options": { "includeTime": false }
+    },
+    {
+      "id": "0192a000-0000-7000-8000-0000000000f5",
+      "key": "start",
+      "name": "Start",
+      "type": "date",
+      "options": { "includeTime": false }
+    },
+    {
+      "id": "0192a000-0000-7000-8000-0000000000f6",
+      "key": "estimate",
+      "name": "Estimate (h)",
+      "type": "number",
+      "options": { "precision": 1 },
+      "description": "Hours of work remaining",
+      "group": "Planning"
+    },
+    {
+      "id": "0192a000-0000-7000-8000-0000000000f7",
+      "key": "priority",
+      "name": "Priority",
+      "type": "select",
+      "options": {
+        "choices": [
+          { "id": "p1", "name": "Urgent", "color": "red" },
+          { "id": "p2", "name": "High", "color": "orange" },
+          { "id": "p3", "name": "Normal", "color": "gray" }
+        ]
+      }
+    },
+    {
+      "id": "0192a000-0000-7000-8000-0000000000f8",
+      "key": "tags",
+      "name": "Tags",
+      "type": "multiSelect",
+      "options": {
+        "choices": [
+          { "id": "bug", "name": "Bug", "color": "red" },
+          { "id": "docs", "name": "Docs", "color": "purple" }
+        ]
+      }
+    },
+    {
+      "id": "0192a000-0000-7000-8000-0000000000f9",
+      "key": "cover",
+      "name": "Cover",
+      "type": "attachment",
+      "options": { "accept": ["image/*"] }
+    },
+    {
+      "id": "0192a000-0000-7000-8000-0000000000fa",
+      "key": "location",
+      "name": "Location",
+      "type": "geo"
+    },
+    {
+      "id": "0192a000-0000-7000-8000-0000000000fb",
+      "key": "done",
+      "name": "Done",
+      "type": "checkbox"
+    },
+    {
+      "id": "0192a000-0000-7000-8000-0000000000fc",
+      "key": "progress",
+      "name": "Progress",
+      "type": "percent"
+    },
+    {
+      "id": "0192a000-0000-7000-8000-0000000000fd",
+      "key": "budget",
+      "name": "Budget",
+      "type": "currency",
+      "options": { "currency": "USD" }
+    },
+    {
+      "id": "0192a000-0000-7000-8000-0000000000fe",
+      "key": "blocked_by",
+      "name": "Blocked by",
+      "type": "relation",
+      "options": { "datasetRef": "custom:0192a000-0000-7000-8000-0000000000d1", "multiple": true }
+    },
+    {
+      "id": "0192a000-0000-7000-8000-0000000000ff",
+      "key": "created_at",
+      "name": "Created",
+      "type": "createdTime",
+      "computed": true,
+      "hidden": true
+    }
+  ],
+  "defaultSort": [{ "fieldId": "0192a000-0000-7000-8000-0000000000f4", "direction": "asc" }]
+}

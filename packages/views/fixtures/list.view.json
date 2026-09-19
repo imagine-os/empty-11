@@ -1,0 +1,44 @@
+{
+  "id": "0192a000-0000-7000-8000-0000000000a7",
+  "version": 3,
+  "kind": "list",
+  "datasetRef": { "kind": "entity", "key": "memberships" },
+  "name": "Members",
+  "fields": [
+    { "fieldId": "user_id", "visible": true, "order": 0 },
+    { "fieldId": "role", "visible": true, "order": 1 },
+    { "fieldId": "status", "visible": true, "order": 2 },
+    { "fieldId": "accepted_at", "visible": true, "order": 3 }
+  ],
+  "filter": {
+    "v": 1,
+    "op": "and",
+    "children": [{ "field": "status", "operator": "in", "value": ["invited", "active"] }]
+  },
+  "sorts": [
+    { "fieldId": "role", "direction": "asc" },
+    { "fieldId": "accepted_at", "direction": "desc" }
+  ],
+  "groups": [
+    {
+      "fieldId": "status",
+      "direction": "asc",
+      "expandMulti": false,
+      "collapsed": false,
+      "hideEmpty": true
+    }
+  ],
+  "aggregations": [{ "fieldId": "user_id", "fn": "count", "scope": "group" }],
+  "rowHeight": "medium",
+  "visibility": "shared",
+  "ownerUserId": "11111111-1111-4111-8111-111111111111",
+  "permissions": { "canEditRecords": ["owner", "admin"], "canEditView": ["owner", "admin"] },
+  "locked": false,
+  "options": {
+    "titleFieldId": "user_id",
+    "subtitleFieldId": "role",
+    "metaFieldIds": ["status", "accepted_at"],
+    "leadingFieldId": "user_id",
+    "swipeActions": { "start": "memberships.resend_invite", "end": "memberships.suspend" }
+  }
+}

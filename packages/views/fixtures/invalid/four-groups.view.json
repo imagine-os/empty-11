@@ -1,0 +1,141 @@
+{
+  "id": "0192a000-0000-7000-8000-0000000000a1",
+  "version": 3,
+  "kind": "grid",
+  "datasetRef": {
+    "kind": "custom",
+    "datasetId": "0192a000-0000-7000-8000-0000000000d1"
+  },
+  "name": "My open tasks",
+  "description": "Everything assigned to me that is not done, soonest due first.",
+  "fields": [
+    {
+      "fieldId": "0192a000-0000-7000-8000-0000000000f1",
+      "width": 320,
+      "visible": true,
+      "order": 0,
+      "frozen": true
+    },
+    {
+      "fieldId": "0192a000-0000-7000-8000-0000000000f2",
+      "width": 140,
+      "visible": true,
+      "order": 1
+    },
+    {
+      "fieldId": "0192a000-0000-7000-8000-0000000000f3",
+      "width": 160,
+      "visible": true,
+      "order": 2
+    },
+    {
+      "fieldId": "0192a000-0000-7000-8000-0000000000f4",
+      "width": 120,
+      "visible": true,
+      "order": 3
+    },
+    {
+      "fieldId": "0192a000-0000-7000-8000-0000000000f6",
+      "width": 100,
+      "visible": true,
+      "order": 4
+    },
+    {
+      "fieldId": "0192a000-0000-7000-8000-0000000000f7",
+      "width": 120,
+      "visible": true,
+      "order": 5
+    },
+    {
+      "fieldId": "0192a000-0000-7000-8000-0000000000f8",
+      "width": 200,
+      "visible": true,
+      "order": 6
+    },
+    {
+      "fieldId": "0192a000-0000-7000-8000-0000000000fd",
+      "width": 120,
+      "visible": false,
+      "order": 7
+    }
+  ],
+  "filter": {
+    "v": 1,
+    "op": "and",
+    "children": [
+      {
+        "field": "0192a000-0000-7000-8000-0000000000f2",
+        "operator": "neq",
+        "value": "done"
+      },
+      {
+        "field": "0192a000-0000-7000-8000-0000000000f3",
+        "operator": "eq",
+        "value": {
+          "$var": "principal.id"
+        }
+      }
+    ]
+  },
+  "sorts": [
+    {
+      "fieldId": "0192a000-0000-7000-8000-0000000000f4",
+      "direction": "asc",
+      "nulls": "last"
+    },
+    {
+      "fieldId": "0192a000-0000-7000-8000-0000000000f7",
+      "direction": "asc"
+    }
+  ],
+  "groups": [
+    {
+      "fieldId": "0192a000-0000-7000-8000-0000000000f2"
+    },
+    {
+      "fieldId": "0192a000-0000-7000-8000-0000000000f3"
+    },
+    {
+      "fieldId": "0192a000-0000-7000-8000-0000000000f7"
+    },
+    {
+      "fieldId": "0192a000-0000-7000-8000-0000000000f8"
+    }
+  ],
+  "aggregations": [
+    {
+      "fieldId": "0192a000-0000-7000-8000-0000000000f1",
+      "fn": "count",
+      "scope": "both"
+    },
+    {
+      "fieldId": "0192a000-0000-7000-8000-0000000000f6",
+      "fn": "sum",
+      "label": "Hours",
+      "scope": "both"
+    },
+    {
+      "fieldId": "0192a000-0000-7000-8000-0000000000fd",
+      "fn": "sum",
+      "scope": "footer"
+    }
+  ],
+  "rowHeight": "short",
+  "search": {
+    "query": "",
+    "fieldIds": ["0192a000-0000-7000-8000-0000000000f1"]
+  },
+  "visibility": "personal",
+  "ownerUserId": "11111111-1111-4111-8111-111111111111",
+  "permissions": {
+    "canEditRecords": ["owner", "admin", "staff"],
+    "canEditView": ["owner", "admin"]
+  },
+  "locked": false,
+  "options": {
+    "wrapText": false,
+    "showRowNumbers": true,
+    "showFooter": true,
+    "colorHeaders": false
+  }
+}

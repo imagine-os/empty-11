@@ -1,0 +1,30 @@
+{
+  "id": "0192a000-0000-7000-8000-0000000000a4",
+  "version": 3,
+  "kind": "timeline",
+  "datasetRef": { "kind": "custom", "datasetId": "0192a000-0000-7000-8000-0000000000d1" },
+  "name": "Timeline by assignee",
+  "fields": [{ "fieldId": "0192a000-0000-7000-8000-0000000000f1", "visible": true, "order": 0 }],
+  "sorts": [{ "fieldId": "0192a000-0000-7000-8000-0000000000f5", "direction": "asc" }],
+  "groups": [],
+  "aggregations": [],
+  "rowHeight": "short",
+  "visibility": "shared",
+  "ownerUserId": "11111111-1111-4111-8111-111111111111",
+  "permissions": {
+    "canEditRecords": ["owner", "admin", "staff"],
+    "canEditView": ["owner", "admin"]
+  },
+  "locked": true,
+  "options": {
+    "startFieldId": "0192a000-0000-7000-8000-0000000000f5",
+    "endFieldId": "0192a000-0000-7000-8000-0000000000f4",
+    "titleFieldId": "0192a000-0000-7000-8000-0000000000f1",
+    "laneFieldId": "0192a000-0000-7000-8000-0000000000f3",
+    "colorFieldId": "0192a000-0000-7000-8000-0000000000f2",
+    "zoom": "week",
+    "showDependencies": true,
+    "dependencyFieldId": "0192a000-0000-7000-8000-0000000000fe",
+    "showToday": true
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "id": "0192a000-0000-7000-8000-0000000000a8",
+  "version": 3,
+  "kind": "form",
+  "datasetRef": { "kind": "custom", "datasetId": "0192a000-0000-7000-8000-0000000000d1" },
+  "name": "Request work",
+  "fields": [
+    { "fieldId": "0192a000-0000-7000-8000-0000000000f1", "visible": true, "order": 0 },
+    { "fieldId": "0192a000-0000-7000-8000-0000000000f7", "visible": true, "order": 1 },
+    { "fieldId": "0192a000-0000-7000-8000-0000000000f4", "visible": true, "order": 2 },
+    { "fieldId": "0192a000-0000-7000-8000-0000000000f9", "visible": true, "order": 3 },
+    { "fieldId": "0192a000-0000-7000-8000-0000000000f2", "visible": false, "order": 4 }
+  ],
+  "sorts": [],
+  "groups": [],
+  "aggregations": [],
+  "rowHeight": "short",
+  "visibility": "public",
+  "ownerUserId": "11111111-1111-4111-8111-111111111111",
+  "permissions": { "canEditRecords": [], "canEditView": ["owner", "admin"] },
+  "sharing": {
+    "publicFieldIds": [
+      "0192a000-0000-7000-8000-0000000000f1",
+      "0192a000-0000-7000-8000-0000000000f7",
+      "0192a000-0000-7000-8000-0000000000f4",
+      "0192a000-0000-7000-8000-0000000000f9"
+    ],
+    "allowExport": false,
+    "allowEmbed": true,
+    "allowCopy": false,
+    "allowViewerFilters": false
+  },
+  "locked": false,
+  "options": {
+    "title": "Request work",
+    "description": "Tell us what you need and when.",
+    "submitLabel": "Send request",
+    "successMessage": "Thanks, we will get back to you within a day.",
+    "allowAnonymous": true,
+    "allowMultipleSubmissions": true,
+    "showProgress": false
+  }
+}

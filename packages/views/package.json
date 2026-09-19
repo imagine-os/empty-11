@@ -17,12 +17,20 @@
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "test": "vitest run --passWithNoTests",
     "parity:report": "node src/parity/parity-report.mjs",
-    "clean": "node -e \"require('node:fs').rmSync('coverage',{recursive:true,force:true})\""
+    "clean": "node -e \"require('node:fs').rmSync('coverage',{recursive:true,force:true})\"",
+    "gen:schemas": "tsx scripts/gen-schemas.ts && biome format --write schema",
+    "print-spec": "tsx scripts/print-spec.ts"
   },
   "devDependencies": {
     "@biomejs/biome": "catalog:",
     "@paperos/config-ts": "workspace:*",
+    "ajv": "^8.20.0",
+    "ajv-formats": "^3.0.1",
+    "tsx": "^4.23.13",
     "typescript": "catalog:",
     "vitest": "catalog:"
+  },
+  "dependencies": {
+    "zod": "^4.6.5"
   }
 }

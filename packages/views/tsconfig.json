@@ -7,6 +7,6 @@
       "@paperos/*": ["../*/src"]
     }
   },
-  "include": ["src"],
+  "include": ["src", "scripts"],
   "exclude": ["node_modules", "dist", "coverage"]
 }

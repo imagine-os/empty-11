@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://paperos.dev/schema/dataset-ref/1",
+  "title": "DatasetRef",
+  "description": "PaperOS dataset reference: `{ kind: \"entity\", key }` or `{ kind: \"custom\", datasetId }` (PAP-161). Generated; do not edit.",
+  "$ref": "#/$defs/DatasetRef",
+  "$defs": {
+    "DatasetRef": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "const": "entity"
+            },
+            "key": {
+              "$ref": "#/$defs/Slug"
+            }
+          },
+          "required": ["kind", "key"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "const": "custom"
+            },
+            "datasetId": {
+              "$ref": "#/$defs/UuidV7"
+            }
+          },
+          "required": ["kind", "datasetId"],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "Slug": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]{0,63}$"
+    },
+    "UuidV7": {
+      "type": "string",
+      "format": "uuid",
+      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-7[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$"
+    }
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "key": "memberships",
+  "name": "Memberships",
+  "rls": true,
+  "fields": [
+    { "id": "user_id", "key": "user_id", "name": "User", "type": "user", "required": true },
+    {
+      "id": "workspace_id",
+      "key": "workspace_id",
+      "name": "Workspace",
+      "type": "relation",
+      "options": { "datasetRef": "entity:workspaces" },
+      "required": true
+    },
+    {
+      "id": "role",
+      "key": "role",
+      "name": "Role",
+      "type": "select",
+      "options": {
+        "choices": [
+          { "id": "owner", "name": "Owner" },
+          { "id": "admin", "name": "Admin" },
+          { "id": "staff", "name": "Staff" },
+          { "id": "member", "name": "Member" },
+          { "id": "viewer", "name": "Viewer" }
+        ]
+      },
+      "required": true
+    },
+    {
+      "id": "status",
+      "key": "status",
+      "name": "Status",
+      "type": "select",
+      "options": {
+        "choices": [
+          { "id": "invited", "name": "Invited" },
+          { "id": "active", "name": "Active" },
+          { "id": "suspended", "name": "Suspended" }
+        ]
+      },
+      "required": true
+    },
+    {
+      "id": "invited_at",
+      "key": "invited_at",
+      "name": "Invited",
+      "type": "date",
+      "options": { "includeTime": true }
+    },
+    {
+      "id": "accepted_at",
+      "key": "accepted_at",
+      "name": "Accepted",
+      "type": "date",
+      "options": { "includeTime": true }
+    },
+    {
+      "id": "created_at",
+      "key": "created_at",
+      "name": "Created",
+      "type": "createdTime",
+      "computed": true,
+      "hidden": true
+    }
+  ],
+  "defaultSort": [{ "fieldId": "created_at", "direction": "desc" }]
+}
