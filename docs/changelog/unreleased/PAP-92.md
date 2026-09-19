@@ -1,0 +1,1 @@
+- docs(PAP-92): mirror of the session playbook at `.claude/rules/session-playbook.md` (byte-identical to `docs/pm/session-playbook.md` in paperos-orchestrator) and the session footer schema at `packages/agents/src/session-footer.schema.json`. No ADR.

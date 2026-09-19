@@ -1,0 +1,174 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://paperos.dev/schemas/session-footer.schema.json",
+  "title": "PaperOS session footer",
+  "description": "The JSON object inside the fenced ```paperos-session block that ends every Linear comment a PaperOS session posts (docs/pm/session-playbook.md, PAP-92). Parsed by the orchestrator (PAP-96) to set issue state, by PAP-97/PAP-98 for status and cost, and rendered by PAP-105 linear-update.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["playbookVersion", "sessionId", "character", "issue", "status", "branch"],
+  "properties": {
+    "playbookVersion": {
+      "description": "Version of the session playbook the footer follows. Bumped only when a field is added, removed or renamed.",
+      "const": 1
+    },
+    "sessionId": {
+      "description": "<yyyy-mm-dd>-PAP-<n>, with an optional -<k> suffix when an issue is re-run the same day.",
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}-PAP-[0-9]+(-[0-9]+)?$"
+    },
+    "character": {
+      "description": "Lowercase name of the lead character that ran the session, or `orchestrator` for comments the orchestrator posts itself (status `promoted`).",
+      "type": "string",
+      "enum": [
+        "atlas",
+        "forge",
+        "iris",
+        "quill",
+        "sentinel",
+        "nova",
+        "ledger",
+        "beacon",
+        "scout",
+        "orchestrator"
+      ]
+    },
+    "issue": {
+      "description": "Linear identifier of the issue the comment sits on.",
+      "type": "string",
+      "pattern": "^PAP-[0-9]+$"
+    },
+    "status": {
+      "description": "started | progress | ended | partial | contract-failed | handoff are posted by sessions; promoted is posted by the PAP-96 promotion pass (templates/promoted.md).",
+      "type": "string",
+      "enum": ["started", "progress", "ended", "partial", "contract-failed", "handoff", "promoted"]
+    },
+    "branch": {
+      "description": "Working branch, e.g. feat/PAP-92-session-playbook or <parent>/wp2-<slug>. For status `promoted` this is the branch the promoted issue will use (may be a placeholder until claim).",
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9._/-]+$"
+    },
+    "model": {
+      "description": "Model id the session ran on (claude-fable-5-1, claude-opus-5, claude-sonnet-5, claude-haiku-4-5).",
+      "type": "string",
+      "pattern": "^claude-[a-z0-9-]+$"
+    },
+    "costUsd": {
+      "description": "Spend so far in US dollars (PAP-98 live total). Required on ended/partial when the session knows it; the orchestrator fills it otherwise.",
+      "type": "number",
+      "minimum": 0
+    },
+    "turns": {
+      "description": "Assistant turns so far.",
+      "type": "integer",
+      "minimum": 0
+    },
+    "pr": {
+      "description": "PR URL in target (PR) mode. Absent in build-loop mode, where `commits` carries the integration evidence.",
+      "type": "string",
+      "format": "uri"
+    },
+    "commits": {
+      "description": "SHAs pushed to main (build-loop mode) or to the branch, oldest first.",
+      "type": "array",
+      "items": { "type": "string", "pattern": "^[0-9a-f]{7,40}$" },
+      "uniqueItems": true
+    },
+    "baseBranches": {
+      "description": "Echo of the BASE_BRANCHES prompt variable set by PAP-96 promotion: the In Review blockers' branches merged into the worktree before coding. Omitted when empty.",
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1, "pattern": "^[A-Za-z0-9._/-]+$" },
+      "uniqueItems": true
+    },
+    "reason": {
+      "description": "Why a session stopped early. Known values: duplicate-claim, needs-spec, base-branch-conflict, budget, justin-stop, killed, base-pr-closed.",
+      "type": "string",
+      "minLength": 1
+    },
+    "handoff": {
+      "$ref": "#/$defs/handoff"
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "status": { "const": "handoff" } } },
+      "then": { "required": ["handoff"] }
+    },
+    {
+      "if": { "properties": { "status": { "enum": ["partial", "contract-failed"] } } },
+      "then": { "required": ["reason"] }
+    }
+  ],
+  "$defs": {
+    "handoff": {
+      "$comment": "Owned by PAP-108 (packages/agents/src/handoff.ts, HandoffSchema). This inline copy is the $ref target until PAP-108 publishes handoff.schema.json; then this $defs entry becomes {\"$ref\": \"./handoff.schema.json\"} and nothing else changes.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "to",
+        "reason",
+        "artifacts",
+        "nextSteps",
+        "openQuestions",
+        "contextFiles"
+      ],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "build-to-review",
+            "review-to-build",
+            "spec-to-build",
+            "research-to-decision",
+            "split",
+            "escalate"
+          ]
+        },
+        "to": {
+          "type": "string",
+          "enum": [
+            "atlas",
+            "forge",
+            "iris",
+            "quill",
+            "sentinel",
+            "nova",
+            "ledger",
+            "beacon",
+            "scout",
+            "justin"
+          ]
+        },
+        "reason": { "type": "string", "minLength": 1 },
+        "artifacts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["type", "ref"],
+            "properties": {
+              "type": { "type": "string", "enum": ["branch", "pr", "doc", "spec", "screenshot"] },
+              "ref": { "type": "string", "minLength": 1 }
+            }
+          }
+        },
+        "nextSteps": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "openQuestions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["q", "default"],
+            "properties": {
+              "q": { "type": "string", "minLength": 1 },
+              "default": { "type": "string", "minLength": 1 }
+            }
+          }
+        },
+        "contextFiles": { "type": "array", "items": { "type": "string", "minLength": 1 } }
+      }
+    }
+  }
+}
