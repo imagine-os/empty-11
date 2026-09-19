@@ -1,0 +1,130 @@
+{
+  "domain": "security",
+  "code": "SEC",
+  "version": 1,
+  "title": "Security",
+  "reviewers": ["security"],
+  "purpose": "Find the authorisation, tenant-isolation, secret and injection mistakes the scanners cannot see, and cite the PAP-219 `SEC-*` control every finding enforces. The security reviewer (PAP-245) embeds this rubric and reads PAP-80 `security.json` as its baseline, so scanner hits are referenced, never duplicated.",
+  "scope": "Every trust boundary in the Security & Threat Model §3 (B1 browser to B9 agent sessions) touched by the diff: oRPC procedures, Drizzle queries, auth and session code, file handling, outbound requests, logging, dependencies, agent tool configuration.",
+  "notCovered": [
+    "Vulnerable dependency versions, leaked secrets in history and SAST patterns: PAP-80 scanners report those as `from: scanner`; the reviewer only adds what they missed.",
+    "Threat model completeness and control wording (PAP-219).",
+    "Penetration testing and DAST (PAP-357)."
+  ],
+  "controlsNote": "Control ids follow PAP-219 `controls.yaml` (`SEC-<AREA>-<nn>`). `SEC-API-01` (authorize on every procedure) and `SEC-DB-02` (queries inside withTenant) are fixed by PAP-80's rule set; other ids below are the areas this rubric expects PAP-219 to bind and are re-pointed when `controls.yaml` lands.",
+  "examples": {
+    "S0": [
+      "A new oRPC procedure has no `authorize()`; any signed-in user can call it.",
+      "A Drizzle query runs outside `withTenant`, so RLS context is unset and rows from another tenant come back."
+    ],
+    "S1": [
+      "A mutating route accepts a body without a Zod schema.",
+      "A user's email and IP are logged at info level on every request."
+    ],
+    "S2": [
+      "Rate limit missing on a read endpoint that is already bounded by `limit <= 100`.",
+      "A dependency added for one helper function widens the supply-chain surface."
+    ]
+  },
+  "items": [
+    {
+      "id": "RUB-SEC-01",
+      "title": "Authorisation on every procedure",
+      "test": "Can I call a new or changed procedure, route, job trigger or server action as a user without the required permission and succeed?",
+      "typicalSeverity": "S0",
+      "controls": ["SEC-API-01"],
+      "verify": "Every procedure in the diff calls `authorize()` / `can()` with the permission the spec's Access section names before any read or write; run the PAP-64 permission matrix for changed procedures.",
+      "falsePositives": "Public procedures explicitly marked `public` in the spec's Access section; UI-only `useCan` gating is never sufficient (B1 elevation)."
+    },
+    {
+      "id": "RUB-SEC-02",
+      "title": "Tenant isolation and RLS context",
+      "test": "Can I craft an id, filter or join that returns or mutates a row from another tenant, or run a query with no tenant context so RLS fails open or bypasses?",
+      "typicalSeverity": "S0",
+      "controls": ["SEC-DB-02"],
+      "verify": "Every Drizzle call sits inside `withTenant`; no `app.bypass` outside the migrator; ids from the client are scoped by tenant in the `where`; the PAP-34 cross-tenant harness covers new tables.",
+      "falsePositives": "Tables declared tenant-less in the schema barrel (system configuration) with a comment saying so."
+    },
+    {
+      "id": "RUB-SEC-03",
+      "title": "Input validation and mass assignment",
+      "test": "Can I send an extra, oversized, wrongly typed or nested field and have it stored, spread into an update, or crash the handler?",
+      "typicalSeverity": "S1",
+      "controls": ["SEC-API-02"],
+      "verify": "Inputs are Zod objects with `.strict()` or an explicit pick before `db.update(...).set()`; string lengths and array sizes are bounded; `limit <= 100`.",
+      "falsePositives": "Internal calls whose input type is produced by our own code with no client boundary."
+    },
+    {
+      "id": "RUB-SEC-04",
+      "title": "Secrets in code, config and bundles",
+      "test": "Can I find a credential, token, private key or `sk_live_` literal in the diff, in a client-side bundle (non-`VITE_` var), in a fixture outside `__fixtures__`, or in a committed `.env`?",
+      "typicalSeverity": "S0",
+      "controls": ["SEC-SECRETS-01"],
+      "verify": "Read gitleaks output in `security.json`; grep the diff for key shapes; confirm new config reads go through the config port (PAP-444) and `.env.example` carries placeholders only.",
+      "falsePositives": "Documented fake fixtures under `**/__fixtures__/**` matching the PAP-80 pattern; public keys."
+    },
+    {
+      "id": "RUB-SEC-05",
+      "title": "SSRF and outbound requests",
+      "test": "Can I supply a URL, host or webhook target that makes the server fetch the tailnet, cloud metadata, localhost or an arbitrary host?",
+      "typicalSeverity": "S1",
+      "controls": ["SEC-NET-01"],
+      "verify": "Outbound fetches take hosts from an allowlist or a stored, admin-set connector record; user-supplied URLs are resolved and checked against private ranges before use; redirects are capped.",
+      "falsePositives": "Fetches to fixed first-party hosts from constants."
+    },
+    {
+      "id": "RUB-SEC-06",
+      "title": "Injection (SQL, HTML, shell, template, path)",
+      "test": "Can a user-controlled string reach `sql.raw`, `dangerouslySetInnerHTML`, `exec`/`spawn` arguments, a template engine, a file path or a LIKE pattern unescaped?",
+      "typicalSeverity": "S0",
+      "controls": ["SEC-INJ-01"],
+      "verify": "Trace every interpolation in the diff to a parameterised call, `dompurify`, an argument array or a path normalisation with a root check.",
+      "falsePositives": "Interpolation of values the code produced itself (enum names, column identifiers from a fixed map)."
+    },
+    {
+      "id": "RUB-SEC-07",
+      "title": "File uploads and downloads",
+      "test": "Can I upload a file with a spoofed content type, an oversize body, a path-traversal name or an SVG with script, or download another tenant's object by guessing its key?",
+      "typicalSeverity": "S1",
+      "controls": ["SEC-FILES-01"],
+      "verify": "Uploads go through `packages/files` with size and type sniffing; object keys are tenant-prefixed and served via signed URLs; SVG and HTML are served as attachments.",
+      "falsePositives": "Files written by the server itself from trusted generators."
+    },
+    {
+      "id": "RUB-SEC-08",
+      "title": "Rate limits and abuse",
+      "test": "Can I loop a new mutating or expensive endpoint (login, invite, export, search, AI call) without hitting the 600/min actor limit or a tighter per-route limit?",
+      "typicalSeverity": "S2",
+      "controls": ["SEC-API-03"],
+      "verify": "Expensive or unauthenticated routes declare a limiter; login and token endpoints use the tighter identity limiter; k6 budget exists (PAP-242).",
+      "falsePositives": "Routes covered by the global limiter whose cost is bounded (`limit <= 100`, indexed read)."
+    },
+    {
+      "id": "RUB-SEC-09",
+      "title": "Dependency and supply-chain risk",
+      "test": "Does the diff add a dependency, GitHub Action, container image or install script that widens the supply chain more than the feature needs, or pin nothing?",
+      "typicalSeverity": "S2",
+      "controls": ["SEC-SUPPLY-01"],
+      "verify": "New packages are justified in the PR body (PAP-209 rubric for libraries), actions pinned by SHA, images by digest; OSV results in `security.json` reviewed; licence hook passes.",
+      "falsePositives": "Dev-only tooling already in the approved stack list (ADR 0001)."
+    },
+    {
+      "id": "RUB-SEC-10",
+      "title": "Sensitive data in logs, errors and telemetry",
+      "test": "Can I find PII, tokens, request bodies, card or bank shapes, or other tenants' identifiers in a log line, thrown error message, OTel attribute or Linear comment the code emits?",
+      "typicalSeverity": "S1",
+      "controls": ["SEC-LOG-01"],
+      "verify": "Logging calls use the redacting logger with structured fields; error messages returned to clients carry codes, not internals; OTel drops PII (PAP-40).",
+      "falsePositives": "Opaque ids (uuidv7) and tenant ids inside the tenant's own audit log."
+    },
+    {
+      "id": "RUB-SEC-11",
+      "title": "Untrusted content reaching an agent",
+      "test": "Can text from a PR diff, issue body, imported document, web page or scanner (tiers T2 to T4) reach an agent's instruction section without an `<untrusted source= tier=>` wrapper, or can a non-Justin comment trigger `approve`?",
+      "typicalSeverity": "S0",
+      "controls": ["SEC-AGENT-01"],
+      "verify": "Prompt assembly wraps every tier T2+ input; actor id is verified for T1; reviewers run read-only without MCP on fork PRs (Threat Model §6).",
+      "falsePositives": "Content rendered for a human only, never fed to a model."
+    }
+  ]
+}

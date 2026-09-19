@@ -1,0 +1,15 @@
+{
+  "case": "09-vis-overflow-375",
+  "domain": "visual",
+  "reviewers": ["vision"],
+  "expected": [
+    {
+      "rubricId": "RUB-VIS-01",
+      "severity": "S1",
+      "title": "Plan comparison table overflows the viewport by 78 px at 390 px",
+      "file": "apps/web/src/routes/settings/Billing.tsx",
+      "rationale": "DOM-confirmed overflow at a supported width: S1 with confidence 0.9 and the screenshot as evidence."
+    }
+  ],
+  "notes": "The file is inferred from the route; a finding without file but with the screenshot evidence also agrees."
+}

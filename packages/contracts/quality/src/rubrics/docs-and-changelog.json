@@ -1,0 +1,94 @@
+{
+  "domain": "docs-and-changelog",
+  "code": "DOC",
+  "version": 1,
+  "title": "Docs and changelog",
+  "reviewers": ["docs-and-spec"],
+  "purpose": "A third of the PRs in this build are specs, docs, prompts, ADRs and memory. Are they true, verifiable, linked and current, so an outdated rule is never mistaken for a live one? The docs-and-spec reviewer (PAP-677) embeds this rubric; PAP-209's library rubric and PAP-130's ADR template are its references.",
+  "scope": "`specs/**`, `docs/**` (including `docs/adr/**`, `docs/changelog/**`, `docs/memory/**`, `docs/reference/surfaces.md`), `.claude/**` prose, `packages/agents/prompts/**`, READMEs, generated documentation.",
+  "notCovered": [
+    "Agent prompt safety and behaviour (agent-behaviour rubric).",
+    "Spec validator errors (Gate 1, PAP-115) beyond citing them.",
+    "Typos and grammar below S3: praise or ignore."
+  ],
+  "examples": {
+    "S0": [
+      "A runbook step deletes production data without the deny-list warning: following the doc as written is destructive."
+    ],
+    "S1": [
+      "An ADR without Alternatives rejected or Consequences.",
+      "A `must` in a spec with no check named beside it.",
+      "A dangling link to a spec that was renamed."
+    ],
+    "S2": [
+      "Style rule violations in a prompt (model names, unlinked limits).",
+      "A changelog fragment that does not cite its paths."
+    ]
+  },
+  "items": [
+    {
+      "id": "RUB-DOC-01",
+      "title": "Every must has a check",
+      "test": "Can I find a `must`, `never`, `always` or `required` in a spec, ADR or rule that names no test, lint, gate or review step that verifies it?",
+      "typicalSeverity": "S1",
+      "verify": "For each normative sentence in the diff, find the check named beside it or in the Test plan; unverifiable rules are downgraded to guidance or get a Linear issue.",
+      "falsePositives": "Rules whose check is the reviewer itself, when the rubric item is cited."
+    },
+    {
+      "id": "RUB-DOC-02",
+      "title": "Links resolve",
+      "test": "Can I find a relative link, anchor, issue identifier or file path in the diff that does not exist or points at a moved file?",
+      "typicalSeverity": "S1",
+      "verify": "Run the link checker on changed files; resolve every `PAP-<n>` against Linear and every path against the tree.",
+      "falsePositives": "Links to artefacts created by the same PR's CI run, labelled as such."
+    },
+    {
+      "id": "RUB-DOC-03",
+      "title": "ADR completeness",
+      "test": "Does a new or changed ADR lack Status, Context, Decision, Consequences or Alternatives rejected, carry a number not in the pre-assigned list, or change a decision without superseding the old ADR?",
+      "typicalSeverity": "S1",
+      "verify": "Compare against `docs/adr/template.md` (PAP-209, PAP-130); a superseded ADR gets `Status: Superseded by 00nn`.",
+      "falsePositives": "Draft ADRs explicitly marked `Status: Proposed` with the missing section listed as open."
+    },
+    {
+      "id": "RUB-DOC-04",
+      "title": "Changelog fragment and paths",
+      "test": "Does a PR that lands user- or developer-visible change lack `docs/changelog/unreleased/PAP-<n>.md`, or does the fragment omit what landed, the paths and the ADR?",
+      "typicalSeverity": "S2",
+      "verify": "Fragment exists, 2 to 6 lines, names the paths and the ADR number when one exists; `CHANGELOG.md` itself is not edited directly.",
+      "falsePositives": "Pure test or fixture changes."
+    },
+    {
+      "id": "RUB-DOC-05",
+      "title": "Spec declares states, access, events and edge cases",
+      "test": "Can I find a page or app spec missing its States, Access, Events, Actions or Edge cases section, or declaring a component id not in the registry?",
+      "typicalSeverity": "S1",
+      "verify": "`pnpm spec validate` output cited; each section present and non-empty or explicitly `n/a` with a reason.",
+      "falsePositives": "Library and infrastructure specs where the schema marks the section optional."
+    },
+    {
+      "id": "RUB-DOC-06",
+      "title": "Memory and knowledge provenance",
+      "test": "Can I find a memory entry, domain rule or knowledge-base fact with no date, source and owner, or a change that overwrites an old rule instead of marking it superseded?",
+      "typicalSeverity": "S2",
+      "verify": "Entries carry `since`, `source` and `owner`; superseded rules stay with `until` and a pointer (org standard: explicit change tracking so outdated rules are never mistaken for current ones).",
+      "falsePositives": "Scratch notes under a clearly labelled `drafts/` path."
+    },
+    {
+      "id": "RUB-DOC-07",
+      "title": "Generated files not hand-edited",
+      "test": "Does the diff edit a generated file (`roster.json`, JSON Schemas, docs tables, compat matrix, rubric docs) directly instead of its source, or ship a source change without regenerating?",
+      "typicalSeverity": "S2",
+      "verify": "Regenerate and diff (`pnpm build:schemas`, `pnpm build:docs`, drift tests); the generated header names the source.",
+      "falsePositives": "None; point at the generator."
+    },
+    {
+      "id": "RUB-DOC-08",
+      "title": "Surfaces and abilities recorded",
+      "test": "Does the PR add or change an MCP tool, CLI command, API route or WebMCP action without recording it in `docs/reference/surfaces.md` (and the actions registry for pages)?",
+      "typicalSeverity": "S2",
+      "verify": "Diff the exported tools, routes and commands against the surfaces doc section for the issue.",
+      "falsePositives": "Internal helpers not reachable from any surface."
+    }
+  ]
+}

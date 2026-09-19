@@ -1,0 +1,24 @@
+{
+  "case": "04-cor-null-empty-list",
+  "domain": "correctness",
+  "reviewers": ["correctness", "edge-case"],
+  "expected": [
+    {
+      "rubricId": "RUB-COR-02",
+      "severity": "S1",
+      "title": "first.id throws when a tenant has no projects",
+      "file": "apps/web/src/routes/projects/List.tsx",
+      "rationale": "User-visible crash on a supported path (new tenant) is S1. noUncheckedIndexedAccess should have flagged this; the cast or config that hides it is part of the finding.",
+      "reviewers": ["correctness", "edge-case"]
+    },
+    {
+      "rubricId": "RUB-SPEC-04",
+      "severity": "S1",
+      "title": "Declared empty state is not rendered",
+      "file": "apps/web/src/routes/projects/List.tsx",
+      "rationale": "The spec declares empty; the component renders only loaded. Addressed to the spec-conformance reviewer; correctness reviewers mark RUB-SPEC-04 n/a.",
+      "reviewers": ["spec-conformance"]
+    }
+  ],
+  "notes": "A correctness reviewer agrees by reporting RUB-COR-02 at S1; a spec-conformance reviewer agrees by reporting RUB-SPEC-04 at S1. Each expected finding names its reviewers."
+}

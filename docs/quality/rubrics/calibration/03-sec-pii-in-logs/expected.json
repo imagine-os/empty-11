@@ -1,0 +1,15 @@
+{
+  "case": "03-sec-pii-in-logs",
+  "domain": "security",
+  "reviewers": ["security", "correctness"],
+  "expected": [
+    {
+      "rubricId": "RUB-SEC-10",
+      "severity": "S1",
+      "title": "Request middleware logs email, IP and full bodies including auth credentials",
+      "file": "apps/api/src/middleware/log.ts",
+      "rationale": "Sensitive logging on every request is S1 by taxonomy; it becomes S0 only if a credential is confirmed persisted to a shared sink. Cite SEC-LOG-01."
+    }
+  ],
+  "notes": "S0 is accepted if the reviewer shows the log sink is shared outside the tenant boundary; otherwise S1."
+}

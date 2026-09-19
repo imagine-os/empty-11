@@ -30,7 +30,7 @@ Numbers are pre-assigned by the plan; take yours, do not renumber.
 | 0020 | character-schema | PAP-103 | Planned |
 | 0021 | mcp-catalog | PAP-210 | Planned |
 | 0022 | [device-matrix](0022-device-matrix.md) | PAP-14 | Accepted |
-| 0023 | review-rubrics | PAP-79 | Planned |
+| 0023 | [review-rubrics](0023-review-rubrics.md) | PAP-79 | Accepted |
 | 0024 | threat-model-baseline | PAP-219 | Planned |
 | 0025 | compose-smoke-workflow | PAP-754 | Planned |
 

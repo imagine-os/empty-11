@@ -1,0 +1,15 @@
+{
+  "case": "07-spec-missing-empty-state",
+  "domain": "spec-conformance",
+  "reviewers": ["spec-conformance"],
+  "expected": [
+    {
+      "rubricId": "RUB-SPEC-04",
+      "severity": "S1",
+      "title": "Contacts page renders no empty state although the spec declares one",
+      "file": "apps/web/src/routes/crm/Contacts.tsx",
+      "rationale": "Missing declared state is the S1 definition. Cite the spec line and the registry empty-state component."
+    }
+  ],
+  "notes": "Offline handled by the shell is a legitimate n/a for that state when the reviewer says so."
+}

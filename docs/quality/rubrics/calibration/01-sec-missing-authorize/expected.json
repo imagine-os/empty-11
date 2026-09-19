@@ -1,0 +1,15 @@
+{
+  "case": "01-sec-missing-authorize",
+  "domain": "security",
+  "reviewers": ["security"],
+  "expected": [
+    {
+      "rubricId": "RUB-SEC-01",
+      "severity": "S0",
+      "title": "voidInvoice has no authorize() so any signed-in user can void invoices",
+      "file": "packages/finance/src/router/invoices.ts",
+      "rationale": "Authorisation missing on a mutating procedure is the S0 definition (security failure, access-rule violation) and control SEC-API-01. Tenant context is present, so RUB-SEC-02 is n/a."
+    }
+  ],
+  "notes": "Also acceptable: a question on whether the procedure is intentionally public; not acceptable: S1 because it is only one procedure."
+}

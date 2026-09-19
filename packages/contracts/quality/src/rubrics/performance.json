@@ -1,0 +1,93 @@
+{
+  "domain": "performance",
+  "code": "PERF",
+  "version": 1,
+  "title": "Performance",
+  "reviewers": ["correctness", "edge-case"],
+  "purpose": "Will this change make the product slower for a real tenant, on a real phone, at real data sizes? Thresholds (LCP, INP, bundle size, query time) belong to PAP-87 and PAP-242; this rubric names the patterns a reviewer can see in a diff before any budget runs, so a finding here without a measured threshold is S2 unless it is unbounded.",
+  "scope": "Queries, loops, renders, bundles, payloads and jobs in the diff; test suite duration.",
+  "notCovered": [
+    "Budget numbers and their enforcement (PAP-87 web budgets, PAP-242 API and database budgets).",
+    "Infrastructure sizing (PAP-214).",
+    "Load testing (PAP-147)."
+  ],
+  "examples": {
+    "S0": [
+      "A background job loads every row of a tenant table into memory with no limit: the 8 GB host falls over (broken build in production terms)."
+    ],
+    "S1": [
+      "A list endpoint returns unbounded results because the new filter bypasses the `limit` clamp.",
+      "A render loop re-fetches on every keystroke with no debounce and no abort."
+    ],
+    "S2": [
+      "N+1 query in a loop over 20 rows.",
+      "A 300 KB dependency added for one formatting helper."
+    ]
+  },
+  "items": [
+    {
+      "id": "RUB-PERF-01",
+      "title": "Bundle growth",
+      "test": "Does the diff add a dependency, a large asset or a non-lazy import to a route that noticeably grows the initial bundle, or import a whole library for one function?",
+      "typicalSeverity": "S2",
+      "verify": "`size-limit` or the build's chunk report; check for deep imports and lazy routes; cite the added bytes when measured.",
+      "falsePositives": "Dev-only or worker-only dependencies."
+    },
+    {
+      "id": "RUB-PERF-02",
+      "title": "N+1 and unbounded queries",
+      "test": "Can I find a query inside a loop, a join-less fetch per row, a query without `limit`, or a count over an unindexed predicate?",
+      "typicalSeverity": "S2",
+      "verify": "Read every `await db.` inside `for`, `map` or `Promise.all`; check `limit <= 100` (S1 when unbounded on a user-facing list); check the index exists for new `where` columns.",
+      "falsePositives": "Loops bounded by a small enum with a comment saying so."
+    },
+    {
+      "id": "RUB-PERF-03",
+      "title": "Render churn",
+      "test": "Can I type or hover and cause a whole list or table to re-render, an effect to fire every render (missing deps), or a new object identity to break memoisation?",
+      "typicalSeverity": "S2",
+      "verify": "React profiler on the changed page; look for inline object props to memoised children, effects without deps, and state lifted higher than needed.",
+      "falsePositives": "Small trees where the churn is measured under 16 ms."
+    },
+    {
+      "id": "RUB-PERF-04",
+      "title": "Main-thread blocking",
+      "test": "Can I supply a large but plausible input (10 000 rows, a 5 MB document) and freeze the UI for over 100 ms in synchronous parsing, sorting, hashing or layout?",
+      "typicalSeverity": "S2",
+      "verify": "Run the operation with the large fixture under CPU throttle (Gate 4); long tasks in the trace; work moved to a worker or chunked.",
+      "falsePositives": "One-off imports with a progress indicator."
+    },
+    {
+      "id": "RUB-PERF-05",
+      "title": "Unbounded payloads and memory",
+      "test": "Can I make a request, event or job carry or hold an unbounded array, an entire file in memory, or a stream buffered to completion?",
+      "typicalSeverity": "S1",
+      "verify": "Body size limits on routes, streaming for files, `limit` on every collection payload, caps in the event envelope; cite the missing bound.",
+      "falsePositives": "Internal payloads bounded by the producer's own limit, with a link to it."
+    },
+    {
+      "id": "RUB-PERF-06",
+      "title": "Caching and repeated work",
+      "test": "Can I find the same expensive computation, fetch or permission check repeated per render, per row or per request with no memo, cache or batching where the result is stable?",
+      "typicalSeverity": "S3",
+      "verify": "Look for repeated `can()` calls per row, repeated `JSON.parse` of the same string, repeated formatter construction (`new Intl.*` in a loop).",
+      "falsePositives": "Work that is trivially cheap (under a microsecond) or must be fresh."
+    },
+    {
+      "id": "RUB-PERF-07",
+      "title": "Slow tests and CI time",
+      "test": "Does the diff add tests that sleep, hit the network, start real servers per test, or add more than 30 s to the suite without a reason?",
+      "typicalSeverity": "S3",
+      "verify": "Compare Gate 1 duration before and after; grep for `setTimeout` in tests, unmocked fetch, per-test container start.",
+      "falsePositives": "Integration suites tagged for nightly (PAP-253)."
+    },
+    {
+      "id": "RUB-PERF-08",
+      "title": "Budgets when measured",
+      "test": "Does a Gate 1 performance artefact (`perf.json`, PAP-87 or PAP-242) show a budget regression attributable to this diff?",
+      "typicalSeverity": "S1",
+      "verify": "Read `reports/perf.json` when present and cite the metric, the budget and the delta; until PAP-87 lands record `n/a`.",
+      "falsePositives": "Regressions inside the run-to-run noise band the budget declares."
+    }
+  ]
+}

@@ -1,0 +1,156 @@
+{
+  "$id": "https://paperos.dev/schemas/quality/reviewer-output.schema.json",
+  "title": "ReviewerOutput",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "reviewer": {
+      "type": "string",
+      "minLength": 1
+    },
+    "cases": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "case": {
+            "type": "string"
+          },
+          "findings": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "reviewer": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "rubricId": {
+                  "type": "string",
+                  "pattern": "^RUB-(COR|SEC|SPEC|VIS|A11Y|PERF|DOC|AGENT)-\\d{2}$"
+                },
+                "severity": {
+                  "type": "string",
+                  "enum": [
+                    "S0",
+                    "S1",
+                    "S2",
+                    "S3",
+                    "question",
+                    "praise"
+                  ]
+                },
+                "title": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 200
+                },
+                "body": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "file": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "line": {
+                  "type": "integer",
+                  "exclusiveMinimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "endLine": {
+                  "type": "integer",
+                  "exclusiveMinimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "suggestion": {
+                  "type": "string"
+                },
+                "evidence": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "kind": {
+                        "type": "string",
+                        "enum": [
+                          "code",
+                          "screenshot",
+                          "video",
+                          "log"
+                        ]
+                      },
+                      "ref": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "required": [
+                      "kind",
+                      "ref"
+                    ]
+                  }
+                },
+                "confidence": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "autofixable": {
+                  "type": "boolean"
+                },
+                "waiver": {
+                  "type": "object",
+                  "properties": {
+                    "reason": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "approvedBy": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "expires": {
+                      "type": "string",
+                      "format": "date",
+                      "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+                    }
+                  },
+                  "required": [
+                    "reason",
+                    "approvedBy",
+                    "expires"
+                  ]
+                },
+                "id": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "reviewer",
+                "rubricId",
+                "severity",
+                "title",
+                "body",
+                "evidence",
+                "confidence",
+                "autofixable"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "case",
+          "findings"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "reviewer",
+    "cases"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,15 @@
+{
+  "case": "13-doc-adr-without-alternatives",
+  "domain": "docs-and-changelog",
+  "reviewers": ["docs-and-spec"],
+  "expected": [
+    {
+      "rubricId": "RUB-DOC-03",
+      "severity": "S1",
+      "title": "ADR 0019 lacks Consequences and Alternatives rejected",
+      "file": "docs/adr/0019-input-events.md",
+      "rationale": "An ADR that cannot show what was rejected cannot be verified later: S1 by the docs rubric and the PAP-677 seeded case."
+    }
+  ],
+  "notes": ""
+}

@@ -1,0 +1,15 @@
+{
+  "case": "12-perf-n-plus-one-query",
+  "domain": "performance",
+  "reviewers": ["correctness", "edge-case"],
+  "expected": [
+    {
+      "rubricId": "RUB-PERF-02",
+      "severity": "S2",
+      "title": "Board query issues one tasks query per column",
+      "file": "packages/pm/src/queries/board.ts",
+      "rationale": "Bounded (8 columns), limited (100) and no budget yet: S2 with a suggestion (inArray + group). S1 would need an unbounded loop or a measured budget regression."
+    }
+  ],
+  "notes": ""
+}

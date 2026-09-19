@@ -1,0 +1,18 @@
+{
+  "$id": "https://paperos.dev/schemas/quality/rubric-coverage.schema.json",
+  "title": "RubricCoverage",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "propertyNames": {
+    "type": "string",
+    "pattern": "^RUB-(COR|SEC|SPEC|VIS|A11Y|PERF|DOC|AGENT)-\\d{2}$"
+  },
+  "additionalProperties": {
+    "type": "string",
+    "enum": [
+      "checked",
+      "n/a",
+      "skipped"
+    ]
+  }
+}

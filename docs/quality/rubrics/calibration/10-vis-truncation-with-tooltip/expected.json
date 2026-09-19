@@ -1,0 +1,15 @@
+{
+  "case": "10-vis-truncation-with-tooltip",
+  "domain": "visual",
+  "reviewers": ["vision"],
+  "expected": [
+    {
+      "rubricId": "RUB-VIS-03",
+      "severity": "S3",
+      "title": "Company column truncates long names (tooltip present)",
+      "file": "apps/web/src/routes/crm/Contacts.tsx",
+      "rationale": "Truncation with a tooltip is intentional: the rubric downgrades to S3. Reporting S2 here is a calibration miss (over-severity)."
+    }
+  ],
+  "notes": "Reporting nothing also agrees: an expected S3 is optional. Reporting RUB-VIS-03 at S1 or S2 disagrees (over-severity)."
+}

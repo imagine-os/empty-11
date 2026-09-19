@@ -1,0 +1,15 @@
+{
+  "case": "02-sec-cross-tenant-query",
+  "domain": "security",
+  "reviewers": ["security"],
+  "expected": [
+    {
+      "rubricId": "RUB-SEC-02",
+      "severity": "S0",
+      "title": "Digest job reads activity for all tenants outside withTenant and relies on an in-memory filter",
+      "file": "apps/worker/src/jobs/digest.ts",
+      "rationale": "Cross-tenant read with bypass available: SEC-DB-02. The in-memory filter is not a control; one missed field leaks another tenant."
+    }
+  ],
+  "notes": "The reviewer may add an S2 RUB-PERF-02 for the unbounded select; it is not required and does not count against agreement."
+}

@@ -1,0 +1,7 @@
+{
+  "case": "15-clean-pr",
+  "domain": "correctness",
+  "reviewers": ["correctness", "security", "spec-conformance"],
+  "expected": [],
+  "notes": "Zero defects expected. Any S0 or S1 is a false positive that fails the case; questions and praise are fine."
+}

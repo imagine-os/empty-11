@@ -1,0 +1,15 @@
+{
+  "case": "06-cor-test-asserts-nothing",
+  "domain": "correctness",
+  "reviewers": ["correctness"],
+  "expected": [
+    {
+      "rubricId": "RUB-COR-10",
+      "severity": "S2",
+      "title": "Grouping test asserts only that compile ran, not what it produced",
+      "file": "packages/views/src/compiler/__tests__/compile.test.ts",
+      "rationale": "No user-visible defect, but the claimed coverage is false: S2 with a suggestion of the concrete assertion (group keys and order)."
+    }
+  ],
+  "notes": "Not S1: nothing is broken for users. Not S3: the PR body claims coverage that does not exist."
+}

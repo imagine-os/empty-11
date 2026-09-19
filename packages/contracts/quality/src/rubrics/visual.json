@@ -1,0 +1,110 @@
+{
+  "domain": "visual",
+  "code": "VIS",
+  "version": 1,
+  "title": "Visual",
+  "reviewers": ["vision", "justin"],
+  "purpose": "Does the page look right at every width and theme the org supports, from a 360 px phone to a 3840 px TV read from ten feet? The vision inspector (PAP-84) applies these items to Gate 3 screenshots and DOM metrics; Justin uses them when he glances at the digest.",
+  "scope": "Screenshots and DOM metrics at 360, 390, 768, 1280, 1920, 2560 and 3840 px in every theme; Storybook stories; contact sheets (PAP-248).",
+  "notCovered": [
+    "Semantics, names and keyboard behaviour (accessibility rubric), even when the symptom is visible.",
+    "Whether the layout matches the spec's declared components (spec-conformance rubric).",
+    "Brand taste and copy tone: file as `question` or `praise`, not a defect."
+  ],
+  "examples": {
+    "S0": [
+      "A modal renders behind the page at 360 px so the only way to dismiss it is hidden: the user is locked out of the flow (access to the product is blocked)."
+    ],
+    "S1": [
+      "Horizontal overflow at 360 or 390 px (`scrollWidth > clientWidth`).",
+      "A status badge in dark theme at 2.1:1 contrast."
+    ],
+    "S2": [
+      "A 5 px misalignment between a label column and its inputs.",
+      "Theme leak: a hard-coded `#fff` background in dark theme on a secondary panel."
+    ],
+    "S3": ["Intentional truncation of a long name with a tooltip present."]
+  },
+  "items": [
+    {
+      "id": "RUB-VIS-01",
+      "title": "Horizontal overflow",
+      "test": "Can I find a width in the seven-width matrix where the page or a container scrolls horizontally or content escapes the viewport?",
+      "typicalSeverity": "S1",
+      "verify": "`reports/dom-metrics.json` `scrollWidth > clientWidth` per screenshot (confidence 0.9 when DOM-confirmed); the screenshot shows cut content; cite the width and theme.",
+      "falsePositives": "Intentional horizontally scrolling regions (carousels, wide tables in a scroll container) with visible affordance."
+    },
+    {
+      "id": "RUB-VIS-02",
+      "title": "Clipping and overlap",
+      "test": "Can I find text or controls clipped by `overflow: hidden`, covered by a sticky header, a toast or another element, or drawn outside their card?",
+      "typicalSeverity": "S1",
+      "verify": "Elements outside viewport or overlapping in DOM metrics; bounding box in the screenshot; reproduce at the cited width.",
+      "falsePositives": "Decorative bleeds and intentional stacking (avatars) with no lost information."
+    },
+    {
+      "id": "RUB-VIS-03",
+      "title": "Truncation without a tooltip",
+      "test": "Can I find text ending in an ellipsis whose full value is not available on hover, focus or tap (no `title`, tooltip or expand)?",
+      "typicalSeverity": "S2",
+      "verify": "DOM metrics list `text-overflow: ellipsis` hits with `title` presence; truncation with a tooltip is intentional and downgrades to S3; truncation of a primary value (amount, name in a row header) with no tooltip is S1.",
+      "falsePositives": "Truncated secondary text with a details view one click away."
+    },
+    {
+      "id": "RUB-VIS-04",
+      "title": "Misalignment",
+      "test": "Can I find elements in one visual row or column whose edges differ by 4 px or more where the design system aligns them (labels to inputs, icons to text baselines, card edges)?",
+      "typicalSeverity": "S2",
+      "verify": "Measure bounding boxes in the screenshot or DOM metrics; cite the two elements and the offset.",
+      "falsePositives": "Offsets under 4 px; intentional optical alignment in icon glyphs."
+    },
+    {
+      "id": "RUB-VIS-05",
+      "title": "Contrast",
+      "test": "Can I find text under 4.5:1 (3:1 for large text and UI components) against its actual background in any theme?",
+      "typicalSeverity": "S1",
+      "verify": "Sample the bbox with `sharp` and compute the ratio (PAP-84); below 3:1 keeps the severity, otherwise downgrade to `question`; state the ratio and theme.",
+      "falsePositives": "Disabled controls (still S3 if illegible); decorative text."
+    },
+    {
+      "id": "RUB-VIS-06",
+      "title": "Spacing and rhythm",
+      "test": "Can I find spacing that is not a design token step, uneven gaps between siblings, or padding that collapses at a narrow width?",
+      "typicalSeverity": "S2",
+      "verify": "Compare computed margins and paddings with the `packages/tokens` scale; cite the element and the values.",
+      "falsePositives": "One-off spacing documented in the component's story."
+    },
+    {
+      "id": "RUB-VIS-07",
+      "title": "Target size",
+      "test": "Can I find an interactive element whose hit area is under 44 by 44 px, or two targets closer than 8 px, at any width or input mode?",
+      "typicalSeverity": "S1",
+      "verify": "Bounding boxes of `button`, `a`, inputs and custom controls in DOM metrics; cite the element, its size and the width.",
+      "falsePositives": "Inline text links inside a paragraph (WCAG exception) that also have an equivalent 44 px control nearby."
+    },
+    {
+      "id": "RUB-VIS-08",
+      "title": "Theme leaks",
+      "test": "Can I switch theme and find a hard-coded colour, a light image on a dark surface, an unstyled native control or a focus ring that vanishes?",
+      "typicalSeverity": "S2",
+      "verify": "Compare the same screenshot across themes; grep the diff for literal colours outside `packages/tokens`.",
+      "falsePositives": "Brand marks that are intentionally theme-invariant."
+    },
+    {
+      "id": "RUB-VIS-09",
+      "title": "Responsive matrix and 10-foot legibility",
+      "test": "Can I find a width where the layout does not adapt (phone layout stretched to 3840 px, desktop layout squeezed to 360 px), or text under 16 px at 1920 px and above that a viewer three metres away cannot read?",
+      "typicalSeverity": "S1",
+      "verify": "Contact sheet across the seven widths; type scale at 1920, 2560 and 3840 uses the large-screen tokens; primary actions remain visible without scrolling on TV widths.",
+      "falsePositives": "Dense data tables that intentionally keep a fixed density with a zoom control."
+    },
+    {
+      "id": "RUB-VIS-10",
+      "title": "Images, icons and media",
+      "test": "Can I find a stretched or blurry image, a missing icon, a media element without a poster or size, or layout shift when it loads?",
+      "typicalSeverity": "S2",
+      "verify": "Compare intrinsic and rendered sizes in DOM metrics; check `width`/`height` attributes; watch the video replay for shift (PAP-83).",
+      "falsePositives": "Placeholders in dev mode that are labelled as such."
+    }
+  ]
+}

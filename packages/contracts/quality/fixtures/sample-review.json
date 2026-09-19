@@ -1,0 +1,337 @@
+{
+  "reviewer": "sample",
+  "cases": [
+    {
+      "case": "01-sec-missing-authorize",
+      "findings": [
+        {
+          "reviewer": "sample",
+          "rubricId": "RUB-SEC-01",
+          "severity": "S0",
+          "title": "voidInvoice has no authorize() so any signed-in user can void invoices",
+          "body": "Authorisation missing on a mutating procedure is the S0 definition (security failure, access-rule violation) and control SEC-API-01. Tenant context is present, so RUB-SEC-02 is n/a. Proving test: see calibration input.",
+          "file": "packages/finance/src/router/invoices.ts",
+          "line": 1,
+          "evidence": [
+            {
+              "kind": "code",
+              "ref": "packages/finance/src/router/invoices.ts"
+            }
+          ],
+          "confidence": 0.85,
+          "autofixable": false
+        }
+      ]
+    },
+    {
+      "case": "02-sec-cross-tenant-query",
+      "findings": [
+        {
+          "reviewer": "sample",
+          "rubricId": "RUB-SEC-02",
+          "severity": "S0",
+          "title": "Digest job reads activity for all tenants outside withTenant and relies on an in-memory filter",
+          "body": "Cross-tenant read with bypass available: SEC-DB-02. The in-memory filter is not a control; one missed field leaks another tenant. Proving test: see calibration input.",
+          "file": "apps/worker/src/jobs/digest.ts",
+          "line": 1,
+          "evidence": [
+            {
+              "kind": "code",
+              "ref": "apps/worker/src/jobs/digest.ts"
+            }
+          ],
+          "confidence": 0.85,
+          "autofixable": false
+        },
+        {
+          "reviewer": "sample",
+          "rubricId": "RUB-PERF-02",
+          "severity": "S2",
+          "title": "Unbounded select over activity",
+          "body": "Optional extra; does not count against agreement.",
+          "file": "apps/worker/src/jobs/digest.ts",
+          "evidence": [],
+          "confidence": 0.7,
+          "autofixable": false
+        }
+      ]
+    },
+    {
+      "case": "03-sec-pii-in-logs",
+      "findings": [
+        {
+          "reviewer": "sample",
+          "rubricId": "RUB-SEC-10",
+          "severity": "S1",
+          "title": "Request middleware logs email, IP and full bodies including auth credentials",
+          "body": "Sensitive logging on every request is S1 by taxonomy; it becomes S0 only if a credential is confirmed persisted to a shared sink. Cite SEC-LOG-01. Proving test: see calibration input.",
+          "file": "apps/api/src/middleware/log.ts",
+          "line": 1,
+          "evidence": [
+            {
+              "kind": "code",
+              "ref": "apps/api/src/middleware/log.ts"
+            }
+          ],
+          "confidence": 0.85,
+          "autofixable": false
+        }
+      ]
+    },
+    {
+      "case": "04-cor-null-empty-list",
+      "findings": [
+        {
+          "reviewer": "sample",
+          "rubricId": "RUB-COR-02",
+          "severity": "S1",
+          "title": "first.id throws when a tenant has no projects",
+          "body": "User-visible crash on a supported path (new tenant) is S1. noUncheckedIndexedAccess should have flagged this; the cast or config that hides it is part of the finding. Proving test: see calibration input.",
+          "file": "apps/web/src/routes/projects/List.tsx",
+          "line": 1,
+          "evidence": [
+            {
+              "kind": "code",
+              "ref": "apps/web/src/routes/projects/List.tsx"
+            }
+          ],
+          "confidence": 0.85,
+          "autofixable": false
+        },
+        {
+          "reviewer": "sample",
+          "rubricId": "RUB-SPEC-04",
+          "severity": "S1",
+          "title": "Declared empty state is not rendered",
+          "body": "The spec declares empty; the component renders only loaded. Addressed to the spec-conformance reviewer; correctness reviewers mark RUB-SPEC-04 n/a. Proving test: see calibration input.",
+          "file": "apps/web/src/routes/projects/List.tsx",
+          "line": 1,
+          "evidence": [
+            {
+              "kind": "code",
+              "ref": "apps/web/src/routes/projects/List.tsx"
+            }
+          ],
+          "confidence": 0.85,
+          "autofixable": false
+        }
+      ]
+    },
+    {
+      "case": "05-cor-pagination-off-by-one",
+      "findings": [
+        {
+          "reviewer": "sample",
+          "rubricId": "RUB-COR-08",
+          "severity": "S2",
+          "title": "Cursor on non-unique updatedAt skips rows that share a timestamp at the page boundary",
+          "body": "Rows silently missing from a list is a user-visible bug: S1. The fix is a compound cursor (updatedAt, id); the proving test seeds limit+1 rows with one timestamp. Proving test: see calibration input.",
+          "file": "packages/pm/src/queries/tasks.ts",
+          "line": 1,
+          "evidence": [
+            {
+              "kind": "code",
+              "ref": "packages/pm/src/queries/tasks.ts"
+            }
+          ],
+          "confidence": 0.85,
+          "autofixable": false
+        }
+      ]
+    },
+    {
+      "case": "06-cor-test-asserts-nothing",
+      "findings": [
+        {
+          "reviewer": "sample",
+          "rubricId": "RUB-COR-10",
+          "severity": "S2",
+          "title": "Grouping test asserts only that compile ran, not what it produced",
+          "body": "No user-visible defect, but the claimed coverage is false: S2 with a suggestion of the concrete assertion (group keys and order). Proving test: see calibration input.",
+          "file": "packages/views/src/compiler/__tests__/compile.test.ts",
+          "line": 1,
+          "evidence": [
+            {
+              "kind": "code",
+              "ref": "packages/views/src/compiler/__tests__/compile.test.ts"
+            }
+          ],
+          "confidence": 0.85,
+          "autofixable": false
+        }
+      ]
+    },
+    {
+      "case": "07-spec-missing-empty-state",
+      "findings": [
+        {
+          "reviewer": "sample",
+          "rubricId": "RUB-SPEC-04",
+          "severity": "S1",
+          "title": "Contacts page renders no empty state although the spec declares one",
+          "body": "Missing declared state is the S1 definition. Cite the spec line and the registry empty-state component. Proving test: see calibration input.",
+          "file": "apps/web/src/routes/crm/Contacts.tsx",
+          "line": 1,
+          "evidence": [
+            {
+              "kind": "code",
+              "ref": "apps/web/src/routes/crm/Contacts.tsx"
+            }
+          ],
+          "confidence": 0.85,
+          "autofixable": false
+        }
+      ]
+    },
+    {
+      "case": "08-spec-unwired-event",
+      "findings": [
+        {
+          "reviewer": "sample",
+          "rubricId": "RUB-SPEC-05",
+          "severity": "S1",
+          "title": "invoice.sent is declared in the spec and contract but never emitted by sendInvoice",
+          "body": "Declared event missing; downstream automations stay silent. S1. The emit belongs inside the outbox transaction (ADR 0013). Proving test: see calibration input.",
+          "file": "packages/finance/src/service/send.ts",
+          "line": 1,
+          "evidence": [
+            {
+              "kind": "code",
+              "ref": "packages/finance/src/service/send.ts"
+            }
+          ],
+          "confidence": 0.85,
+          "autofixable": false
+        }
+      ]
+    },
+    {
+      "case": "09-vis-overflow-375",
+      "findings": [
+        {
+          "reviewer": "sample",
+          "rubricId": "RUB-VIS-01",
+          "severity": "S1",
+          "title": "Plan comparison table overflows the viewport by 78 px at 390 px",
+          "body": "DOM-confirmed overflow at a supported width: S1 with confidence 0.9 and the screenshot as evidence. Proving test: see calibration input.",
+          "file": "apps/web/src/routes/settings/Billing.tsx",
+          "line": 1,
+          "evidence": [
+            {
+              "kind": "code",
+              "ref": "apps/web/src/routes/settings/Billing.tsx"
+            }
+          ],
+          "confidence": 0.85,
+          "autofixable": false
+        }
+      ]
+    },
+    {
+      "case": "10-vis-truncation-with-tooltip",
+      "findings": []
+    },
+    {
+      "case": "11-a11y-icon-button-no-name",
+      "findings": [
+        {
+          "reviewer": "sample",
+          "rubricId": "RUB-A11Y-02",
+          "severity": "S1",
+          "title": "Archive row action has no accessible name",
+          "body": "Serious a11y failure is S1 by taxonomy; screen reader and voice users cannot find the action. Fix: aria-label from the catalog and a tooltip. Proving test: see calibration input.",
+          "file": "packages/ui/src/table/RowActions.tsx",
+          "line": 1,
+          "evidence": [
+            {
+              "kind": "code",
+              "ref": "packages/ui/src/table/RowActions.tsx"
+            }
+          ],
+          "confidence": 0.85,
+          "autofixable": false
+        }
+      ]
+    },
+    {
+      "case": "12-perf-n-plus-one-query",
+      "findings": [
+        {
+          "reviewer": "sample",
+          "rubricId": "RUB-PERF-02",
+          "severity": "S2",
+          "title": "Board query issues one tasks query per column",
+          "body": "Bounded (8 columns), limited (100) and no budget yet: S2 with a suggestion (inArray + group). S1 would need an unbounded loop or a measured budget regression. Proving test: see calibration input.",
+          "file": "packages/pm/src/queries/board.ts",
+          "line": 1,
+          "evidence": [
+            {
+              "kind": "code",
+              "ref": "packages/pm/src/queries/board.ts"
+            }
+          ],
+          "confidence": 0.85,
+          "autofixable": false
+        }
+      ]
+    },
+    {
+      "case": "13-doc-adr-without-alternatives",
+      "findings": [
+        {
+          "reviewer": "sample",
+          "rubricId": "RUB-DOC-03",
+          "severity": "S1",
+          "title": "ADR 0019 lacks Consequences and Alternatives rejected",
+          "body": "An ADR that cannot show what was rejected cannot be verified later: S1 by the docs rubric and the PAP-677 seeded case. Proving test: see calibration input.",
+          "file": "docs/adr/0019-input-events.md",
+          "line": 1,
+          "evidence": [
+            {
+              "kind": "code",
+              "ref": "docs/adr/0019-input-events.md"
+            }
+          ],
+          "confidence": 0.85,
+          "autofixable": false
+        }
+      ]
+    },
+    {
+      "case": "14-agent-write-attempt",
+      "findings": [
+        {
+          "reviewer": "sample",
+          "rubricId": "RUB-AGENT-01",
+          "severity": "S2",
+          "title": "Correctness reviewer attempted Edit and git commit on PR #212 (denied)",
+          "body": "Denied write attempts are S2 by the rubric; a successful write would be S0. Repo-wide finding: no file. Proving test: see calibration input.",
+          "evidence": [
+            {
+              "kind": "code",
+              "ref": "repo-wide"
+            }
+          ],
+          "confidence": 0.85,
+          "autofixable": false
+        }
+      ]
+    },
+    {
+      "case": "15-clean-pr",
+      "findings": [
+        {
+          "reviewer": "sample",
+          "rubricId": "RUB-COR-10",
+          "severity": "S1",
+          "title": "Tests do not cover nested filters deeply enough",
+          "body": "Speculative; 14 tests exist including nested cases.",
+          "file": "packages/core/src/filter/normalize.test.ts",
+          "evidence": [],
+          "confidence": 0.6,
+          "autofixable": false
+        }
+      ]
+    }
+  ]
+}

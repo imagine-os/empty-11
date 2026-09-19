@@ -1,0 +1,44 @@
+{
+  "name": "@paperos/contract-quality",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Quality contract: review rubrics, severity taxonomy, Finding schema, review rendering and calibration scoring (PAP-79). Gate artefact schemas join in PAP-239; published as the quality module contract by PAP-462.",
+  "exports": {
+    ".": "./src/index.ts",
+    "./finding": "./src/finding.ts",
+    "./rubrics": "./src/rubrics.ts",
+    "./render": "./src/render.ts",
+    "./calibrate": "./src/calibrate.ts",
+    "./rubrics/*.json": "./src/rubrics/*.json",
+    "./schemas/*": "./schemas/*"
+  },
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "files": [
+    "src",
+    "schemas",
+    "fixtures"
+  ],
+  "scripts": {
+    "lint": "biome check .",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "vitest run --passWithNoTests",
+    "build": "pnpm run build:schemas && pnpm run build:docs",
+    "build:schemas": "tsx scripts/build-schemas.ts",
+    "build:docs": "tsx scripts/build-docs.ts",
+    "calibrate": "tsx scripts/calibrate.ts",
+    "clean": "node -e \"require('node:fs').rmSync('coverage',{recursive:true,force:true})\""
+  },
+  "dependencies": {
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "catalog:",
+    "@paperos/config-ts": "workspace:*",
+    "@types/node": "catalog:",
+    "tsx": "^4.23.13",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}

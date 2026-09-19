@@ -1,0 +1,15 @@
+{
+  "case": "05-cor-pagination-off-by-one",
+  "domain": "correctness",
+  "reviewers": ["correctness"],
+  "expected": [
+    {
+      "rubricId": "RUB-COR-08",
+      "severity": "S1",
+      "title": "Cursor on non-unique updatedAt skips rows that share a timestamp at the page boundary",
+      "file": "packages/pm/src/queries/tasks.ts",
+      "rationale": "Rows silently missing from a list is a user-visible bug: S1. The fix is a compound cursor (updatedAt, id); the proving test seeds limit+1 rows with one timestamp."
+    }
+  ],
+  "notes": "A second finding RUB-COR-10 S2 (test covers one page only) is welcome but optional."
+}

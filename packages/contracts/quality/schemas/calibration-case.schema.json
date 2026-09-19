@@ -1,0 +1,83 @@
+{
+  "$id": "https://paperos.dev/schemas/quality/calibration-case.schema.json",
+  "title": "CalibrationCase",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "case": {
+      "type": "string",
+      "pattern": "^\\d{2}-[a-z0-9-]+$"
+    },
+    "domain": {
+      "type": "string",
+      "minLength": 1
+    },
+    "reviewers": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "expected": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "rubricId": {
+            "type": "string",
+            "pattern": "^RUB-(COR|SEC|SPEC|VIS|A11Y|PERF|DOC|AGENT)-\\d{2}$"
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "S0",
+              "S1",
+              "S2",
+              "S3",
+              "question",
+              "praise"
+            ]
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "file": {
+            "type": "string"
+          },
+          "rationale": {
+            "type": "string",
+            "minLength": 1
+          },
+          "reviewers": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "required": [
+          "rubricId",
+          "severity",
+          "title",
+          "rationale"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "case",
+    "domain",
+    "reviewers",
+    "expected"
+  ],
+  "additionalProperties": false
+}

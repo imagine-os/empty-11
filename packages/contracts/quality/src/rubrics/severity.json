@@ -1,0 +1,109 @@
+{
+  "version": 1,
+  "severities": [
+    {
+      "id": "S0",
+      "name": "blocker",
+      "blocks": "always",
+      "definition": "Data loss or corruption, a security failure (authorisation, tenant isolation, secrets, injection, untrusted instructions obeyed), a broken build or release, or an access-rule violation (the spec's Access section or the org's input standards make the product unusable for a class of user).",
+      "requiredAction": "Fix before merge, or a waiver approved by Justin through Atlas with an expiry. The issue cannot move to Done while an unwaived S0 is open.",
+      "examples": [
+        "Procedure without authorize()",
+        "Query outside withTenant",
+        "Migration drops a column without backfill",
+        "Payment mutation replayed without an idempotency key",
+        "Destructive deny-list action attempted"
+      ]
+    },
+    {
+      "id": "S1",
+      "name": "major",
+      "blocks": "more than 3",
+      "definition": "A user-visible bug on a supported path, a declared state, event or action that is missing, a serious accessibility failure (no name, no keyboard path, no visible focus, hover- or drag-only), a finding with no evidence, or a spec or ADR that cannot be verified.",
+      "requiredAction": "Fix before merge when more than three S1 are open; otherwise fix or record a waiver approved by Sentinel (security S1 need Justin) with an expiry and a Linear issue. The review pass does not move an issue to Done with an unwaived S1.",
+      "examples": [
+        "Empty list crashes the page",
+        "Pagination skips a row",
+        "Icon button without a name",
+        "Overflow at 360 px",
+        "ADR without alternatives"
+      ]
+    },
+    {
+      "id": "S2",
+      "name": "minor",
+      "blocks": "never",
+      "definition": "A defect with a workaround or limited exposure: misalignment of 4 px or more, a theme leak, N+1 on a small list, a test that asserts nothing, a missing changelog fragment, a denied write attempt by a reviewer.",
+      "requiredAction": "Fix in this PR when cheap, otherwise a follow-up issue linked from the finding. Never blocks; trended weekly by the calibration auditor.",
+      "examples": [
+        "5 px misalignment",
+        "Hard-coded colour in dark theme",
+        "Test with toBeDefined only",
+        "Fragment missing paths"
+      ]
+    },
+    {
+      "id": "S3",
+      "name": "nit",
+      "blocks": "never",
+      "definition": "Polish: wording, intentional truncation with a tooltip, repeated cheap work, third-party code findings (pointer to PAP-216), missing Spanish strings.",
+      "requiredAction": "Author's discretion. Batched into polish passes.",
+      "examples": [
+        "Truncated secondary text with tooltip",
+        "Formatter constructed in a loop",
+        "Missing es translation"
+      ]
+    },
+    {
+      "id": "question",
+      "name": "question",
+      "blocks": "never",
+      "definition": "A possible defect the reviewer could not confirm (confidence under 0.5), a request for context, or a waived finding shown for the record.",
+      "requiredAction": "Author answers in the thread; the reviewer may upgrade to a defect with evidence on the next round.",
+      "examples": [
+        "Contrast computed at 3.2:1, borderline for large text",
+        "Is this list bounded by construction?"
+      ]
+    },
+    {
+      "id": "praise",
+      "name": "praise",
+      "blocks": "never",
+      "definition": "Something worth repeating: a test that would catch a real regression, a clean boundary, a good edge case.",
+      "requiredAction": "None. Counted so reviewers are calibrated on what good looks like, not only what is wrong.",
+      "examples": ["Replay test proving idempotency", "Empty state with a clear next action"]
+    }
+  ],
+  "gateRule": {
+    "s0Blocks": true,
+    "maxS1": 3,
+    "questionBelowConfidence": 0.5,
+    "statement": "Any S0 blocks. More than 3 S1 block. S2 and S3 never block. A defect finding with confidence under 0.5 posts as a question. Waived findings (unexpired waiver) count as questions."
+  },
+  "caps": [
+    {
+      "when": "Finding in a generated file",
+      "cap": "S2",
+      "note": "Point at the generator; the fix lands in the source."
+    },
+    {
+      "when": "Third-party or vendored code",
+      "cap": "S3",
+      "note": "Pointer to PAP-216 (dependency policy); vulnerabilities go through PAP-80 instead."
+    }
+  ],
+  "waiver": {
+    "shape": {
+      "reason": "string",
+      "approvedBy": "Justin | Sentinel | <reviewer>",
+      "expires": "YYYY-MM-DD"
+    },
+    "approvals": {
+      "S0": "Justin (through Atlas)",
+      "S1 security": "Justin (through Atlas)",
+      "S1 other": "Sentinel",
+      "S2 and S3": "any reviewer or the author with a linked issue"
+    },
+    "rule": "A severity override is recorded as a waiver on the finding, never as a silent edit of the severity. Expired waivers stop applying and fail release certification (PAP-88)."
+  }
+}

@@ -1,0 +1,182 @@
+{
+  "$id": "https://paperos.dev/schemas/quality/severity-taxonomy.schema.json",
+  "title": "SeverityTaxonomy",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "integer",
+      "exclusiveMinimum": 0,
+      "maximum": 9007199254740991
+    },
+    "severities": {
+      "minItems": 6,
+      "maxItems": 6,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "enum": [
+              "S0",
+              "S1",
+              "S2",
+              "S3",
+              "question",
+              "praise"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "blocks": {
+            "type": "string",
+            "enum": [
+              "always",
+              "more than 3",
+              "never"
+            ]
+          },
+          "definition": {
+            "type": "string",
+            "minLength": 1
+          },
+          "requiredAction": {
+            "type": "string",
+            "minLength": 1
+          },
+          "examples": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "blocks",
+          "definition",
+          "requiredAction",
+          "examples"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "gateRule": {
+      "type": "object",
+      "properties": {
+        "s0Blocks": {
+          "type": "boolean",
+          "const": true
+        },
+        "maxS1": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "questionBelowConfidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "statement": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "s0Blocks",
+        "maxS1",
+        "questionBelowConfidence",
+        "statement"
+      ],
+      "additionalProperties": false
+    },
+    "caps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "when": {
+            "type": "string"
+          },
+          "cap": {
+            "type": "string",
+            "enum": [
+              "S0",
+              "S1",
+              "S2",
+              "S3"
+            ]
+          },
+          "note": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "when",
+          "cap",
+          "note"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "waiver": {
+      "type": "object",
+      "properties": {
+        "shape": {
+          "type": "object",
+          "properties": {
+            "reason": {
+              "type": "string"
+            },
+            "approvedBy": {
+              "type": "string"
+            },
+            "expires": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "reason",
+            "approvedBy",
+            "expires"
+          ],
+          "additionalProperties": false
+        },
+        "approvals": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string"
+          },
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "rule": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "shape",
+        "approvals",
+        "rule"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "version",
+    "severities",
+    "gateRule",
+    "caps",
+    "waiver"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,15 @@
+{
+  "case": "11-a11y-icon-button-no-name",
+  "domain": "accessibility",
+  "reviewers": ["a11y-audit", "vision", "spec-conformance"],
+  "expected": [
+    {
+      "rubricId": "RUB-A11Y-02",
+      "severity": "S1",
+      "title": "Archive row action has no accessible name",
+      "file": "packages/ui/src/table/RowActions.tsx",
+      "rationale": "Serious a11y failure is S1 by taxonomy; screen reader and voice users cannot find the action. Fix: aria-label from the catalog and a tooltip."
+    }
+  ],
+  "notes": "A second finding RUB-SPEC-09 S1 if the label is added as a hard-coded string is acceptable."
+}

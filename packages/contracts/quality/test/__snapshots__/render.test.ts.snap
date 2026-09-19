@@ -1,0 +1,63 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`renderReview > matches the rendering template snapshot 1`] = `
+"## Review: security @ \`0123456789ab\`
+
+**Gate:** fail (1 S0 finding(s))
+
+| S0 | S1 | S2 | S3 | question | praise |
+|---:|---:|---:|---:|---:|---:|
+| 1 | 1 | 1 | 0 | 1 | 1 |
+
+### S0 blocker (1)
+
+<!-- finding:535ff6c4cf -->
+- **voidInvoice has no authorize() so any signed-in user can void invoices** — [\`packages/finance/src/router/invoices.ts:12-18\`](https://github.com/imagine-os/paperos-template/blob/0123456789abcdef0123/packages/finance/src/router/invoices.ts#L12-L18) · \`RUB-SEC-01\` · confidence 0.95 · autofixable
+  Call voidInvoice as role viewer: 200 and the row is void.
+  Proving test: permission matrix row for finance.write on voidInvoice.
+  Evidence: code \`packages/finance/src/router/invoices.ts:12\`
+
+
+  \`\`\`diff
+  @@ -12,1 +12,2 @@
+  -export const voidInvoice = procedure
+  +export const voidInvoice = procedure
+  +  .use(authorize('finance.write'))
+  \`\`\`
+
+### S1 major (1)
+
+<!-- finding:a4d9f9cdfb -->
+- **Request middleware logs email, IP and full bodies** — [\`apps/api/src/middleware/log.ts:7\`](https://github.com/imagine-os/paperos-template/blob/0123456789abcdef0123/apps/api/src/middleware/log.ts#L7) · \`RUB-SEC-10\` · confidence 0.80
+  Bodies on /auth/* include passwords.
+  Evidence: log \`reports/gate1/api.log\`
+
+### S2 minor (1)
+
+<!-- finding:9f83bc3d7c -->
+- **Is the export endpoint bounded?** — repo-wide · \`RUB-SEC-08\` · confidence 0.30
+  Could not find a limiter; the route may be covered by the global one.
+
+### Questions (1)
+
+<!-- finding:b9085a0b9d -->
+- **lodash added for one debounce** — [\`package.json\`](https://github.com/imagine-os/paperos-template/blob/0123456789abcdef0123/package.json) · \`RUB-SEC-09\` · confidence 0.70 (waived by Sentinel until 2026-10-01: removed in PAP-300 next week)
+  Prefer the existing helper in @paperos/core.
+
+### Praise (1)
+
+<!-- finding:d30fb23877 -->
+- **Strict Zod input with bounded arrays on every new procedure** — repo-wide · \`RUB-SEC-03\` · confidence 1.00
+  Mass assignment is impossible here.
+
+<details><summary>Rubric coverage</summary>
+
+- checked (2): RUB-SEC-01, RUB-SEC-02
+- n/a (1): RUB-SEC-05
+- skipped (1): RUB-SEC-07
+
+</details>
+
+**Not checked:** Trivy container results (scanner errored)
+"
+`;

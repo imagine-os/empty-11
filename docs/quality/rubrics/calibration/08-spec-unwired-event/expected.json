@@ -1,0 +1,15 @@
+{
+  "case": "08-spec-unwired-event",
+  "domain": "spec-conformance",
+  "reviewers": ["spec-conformance"],
+  "expected": [
+    {
+      "rubricId": "RUB-SPEC-05",
+      "severity": "S1",
+      "title": "invoice.sent is declared in the spec and contract but never emitted by sendInvoice",
+      "file": "packages/finance/src/service/send.ts",
+      "rationale": "Declared event missing; downstream automations stay silent. S1. The emit belongs inside the outbox transaction (ADR 0013)."
+    }
+  ],
+  "notes": ""
+}
