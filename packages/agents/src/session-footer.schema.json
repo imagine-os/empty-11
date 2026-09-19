@@ -5,11 +5,11 @@
   "description": "The JSON object inside the fenced ```paperos-session block that ends every Linear comment a PaperOS session posts (docs/pm/session-playbook.md, PAP-92). Parsed by the orchestrator (PAP-96) to set issue state, by PAP-97/PAP-98 for status and cost, and rendered by PAP-105 linear-update.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["playbookVersion", "sessionId", "character", "issue", "status", "branch"],
+  "required": ["playbookVersion", "sessionId", "character", "issue", "status"],
   "properties": {
     "playbookVersion": {
-      "description": "Version of the session playbook the footer follows. Bumped only when a field is added, removed or renamed.",
-      "const": 1
+      "description": "Version of the session playbook the footer follows. 1 and 2 both validate against the current rules (v2 only widened the enums below and relaxed `branch`); the parser accepts either. Bumped only when a field is added, removed or renamed.",
+      "enum": [1, 2]
     },
     "sessionId": {
       "description": "<yyyy-mm-dd>-PAP-<n>, with an optional -<k> suffix when an issue is re-run the same day.",
@@ -17,19 +17,30 @@
       "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}-PAP-[0-9]+(-[0-9]+)?$"
     },
     "character": {
-      "description": "Lowercase name of the lead character that ran the session, or `orchestrator` for comments the orchestrator posts itself (status `promoted`).",
+      "description": "Name of the lead character that ran the session (case-insensitive: either casing validates), `orchestrator` for comments the orchestrator posts itself (status `promoted`), `integrator` for the merge-queue's comments (status `integrated`), or `scribe` for housekeeping/remediation passes (PAP-92).",
       "type": "string",
       "enum": [
         "atlas",
+        "Atlas",
         "forge",
+        "Forge",
         "iris",
+        "Iris",
         "quill",
+        "Quill",
         "sentinel",
+        "Sentinel",
         "nova",
+        "Nova",
         "ledger",
+        "Ledger",
         "beacon",
+        "Beacon",
         "scout",
-        "orchestrator"
+        "Scout",
+        "orchestrator",
+        "integrator",
+        "scribe"
       ]
     },
     "issue": {
@@ -38,12 +49,29 @@
       "pattern": "^PAP-[0-9]+$"
     },
     "status": {
-      "description": "started | progress | ended | partial | contract-failed | handoff are posted by sessions; promoted is posted by the PAP-96 promotion pass (templates/promoted.md).",
+      "description": "started | progress | ended | partial | contract-failed | handoff are posted by sessions; review | reviewed are posted by the review pass (verdict required, see the `verdict` property); promoted is posted by the PAP-96 promotion pass (templates/promoted.md); integrated is posted by the merge-queue integrator when it lands a branch on main; remediation is posted by a housekeeping/contradiction-fixing pass (PAP-92).",
       "type": "string",
-      "enum": ["started", "progress", "ended", "partial", "contract-failed", "handoff", "promoted"]
+      "enum": [
+        "started",
+        "progress",
+        "ended",
+        "partial",
+        "contract-failed",
+        "handoff",
+        "review",
+        "reviewed",
+        "promoted",
+        "integrated",
+        "remediation"
+      ]
+    },
+    "verdict": {
+      "description": "The review pass's outcome. Required when `status` is `review` or `reviewed`; absent otherwise.",
+      "type": "string",
+      "enum": ["pass", "fail"]
     },
     "branch": {
-      "description": "Working branch, e.g. feat/PAP-92-session-playbook or <parent>/wp2-<slug>. For status `promoted` this is the branch the promoted issue will use (may be a placeholder until claim).",
+      "description": "Working branch, e.g. feat/PAP-92-session-playbook or <parent>/wp2-<slug>. For status `promoted` this is the branch the promoted issue will use (may be a placeholder until claim). Required only on started/progress/ended/partial, where the session is working on or reporting from one branch; absent on review/reviewed/promoted/integrated/remediation, which describe or act on a branch rather than work on it.",
       "type": "string",
       "minLength": 1,
       "pattern": "^[A-Za-z0-9._/-]+$"
@@ -98,6 +126,14 @@
     {
       "if": { "properties": { "status": { "enum": ["partial", "contract-failed"] } } },
       "then": { "required": ["reason"] }
+    },
+    {
+      "if": { "properties": { "status": { "enum": ["started", "progress", "ended", "partial"] } } },
+      "then": { "required": ["branch"] }
+    },
+    {
+      "if": { "properties": { "status": { "enum": ["review", "reviewed"] } } },
+      "then": { "required": ["verdict"] }
     }
   ],
   "$defs": {

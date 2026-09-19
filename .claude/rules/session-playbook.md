@@ -1,6 +1,8 @@
 # PaperOS session playbook
 
-`playbookVersion: 1` · owner Quill (PAP-92) · reviewed by Atlas · footer schema [`src/agents/session-footer.schema.json`](../../src/agents/session-footer.schema.json) · mirrored byte-for-byte to `.claude/rules/session-playbook.md` in `paperos-template` (relative links resolve from `docs/pm/` in `paperos-orchestrator`).
+`playbookVersion: 2` (`1` also validates) · owner Quill (PAP-92) · reviewed by Atlas · footer schema [`src/agents/session-footer.schema.json`](https://github.com/imagine-os/empty12/blob/main/src/agents/session-footer.schema.json) · mirrored byte-for-byte to `.claude/rules/session-playbook.md` in `paperos-template`. Links below are absolute GitHub URLs so the mirror resolves too.
+
+> **Repo names are temporary**: `paperos-orchestrator` = `imagine-os/empty12`, `paperos-template` = `imagine-os/empty-11`; Justin renames later, links repoint then.
 
 ## 1. Purpose
 
@@ -17,7 +19,7 @@ stateDiagram-v2
     Backlog --> ReadyForClaude: promotion pass PAP-96 (four checks) or Justin
     ReadyForClaude --> Backlog: PAP-93 bounce (READY_BUT_BLOCKED, contract error)
     ReadyForClaude --> InProgress: session claims (Session started)
-    InProgress --> InReview: PR open, Session ended [build loop, pushed to main]
+    InProgress --> InReview: PR open, Session ended [build loop, branch contained in main via integrator]
     InProgress --> NeedsJustin: decision card PAP-94 (orchestrator routes)
     InProgress --> Backlog: partial, re-queued by orchestrator
     InReview --> Done: merge flow [build loop, review pass]
@@ -47,7 +49,7 @@ Then the issue itself: (a) the body end to end, all eleven sections, Dependencie
 
 Nobody hand-picks issues for you. An issue reaches `Ready for Claude` in exactly one of two ways: Justin moved it (rare, and PAP-93 validates it anyway), or the orchestrator's promotion pass (PAP-96, Spec "Promotion") moved it because all four checks held: no `Deferred` label and no deferral note; no sub-issues (umbrellas are never promoted); every inbound `blocks` issue is `Done`, `Canceled`, or `In Review` with an open PR (the **branch-start rule**, Execution Schedule §1: a dependent may start once every blocker is In Review with a PR open and works against the PR branch); and the issue contract (PAP-93) passes with no errors, `BLOCKED_BY_OPEN` included (`BLOCKED_BY_OPEN` = an inbound blocker in Backlog, Todo, Ready for Claude, In Progress or Needs Justin, or In Review without a PR). The promotion comment on your issue reads `promoted: blockers PAP-x (Done), PAP-y (In Review, branch feat/PAP-y)` and your prompt carries `BASE_BRANCHES=feat/PAP-y,...` for every blocker that is still In Review. **Orient step therefore adds:** read the `promoted:` comment; for each branch in `BASE_BRANCHES` run `git merge --no-ff origin/<branch>` into your worktree before writing code (conflict → stop with `status: "ended", reason: "base-branch-conflict"`, comment, and the orchestrator routes to Needs Justin); list the base branches in your `Session started` footer (`baseBranches`); when a base PR merges before you open yours, rebase onto `main` (you own the rebase); when a base PR is closed without merge, PAP-93 bounces your issue and you stop with `status: "partial"`. **Manual fallback 09-17..09-20 (before PAP-96 is live, scheduled 09-20 pm):** Atlas runs `pnpm linear:promote --dry-run` from the orchestrator repo (`imagine-os/paperos-orchestrator`, script `src/cli/promote.ts` specified in the PAP-96 promotion package) at each half-day boundary (03:30Z and 15:30Z), reads the candidate table, and applies it by hand: move each listed issue to `Ready for Claude`, post the `promoted:` comment verbatim from the table, and put the table's `BASE_BRANCHES` line into the session prompt when launching. Until the orchestrator repo exists (PAP-96 is claimed 09-19), Atlas produces the same table by hand from the Linear `blocks` graph with the four checks above and records it as a comment on PAP-96 (`manual promotion 09-17 pm: PAP-16 (PAP-13 In Review, branch feat/PAP-13), ...`).
 
-PAP-93 states the same predicate as: an inbound blocker is open exactly when it is in `Backlog`, `Todo`, `Ready for Claude`, `In Progress` or `Needs Justin`, or in `In Review` without an open PR (no PR attachment and no `gh pr list --head <branch>` hit); it is closed when it is `Done`, `Canceled`, or `In Review` with a PR (the branch-start rule, Execution Schedule §1). The promotion comment is rendered from [`templates/promoted.md`](../../templates/promoted.md).
+PAP-93 states the same predicate as: an inbound blocker is open exactly when it is in `Backlog`, `Todo`, `Ready for Claude`, `In Progress` or `Needs Justin`, or in `In Review` without an open PR (no PR attachment and no `gh pr list --head <branch>` hit); it is closed when it is `Done`, `Canceled`, or `In Review` with a PR (the branch-start rule, Execution Schedule §1). The promotion comment is rendered from [`templates/promoted.md`](https://github.com/imagine-os/empty12/blob/main/templates/promoted.md).
 
 **Umbrella rule.** An issue with sub-issues is an umbrella. It is never moved to Ready for Claude and never claimed; the orchestrator skips it and the validator returns error `UMBRELLA_NOT_CLAIMABLE`. Children are claimed like any issue. When all children are Done, the session that finishes the last child runs the umbrella's integration test, attaches the evidence to the umbrella and moves it to In Review. Relations: every child carries the external `blocks` relations it needs (added 2026-09-17, FIX-3), so a child in Ready for Claude is genuinely unblocked; the last child in build order also blocks whatever the umbrella blocks, so downstream readiness follows the real work.
 
@@ -58,11 +60,11 @@ PAP-93 states the same predicate as: an inbound blocker is open exactly when it 
 ### 5.1 Claim
 
 1. Re-fetch the issue immediately before claiming. It must be `Ready for Claude`, route to your character, carry no `Deferred` label, have no sub-issues (Umbrella rule above, verbatim: an issue with sub-issues is an umbrella; it is never moved to Ready for Claude and never claimed) and show no `Session started` comment from another session. If any check fails, pick the next issue or stop with `reason: "duplicate-claim"`. [check: PAP-93 `UMBRELLA_NOT_CLAIMABLE`; orchestrator `updatedAt` guard]
-2. Move it to `In Progress` (`issueUpdate(id: "PAP-<n>", input: { stateId })`) and post the `Session started` comment from [`templates/session-started.md`](../../templates/session-started.md). [check: PAP-96 parses the footer; `pnpm footer:validate` prints `ok`]
+2. Move it to `In Progress` (`issueUpdate(id: "PAP-<n>", input: { stateId })`) and post the `Session started` comment from [`templates/session-started.md`](https://github.com/imagine-os/empty12/blob/main/templates/session-started.md). [check: PAP-96 parses the footer; `pnpm footer:validate` prints `ok`]
 
 ### 5.2 Orient
 
-Read §3 in order, then the `promoted:` comment. Create the worktree from `main` and merge each base branch:
+Read §3 in order, then the `promoted:` comment. Branch naming is not one grammar — see [PAP-46's mode table](https://github.com/imagine-os/empty-11/blob/main/docs/platform/branching-and-commits.md) §1: `feat/PAP-<n>-<slug>` under `/workspace/wt/PAP-<n>` in build-loop mode (today, §8), `<character>/PAP-<n>-<slug>` under `../paperos-worktrees/PAP-<n>` in target mode. Today's commands:
 
 ```bash
 git fetch origin main
@@ -80,7 +82,7 @@ Plan in the issue's terms: the Definition of done items, the paths you will touc
 
 ### 5.4 Build
 
-Only inside the worktree, only on your paths. Conventional commits scoped by issue (`feat(PAP-13): scaffold monorepo`), small and validated; never edit `CHANGELOG.md`, add `docs/changelog/unreleased/PAP-<n>.md`. Respect the module boundary (other modules only through `@paperos/contract-<module>`), the org standards (responsive 360..3840 px, keyboard/mouse/touch/pen, English + Spanish, uuidv7 ids and `updated_at`, "not wired yet" toasts, actions registry) and the deny list. `progress` comments at most every 30 minutes, from [`templates/session-progress.md`](../../templates/session-progress.md). [check: PAP-439 dependency lint; PAP-106 PreToolUse hook; comment timestamps]
+Only inside the worktree, only on your paths. Conventional commits scoped by issue (`feat(PAP-13): scaffold monorepo`), small and validated; never edit `CHANGELOG.md`, add `docs/changelog/unreleased/PAP-<n>.md`. Respect the module boundary (other modules only through `@paperos/contract-<module>`), the org standards (responsive 360..3840 px, keyboard/mouse/touch/pen, English + Spanish, uuidv7 ids and `updated_at`, "not wired yet" toasts, actions registry) and the deny list. `progress` comments at most every 30 minutes, from [`templates/session-progress.md`](https://github.com/imagine-os/empty12/blob/main/templates/session-progress.md). [check: PAP-439 dependency lint; PAP-106 PreToolUse hook; comment timestamps]
 
 ### 5.5 Verify
 
@@ -95,11 +97,13 @@ Green before every push and after every rebase. Attach the evidence the Definiti
 One `Session started`, `progress` at most every 30 minutes, one `Session ended` (PR or commits, gates, cost). Every comment ends with a fenced ```` ```paperos-session ```` JSON block validating against the footer schema:
 
 ```json
-{ "playbookVersion": 1, "sessionId": "2026-09-19-PAP-92", "character": "quill", "issue": "PAP-92",
-  "status": "started" | "progress" | "ended" | "partial" | "contract-failed" | "handoff",
-  "costUsd": 1.20, "turns": 14, "pr": "<url>?", "branch": "feat/PAP-92-session-playbook",
-  "baseBranches": ["feat/PAP-13-scaffold"]?, "handoff": { ... }? }
+{ "playbookVersion": 2, "sessionId": "2026-09-19-PAP-92", "character": "quill", "issue": "PAP-92",
+  "status": "started" | ... (full enum in the schema),
+  "costUsd": 1.20, "turns": 14, "pr": "<url>?", "branch": "feat/PAP-92-session-playbook"?,
+  "verdict": "pass" | "fail"?, "baseBranches": ["feat/PAP-13-scaffold"]?, "handoff": { ... }? }
 ```
+
+`playbookVersion: 1` also validates. `character` is case-insensitive, plus `orchestrator`/`integrator`/`scribe`; `branch` required only started/progress/ended/partial, `verdict` only review/reviewed.
 
 `handoff` is defined by PAP-108 and referenced by `$ref`; `baseBranches` echoes `BASE_BRANCHES`, omitted when empty; `reason` is required on `partial` and `contract-failed`. The last footer is your recovery point after a context compaction. [check: `pnpm footer:validate`; `tests/playbook.test.ts`]
 
@@ -109,18 +113,18 @@ When another character continues the work: `HANDOFF.md` at the worktree root (St
 
 ### 5.8 End
 
-Target mode: push the branch, `gh pr create --template` with the issue identifier in the title, move the issue to `In Review`, post `Session ended` from [`templates/session-ended.md`](../../templates/session-ended.md) with PR, gates, cost and evidence; memory updates go through Quill (PAP-109). Build-loop mode: §8. Then stop; the review pass and merge flow own the rest. [check: state is `In Review`; footer `status: "ended"` validates]
+Target mode: push the branch, `gh pr create --template` with the issue identifier in the title, move the issue to `In Review`, post `Session ended` from [`templates/session-ended.md`](https://github.com/imagine-os/empty12/blob/main/templates/session-ended.md) with PR, gates, cost and evidence; memory updates go through Quill (PAP-109). Build-loop mode: §8. Then stop; the review pass and merge flow own the rest. [check: state is `In Review`; footer `status: "ended"` validates]
 
 ## 6. Comment templates
 
 | Template | When | Footer status |
 |---|---|---|
-| [`templates/session-started.md`](../../templates/session-started.md) | Right after the `In Progress` move | `started` |
-| [`templates/session-progress.md`](../../templates/session-progress.md) | At most every 30 minutes; also `partial`, `contract-failed`, `handoff` | `progress` and the three others |
-| [`templates/session-ended.md`](../../templates/session-ended.md) | Right after the `In Review` move | `ended` |
-| [`templates/promoted.md`](../../templates/promoted.md) | Posted by the promotion pass, not by you | `promoted` |
+| [`templates/session-started.md`](https://github.com/imagine-os/empty12/blob/main/templates/session-started.md) | Right after the `In Progress` move | `started` |
+| [`templates/session-progress.md`](https://github.com/imagine-os/empty12/blob/main/templates/session-progress.md) | At most every 30 minutes; also `partial`, `contract-failed`, `handoff` | `progress` and the three others |
+| [`templates/session-ended.md`](https://github.com/imagine-os/empty12/blob/main/templates/session-ended.md) | Right after the `In Review` move | `ended` |
+| [`templates/promoted.md`](https://github.com/imagine-os/empty12/blob/main/templates/promoted.md) | Posted by the promotion pass, not by you | `promoted` |
 
-Placeholders are `{{name}}`. Type `SessionFooter` and `PLAYBOOK_VERSION` live in [`src/agents/session-footer.ts`](../../src/agents/session-footer.ts).
+Placeholders are `{{name}}`. Type `SessionFooter` and `PLAYBOOK_VERSION` live in [`src/agents/session-footer.ts`](https://github.com/imagine-os/empty12/blob/main/src/agents/session-footer.ts).
 
 ## 7. Stop conditions
 
@@ -138,13 +142,14 @@ Never move your issue to `Needs Justin` yourself. [check: PAP-94 grammar honours
 
 ## 8. Build-loop mode (2026-09-19, until PAP-96 and a forge exist)
 
-Justin's org policy is git only, no PRs, and neither the orchestrator nor the forge mirror (PAP-44, PAP-46) exists yet. Decision `docs/decisions/0001-build-pilot-operating-mode.md` in the plan repo redefines the flow for this loop; the PR flow of §5 stays the target mode and returns when Justin says so.
+Justin's org policy is git only, no PRs, and neither the orchestrator nor the forge mirror (PAP-44, PAP-46) exists yet. Decision `docs/decisions/0001-build-pilot-operating-mode.md` in the plan repo redefines the flow; §5's PR flow stays the target mode, returning when Justin says so. **Brief v1.2: no session pushes to `main` directly** — an integrator's merge queue does, replacing the earlier direct-push rule.
 
 * **No PRs.** `gh pr create` is skipped; `pr` is absent from footers and `commits` carries the SHAs instead.
-* **Worktree per issue**, exactly as in §5.2 (`/workspace/wt/PAP-<n>`, branch `feat/PAP-<n>-<slug>` from `origin/main`).
-* **Green check, then push to main yourself.** `git fetch origin main && git rebase origin/main`, re-run `pnpm check`, `git push origin HEAD:main`; on non-fast-forward, fetch, rebase, re-check, push again, up to five tries. Never force-push `main`, never rewrite others' commits. The deny-list line "no pushes to `main`" is suspended for this loop only; every other line stands.
-* **In Review = pushed to main with a `Session ended` comment.** The `Session ended` comment lists the commit SHAs, the paths touched, the checks that ran and the evidence, because there is no PR to read afterwards.
-* **The review pass moves the issue to Done** (Opus 5 / high after an Opus or Fable builder, Sonnet 5 / high after a Sonnet builder). No session moves anything to Done by hand.
+* **Worktree per issue**, exactly as in §5.2. Builders push `feat/*` branches only, never `main`.
+* **Green check, then push your branch.** `git fetch origin main && git rebase origin/main`, re-run `pnpm check`, then `git push -u origin feat/PAP-<n>-<slug>`. The permission system blocks a direct push to `main` anyway; the deny-list "no pushes to `main`" line is back in force, not suspended.
+* **The integrator's merge queue lands your branch**, one at a time after its own green check, and posts `integrated: ... merged to main as <sha>` on your issue.
+* **In Review once contained in `main`, not before.** Poll `git fetch origin main && git merge-base --is-ancestor <your-tip> origin/main` every 60 s, up to 15 min; once it succeeds, move to `In Review`, post `Session ended` naming the SHA (paths, checks, evidence). Not contained after 15 min: stay `In Progress`, post `branch pushed, awaiting integrator`, report.
+* **The review pass moves issues to Done** (Opus 5/high after Opus/Fable, Sonnet 5/high after Sonnet); no one else does.
 * **Needs Justin never blocks you.** Accounts, secrets, paid services and irreversible external actions get mocks, `.env.example` placeholders and documented manual steps, listed under "Needs Justin" in `Session ended`.
 * **Promotion is manual**: the coordinating session acts as Atlas and applies the four checks of §4 by hand until PAP-96 runs.
 
@@ -164,4 +169,4 @@ Justin's org policy is git only, no PRs, and neither the orchestrator nor the fo
 
 ## 10. Worked example
 
-`pnpm playbook:dryrun` ([`scripts/playbook-dryrun.ts`](../../scripts/playbook-dryrun.ts)) runs an offline toy session for `PAP-9999`: it renders `Session started`, one `progress` and `Session ended`, prints the three comments and validates each footer with ajv, writing nothing to Linear. `pnpm footer:validate [file.json]` prints `ok` per footer. Under two minutes.
+`pnpm playbook:dryrun` ([`scripts/playbook-dryrun.ts`](https://github.com/imagine-os/empty12/blob/main/scripts/playbook-dryrun.ts)) runs an offline toy session for `PAP-9999`: it renders `Session started`, one `progress` and `Session ended`, prints the three comments and validates each footer with ajv, writing nothing to Linear. `pnpm footer:validate [file.json]` prints `ok` per footer. Under two minutes.
