@@ -1,0 +1,785 @@
+[
+  {
+    "name": "mouse-click/move",
+    "event": {
+      "id": "evt-0001",
+      "contract": "0.1.0",
+      "timeStamp": 1000,
+      "modality": "mouse",
+      "modifiers": {
+        "alt": false,
+        "ctrl": false,
+        "meta": false,
+        "shift": false
+      },
+      "surfaceId": "playground",
+      "kind": "move",
+      "pointer": {
+        "id": 1,
+        "kind": "mouse",
+        "coordinates": {
+          "client": {
+            "x": 220,
+            "y": 140
+          },
+          "page": {
+            "x": 220,
+            "y": 340
+          },
+          "surface": {
+            "x": 180,
+            "y": 40
+          }
+        },
+        "pressure": 0,
+        "tangentialPressure": 0,
+        "tiltX": 0,
+        "tiltY": 0,
+        "twist": 0,
+        "width": 1,
+        "height": 1,
+        "buttons": 0,
+        "button": null,
+        "isPrimary": true
+      },
+      "coalesced": []
+    }
+  },
+  {
+    "name": "mouse-click/press",
+    "event": {
+      "id": "evt-0002",
+      "contract": "0.1.0",
+      "timeStamp": 1010,
+      "modality": "mouse",
+      "modifiers": {
+        "alt": false,
+        "ctrl": false,
+        "meta": false,
+        "shift": false
+      },
+      "surfaceId": "playground",
+      "kind": "press",
+      "pointer": {
+        "id": 1,
+        "kind": "mouse",
+        "coordinates": {
+          "client": {
+            "x": 220,
+            "y": 140
+          },
+          "page": {
+            "x": 220,
+            "y": 340
+          },
+          "surface": {
+            "x": 180,
+            "y": 40
+          }
+        },
+        "pressure": 0.5,
+        "tangentialPressure": 0,
+        "tiltX": 0,
+        "tiltY": 0,
+        "twist": 0,
+        "width": 1,
+        "height": 1,
+        "buttons": 1,
+        "button": 0,
+        "isPrimary": true
+      }
+    }
+  },
+  {
+    "name": "mouse-click/release",
+    "event": {
+      "id": "evt-0003",
+      "contract": "0.1.0",
+      "timeStamp": 1090,
+      "modality": "mouse",
+      "modifiers": {
+        "alt": false,
+        "ctrl": false,
+        "meta": false,
+        "shift": false
+      },
+      "surfaceId": "playground",
+      "kind": "release",
+      "pointer": {
+        "id": 1,
+        "kind": "mouse",
+        "coordinates": {
+          "client": {
+            "x": 223,
+            "y": 141
+          },
+          "page": {
+            "x": 223,
+            "y": 341
+          },
+          "surface": {
+            "x": 183,
+            "y": 41
+          }
+        },
+        "pressure": 0,
+        "tangentialPressure": 0,
+        "tiltX": 0,
+        "tiltY": 0,
+        "twist": 0,
+        "width": 1,
+        "height": 1,
+        "buttons": 0,
+        "button": 0,
+        "isPrimary": true
+      }
+    }
+  },
+  {
+    "name": "pen-stroke/press",
+    "event": {
+      "id": "evt-0004",
+      "contract": "0.1.0",
+      "timeStamp": 2000,
+      "modality": "pen",
+      "modifiers": {
+        "alt": false,
+        "ctrl": false,
+        "meta": false,
+        "shift": false
+      },
+      "surfaceId": "playground",
+      "kind": "press",
+      "pointer": {
+        "id": 7,
+        "kind": "pen",
+        "coordinates": {
+          "client": {
+            "x": 400,
+            "y": 300
+          },
+          "page": {
+            "x": 400,
+            "y": 300
+          },
+          "surface": {
+            "x": 360,
+            "y": 200
+          }
+        },
+        "pressure": 0.12,
+        "tangentialPressure": 0,
+        "tiltX": -12,
+        "tiltY": 34,
+        "twist": 90,
+        "width": 2,
+        "height": 2,
+        "buttons": 1,
+        "button": 0,
+        "isPrimary": true
+      }
+    }
+  },
+  {
+    "name": "pen-stroke/move",
+    "event": {
+      "id": "evt-0005",
+      "contract": "0.1.0",
+      "timeStamp": 2016,
+      "modality": "pen",
+      "modifiers": {
+        "alt": false,
+        "ctrl": false,
+        "meta": false,
+        "shift": false
+      },
+      "surfaceId": "playground",
+      "kind": "move",
+      "pointer": {
+        "id": 7,
+        "kind": "pen",
+        "coordinates": {
+          "client": {
+            "x": 412,
+            "y": 296
+          },
+          "page": {
+            "x": 412,
+            "y": 296
+          },
+          "surface": {
+            "x": 372,
+            "y": 196
+          }
+        },
+        "pressure": 0.63,
+        "tangentialPressure": 0.25,
+        "tiltX": -9,
+        "tiltY": 30,
+        "twist": 92,
+        "width": 3,
+        "height": 3,
+        "buttons": 1,
+        "button": null,
+        "isPrimary": true
+      },
+      "coalesced": []
+    }
+  },
+  {
+    "name": "pen-stroke/move",
+    "event": {
+      "id": "evt-0006",
+      "contract": "0.1.0",
+      "timeStamp": 2032,
+      "modality": "pen",
+      "modifiers": {
+        "alt": false,
+        "ctrl": false,
+        "meta": false,
+        "shift": false
+      },
+      "surfaceId": "playground",
+      "kind": "move",
+      "pointer": {
+        "id": 7,
+        "kind": "pen",
+        "coordinates": {
+          "client": {
+            "x": 430,
+            "y": 290
+          },
+          "page": {
+            "x": 430,
+            "y": 290
+          },
+          "surface": {
+            "x": 390,
+            "y": 190
+          }
+        },
+        "pressure": 1,
+        "tangentialPressure": 0.3,
+        "tiltX": -90,
+        "tiltY": 28,
+        "twist": 359,
+        "width": 4,
+        "height": 4,
+        "buttons": 3,
+        "button": null,
+        "isPrimary": true
+      },
+      "coalesced": []
+    }
+  },
+  {
+    "name": "pen-stroke/cancel",
+    "event": {
+      "id": "evt-0007",
+      "contract": "0.1.0",
+      "timeStamp": 2048,
+      "modality": "pen",
+      "modifiers": {
+        "alt": false,
+        "ctrl": false,
+        "meta": false,
+        "shift": false
+      },
+      "surfaceId": "playground",
+      "kind": "cancel",
+      "pointer": {
+        "id": 7,
+        "kind": "pen",
+        "coordinates": {
+          "client": {
+            "x": 430,
+            "y": 290
+          },
+          "page": {
+            "x": 430,
+            "y": 290
+          },
+          "surface": {
+            "x": 390,
+            "y": 190
+          }
+        },
+        "pressure": 0,
+        "tangentialPressure": 0,
+        "tiltX": 0,
+        "tiltY": 0,
+        "twist": 0,
+        "width": 4,
+        "height": 4,
+        "buttons": 0,
+        "button": null,
+        "isPrimary": true
+      },
+      "reason": "pointercancel"
+    }
+  },
+  {
+    "name": "two-finger-touch/press",
+    "event": {
+      "id": "evt-0008",
+      "contract": "0.1.0",
+      "timeStamp": 3000,
+      "modality": "touch",
+      "modifiers": {
+        "alt": false,
+        "ctrl": false,
+        "meta": false,
+        "shift": false
+      },
+      "surfaceId": "playground",
+      "kind": "press",
+      "pointer": {
+        "id": 11,
+        "kind": "touch",
+        "coordinates": {
+          "client": {
+            "x": 100,
+            "y": 500
+          },
+          "page": {
+            "x": 100,
+            "y": 500
+          },
+          "surface": {
+            "x": 60,
+            "y": 400
+          }
+        },
+        "pressure": 0.5,
+        "tangentialPressure": 0,
+        "tiltX": 0,
+        "tiltY": 0,
+        "twist": 0,
+        "width": 30,
+        "height": 34,
+        "buttons": 1,
+        "button": 0,
+        "isPrimary": true
+      }
+    }
+  },
+  {
+    "name": "two-finger-touch/press",
+    "event": {
+      "id": "evt-0009",
+      "contract": "0.1.0",
+      "timeStamp": 3024,
+      "modality": "touch",
+      "modifiers": {
+        "alt": false,
+        "ctrl": false,
+        "meta": false,
+        "shift": false
+      },
+      "surfaceId": "playground",
+      "kind": "press",
+      "pointer": {
+        "id": 12,
+        "kind": "touch",
+        "coordinates": {
+          "client": {
+            "x": 260,
+            "y": 505
+          },
+          "page": {
+            "x": 260,
+            "y": 505
+          },
+          "surface": {
+            "x": 220,
+            "y": 405
+          }
+        },
+        "pressure": 0.5,
+        "tangentialPressure": 0,
+        "tiltX": 0,
+        "tiltY": 0,
+        "twist": 0,
+        "width": 28,
+        "height": 31,
+        "buttons": 1,
+        "button": 0,
+        "isPrimary": false
+      }
+    }
+  },
+  {
+    "name": "key/other/KeyK",
+    "event": {
+      "id": "evt-0010",
+      "contract": "0.1.0",
+      "timeStamp": 4000,
+      "modality": "keyboard",
+      "modifiers": {
+        "alt": false,
+        "ctrl": true,
+        "meta": false,
+        "shift": true
+      },
+      "surfaceId": "playground",
+      "kind": "key",
+      "phase": "down",
+      "key": {
+        "code": "KeyK",
+        "key": "K",
+        "repeat": false,
+        "isComposing": false,
+        "location": 0
+      },
+      "chord": "mod+shift+k"
+    }
+  },
+  {
+    "name": "key/other/KeyK",
+    "event": {
+      "id": "evt-0011",
+      "contract": "0.1.0",
+      "timeStamp": 4100,
+      "modality": "keyboard",
+      "modifiers": {
+        "alt": false,
+        "ctrl": false,
+        "meta": true,
+        "shift": true
+      },
+      "surfaceId": "playground",
+      "kind": "key",
+      "phase": "down",
+      "key": {
+        "code": "KeyK",
+        "key": "k",
+        "repeat": false,
+        "isComposing": false,
+        "location": 0
+      },
+      "chord": "shift+meta+k"
+    }
+  },
+  {
+    "name": "key/other/KeyA",
+    "event": {
+      "id": "evt-0012",
+      "contract": "0.1.0",
+      "timeStamp": 4200,
+      "modality": "keyboard",
+      "modifiers": {
+        "alt": false,
+        "ctrl": false,
+        "meta": false,
+        "shift": false
+      },
+      "surfaceId": "playground",
+      "kind": "key",
+      "phase": "down",
+      "key": {
+        "code": "KeyA",
+        "key": "Process",
+        "repeat": false,
+        "isComposing": true,
+        "location": 0
+      },
+      "chord": "a"
+    }
+  },
+  {
+    "name": "key/mac/KeyK",
+    "event": {
+      "id": "evt-0013",
+      "contract": "0.1.0",
+      "timeStamp": 4000,
+      "modality": "keyboard",
+      "modifiers": {
+        "alt": false,
+        "ctrl": true,
+        "meta": false,
+        "shift": true
+      },
+      "surfaceId": "playground",
+      "kind": "key",
+      "phase": "down",
+      "key": {
+        "code": "KeyK",
+        "key": "K",
+        "repeat": false,
+        "isComposing": false,
+        "location": 0
+      },
+      "chord": "ctrl+shift+k"
+    }
+  },
+  {
+    "name": "key/mac/KeyK",
+    "event": {
+      "id": "evt-0014",
+      "contract": "0.1.0",
+      "timeStamp": 4100,
+      "modality": "keyboard",
+      "modifiers": {
+        "alt": false,
+        "ctrl": false,
+        "meta": true,
+        "shift": true
+      },
+      "surfaceId": "playground",
+      "kind": "key",
+      "phase": "down",
+      "key": {
+        "code": "KeyK",
+        "key": "k",
+        "repeat": false,
+        "isComposing": false,
+        "location": 0
+      },
+      "chord": "mod+shift+k"
+    }
+  },
+  {
+    "name": "key/mac/KeyA",
+    "event": {
+      "id": "evt-0015",
+      "contract": "0.1.0",
+      "timeStamp": 4200,
+      "modality": "keyboard",
+      "modifiers": {
+        "alt": false,
+        "ctrl": false,
+        "meta": false,
+        "shift": false
+      },
+      "surfaceId": "playground",
+      "kind": "key",
+      "phase": "down",
+      "key": {
+        "code": "KeyA",
+        "key": "Process",
+        "repeat": false,
+        "isComposing": true,
+        "location": 0
+      },
+      "chord": "a"
+    }
+  },
+  {
+    "name": "wheel/mode-1",
+    "event": {
+      "id": "evt-0016",
+      "contract": "0.1.0",
+      "timeStamp": 5000,
+      "modality": "mouse",
+      "modifiers": {
+        "alt": false,
+        "ctrl": false,
+        "meta": false,
+        "shift": false
+      },
+      "surfaceId": "playground",
+      "kind": "wheel",
+      "deltaX": 0,
+      "deltaY": 48,
+      "deltaZ": 0,
+      "deltaMode": "pixel",
+      "isTrackpad": false,
+      "ctrlKey": false,
+      "position": {
+        "client": {
+          "x": 500,
+          "y": 400
+        },
+        "page": {
+          "x": 500,
+          "y": 400
+        },
+        "surface": {
+          "x": 460,
+          "y": 300
+        }
+      }
+    }
+  },
+  {
+    "name": "wheel/mode-0",
+    "event": {
+      "id": "evt-0017",
+      "contract": "0.1.0",
+      "timeStamp": 5100,
+      "modality": "mouse",
+      "modifiers": {
+        "alt": false,
+        "ctrl": false,
+        "meta": false,
+        "shift": false
+      },
+      "surfaceId": "playground",
+      "kind": "wheel",
+      "deltaX": -2.25,
+      "deltaY": 11.75,
+      "deltaZ": 0,
+      "deltaMode": "pixel",
+      "isTrackpad": true,
+      "ctrlKey": false,
+      "position": {
+        "client": {
+          "x": 500,
+          "y": 400
+        },
+        "page": {
+          "x": 500,
+          "y": 400
+        },
+        "surface": {
+          "x": 460,
+          "y": 300
+        }
+      }
+    }
+  },
+  {
+    "name": "wheel/mode-0",
+    "event": {
+      "id": "evt-0018",
+      "contract": "0.1.0",
+      "timeStamp": 5116,
+      "modality": "mouse",
+      "modifiers": {
+        "alt": false,
+        "ctrl": true,
+        "meta": false,
+        "shift": false
+      },
+      "surfaceId": "playground",
+      "kind": "wheel",
+      "deltaX": 0,
+      "deltaY": -8.5,
+      "deltaZ": 0,
+      "deltaMode": "pixel",
+      "isTrackpad": true,
+      "ctrlKey": true,
+      "position": {
+        "client": {
+          "x": 500,
+          "y": 400
+        },
+        "page": {
+          "x": 500,
+          "y": 400
+        },
+        "surface": {
+          "x": 460,
+          "y": 300
+        }
+      }
+    }
+  },
+  {
+    "name": "gamepad/down/press",
+    "event": {
+      "id": "evt-0019",
+      "contract": "0.1.0",
+      "timeStamp": 6000,
+      "modality": "gamepad",
+      "modifiers": {
+        "alt": false,
+        "ctrl": false,
+        "meta": false,
+        "shift": false
+      },
+      "surfaceId": "playground",
+      "kind": "gamepad",
+      "device": {
+        "index": 0,
+        "id": "PaperOS Test Pad (STANDARD GAMEPAD)",
+        "mapping": "standard",
+        "role": "gamepad"
+      },
+      "phase": "press",
+      "button": "down",
+      "value": 1,
+      "axes": {
+        "leftX": 0,
+        "leftY": 0,
+        "rightX": 0,
+        "rightY": 0
+      },
+      "navigation": {
+        "direction": "down",
+        "repeat": false,
+        "mode": "focus"
+      }
+    }
+  },
+  {
+    "name": "gamepad/down/repeat",
+    "event": {
+      "id": "evt-0020",
+      "contract": "0.1.0",
+      "timeStamp": 6500,
+      "modality": "gamepad",
+      "modifiers": {
+        "alt": false,
+        "ctrl": false,
+        "meta": false,
+        "shift": false
+      },
+      "surfaceId": "playground",
+      "kind": "gamepad",
+      "device": {
+        "index": 0,
+        "id": "PaperOS Test Pad (STANDARD GAMEPAD)",
+        "mapping": "standard",
+        "role": "gamepad"
+      },
+      "phase": "repeat",
+      "button": "down",
+      "value": 1,
+      "axes": {
+        "leftX": 0,
+        "leftY": 0,
+        "rightX": 0,
+        "rightY": 0
+      },
+      "navigation": {
+        "direction": "down",
+        "repeat": true,
+        "mode": "focus"
+      }
+    }
+  },
+  {
+    "name": "gamepad/down/release",
+    "event": {
+      "id": "evt-0021",
+      "contract": "0.1.0",
+      "timeStamp": 6600,
+      "modality": "gamepad",
+      "modifiers": {
+        "alt": false,
+        "ctrl": false,
+        "meta": false,
+        "shift": false
+      },
+      "surfaceId": "playground",
+      "kind": "gamepad",
+      "device": {
+        "index": 0,
+        "id": "PaperOS Test Pad (STANDARD GAMEPAD)",
+        "mapping": "standard",
+        "role": "gamepad"
+      },
+      "phase": "release",
+      "button": "down",
+      "value": 0,
+      "axes": {
+        "leftX": 0,
+        "leftY": 0,
+        "rightX": 0,
+        "rightY": 0
+      },
+      "navigation": null
+    }
+  }
+]

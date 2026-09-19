@@ -1,0 +1,52 @@
+{
+  "name": "@paperos/input",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Unified input event abstraction: pointer (mouse, touch, pen), keyboard, wheel, gamepad/remote and voice normalised into one InputEvent, plus modality detection, spatial focus navigation and the actions registry shape.",
+  "exports": {
+    ".": "./src/index.ts",
+    "./contract": "./src/contract/index.ts",
+    "./react": "./src/react/index.ts",
+    "./schema/input-event.schema.json": "./src/schema/input-event.schema.json",
+    "./schema/action.schema.json": "./src/schema/action.schema.json"
+  },
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "files": [
+    "src"
+  ],
+  "scripts": {
+    "lint": "biome check .",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "vitest run --passWithNoTests",
+    "gen:schemas": "PAPEROS_WRITE_SCHEMAS=1 vitest run src/schema",
+    "clean": "node -e \"require('node:fs').rmSync('coverage',{recursive:true,force:true})\"",
+    "gen:fixtures": "PAPEROS_WRITE_FIXTURES=1 vitest run src/fixtures"
+  },
+  "dependencies": {
+    "zod": "^4.6.5"
+  },
+  "peerDependencies": {
+    "react": "catalog:"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@biomejs/biome": "catalog:",
+    "@paperos/config-ts": "workspace:*",
+    "@testing-library/dom": "catalog:",
+    "@testing-library/react": "catalog:",
+    "@types/node": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "jsdom": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}

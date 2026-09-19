@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://paperos.dev/schema/input/input-capabilities.json",
+  "title": "PaperOS input capabilities",
+  "x-paperos-contract": "0.1.0",
+  "x-paperos-issue": "PAP-150",
+  "type": "object",
+  "properties": {
+    "coarsePointer": {
+      "type": "boolean"
+    },
+    "finePointer": {
+      "type": "boolean"
+    },
+    "hover": {
+      "type": "boolean"
+    },
+    "touchPoints": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "penSeen": {
+      "type": "boolean"
+    },
+    "keyboardSeen": {
+      "type": "boolean"
+    },
+    "gamepadConnected": {
+      "type": "boolean"
+    },
+    "remoteConnected": {
+      "type": "boolean"
+    },
+    "voiceSupported": {
+      "type": "boolean"
+    },
+    "reducedMotion": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "coarsePointer",
+    "finePointer",
+    "hover",
+    "touchPoints",
+    "penSeen",
+    "keyboardSeen",
+    "gamepadConnected",
+    "remoteConnected",
+    "voiceSupported",
+    "reducedMotion"
+  ],
+  "additionalProperties": false,
+  "description": "Observed and queried input capabilities of the current device."
+}

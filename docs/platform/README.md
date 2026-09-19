@@ -13,6 +13,10 @@ Here now:
 * [`branching-and-commits.md`](branching-and-commits.md) — ref namespace, worktree-per-issue,
   Conventional Commits and ref protection for parallel agent sessions (PAP-46, ADR 0010).
   Configuration lives in [`ops/forge/`](../../ops/forge/README.md).
+* [`input-events.md`](input-events.md) — the one input model every component handles: the
+  `InputEvent` union for mouse, touch, pen, keyboard, wheel, gamepad, TV remote and voice,
+  modality detection, spatial focus navigation, chords, thresholds and the actions registry
+  (PAP-150, ADR 0019). Package: [`packages/input/`](../../packages/input/README.md).
 * [`library-rubric.md`](library-rubric.md) — the six-criterion library evaluation rubric, anchors,
   hard gates, verdict thresholds and scorecard shape (PAP-209, ADR 0009). Machine-readable copy:
   [`packages/agents/src/rubric/library-rubric.json`](../../packages/agents/src/rubric/library-rubric.json).

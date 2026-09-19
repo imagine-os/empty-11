@@ -38,6 +38,11 @@ or `-`), **Status** (`live`, `stub`, `planned`).
 | CLI | `pnpm --filter @paperos/agents gen:fixtures [--check]` — resolve the golden roster into `fixtures/valid/roster.json` | PAP-103 | - | live |
 | CLI | `pnpm --filter @paperos/agents convert:plan [--check]` — dry-run conversion of plan.json `agents[]` into character skeletons | PAP-103 | - | live |
 | API | `@paperos/agents/schema` — `CharacterSchema`, `RosterSchema`, `validateRoster`, `resolveInheritance`, `SCOPES`, `KNOWN_TOOLS`, JSON Schema generators | PAP-103 | - | live |
+| Action | actions registry — every page declares its actions as `{ id, titleKey, intent: { en, es }, permission, scope, shortcut, modalities, agentCallable, placeholder, argsSchema }`; the declaration is the WebMCP tool surface, the voice controller's vocabulary and the command palette's source (schema: `packages/input/src/schema/action.schema.json`, registry file: `action-registry.schema.json`) | PAP-150 | per action (`permission`, or `-`) | live (shape frozen; pages register through PAP-151) |
+| WebMCP | `agentCallable` actions are exposed as tools, gated by the action's `permission`; arguments validated against `argsSchema` | PAP-150 | per action | planned (endpoint is PAP-291) |
+| CLI | `pnpm --filter @paperos/input gen:schemas` — regenerate the input JSON Schema files from the Zod 4 schemas | PAP-150 | - | live |
+| CLI | `pnpm --filter @paperos/input gen:fixtures` — regenerate the golden normalised event stream | PAP-150 | - | live |
 
 The placeholder route declares no actions: it has no controls. The first page with a control adds
-its actions registry and its rows here.
+its actions registry and its rows here; the shape it declares against is the `Action` row above
+(PAP-150, [`docs/platform/input-events.md`](../platform/input-events.md) section 5).

@@ -1,0 +1,1591 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://paperos.dev/schema/input/input-event.json",
+  "title": "PaperOS InputEvent",
+  "x-paperos-contract": "0.1.0",
+  "x-paperos-issue": "PAP-150",
+  "oneOf": [
+    {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "contract": {
+          "type": "string",
+          "const": "0.1.0"
+        },
+        "timeStamp": {
+          "type": "number",
+          "minimum": 0
+        },
+        "modality": {
+          "type": "string",
+          "enum": [
+            "keyboard",
+            "mouse",
+            "touch",
+            "pen",
+            "gamepad",
+            "remote",
+            "voice",
+            "unknown"
+          ],
+          "description": "The device class that produced the event."
+        },
+        "modifiers": {
+          "type": "object",
+          "properties": {
+            "alt": {
+              "type": "boolean"
+            },
+            "ctrl": {
+              "type": "boolean"
+            },
+            "meta": {
+              "type": "boolean"
+            },
+            "shift": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "alt",
+            "ctrl",
+            "meta",
+            "shift"
+          ],
+          "additionalProperties": false,
+          "description": "Modifier keys held at the time of the event."
+        },
+        "surfaceId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "kind": {
+          "type": "string",
+          "const": "press"
+        },
+        "pointer": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "minimum": -9007199254740991,
+              "maximum": 9007199254740991
+            },
+            "kind": {
+              "type": "string",
+              "enum": [
+                "mouse",
+                "touch",
+                "pen",
+                "gamepad-cursor"
+              ]
+            },
+            "coordinates": {
+              "type": "object",
+              "properties": {
+                "client": {
+                  "type": "object",
+                  "properties": {
+                    "x": {
+                      "type": "number"
+                    },
+                    "y": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "x",
+                    "y"
+                  ],
+                  "additionalProperties": false,
+                  "description": "A point in CSS pixels."
+                },
+                "page": {
+                  "type": "object",
+                  "properties": {
+                    "x": {
+                      "type": "number"
+                    },
+                    "y": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "x",
+                    "y"
+                  ],
+                  "additionalProperties": false,
+                  "description": "A point in CSS pixels."
+                },
+                "surface": {
+                  "type": "object",
+                  "properties": {
+                    "x": {
+                      "type": "number"
+                    },
+                    "y": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "x",
+                    "y"
+                  ],
+                  "additionalProperties": false,
+                  "description": "A point in CSS pixels."
+                }
+              },
+              "required": [
+                "client",
+                "page",
+                "surface"
+              ],
+              "additionalProperties": false,
+              "description": "Pointer position in the client, page and surface coordinate spaces."
+            },
+            "pressure": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "tangentialPressure": {
+              "type": "number",
+              "minimum": -1,
+              "maximum": 1
+            },
+            "tiltX": {
+              "type": "number",
+              "minimum": -90,
+              "maximum": 90
+            },
+            "tiltY": {
+              "type": "number",
+              "minimum": -90,
+              "maximum": 90
+            },
+            "twist": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 359
+            },
+            "width": {
+              "type": "number",
+              "minimum": 0
+            },
+            "height": {
+              "type": "number",
+              "minimum": 0
+            },
+            "buttons": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "button": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "isPrimary": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "id",
+            "kind",
+            "coordinates",
+            "pressure",
+            "tangentialPressure",
+            "tiltX",
+            "tiltY",
+            "twist",
+            "width",
+            "height",
+            "buttons",
+            "button",
+            "isPrimary"
+          ],
+          "additionalProperties": false,
+          "description": "One pointer at one instant, device-independent."
+        }
+      },
+      "required": [
+        "id",
+        "contract",
+        "timeStamp",
+        "modality",
+        "modifiers",
+        "surfaceId",
+        "kind",
+        "pointer"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "contract": {
+          "type": "string",
+          "const": "0.1.0"
+        },
+        "timeStamp": {
+          "type": "number",
+          "minimum": 0
+        },
+        "modality": {
+          "type": "string",
+          "enum": [
+            "keyboard",
+            "mouse",
+            "touch",
+            "pen",
+            "gamepad",
+            "remote",
+            "voice",
+            "unknown"
+          ],
+          "description": "The device class that produced the event."
+        },
+        "modifiers": {
+          "type": "object",
+          "properties": {
+            "alt": {
+              "type": "boolean"
+            },
+            "ctrl": {
+              "type": "boolean"
+            },
+            "meta": {
+              "type": "boolean"
+            },
+            "shift": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "alt",
+            "ctrl",
+            "meta",
+            "shift"
+          ],
+          "additionalProperties": false,
+          "description": "Modifier keys held at the time of the event."
+        },
+        "surfaceId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "kind": {
+          "type": "string",
+          "const": "move"
+        },
+        "pointer": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "minimum": -9007199254740991,
+              "maximum": 9007199254740991
+            },
+            "kind": {
+              "type": "string",
+              "enum": [
+                "mouse",
+                "touch",
+                "pen",
+                "gamepad-cursor"
+              ]
+            },
+            "coordinates": {
+              "type": "object",
+              "properties": {
+                "client": {
+                  "type": "object",
+                  "properties": {
+                    "x": {
+                      "type": "number"
+                    },
+                    "y": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "x",
+                    "y"
+                  ],
+                  "additionalProperties": false,
+                  "description": "A point in CSS pixels."
+                },
+                "page": {
+                  "type": "object",
+                  "properties": {
+                    "x": {
+                      "type": "number"
+                    },
+                    "y": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "x",
+                    "y"
+                  ],
+                  "additionalProperties": false,
+                  "description": "A point in CSS pixels."
+                },
+                "surface": {
+                  "type": "object",
+                  "properties": {
+                    "x": {
+                      "type": "number"
+                    },
+                    "y": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "x",
+                    "y"
+                  ],
+                  "additionalProperties": false,
+                  "description": "A point in CSS pixels."
+                }
+              },
+              "required": [
+                "client",
+                "page",
+                "surface"
+              ],
+              "additionalProperties": false,
+              "description": "Pointer position in the client, page and surface coordinate spaces."
+            },
+            "pressure": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "tangentialPressure": {
+              "type": "number",
+              "minimum": -1,
+              "maximum": 1
+            },
+            "tiltX": {
+              "type": "number",
+              "minimum": -90,
+              "maximum": 90
+            },
+            "tiltY": {
+              "type": "number",
+              "minimum": -90,
+              "maximum": 90
+            },
+            "twist": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 359
+            },
+            "width": {
+              "type": "number",
+              "minimum": 0
+            },
+            "height": {
+              "type": "number",
+              "minimum": 0
+            },
+            "buttons": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "button": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "isPrimary": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "id",
+            "kind",
+            "coordinates",
+            "pressure",
+            "tangentialPressure",
+            "tiltX",
+            "tiltY",
+            "twist",
+            "width",
+            "height",
+            "buttons",
+            "button",
+            "isPrimary"
+          ],
+          "additionalProperties": false,
+          "description": "One pointer at one instant, device-independent."
+        },
+        "coalesced": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "x": {
+                "type": "number"
+              },
+              "y": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "x",
+              "y"
+            ],
+            "additionalProperties": false,
+            "description": "A point in CSS pixels."
+          }
+        }
+      },
+      "required": [
+        "id",
+        "contract",
+        "timeStamp",
+        "modality",
+        "modifiers",
+        "surfaceId",
+        "kind",
+        "pointer",
+        "coalesced"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "contract": {
+          "type": "string",
+          "const": "0.1.0"
+        },
+        "timeStamp": {
+          "type": "number",
+          "minimum": 0
+        },
+        "modality": {
+          "type": "string",
+          "enum": [
+            "keyboard",
+            "mouse",
+            "touch",
+            "pen",
+            "gamepad",
+            "remote",
+            "voice",
+            "unknown"
+          ],
+          "description": "The device class that produced the event."
+        },
+        "modifiers": {
+          "type": "object",
+          "properties": {
+            "alt": {
+              "type": "boolean"
+            },
+            "ctrl": {
+              "type": "boolean"
+            },
+            "meta": {
+              "type": "boolean"
+            },
+            "shift": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "alt",
+            "ctrl",
+            "meta",
+            "shift"
+          ],
+          "additionalProperties": false,
+          "description": "Modifier keys held at the time of the event."
+        },
+        "surfaceId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "kind": {
+          "type": "string",
+          "const": "release"
+        },
+        "pointer": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "minimum": -9007199254740991,
+              "maximum": 9007199254740991
+            },
+            "kind": {
+              "type": "string",
+              "enum": [
+                "mouse",
+                "touch",
+                "pen",
+                "gamepad-cursor"
+              ]
+            },
+            "coordinates": {
+              "type": "object",
+              "properties": {
+                "client": {
+                  "type": "object",
+                  "properties": {
+                    "x": {
+                      "type": "number"
+                    },
+                    "y": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "x",
+                    "y"
+                  ],
+                  "additionalProperties": false,
+                  "description": "A point in CSS pixels."
+                },
+                "page": {
+                  "type": "object",
+                  "properties": {
+                    "x": {
+                      "type": "number"
+                    },
+                    "y": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "x",
+                    "y"
+                  ],
+                  "additionalProperties": false,
+                  "description": "A point in CSS pixels."
+                },
+                "surface": {
+                  "type": "object",
+                  "properties": {
+                    "x": {
+                      "type": "number"
+                    },
+                    "y": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "x",
+                    "y"
+                  ],
+                  "additionalProperties": false,
+                  "description": "A point in CSS pixels."
+                }
+              },
+              "required": [
+                "client",
+                "page",
+                "surface"
+              ],
+              "additionalProperties": false,
+              "description": "Pointer position in the client, page and surface coordinate spaces."
+            },
+            "pressure": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "tangentialPressure": {
+              "type": "number",
+              "minimum": -1,
+              "maximum": 1
+            },
+            "tiltX": {
+              "type": "number",
+              "minimum": -90,
+              "maximum": 90
+            },
+            "tiltY": {
+              "type": "number",
+              "minimum": -90,
+              "maximum": 90
+            },
+            "twist": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 359
+            },
+            "width": {
+              "type": "number",
+              "minimum": 0
+            },
+            "height": {
+              "type": "number",
+              "minimum": 0
+            },
+            "buttons": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "button": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "isPrimary": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "id",
+            "kind",
+            "coordinates",
+            "pressure",
+            "tangentialPressure",
+            "tiltX",
+            "tiltY",
+            "twist",
+            "width",
+            "height",
+            "buttons",
+            "button",
+            "isPrimary"
+          ],
+          "additionalProperties": false,
+          "description": "One pointer at one instant, device-independent."
+        }
+      },
+      "required": [
+        "id",
+        "contract",
+        "timeStamp",
+        "modality",
+        "modifiers",
+        "surfaceId",
+        "kind",
+        "pointer"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "contract": {
+          "type": "string",
+          "const": "0.1.0"
+        },
+        "timeStamp": {
+          "type": "number",
+          "minimum": 0
+        },
+        "modality": {
+          "type": "string",
+          "enum": [
+            "keyboard",
+            "mouse",
+            "touch",
+            "pen",
+            "gamepad",
+            "remote",
+            "voice",
+            "unknown"
+          ],
+          "description": "The device class that produced the event."
+        },
+        "modifiers": {
+          "type": "object",
+          "properties": {
+            "alt": {
+              "type": "boolean"
+            },
+            "ctrl": {
+              "type": "boolean"
+            },
+            "meta": {
+              "type": "boolean"
+            },
+            "shift": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "alt",
+            "ctrl",
+            "meta",
+            "shift"
+          ],
+          "additionalProperties": false,
+          "description": "Modifier keys held at the time of the event."
+        },
+        "surfaceId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "kind": {
+          "type": "string",
+          "const": "cancel"
+        },
+        "pointer": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "minimum": -9007199254740991,
+              "maximum": 9007199254740991
+            },
+            "kind": {
+              "type": "string",
+              "enum": [
+                "mouse",
+                "touch",
+                "pen",
+                "gamepad-cursor"
+              ]
+            },
+            "coordinates": {
+              "type": "object",
+              "properties": {
+                "client": {
+                  "type": "object",
+                  "properties": {
+                    "x": {
+                      "type": "number"
+                    },
+                    "y": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "x",
+                    "y"
+                  ],
+                  "additionalProperties": false,
+                  "description": "A point in CSS pixels."
+                },
+                "page": {
+                  "type": "object",
+                  "properties": {
+                    "x": {
+                      "type": "number"
+                    },
+                    "y": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "x",
+                    "y"
+                  ],
+                  "additionalProperties": false,
+                  "description": "A point in CSS pixels."
+                },
+                "surface": {
+                  "type": "object",
+                  "properties": {
+                    "x": {
+                      "type": "number"
+                    },
+                    "y": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "x",
+                    "y"
+                  ],
+                  "additionalProperties": false,
+                  "description": "A point in CSS pixels."
+                }
+              },
+              "required": [
+                "client",
+                "page",
+                "surface"
+              ],
+              "additionalProperties": false,
+              "description": "Pointer position in the client, page and surface coordinate spaces."
+            },
+            "pressure": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "tangentialPressure": {
+              "type": "number",
+              "minimum": -1,
+              "maximum": 1
+            },
+            "tiltX": {
+              "type": "number",
+              "minimum": -90,
+              "maximum": 90
+            },
+            "tiltY": {
+              "type": "number",
+              "minimum": -90,
+              "maximum": 90
+            },
+            "twist": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 359
+            },
+            "width": {
+              "type": "number",
+              "minimum": 0
+            },
+            "height": {
+              "type": "number",
+              "minimum": 0
+            },
+            "buttons": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "button": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "isPrimary": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "id",
+            "kind",
+            "coordinates",
+            "pressure",
+            "tangentialPressure",
+            "tiltX",
+            "tiltY",
+            "twist",
+            "width",
+            "height",
+            "buttons",
+            "button",
+            "isPrimary"
+          ],
+          "additionalProperties": false,
+          "description": "One pointer at one instant, device-independent."
+        },
+        "reason": {
+          "type": "string",
+          "enum": [
+            "pointercancel",
+            "blur",
+            "visibility",
+            "capture-lost",
+            "palm-rejection"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "contract",
+        "timeStamp",
+        "modality",
+        "modifiers",
+        "surfaceId",
+        "kind",
+        "pointer",
+        "reason"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "contract": {
+          "type": "string",
+          "const": "0.1.0"
+        },
+        "timeStamp": {
+          "type": "number",
+          "minimum": 0
+        },
+        "modality": {
+          "type": "string",
+          "enum": [
+            "keyboard",
+            "mouse",
+            "touch",
+            "pen",
+            "gamepad",
+            "remote",
+            "voice",
+            "unknown"
+          ],
+          "description": "The device class that produced the event."
+        },
+        "modifiers": {
+          "type": "object",
+          "properties": {
+            "alt": {
+              "type": "boolean"
+            },
+            "ctrl": {
+              "type": "boolean"
+            },
+            "meta": {
+              "type": "boolean"
+            },
+            "shift": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "alt",
+            "ctrl",
+            "meta",
+            "shift"
+          ],
+          "additionalProperties": false,
+          "description": "Modifier keys held at the time of the event."
+        },
+        "surfaceId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "kind": {
+          "type": "string",
+          "const": "wheel"
+        },
+        "deltaX": {
+          "type": "number"
+        },
+        "deltaY": {
+          "type": "number"
+        },
+        "deltaZ": {
+          "type": "number"
+        },
+        "deltaMode": {
+          "type": "string",
+          "const": "pixel"
+        },
+        "isTrackpad": {
+          "type": "boolean"
+        },
+        "ctrlKey": {
+          "type": "boolean"
+        },
+        "position": {
+          "type": "object",
+          "properties": {
+            "client": {
+              "type": "object",
+              "properties": {
+                "x": {
+                  "type": "number"
+                },
+                "y": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "x",
+                "y"
+              ],
+              "additionalProperties": false,
+              "description": "A point in CSS pixels."
+            },
+            "page": {
+              "type": "object",
+              "properties": {
+                "x": {
+                  "type": "number"
+                },
+                "y": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "x",
+                "y"
+              ],
+              "additionalProperties": false,
+              "description": "A point in CSS pixels."
+            },
+            "surface": {
+              "type": "object",
+              "properties": {
+                "x": {
+                  "type": "number"
+                },
+                "y": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "x",
+                "y"
+              ],
+              "additionalProperties": false,
+              "description": "A point in CSS pixels."
+            }
+          },
+          "required": [
+            "client",
+            "page",
+            "surface"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "id",
+        "contract",
+        "timeStamp",
+        "modality",
+        "modifiers",
+        "surfaceId",
+        "kind",
+        "deltaX",
+        "deltaY",
+        "deltaZ",
+        "deltaMode",
+        "isTrackpad",
+        "ctrlKey",
+        "position"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "contract": {
+          "type": "string",
+          "const": "0.1.0"
+        },
+        "timeStamp": {
+          "type": "number",
+          "minimum": 0
+        },
+        "modality": {
+          "type": "string",
+          "enum": [
+            "keyboard",
+            "mouse",
+            "touch",
+            "pen",
+            "gamepad",
+            "remote",
+            "voice",
+            "unknown"
+          ],
+          "description": "The device class that produced the event."
+        },
+        "modifiers": {
+          "type": "object",
+          "properties": {
+            "alt": {
+              "type": "boolean"
+            },
+            "ctrl": {
+              "type": "boolean"
+            },
+            "meta": {
+              "type": "boolean"
+            },
+            "shift": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "alt",
+            "ctrl",
+            "meta",
+            "shift"
+          ],
+          "additionalProperties": false,
+          "description": "Modifier keys held at the time of the event."
+        },
+        "surfaceId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "kind": {
+          "type": "string",
+          "const": "key"
+        },
+        "phase": {
+          "type": "string",
+          "enum": [
+            "down",
+            "up"
+          ]
+        },
+        "key": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string",
+              "minLength": 1
+            },
+            "key": {
+              "type": "string",
+              "minLength": 1
+            },
+            "repeat": {
+              "type": "boolean"
+            },
+            "isComposing": {
+              "type": "boolean"
+            },
+            "location": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 3
+            }
+          },
+          "required": [
+            "code",
+            "key",
+            "repeat",
+            "isComposing",
+            "location"
+          ],
+          "additionalProperties": false,
+          "description": "A layout-aware normalised key."
+        },
+        "chord": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "contract",
+        "timeStamp",
+        "modality",
+        "modifiers",
+        "surfaceId",
+        "kind",
+        "phase",
+        "key",
+        "chord"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "contract": {
+          "type": "string",
+          "const": "0.1.0"
+        },
+        "timeStamp": {
+          "type": "number",
+          "minimum": 0
+        },
+        "modality": {
+          "type": "string",
+          "enum": [
+            "keyboard",
+            "mouse",
+            "touch",
+            "pen",
+            "gamepad",
+            "remote",
+            "voice",
+            "unknown"
+          ],
+          "description": "The device class that produced the event."
+        },
+        "modifiers": {
+          "type": "object",
+          "properties": {
+            "alt": {
+              "type": "boolean"
+            },
+            "ctrl": {
+              "type": "boolean"
+            },
+            "meta": {
+              "type": "boolean"
+            },
+            "shift": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "alt",
+            "ctrl",
+            "meta",
+            "shift"
+          ],
+          "additionalProperties": false,
+          "description": "Modifier keys held at the time of the event."
+        },
+        "surfaceId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "kind": {
+          "type": "string",
+          "const": "gamepad"
+        },
+        "device": {
+          "type": "object",
+          "properties": {
+            "index": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "id": {
+              "type": "string"
+            },
+            "mapping": {
+              "type": "string",
+              "enum": [
+                "standard",
+                "non-standard"
+              ]
+            },
+            "role": {
+              "type": "string",
+              "enum": [
+                "gamepad",
+                "remote"
+              ]
+            }
+          },
+          "required": [
+            "index",
+            "id",
+            "mapping",
+            "role"
+          ],
+          "additionalProperties": false
+        },
+        "phase": {
+          "type": "string",
+          "enum": [
+            "press",
+            "repeat",
+            "release"
+          ]
+        },
+        "button": {
+          "type": "string",
+          "enum": [
+            "a",
+            "b",
+            "x",
+            "y",
+            "l1",
+            "r1",
+            "l2",
+            "r2",
+            "select",
+            "start",
+            "l3",
+            "r3",
+            "up",
+            "down",
+            "left",
+            "right",
+            "home"
+          ]
+        },
+        "value": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "axes": {
+          "type": "object",
+          "properties": {
+            "leftX": {
+              "type": "number",
+              "minimum": -1,
+              "maximum": 1
+            },
+            "leftY": {
+              "type": "number",
+              "minimum": -1,
+              "maximum": 1
+            },
+            "rightX": {
+              "type": "number",
+              "minimum": -1,
+              "maximum": 1
+            },
+            "rightY": {
+              "type": "number",
+              "minimum": -1,
+              "maximum": 1
+            }
+          },
+          "required": [
+            "leftX",
+            "leftY",
+            "rightX",
+            "rightY"
+          ],
+          "additionalProperties": false
+        },
+        "navigation": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "direction": {
+                  "type": "string",
+                  "enum": [
+                    "up",
+                    "down",
+                    "left",
+                    "right"
+                  ]
+                },
+                "repeat": {
+                  "type": "boolean"
+                },
+                "mode": {
+                  "type": "string",
+                  "enum": [
+                    "focus",
+                    "cursor"
+                  ]
+                }
+              },
+              "required": [
+                "direction",
+                "repeat",
+                "mode"
+              ],
+              "additionalProperties": false,
+              "description": "Directional focus-navigation intent carried by a d-pad event."
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "contract",
+        "timeStamp",
+        "modality",
+        "modifiers",
+        "surfaceId",
+        "kind",
+        "device",
+        "phase",
+        "button",
+        "value",
+        "axes",
+        "navigation"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "contract": {
+          "type": "string",
+          "const": "0.1.0"
+        },
+        "timeStamp": {
+          "type": "number",
+          "minimum": 0
+        },
+        "modality": {
+          "type": "string",
+          "enum": [
+            "keyboard",
+            "mouse",
+            "touch",
+            "pen",
+            "gamepad",
+            "remote",
+            "voice",
+            "unknown"
+          ],
+          "description": "The device class that produced the event."
+        },
+        "modifiers": {
+          "type": "object",
+          "properties": {
+            "alt": {
+              "type": "boolean"
+            },
+            "ctrl": {
+              "type": "boolean"
+            },
+            "meta": {
+              "type": "boolean"
+            },
+            "shift": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "alt",
+            "ctrl",
+            "meta",
+            "shift"
+          ],
+          "additionalProperties": false,
+          "description": "Modifier keys held at the time of the event."
+        },
+        "surfaceId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "kind": {
+          "type": "string",
+          "const": "voice"
+        },
+        "intent": {
+          "type": "object",
+          "properties": {
+            "actionId": {
+              "type": "string",
+              "minLength": 1
+            },
+            "transcript": {
+              "type": "string"
+            },
+            "confidence": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "locale": {
+              "type": "string",
+              "minLength": 2
+            },
+            "slots": {
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "final": {
+              "type": "boolean"
+            },
+            "matchedPhrase": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "actionId",
+            "transcript",
+            "confidence",
+            "locale",
+            "slots",
+            "final",
+            "matchedPhrase"
+          ],
+          "additionalProperties": false,
+          "description": "A voice utterance resolved to an action id."
+        }
+      },
+      "required": [
+        "id",
+        "contract",
+        "timeStamp",
+        "modality",
+        "modifiers",
+        "surfaceId",
+        "kind",
+        "intent"
+      ],
+      "additionalProperties": false
+    }
+  ]
+}

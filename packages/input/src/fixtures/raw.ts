@@ -1,0 +1,325 @@
+import type {
+  GamepadLike,
+  KeyboardEventLike,
+  PointerEventLike,
+  WheelEventLike,
+} from '../normalise/dom.js';
+
+/**
+ * Golden inputs.
+ *
+ * Plain objects, not DOM instances, so the same fixtures drive the unit tests
+ * here, the Playwright fixtures (PAP-644) and any consumer that wants to replay
+ * a realistic stream without a browser. Every field is spelled out, including
+ * the ones a browser would default, because a fixture that relies on a default
+ * stops catching the regression it was written for.
+ */
+
+const MODIFIERS_NONE = { altKey: false, ctrlKey: false, metaKey: false, shiftKey: false } as const;
+
+/** A mouse click: hover, press, drag a little, release. */
+export const MOUSE_CLICK: readonly PointerEventLike[] = [
+  {
+    type: 'pointermove',
+    pointerId: 1,
+    pointerType: 'mouse',
+    isPrimary: true,
+    clientX: 220,
+    clientY: 140,
+    pageX: 220,
+    pageY: 340,
+    pressure: 0,
+    tiltX: 0,
+    tiltY: 0,
+    twist: 0,
+    width: 1,
+    height: 1,
+    buttons: 0,
+    button: -1,
+    timeStamp: 1000,
+    ...MODIFIERS_NONE,
+  },
+  {
+    type: 'pointerdown',
+    pointerId: 1,
+    pointerType: 'mouse',
+    isPrimary: true,
+    clientX: 220,
+    clientY: 140,
+    pageX: 220,
+    pageY: 340,
+    pressure: 0,
+    tiltX: 0,
+    tiltY: 0,
+    twist: 0,
+    width: 1,
+    height: 1,
+    buttons: 1,
+    button: 0,
+    timeStamp: 1010,
+    ...MODIFIERS_NONE,
+  },
+  {
+    type: 'pointerup',
+    pointerId: 1,
+    pointerType: 'mouse',
+    isPrimary: true,
+    clientX: 223,
+    clientY: 141,
+    pageX: 223,
+    pageY: 341,
+    pressure: 0,
+    tiltX: 0,
+    tiltY: 0,
+    twist: 0,
+    width: 1,
+    height: 1,
+    buttons: 0,
+    button: 0,
+    timeStamp: 1090,
+    ...MODIFIERS_NONE,
+  },
+];
+
+/** A pen stroke: real pressure and tilt, barrel button held on the last sample. */
+export const PEN_STROKE: readonly PointerEventLike[] = [
+  {
+    type: 'pointerdown',
+    pointerId: 7,
+    pointerType: 'pen',
+    isPrimary: true,
+    clientX: 400,
+    clientY: 300,
+    pageX: 400,
+    pageY: 300,
+    pressure: 0.12,
+    tangentialPressure: 0,
+    tiltX: -12,
+    tiltY: 34,
+    twist: 90,
+    width: 2,
+    height: 2,
+    buttons: 1,
+    button: 0,
+    timeStamp: 2000,
+    ...MODIFIERS_NONE,
+  },
+  {
+    type: 'pointermove',
+    pointerId: 7,
+    pointerType: 'pen',
+    isPrimary: true,
+    clientX: 412,
+    clientY: 296,
+    pageX: 412,
+    pageY: 296,
+    pressure: 0.63,
+    tangentialPressure: 0.25,
+    tiltX: -9,
+    tiltY: 30,
+    twist: 92,
+    width: 3,
+    height: 3,
+    buttons: 1,
+    button: -1,
+    timeStamp: 2016,
+    ...MODIFIERS_NONE,
+  },
+  {
+    type: 'pointermove',
+    pointerId: 7,
+    pointerType: 'pen',
+    isPrimary: true,
+    clientX: 430,
+    clientY: 290,
+    pageX: 430,
+    pageY: 290,
+    // Out-of-range pressure from a misbehaving driver: the normaliser clamps.
+    pressure: 1.4,
+    tangentialPressure: 0.3,
+    tiltX: -95,
+    tiltY: 28,
+    twist: 400,
+    width: 4,
+    height: 4,
+    buttons: 3,
+    button: 2,
+    timeStamp: 2032,
+    ...MODIFIERS_NONE,
+  },
+  {
+    type: 'pointercancel',
+    pointerId: 7,
+    pointerType: 'pen',
+    isPrimary: true,
+    clientX: 430,
+    clientY: 290,
+    pageX: 430,
+    pageY: 290,
+    pressure: 0,
+    tiltX: 0,
+    tiltY: 0,
+    twist: 0,
+    width: 4,
+    height: 4,
+    buttons: 0,
+    button: -1,
+    timeStamp: 2048,
+    ...MODIFIERS_NONE,
+  },
+];
+
+/** Two fingers: a second touch pointer is not primary. */
+export const TWO_FINGER_TOUCH: readonly PointerEventLike[] = [
+  {
+    type: 'pointerdown',
+    pointerId: 11,
+    pointerType: 'touch',
+    isPrimary: true,
+    clientX: 100,
+    clientY: 500,
+    pageX: 100,
+    pageY: 500,
+    pressure: 0,
+    tiltX: 0,
+    tiltY: 0,
+    twist: 0,
+    width: 30,
+    height: 34,
+    buttons: 1,
+    button: 0,
+    timeStamp: 3000,
+    ...MODIFIERS_NONE,
+  },
+  {
+    type: 'pointerdown',
+    pointerId: 12,
+    pointerType: 'touch',
+    isPrimary: false,
+    clientX: 260,
+    clientY: 505,
+    pageX: 260,
+    pageY: 505,
+    pressure: 0,
+    tiltX: 0,
+    tiltY: 0,
+    twist: 0,
+    width: 28,
+    height: 31,
+    buttons: 1,
+    button: 0,
+    timeStamp: 3024,
+    ...MODIFIERS_NONE,
+  },
+];
+
+/** `mod+shift+k`, once on macOS and once elsewhere, plus an IME keystroke. */
+export const KEY_EVENTS: readonly KeyboardEventLike[] = [
+  {
+    type: 'keydown',
+    code: 'KeyK',
+    key: 'K',
+    repeat: false,
+    isComposing: false,
+    location: 0,
+    altKey: false,
+    ctrlKey: true,
+    metaKey: false,
+    shiftKey: true,
+    timeStamp: 4000,
+  },
+  {
+    type: 'keydown',
+    code: 'KeyK',
+    key: 'k',
+    repeat: false,
+    isComposing: false,
+    location: 0,
+    altKey: false,
+    ctrlKey: false,
+    metaKey: true,
+    shiftKey: true,
+    timeStamp: 4100,
+  },
+  {
+    type: 'keydown',
+    code: 'KeyA',
+    key: 'Process',
+    repeat: false,
+    keyCode: 229,
+    location: 0,
+    altKey: false,
+    ctrlKey: false,
+    metaKey: false,
+    shiftKey: false,
+    timeStamp: 4200,
+  },
+];
+
+/** A notched mouse wheel in line mode, then a fractional trackpad burst. */
+export const WHEEL_EVENTS: readonly WheelEventLike[] = [
+  {
+    deltaX: 0,
+    deltaY: 3,
+    deltaZ: 0,
+    deltaMode: 1,
+    clientX: 500,
+    clientY: 400,
+    pageX: 500,
+    pageY: 400,
+    timeStamp: 5000,
+    ...MODIFIERS_NONE,
+  },
+  {
+    deltaX: -2.25,
+    deltaY: 11.75,
+    deltaZ: 0,
+    deltaMode: 0,
+    clientX: 500,
+    clientY: 400,
+    pageX: 500,
+    pageY: 400,
+    timeStamp: 5100,
+    ...MODIFIERS_NONE,
+  },
+  {
+    // ctrl + wheel is pinch-zoom on every platform.
+    deltaX: 0,
+    deltaY: -8.5,
+    deltaZ: 0,
+    deltaMode: 0,
+    clientX: 500,
+    clientY: 400,
+    pageX: 500,
+    pageY: 400,
+    altKey: false,
+    ctrlKey: true,
+    metaKey: false,
+    shiftKey: false,
+    timeStamp: 5116,
+  },
+];
+
+const NO_BUTTONS = Array.from({ length: 17 }, () => ({ pressed: false, value: 0 }));
+
+/** Build a standard-mapping snapshot with the named buttons pressed. */
+export function gamepadSnapshot(
+  pressed: readonly number[],
+  axes: readonly number[] = [0, 0, 0, 0],
+  overrides: Partial<GamepadLike> = {},
+): GamepadLike {
+  return {
+    index: 0,
+    id: 'PaperOS Test Pad (STANDARD GAMEPAD)',
+    mapping: 'standard',
+    connected: true,
+    axes,
+    buttons: NO_BUTTONS.map((button, index) =>
+      pressed.includes(index) ? { pressed: true, value: 1 } : button,
+    ),
+    ...overrides,
+  };
+}
+
+/** Standard-mapping d-pad indices. */
+export const DPAD_INDEX = { up: 12, down: 13, left: 14, right: 15 } as const;

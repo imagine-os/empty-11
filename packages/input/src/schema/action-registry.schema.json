@@ -1,0 +1,157 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://paperos.dev/schema/input/action-registry.json",
+  "title": "PaperOS actions registry",
+  "x-paperos-contract": "0.1.0",
+  "x-paperos-issue": "PAP-150",
+  "type": "object",
+  "properties": {
+    "contract": {
+      "type": "string",
+      "minLength": 1
+    },
+    "owner": {
+      "type": "string",
+      "minLength": 1
+    },
+    "actions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9]*(\\.[a-z][a-zA-Z0-9]*)+$"
+          },
+          "titleKey": {
+            "type": "string",
+            "minLength": 1
+          },
+          "descriptionKey": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "intent": {
+            "type": "object",
+            "properties": {
+              "en": {
+                "minItems": 1,
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "es": {
+                "minItems": 1,
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            },
+            "required": [
+              "en",
+              "es"
+            ],
+            "additionalProperties": false,
+            "description": "Voice intent phrases per locale; {slot} placeholders allowed."
+          },
+          "permission": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "scope": {
+            "type": "string",
+            "enum": [
+              "global",
+              "page",
+              "component",
+              "selection"
+            ]
+          },
+          "shortcut": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[a-z0-9]+(\\+[^+\\s]+)*$",
+                "description": "Portable chord string, e.g. \"mod+shift+k\"."
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "modalities": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "keyboard",
+                "mouse",
+                "touch",
+                "pen",
+                "gamepad",
+                "remote",
+                "voice",
+                "unknown"
+              ],
+              "description": "The device class that produced the event."
+            }
+          },
+          "agentCallable": {
+            "type": "boolean"
+          },
+          "placeholder": {
+            "type": "boolean"
+          },
+          "argsSchema": {
+            "anyOf": [
+              {},
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "titleKey",
+          "descriptionKey",
+          "intent",
+          "permission",
+          "scope",
+          "shortcut",
+          "modalities",
+          "agentCallable",
+          "placeholder",
+          "argsSchema"
+        ],
+        "additionalProperties": false,
+        "description": "One declared action: the WebMCP surface and the voice vocabulary."
+      }
+    }
+  },
+  "required": [
+    "contract",
+    "owner",
+    "actions"
+  ],
+  "additionalProperties": false
+}
