@@ -21,7 +21,7 @@ export default defineConfig({
       reportsDirectory: 'coverage',
       reporter: ['text-summary', 'lcov', 'json-summary'],
       include: ['apps/*/src/**', 'packages/**/src/**'],
-      exclude: ['**/*.test.*', '**/*.d.ts', '**/main.tsx'],
+      exclude: ['**/*.test.*', '**/*.d.ts', '**/main.tsx', '**/*.mjs'],
     },
   },
 });
