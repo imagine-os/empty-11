@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Input fixtures self-test</title>
+<style>
+  :root { font: 16px/1.4 system-ui, sans-serif; color-scheme: light dark; }
+  body { margin: 16px; display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+  section { border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 8px; padding: 12px; }
+  h1 { grid-column: 1 / -1; font-size: 1.25rem; margin: 0; }
+  h2 { font-size: 1rem; margin: 0 0 8px; }
+  .target { width: 100%; min-height: 120px; background: transparent; color: inherit; display: grid; place-items: center; border: 2px dashed currentColor; border-radius: 8px; touch-action: none; user-select: none; }
+  button, textarea { min-width: 44px; min-height: 44px; font: inherit; }
+  textarea { width: 100%; box-sizing: border-box; }
+  canvas { border: 1px solid currentColor; touch-action: none; display: block; }
+  ol { margin: 0; padding-left: 20px; max-height: 160px; overflow: auto; font-family: ui-monospace, monospace; font-size: 0.8rem; }
+  ul.list { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+  ul.list li { display: flex; gap: 8px; align-items: center; border: 1px solid currentColor; border-radius: 6px; padding: 4px 8px; }
+  ul.list li[aria-grabbed="true"] { outline: 3px solid Highlight; }
+  .drop { min-height: 60px; display: grid; place-items: center; border: 2px dashed currentColor; border-radius: 8px; margin-top: 8px; }
+  .drop.over { background: color-mix(in srgb, Highlight 25%, transparent); }
+  :focus-visible { outline: 3px solid Highlight; outline-offset: 2px; }
+  [data-live-announcer] { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+</style>
+</head>
+<body>
+<h1>Input fixtures self-test page</h1>
+
+<section aria-labelledby="h-keys">
+  <h2 id="h-keys">Keyboard</h2>
+  <textarea id="chord-target" aria-label="Chord target" rows="2"></textarea>
+</section>
+
+<section aria-labelledby="h-touch">
+  <h2 id="h-touch">Touch</h2>
+  <button type="button" id="touch-target" class="target" aria-label="Touch target">touch here</button>
+</section>
+
+<section aria-labelledby="h-pen">
+  <h2 id="h-pen">Pen</h2>
+  <canvas id="pen-canvas" width="240" height="120" aria-label="Pen canvas"></canvas>
+</section>
+
+<section aria-labelledby="h-pad">
+  <h2 id="h-pad">Gamepad</h2>
+  <output id="gamepad-status" aria-live="off">no pad</output>
+</section>
+
+<section aria-labelledby="h-drag">
+  <h2 id="h-drag">Drag (keyboard grammar of PAP-330)</h2>
+  <ul id="drag-list" class="list" aria-describedby="drag-help">
+    <li data-item="A"><button type="button" class="handle" aria-label="Drag Item A">☰</button> Item A</li>
+    <li data-item="B"><button type="button" class="handle" aria-label="Drag Item B">☰</button> Item B</li>
+    <li data-item="C"><button type="button" class="handle" aria-label="Drag Item C">☰</button> Item C</li>
+  </ul>
+  <p id="drag-help">Space picks up, arrows move, Space drops, Escape cancels.</p>
+  <button type="button" id="drag-source" class="target" aria-label="Pointer drag source">drag me</button>
+  <div id="drop-zone" class="drop">drop here</div>
+</section>
+
+<section aria-labelledby="h-log">
+  <h2 id="h-log">Event log</h2>
+  <ol id="log" aria-label="Event log"></ol>
+</section>
+
+<div data-live-announcer>
+  <div id="live-polite" aria-live="polite"></div>
+  <div id="live-assertive" aria-live="assertive"></div>
+</div>
+
+<script>
+(() => {
+  const log = [];
+  const list = document.getElementById('log');
+  window.__log = log;
+  window.__clearLog = () => { log.length = 0; list.replaceChildren(); };
+  const record = (entry) => {
+    log.push(entry);
+    const li = document.createElement('li');
+    li.textContent = JSON.stringify(entry);
+    list.append(li);
+  };
+  const announce = (text, politeness = 'polite') => {
+    const region = document.getElementById(politeness === 'assertive' ? 'live-assertive' : 'live-polite');
+    region.textContent = '';
+    requestAnimationFrame(() => { region.textContent = text; });
+  };
+
+  // Modality mirror: the minimum a page must do for expectModality (PAP-150 does this properly).
+  const html = document.documentElement;
+  const setModality = (modality) => {
+    html.setAttribute('data-input-modality', modality);
+    html.setAttribute('data-input-preferred', modality);
+  };
+  window.addEventListener('keydown', () => setModality('keyboard'), true);
+  window.addEventListener('pointerdown', (e) => setModality(e.pointerType || 'mouse'), true);
+
+  // Keyboard: log chords as code + modifiers.
+  document.getElementById('chord-target').addEventListener('keydown', (e) => {
+    const mods = [e.ctrlKey && 'Control', e.altKey && 'Alt', e.shiftKey && 'Shift', e.metaKey && 'Meta'].filter(Boolean);
+    record({ kind: 'key', key: [...mods, e.code].join('+'), repeat: e.repeat, t: Math.round(performance.now()) });
+    if (e.code === 'KeyG' || e.code === 'KeyI') return;
+    e.preventDefault();
+  });
+  document.getElementById('chord-target').addEventListener('keyup', (e) => {
+    record({ kind: 'keyup', key: e.code, t: Math.round(performance.now()) });
+  });
+
+  // Touch: log touch events and pointer events on the target.
+  const touchTarget = document.getElementById('touch-target');
+  for (const type of ['touchstart', 'touchmove', 'touchend']) {
+    touchTarget.addEventListener(type, (e) => {
+      record({ kind: type, touches: e.touches.length, t: Math.round(e.timeStamp) });
+    }, { passive: true });
+  }
+  touchTarget.addEventListener('pointerdown', (e) => record({ kind: 'pointerdown', pointerType: e.pointerType, x: Math.round(e.clientX), y: Math.round(e.clientY) }));
+  touchTarget.addEventListener('pointerup', (e) => record({ kind: 'pointerup', pointerType: e.pointerType, x: Math.round(e.clientX), y: Math.round(e.clientY) }));
+
+  // Pen: draw and log pressure.
+  const canvas = document.getElementById('pen-canvas');
+  const ctx = canvas.getContext('2d');
+  let drawing = false;
+  canvas.addEventListener('pointerdown', (e) => {
+    drawing = true;
+    const rect = canvas.getBoundingClientRect();
+    ctx.beginPath(); ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
+    record({ kind: 'pen-down', pointerType: e.pointerType, pressure: +e.pressure.toFixed(2), tiltX: e.tiltX });
+  });
+  canvas.addEventListener('pointermove', (e) => {
+    if (!drawing) return;
+    const rect = canvas.getBoundingClientRect();
+    ctx.lineWidth = 1 + e.pressure * 8; ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top); ctx.stroke();
+    record({ kind: 'pen-move', pointerType: e.pointerType, pressure: +e.pressure.toFixed(2) });
+  });
+  canvas.addEventListener('pointerup', (e) => {
+    drawing = false;
+    record({ kind: 'pen-up', pointerType: e.pointerType, pressure: +e.pressure.toFixed(2) });
+  });
+
+  // Gamepad: poll like a real consumer.
+  const status = document.getElementById('gamepad-status');
+  let lastPressed = '';
+  window.addEventListener('gamepadconnected', (e) => record({ kind: 'gamepadconnected', id: e.gamepad?.id }));
+  window.addEventListener('gamepaddisconnected', () => record({ kind: 'gamepaddisconnected' }));
+  const poll = () => {
+    const pads = navigator.getGamepads ? Array.from(navigator.getGamepads()).filter(Boolean) : [];
+    const pad = pads[0];
+    if (!pad) { status.textContent = 'no pad'; }
+    else {
+      const pressed = pad.buttons.map((b, i) => (b.pressed ? i : -1)).filter((i) => i >= 0).join(',');
+      const axes = pad.axes.map((a) => a.toFixed(2)).join(',');
+      status.textContent = `${pad.id} buttons=[${pressed}] axes=[${axes}]`;
+      if (pressed !== lastPressed) { record({ kind: 'gamepad', pressed }); lastPressed = pressed; }
+    }
+    requestAnimationFrame(poll);
+  };
+  requestAnimationFrame(poll);
+
+  // Keyboard drag grammar (PAP-330) with announcements.
+  const dragList = document.getElementById('drag-list');
+  let grabbed = null; let origin = null;
+  const items = () => Array.from(dragList.children);
+  const nameOf = (li) => `Item ${li.dataset.item}`;
+  const focusHandle = (li) => li.querySelector('.handle').focus();
+  dragList.addEventListener('keydown', (e) => {
+    const li = e.target.closest('li'); if (!li) return;
+    if (!grabbed) {
+      if (e.code === 'Space' || e.code === 'Enter') {
+        e.preventDefault(); grabbed = li; origin = items().indexOf(li); li.setAttribute('aria-grabbed', 'true');
+        announce(`Picked up ${nameOf(li)}, position ${origin + 1} of ${items().length}. Use arrows to move, Space to drop, Escape to cancel.`);
+      }
+      return;
+    }
+    if (li !== grabbed) return;
+    const index = items().indexOf(li);
+    if (e.code === 'ArrowDown' || e.code === 'ArrowUp' || e.code === 'Home' || e.code === 'End') {
+      e.preventDefault();
+      const target = e.code === 'ArrowDown' ? index + 1 : e.code === 'ArrowUp' ? index - 1 : e.code === 'Home' ? 0 : items().length - 1;
+      if (target < 0 || target >= items().length) { announce(`Cannot move ${nameOf(li)} further`, 'assertive'); return; }
+      const ref = items()[target];
+      if (target > index) ref.after(li); else ref.before(li);
+      focusHandle(li);
+      announce(`Moved ${nameOf(li)} to position ${target + 1} of ${items().length}`);
+    } else if (e.code === 'Space' || e.code === 'Enter') {
+      e.preventDefault(); li.removeAttribute('aria-grabbed'); grabbed = null;
+      announce(`Dropped ${nameOf(li)} at position ${index + 1} of ${items().length}`); focusHandle(li);
+    } else if (e.code === 'Escape') {
+      e.preventDefault(); li.removeAttribute('aria-grabbed');
+      const ref = items()[origin]; if (ref && ref !== li) { if (origin > index) ref.after(li); else ref.before(li); }
+      grabbed = null; announce(`Cancelled moving ${nameOf(li)}`); focusHandle(li);
+    }
+  });
+  window.__order = () => items().map((li) => li.dataset.item).join('');
+
+  // Pointer drag: a 4 px fine threshold, then follow, then drop.
+  const source = document.getElementById('drag-source'); const zone = document.getElementById('drop-zone');
+  let press = null;
+  source.addEventListener('pointerdown', (e) => { press = { x: e.clientX, y: e.clientY, dragging: false }; source.setPointerCapture(e.pointerId); });
+  source.addEventListener('pointermove', (e) => {
+    if (!press) return;
+    if (!press.dragging && Math.hypot(e.clientX - press.x, e.clientY - press.y) > 4) { press.dragging = true; record({ kind: 'dragstart' }); }
+    if (press.dragging) { const r = zone.getBoundingClientRect(); zone.classList.toggle('over', e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom); }
+  });
+  source.addEventListener('pointerup', (e) => {
+    if (press?.dragging && zone.classList.contains('over')) { zone.textContent = 'dropped'; record({ kind: 'drop' }); }
+    zone.classList.remove('over'); press = null;
+  });
+
+  // Touch-target audit: a control the test adds on demand.
+  window.__addTinyButton = () => {
+    const b = document.createElement('button'); b.id = 'tiny'; b.textContent = 'x'; b.style.minWidth = '0'; b.style.minHeight = '0';
+    b.style.width = '24px'; b.style.height = '24px'; b.style.padding = '0'; document.body.append(b);
+  };
+})();
+</script>
+</body>
+</html>
