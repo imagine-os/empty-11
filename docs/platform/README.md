@@ -18,6 +18,10 @@ Here now:
   `InputEvent` union for mouse, touch, pen, keyboard, wheel, gamepad, TV remote and voice,
   modality detection, spatial focus navigation, chords, thresholds and the actions registry
   (PAP-150, ADR 0019). Package: [`packages/input/`](../../packages/input/README.md).
+* [`input/testing.md`](input/testing.md) — `@paperos/input/testing`: the shared Playwright `input`
+  fixture (`pressChord`, `sequence`, `holdKey`, `tap`, `longPress`, `swipe`, `pinch`, `pan`, `pen`,
+  gamepad mock, `dragKeyboard`, `dragPointer`, `expectModality`, `expectAnnouncement`,
+  `touchTargets`), browser support matrix and the DOM contracts it reads (PAP-644).
 * [`library-rubric.md`](library-rubric.md) — the six-criterion library evaluation rubric, anchors,
   hard gates, verdict thresholds and scorecard shape (PAP-209, ADR 0009). Machine-readable copy:
   [`packages/agents/src/rubric/library-rubric.json`](../../packages/agents/src/rubric/library-rubric.json).

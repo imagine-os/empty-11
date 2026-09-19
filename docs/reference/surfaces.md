@@ -73,3 +73,5 @@ specs (`logic.actions`, PAP-114): `specs/pages/customer-invoices.spec.yaml` decl
 `payInvoice`, `downloadPdf` (not wired), `retryLoad`; `specs/pages/staff-settings.spec.yaml` declares
 `inviteMember`, `changeRole`, `removeMember`, `saveBranding` (not wired), `toggleModule`, `retryLoad`.
 They become live WebMCP abilities when PAP-16 mounts the registry.
+| CLI | `pnpm --filter @paperos/input test:e2e` / `test:e2e:all` — Playwright self-tests of the input fixtures against the static page `packages/input/e2e/self-test.html` (chromium; `:all` adds firefox and webkit where CDP helpers skip) | PAP-644 | - | live |
+| API | `@paperos/input/testing`: `test.extend({ input })` fixture with `pressChord`, `sequence`, `holdKey`, `tap`, `longPress`, `swipe`, `pinch`, `pan`, `pen`, `penTap`, `gamepad()`, `dragKeyboard`, `dragPointer`, `expectModality`, `expectAnnouncement`, `touchTargets`, `expectTouchTargets`; standalone `(page, …)` forms and pure planners (`planTap`, `planPinch`, `planPen`, `keyboardDragKeys`, `toPlaywrightKey`, `installGamepadMock`, `auditTouchTargets`) | PAP-644 | - | live |
