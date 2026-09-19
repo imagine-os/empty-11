@@ -13,6 +13,9 @@ Here now:
 * [`branching-and-commits.md`](branching-and-commits.md) — ref namespace, worktree-per-issue,
   Conventional Commits and ref protection for parallel agent sessions (PAP-46, ADR 0010).
   Configuration lives in [`ops/forge/`](../../ops/forge/README.md).
+* [`library-rubric.md`](library-rubric.md) — the six-criterion library evaluation rubric, anchors,
+  hard gates, verdict thresholds and scorecard shape (PAP-209, ADR 0009). Machine-readable copy:
+  [`packages/agents/src/rubric/library-rubric.json`](../../packages/agents/src/rubric/library-rubric.json).
 * [`forge-topology.md`](forge-topology.md) — Forgejo/GitHub mirroring topology, failover and
   failure modes (PAP-44, hand-written; implemented by PAP-47).
 
