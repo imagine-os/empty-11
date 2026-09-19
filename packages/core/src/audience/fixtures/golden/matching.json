@@ -1,0 +1,26 @@
+{
+  "builtin": {
+    "agent-acting-for-staff.json": ["everyone", "authenticated", "agent"],
+    "anonymous.json": ["everyone", "anonymous"],
+    "customer-partner.json": ["everyone", "authenticated", "customer", "customer-pro", "partner"],
+    "owner-developer.json": ["everyone", "authenticated", "admin", "owner", "developer"],
+    "service.json": ["everyone", "authenticated"],
+    "support-staff.json": ["everyone", "authenticated", "staff", "staff-support"]
+  },
+  "withAppSpec": {
+    "agent-acting-for-staff.json": ["everyone", "authenticated", "agent", "agent.forge"],
+    "anonymous.json": ["everyone", "anonymous"],
+    "customer-partner.json": [
+      "everyone",
+      "authenticated",
+      "customer",
+      "customer-pro",
+      "partner",
+      "vip",
+      "verified-without-mfa"
+    ],
+    "owner-developer.json": ["everyone", "authenticated", "admin", "owner", "developer"],
+    "service.json": ["everyone", "authenticated"],
+    "support-staff.json": ["everyone", "authenticated", "staff", "staff-support"]
+  }
+}

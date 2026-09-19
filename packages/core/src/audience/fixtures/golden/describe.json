@@ -1,0 +1,17 @@
+{
+  "everyone": "everyone",
+  "anonymous": "anonymous visitors",
+  "authenticated": "anyone except anonymous visitors",
+  "customer": "people who have a tier",
+  "customer-free": "customers on the free tier",
+  "customer-pro": "customers on the pro tier",
+  "customer-enterprise": "customers on the enterprise tier",
+  "staff": "people who have a staffRole",
+  "staff-support": "staff whose staffRole is support",
+  "staff-finance": "staff whose staffRole is finance",
+  "admin": "admins, or owners",
+  "owner": "owners",
+  "partner": "principals who have a partnerId",
+  "agent": "agents",
+  "developer": "principals whose developer is true"
+}

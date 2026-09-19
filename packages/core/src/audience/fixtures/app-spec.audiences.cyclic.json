@@ -1,0 +1,30 @@
+{
+  "$comment": "A broken `audiences:` section: `gold` and `platinum` reference each other, `shadow` redeclares a built-in, `ghost` references an unknown id. `pnpm --filter @paperos/core audience validate --audiences <this file>` names all three.",
+  "audiences": {
+    "gold": {
+      "name": "Gold",
+      "description": "Platinum customers who are not on hold.",
+      "match": {
+        "all": [
+          { "audience": "platinum" },
+          { "not": { "attr": "onHold", "op": "eq", "value": true } }
+        ]
+      }
+    },
+    "platinum": {
+      "name": "Platinum",
+      "description": "Gold customers with a partner id.",
+      "match": { "all": [{ "audience": "gold" }, { "attr": "partnerId", "op": "exists" }] }
+    },
+    "admin": {
+      "name": "Admins",
+      "description": "Tries to redeclare a built-in.",
+      "match": { "role": "admin" }
+    },
+    "ghost": {
+      "name": "Ghost",
+      "description": "References an audience nobody declared.",
+      "match": { "audience": "does-not-exist" }
+    }
+  }
+}

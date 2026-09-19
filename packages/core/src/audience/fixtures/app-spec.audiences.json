@@ -1,0 +1,44 @@
+{
+  "$comment": "The `audiences:` section of a fixture app.spec.yaml, as JSON (YAML parsing is PAP-117's). Valid.",
+  "audiences": {
+    "vip": {
+      "name": "VIP customers",
+      "description": "Pro or enterprise customers who are also partners.",
+      "match": {
+        "all": [
+          { "any": [{ "audience": "customer-pro" }, { "audience": "customer-enterprise" }] },
+          { "audience": "partner" }
+        ]
+      }
+    },
+    "agent.forge": {
+      "name": "Agent forge",
+      "description": "The Forge agent character.",
+      "match": {
+        "all": [{ "audience": "agent" }, { "attr": "character", "op": "eq", "value": "forge" }]
+      }
+    },
+    "eu-seats": {
+      "name": "EU accounts with five or more seats",
+      "description": "Customers in an EU region whose seat count is at least five.",
+      "match": {
+        "all": [
+          { "audience": "customer" },
+          { "attr": "region", "op": "in", "value": ["de", "fr", "es", "nl"] },
+          { "attr": "seats", "op": "gte", "value": 5 }
+        ]
+      }
+    },
+    "verified-without-mfa": {
+      "name": "Verified, no MFA",
+      "description": "Signed-in people with a verified email who have not enrolled a second factor.",
+      "match": {
+        "all": [
+          { "principalType": "human" },
+          { "attr": "emailVerified", "op": "eq", "value": true },
+          { "not": { "attr": "mfa", "op": "eq", "value": true } }
+        ]
+      }
+    }
+  }
+}

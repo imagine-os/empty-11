@@ -9,7 +9,8 @@
     "./events": "./src/events/index.ts",
     "./events/testing": "./src/events/testing.ts",
     "./filter": "./src/filter/index.ts",
-    "./types": "./src/types/index.ts"
+    "./types": "./src/types/index.ts",
+    "./audience": "./src/audience/index.ts"
   },
   "main": "./src/index.ts",
   "types": "./src/index.ts",
@@ -23,7 +24,9 @@
     "clean": "node -e \"require('node:fs').rmSync('coverage',{recursive:true,force:true})\"",
     "example:filter": "tsx examples/filter.ts",
     "events:catalogue": "tsx ../../scripts/events-catalogue.ts",
-    "example:types": "tsx examples/types.ts"
+    "example:types": "tsx examples/types.ts",
+    "audience": "tsx scripts/audience-cli.ts",
+    "gen:audience-schema": "tsx scripts/gen-audience-schema.ts"
   },
   "dependencies": {
     "drizzle-orm": "^0.45.2",

@@ -24,6 +24,8 @@ sub-folder with no entry there fails `pnpm lint:deps`
 | `events/` | data-layer | event envelope, topic registry and `publish()` (ADR 0013) — **landed**, PAP-555 |
 | `audience/` | identity | audience model (ADR 0017) |
 | `principal.ts` | identity | `Principal` |
+| `events/` | data-layer | event envelope and topics |
+| `audience/` | identity | **landed** (PAP-55, ADR 0017): `Principal`, roles, segments, built-in audiences, surfaces; subpath `@paperos/core/audience`; doc `docs/platform/audiences.md` |
 | `modules/` | app-shell | module manifest + generated JSON Schema (ADR 0014) |
 | `pwa/`, `windows/`, `native/`, `flags/` | app-shell | shell capabilities |
 | `nav/` | app-shell | router and navigation primitives (PAP-16) |
@@ -55,3 +57,8 @@ The rest of the list is still to come.
 The one exception to "no env reads": `signCursor` / `verifyCursor` read `CURSOR_SECRET` and
 `CURSOR_SECRET_PREVIOUS` **at the call site** when no `CursorSecrets` argument is passed, never at
 import. Importing this package can never fail on a missing variable.
+The scaffold shipped the barrel and `PAPEROS_VERSION`; rows marked **landed** exist. `principal.ts`
+lives inside `audience/` (the spec's layout), not at the package root.
+
+Scripts: `pnpm --filter @paperos/core audience explain|validate` (demo CLI) and
+`gen:audience-schema` (regenerates the committed JSON Schema; a test fails when it is stale).
