@@ -27,6 +27,9 @@ or `-`), **Status** (`live`, `stub`, `planned`).
 | CLI | `scripts/worktree.sh new\|done\|list PAP-<n>` — create and retire the per-issue worktree; exit 0 success, 2 refusal | PAP-46 | repo write | planned (contract frozen in `docs/platform/branching-and-commits.md` section 3.1) |
 | CLI | `scripts/apply-branch-policy.ts [--dry-run\|--apply\|--print-parity] --repo <slug>` — apply the forge rulesets idempotently | PAP-46 | forge admin | planned (Needs Justin to apply) |
 | API | GitHub `POST/PUT /repos/{owner}/{repo}/rulesets`, Forgejo `POST /repos/{owner}/{repo}/branch_protections` and `.../tag_protections` — the endpoints the ruleset JSON is posted to | PAP-46 | forge admin | planned (payloads live in `ops/forge/rulesets/`, manifest `index.json`) |
+| CLI | `pnpm lint:deps` — validate `ownership.json`, cruise `apps/` and `packages/` against rules R1-R12, fail on a stale generated file; runs inside `pnpm check` as the turbo root task `//#lint:deps` | PAP-305 | - | live |
+| CLI | `pnpm gen:deps-rules [--check]` — regenerate `.dependency-cruiser.cjs` and the Biome `noRestrictedImports` mirror from `ownership.json` | PAP-305 | - | live |
+| CLI | `pnpm gen:dep-map [--check]` — regenerate `docs/platform/dependency-map.json` and `.md` from `ownership.json` and the import graph | PAP-305 | - | live |
 | CLI | `node scripts/gen-breakpoints.ts [--check]` — regenerate/verify `ops/ci/breakpoints.json` from `packages/core/src/devices/matrix.ts` | PAP-14 | - | stub |
 | CLI | `pnpm --filter @paperos/contract-quality calibrate <output.json>` — score a reviewer output against the 15-case calibration set and print the agreement number and the disagreements | PAP-79 | - | live |
 | CLI | `pnpm --filter @paperos/contract-quality build:schemas` — regenerate the JSON Schemas in `packages/contracts/quality/schemas/` from the Zod sources | PAP-79 | - | live |

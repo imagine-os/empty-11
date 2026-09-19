@@ -1,0 +1,11 @@
+@paperos/core:test:       Tests  19 passed (19)
+@paperos/web:test:       Tests  4 passed (4)
+@paperos/boundaries:test:    ✓ pnpm lint:deps > fails packages/finance -> packages/crm with R3 and the owner to ask  10046ms
+@paperos/boundaries:test:    ✓ pnpm lint:deps > passes the same module once the import is gone  1367ms
+@paperos/boundaries:test:    ✓ pnpm lint:deps > is green on the repo as it stands  1991ms
+@paperos/boundaries:test:       Tests  35 passed (35)
+ Tasks:    36 successful, 36 total
+Cached:    27 cached, 36 total
+  Time:    39.82s 
+
+(full log: `pnpm check` on 2026-09-19, 36/36 turbo tasks green, including the root task //#lint:deps)

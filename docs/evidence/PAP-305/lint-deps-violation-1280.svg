@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="522" viewBox="0 0 1280 522" role="img" aria-label="pnpm lint:deps — R3 violation (1280 px terminal)">
+<title>pnpm lint:deps — R3 violation (1280 px terminal)</title>
+<rect width="1280" height="522" fill="#12131a"/>
+<rect x="0" y="0" width="1280" height="34" fill="#1d1f2a"/>
+<circle cx="20" cy="17" r="6" fill="#ff5f57"/><circle cx="40" cy="17" r="6" fill="#febc2e"/><circle cx="60" cy="17" r="6" fill="#28c840"/>
+<text x="84" y="22" font-family="ui-monospace,DejaVu Sans Mono,monospace" font-size="13" fill="#9aa0b4">pnpm lint:deps — R3 violation (1280 px terminal)</text>
+<g font-family="ui-monospace,DejaVu Sans Mono,monospace" font-size="15">
+<text x="24" y="58" fill="#f2f3f7" xml:space="preserve"></text>
+<text x="24" y="80" fill="#7f87a8" xml:space="preserve">&gt; paperos-template@0.1.0 lint:deps /workspace/wt/PAP-305</text>
+<text x="24" y="102" fill="#7f87a8" xml:space="preserve">&gt; tsx packages/boundaries/scripts/lint-deps.ts</text>
+<text x="24" y="124" fill="#f2f3f7" xml:space="preserve"></text>
+<text x="24" y="146" fill="#f2f3f7" xml:space="preserve"></text>
+<text x="24" y="168" fill="#ff8080" xml:space="preserve">  error R3-cross-module-packages-pm: packages/views/src/index.ts → packages/pm/src/index.ts</text>
+<text x="24" y="190" fill="#f2f3f7" xml:space="preserve">    R3/R8 -&gt; packages/pm: optional modules must couple via</text>
+<text x="24" y="212" fill="#f2f3f7" xml:space="preserve">    @paperos/core/events, a @paperos/contract-* port or the kernel, never by</text>
+<text x="24" y="234" fill="#f2f3f7" xml:space="preserve">    importing another module&#x27;s implementation (type-only imports included).</text>
+<text x="24" y="256" fill="#f2f3f7" xml:space="preserve">    Owner: pm-linear — ask them for a contract port (ownership.json</text>
+<text x="24" y="278" fill="#f2f3f7" xml:space="preserve">    packages.&quot;packages/pm&quot;, issues PAP-100, PAP-305).</text>
+<text x="24" y="300" fill="#f2f3f7" xml:space="preserve"></text>
+<text x="24" y="322" fill="#f2f3f7" xml:space="preserve"></text>
+<text x="24" y="344" fill="#ff8080" xml:space="preserve">x 1 dependency violations (1 errors, 0 warnings). 78 modules, 147 dependencies cruised.</text>
+<text x="24" y="366" fill="#f2f3f7" xml:space="preserve"></text>
+<text x="24" y="388" fill="#ff8080" xml:space="preserve">stale generated file docs/platform/dependency-map.json: the committed map no longer matches ownership.json and the import graph</text>
+<text x="24" y="410" fill="#f2f3f7" xml:space="preserve">  fix: pnpm gen:dep-map</text>
+<text x="24" y="432" fill="#ff8080" xml:space="preserve">stale generated file docs/platform/dependency-map.md: the committed Mermaid rendering is out of date</text>
+<text x="24" y="454" fill="#f2f3f7" xml:space="preserve">  fix: pnpm gen:dep-map</text>
+<text x="24" y="476" fill="#ff8080" xml:space="preserve"> ELIFECYCLE  Command failed with exit code 1.</text>
+</g>
+</svg>
