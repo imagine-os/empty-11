@@ -1,0 +1,51 @@
+$ pnpm --filter @paperos/core audience explain --principal src/audience/fixtures/principals/customer-partner.json --audiences src/audience/fixtures/app-spec.audiences.json
+principal 0192a1b2-0000-7000-8000-00000000c004 (human, tenant 0192a1b2-0000-7000-8000-000000000001)
+attributes {"role":"member","tier":"pro","partnerId":"p-acme","emailVerified":true,"mfa":false}
+
+[x] everyone              Everyone — everyone
+[ ] anonymous             Anonymous visitors — anonymous visitors
+[x] authenticated         Authenticated principals — anyone except anonymous visitors
+[x] customer              Customers — people who have a tier
+[ ] customer-free         Free-tier customers — customers on the free tier
+[x] customer-pro          Pro customers — customers on the pro tier
+[ ] customer-enterprise   Enterprise customers — customers on the enterprise tier
+[ ] staff                 Staff — people who have a staffRole
+[ ] staff-support         Support staff — staff whose staffRole is support
+[ ] staff-finance         Finance staff — staff whose staffRole is finance
+[ ] admin                 Admins — admins, or owners
+[ ] owner                 Owners — owners
+[x] partner               Partners — principals who have a partnerId
+[ ] agent                 Agents — agents
+[ ] developer             Developers — principals whose developer is true
+[x] vip                   VIP customers — (pro customers, or enterprise customers) who are also partners
+[ ] agent.forge           Agent forge — agents whose character is forge
+[ ] eu-seats              EU accounts with five or more seats — customers whose region is one of de, fr, es or nl and whose seats is at least 5
+[x] verified-without-mfa  Verified, no MFA — people whose emailVerified is true and whose mfa is not true
+
+matches: everyone, authenticated, customer, customer-pro, partner, vip, verified-without-mfa
+
+$ pnpm --filter @paperos/core audience explain --principal src/audience/fixtures/principals/agent-acting-for-staff.json --audiences src/audience/fixtures/app-spec.audiences.json
+principal 0192a1b2-0000-7000-8000-00000000e001 (agent, tenant 0192a1b2-0000-7000-8000-000000000001)
+attributes {"character":"forge","role":"staff","actingFor":"0192a1b2-0000-7000-8000-00000000a001"}
+
+[x] everyone              Everyone — everyone
+[ ] anonymous             Anonymous visitors — anonymous visitors
+[x] authenticated         Authenticated principals — anyone except anonymous visitors
+[ ] customer              Customers — people who have a tier
+[ ] customer-free         Free-tier customers — customers on the free tier
+[ ] customer-pro          Pro customers — customers on the pro tier
+[ ] customer-enterprise   Enterprise customers — customers on the enterprise tier
+[ ] staff                 Staff — people who have a staffRole
+[ ] staff-support         Support staff — staff whose staffRole is support
+[ ] staff-finance         Finance staff — staff whose staffRole is finance
+[ ] admin                 Admins — admins, or owners
+[ ] owner                 Owners — owners
+[ ] partner               Partners — principals who have a partnerId
+[x] agent                 Agents — agents
+[ ] developer             Developers — principals whose developer is true
+[ ] vip                   VIP customers — (pro customers, or enterprise customers) who are also partners
+[x] agent.forge           Agent forge — agents whose character is forge
+[ ] eu-seats              EU accounts with five or more seats — customers whose region is one of de, fr, es or nl and whose seats is at least 5
+[ ] verified-without-mfa  Verified, no MFA — people whose emailVerified is true and whose mfa is not true
+
+matches: everyone, authenticated, agent, agent.forge

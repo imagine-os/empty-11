@@ -1,0 +1,35 @@
+# Coverage, packages/core/src/audience (vitest --coverage, v8), 2026-09-19
+# Command: pnpm --filter @paperos/core exec vitest run --coverage --coverage.include="src/audience/**" --coverage.exclude="src/audience/**/*.test.ts" --coverage.exclude="src/audience/**/*.bench.ts" --coverage.reporter=text
+
+ ✓ |core| src/audience/matches.test.ts (19 tests) 66ms
+ ✓ |core| src/audience/app-spec.test.ts (4 tests) 83ms
+ ✓ |core| src/audience/builtin.test.ts (21 tests) 49ms
+ ✓ |core| src/audience/audience.test.ts (23 tests) 35ms
+ ✓ |core| src/audience/principal.test.ts (5 tests) 9ms
+ ✓ |core| src/audience/segment.test.ts (22 tests) 41ms
+ ✓ |core| src/audience/registry.test.ts (9 tests) 65ms
+ ✓ |core| src/audience/explain.test.ts (3 tests) 53ms
+ ✓ |core| src/audience/surfaces.test.ts (2 tests) 13ms
+ ✓ |core| src/audience/role.test.ts (18 tests) 87ms
+ ✓ |core| src/audience/matches.property.test.ts (5 tests) 3916ms
+ ✓ |core| src/audience/describe.test.ts (8 tests) 16ms
+ ✓ |core| src/audience/types.test.ts (6 tests) 7ms
+ ✓ |core| src/index.test.ts (1 test) 3ms
+ Test Files  14 passed (14)
+      Tests  146 passed (146)
+--------------|---------|----------|---------|---------|-------------------
+File          | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+All files     |   99.26 |     99.1 |     100 |   99.26 |                   
+ app-spec.ts  |     100 |      100 |     100 |     100 |                   
+ audience.ts  |     100 |      100 |     100 |     100 |                   
+ builtin.ts   |     100 |      100 |     100 |     100 |                   
+ describe.ts  |     100 |    98.94 |     100 |     100 | 96                
+ errors.ts    |     100 |      100 |     100 |     100 |                   
+ explain.ts   |     100 |      100 |     100 |     100 |                   
+ index.ts     |     100 |      100 |     100 |     100 |                   
+ matches.ts   |     100 |      100 |     100 |     100 |                   
+ principal.ts |     100 |      100 |     100 |     100 |                   
+ registry.ts  |   95.42 |    96.92 |     100 |   95.42 | 105-111           
+ role.ts      |     100 |      100 |     100 |     100 |                   
+ segment.ts   |     100 |      100 |     100 |     100 |                   
+ surfaces.ts  |     100 |      100 |     100 |     100 |                   

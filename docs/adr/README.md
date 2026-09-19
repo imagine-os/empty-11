@@ -31,6 +31,8 @@ Numbers are pre-assigned by the plan; take yours, do not renumber.
 | 0018 | [design-tokens](0018-design-tokens.md) | PAP-66 | Accepted |
 | 0019 | [input-events](0019-input-events.md) | PAP-150 | Accepted |
 | 0020 | [character-schema](0020-character-schema.md) | PAP-103 | Accepted |
+| 0017 | [audience-model](0017-audience-model.md) | PAP-55 | Accepted |
+| 0018 | design-tokens | PAP-66 | Planned |
 | 0019 | input-events | PAP-150 | Planned |
 | 0020 | character-schema | PAP-103 | Planned |
 | 0021 | mcp-catalog | PAP-210 | Planned |

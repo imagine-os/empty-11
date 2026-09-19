@@ -1,0 +1,13 @@
+# Bench, packages/core/src/audience/matches.bench.ts (vitest bench, tinybench), 2026-09-19
+# Budget (PAP-55 spec): median under 50 µs at depth 6. Units below are milliseconds.
+
+ RUN  v3.2.7 /workspace/wt/PAP-55/packages/core
+ ✓ |core| src/audience/matches.bench.ts > matches 5286ms
+     name                                          hz     min     max    mean     p75     p99    p995    p999     rme  samples
+   · leaf                                9,657,347.83  0.0001  0.6112  0.0001  0.0001  0.0002  0.0002  0.0005  ±0.42%  4828674
+   · depth 6 with an audience reference    831,063.49  0.0010  0.6548  0.0012  0.0012  0.0017  0.0021  0.0231  ±0.88%   415532
+   · all fifteen built-ins                 245,206.79  0.0032  0.6933  0.0041  0.0040  0.0076  0.0237  0.0349  ±0.68%   122604
+ BENCH  Summary
+  |core| leaf - src/audience/matches.bench.ts > matches
+    11.62x faster than depth 6 with an audience reference
+    39.38x faster than all fifteen built-ins

@@ -1,0 +1,10 @@
+$ pnpm --filter @paperos/core audience validate --audiences src/audience/fixtures/app-spec.audiences.json
+ok: 4 declared audience(s) validate against the built-ins: vip, agent.forge, eu-seats, verified-without-mfa
+exit 0
+
+$ pnpm --filter @paperos/core audience validate --audiences src/audience/fixtures/app-spec.audiences.cyclic.json
+3 issue(s):
+  SHADOWS_BUILTIN    admin: "admin" is a built-in audience and cannot be redeclared
+  UNKNOWN_REFERENCE  ghost at match: references unknown audience "does-not-exist"
+  CYCLE              gold at match: audience reference cycle: gold -> platinum -> gold
+exit 1

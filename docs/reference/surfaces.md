@@ -60,6 +60,10 @@ or `-`), **Status** (`live`, `stub`, `planned`).
 | CLI | `pnpm --filter @paperos/tokens ramps` — regenerate one colour ramp's OKLCH steps with `culori`, print DTCG JSON to stdout for hand-review before pasting into `core.tokens.json` | PAP-66 | - | live |
 | CLI | `pnpm --filter @paperos/tokens tokens:lint` — DTCG schema (kebab names), alias resolvability, cycle detection, unused alias-only primitives | PAP-66 | - | live |
 | CLI | `pnpm --filter @paperos/tokens tokens:check` — WCAG contrast assertions (`fg.default` 4.5:1, `fg.muted` 3:1, status and on-accent pairs) across light/dark/hc; `--report <path>` writes the JSON the evidence swatch page reads | PAP-66 | - | live |
+| CLI | `pnpm --filter @paperos/core audience explain --principal <file.json> [--audiences <file.json>]` — list which audiences a principal belongs to and why | PAP-55 | - | live |
+| CLI | `pnpm --filter @paperos/core audience validate --audiences <file.json>` — validate an `audiences:` section against the built-ins; names cycles, shadowed built-ins, unknown references; exit 1 on issues | PAP-55 | - | live |
+| CLI | `pnpm --filter @paperos/core gen:audience-schema` — regenerate `packages/core/src/audience/audiences.schema.json` from the Zod schema | PAP-55 | - | live |
+| API | `@paperos/core/audience` — `matches`, `describe`, `validateAudiences`, `createAudienceRegistry`, `explainPrincipal` (library surface consumed by PAP-59 policies and PAP-117 `spec validate`) | PAP-55 | - | live |
 
 The placeholder route declares no actions: it has no controls. The first page with a control adds
 its actions registry and its rows here; the shape it declares against is the `Action` row above
