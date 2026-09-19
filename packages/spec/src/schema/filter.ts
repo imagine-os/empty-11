@@ -1,71 +1,31 @@
 /**
- * Interim `FilterTree` alias for the spec `data` and `access` sections.
- *
- * TODO(PAP-279): delete this file and import
- * `import { filterTreeSchema, type FilterTree } from '@paperos/core/filter';`
- * once `packages/core/src/filter/` is on `main`. The shape below mirrors the
- * PAP-279 spec (Group = { op: and|or|not, children }, Condition = { field, operator, value })
- * so switching is a one-line import change with no fixture edits.
+ * `FilterTree` for the spec `data` and `access` sections: the shared grammar from
+ * `@paperos/core/filter` (PAP-279, ADR 0012), re-exported with a named `$defs`
+ * entry so the generated JSON Schema and the field reference call it `FilterTree`.
+ * Contracts §1: the spec data section is an alias of this one type, never a copy.
  */
+import {
+  type Condition,
+  type FilterNode,
+  type FilterTree,
+  filterNodeSchema,
+  filterTreeSchema,
+  type Group,
+  type Operator,
+} from '@paperos/core/filter';
 import { z } from 'zod';
 
-export const FILTER_OPERATORS = [
-  'eq',
-  'neq',
-  'in',
-  'nin',
-  'lt',
-  'lte',
-  'gt',
-  'gte',
-  'contains',
-  'startsWith',
-  'isNull',
-  'isNotNull',
-  'between',
-  'has',
-  'matches',
-] as const;
+export type { Condition, FilterNode, FilterTree, Group, Operator };
 
-export type FilterOperator = (typeof FILTER_OPERATORS)[number];
+// Name the recursive node once so the JSON Schema says `FilterNode`, not `__schema0`.
+z.globalRegistry.add(filterNodeSchema, {
+  id: 'FilterNode',
+  description:
+    'A group `{ op, children }` or a condition `{ field, operator, value }` inside a `FilterTree`.',
+});
 
-export interface FilterCondition {
-  field: string;
-  operator: FilterOperator;
-  /** Literal, or `{ $var: 'principal.id' }` bound at evaluation time. */
-  value?: unknown;
-}
-
-export interface FilterGroup {
-  op: 'and' | 'or' | 'not';
-  children: FilterTree[];
-}
-
-export type FilterTree = FilterGroup | FilterCondition;
-
-export const FilterConditionSchema = z
-  .strictObject({
-    field: z.string().min(1).describe('Field path on the entity, dotted for relations.'),
-    operator: z.enum(FILTER_OPERATORS).describe('Comparison operator (PAP-279 grammar).'),
-    value: z
-      .unknown()
-      .optional()
-      .describe('Literal value, or `{ $var: "principal.id" }` bound at evaluation time.'),
-  })
-  .meta({ id: 'FilterCondition', description: 'Leaf condition of a `FilterTree`.' });
-
-export const FilterTreeSchema: z.ZodType<FilterTree> = z
-  .lazy(() =>
-    z.union([
-      z.strictObject({
-        op: z.enum(['and', 'or', 'not']).describe('Boolean combinator.'),
-        children: z.array(FilterTreeSchema).describe('Child trees; `not` takes exactly one.'),
-      }),
-      FilterConditionSchema,
-    ]),
-  )
-  .meta({
-    id: 'FilterTree',
-    description:
-      'Shared filter grammar (`@paperos/core/filter`, PAP-279): a group `{ op, children }` or a condition `{ field, operator, value }`.',
-  });
+export const FilterTreeSchema = filterTreeSchema.meta({
+  id: 'FilterTree',
+  description:
+    'Shared filter grammar (`@paperos/core/filter`, PAP-279): a group `{ op, children }` or a condition `{ field, operator, value }`, optional `v: 1`.',
+});

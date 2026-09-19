@@ -237,19 +237,13 @@ Field path inside an entity: `status`, `customer.email`.
 ^[a-z][a-zA-Z0-9]*(?:\.[a-z][a-zA-Z0-9]*)*$
 ```
 
-### FilterCondition
+### FilterNode
 
-Leaf condition of a `FilterTree`.
-
-| Path | Type | Required | Description |
-| -- | -- | -- | -- |
-| `field` | string | yes | Field path on the entity, dotted for relations. |
-| `operator` | `eq` \| `neq` \| `in` \| `nin` \| `lt` \| `lte` \| `gt` \| `gte` \| `contains` \| `startsWith` \| `isNull` \| `isNotNull` \| `between` \| `has` \| `matches` | yes | Comparison operator (PAP-279 grammar). |
-| `value` | unknown | no | Literal value, or `{ $var: "principal.id" }` bound at evaluation time. |
+A group `{ op, children }` or a condition `{ field, operator, value }` inside a `FilterTree`.
 
 ### FilterTree
 
-Shared filter grammar (`@paperos/core/filter`, PAP-279): a group `{ op, children }` or a condition `{ field, operator, value }`.
+Shared filter grammar (`@paperos/core/filter`, PAP-279): a group `{ op, children }` or a condition `{ field, operator, value }`, optional `v: 1`.
 
 ### Integration
 

@@ -17,7 +17,7 @@ else console.log(pageActions(result.value)); // WebMCP / voice registry entries
 | `src/schema/page.ts` | `PageSpecSchema`, section schemas, `PAGE_SPEC_KEYS`, `RESERVED_KEYS` |
 | `src/schema/refs.ts` | reference grammars (`RouteRef`, `ComponentRef`, `MessageRef`, ...) and their regexes |
 | `src/schema/{access,data,integrations}.ts` | interim section shapes, extended in place by their owners |
-| `src/schema/filter.ts` | local `FilterTree` alias; `TODO(PAP-279)` names the import to switch to |
+| `src/schema/filter.ts` | `FilterTree` re-exported from `@paperos/core/filter` (PAP-279) with named `$defs` |
 | `src/parse.ts`, `src/validate.ts` | `parseSpec` (positions, anchors, duplicates) and `validatePageSpec` (gate and reference rules) |
 | `src/issues.ts` | `SpecIssue`, `SPEC_CODES` registry (source of the doc's code table) |
 | `src/registry.ts` | `pageActions`, `notWiredComponents` |

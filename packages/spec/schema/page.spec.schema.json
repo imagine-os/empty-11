@@ -446,69 +446,243 @@
       "pattern": "^[a-z][a-zA-Z0-9]*(?:\\.[a-z][a-zA-Z0-9]*)*$",
       "description": "Field path inside an entity: `status`, `customer.email`."
     },
-    "FilterCondition": {
-      "type": "object",
-      "properties": {
-        "field": {
-          "type": "string",
-          "minLength": 1,
-          "description": "Field path on the entity, dotted for relations."
-        },
-        "operator": {
-          "type": "string",
-          "enum": [
-            "eq",
-            "neq",
-            "in",
-            "nin",
-            "lt",
-            "lte",
-            "gt",
-            "gte",
-            "contains",
-            "startsWith",
-            "isNull",
-            "isNotNull",
-            "between",
-            "has",
-            "matches"
-          ],
-          "description": "Comparison operator (PAP-279 grammar)."
-        },
-        "value": {
-          "description": "Literal value, or `{ $var: \"principal.id\" }` bound at evaluation time."
-        }
-      },
-      "required": ["field", "operator"],
-      "additionalProperties": false,
-      "description": "Leaf condition of a `FilterTree`."
-    },
-    "FilterTree": {
-      "description": "Shared filter grammar (`@paperos/core/filter`, PAP-279): a group `{ op, children }` or a condition `{ field, operator, value }`.",
+    "FilterNode": {
+      "description": "A group `{ op, children }` or a condition `{ field, operator, value }` inside a `FilterTree`.",
       "anyOf": [
         {
           "type": "object",
           "properties": {
             "op": {
               "type": "string",
-              "enum": ["and", "or", "not"],
-              "description": "Boolean combinator."
+              "enum": ["and", "or", "not"]
             },
             "children": {
               "type": "array",
               "items": {
-                "$ref": "#/$defs/FilterTree"
-              },
-              "description": "Child trees; `not` takes exactly one."
+                "$ref": "#/$defs/FilterNode"
+              }
             }
           },
           "required": ["op", "children"],
           "additionalProperties": false
         },
         {
-          "$ref": "#/$defs/FilterCondition"
+          "type": "object",
+          "properties": {
+            "field": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            "operator": {
+              "type": "string",
+              "enum": [
+                "eq",
+                "neq",
+                "in",
+                "nin",
+                "lt",
+                "lte",
+                "gt",
+                "gte",
+                "contains",
+                "startsWith",
+                "isNull",
+                "isNotNull",
+                "between",
+                "has",
+                "matches"
+              ]
+            },
+            "value": {
+              "anyOf": [
+                {
+                  "type": ["string", "number", "boolean", "null"]
+                },
+                {
+                  "maxItems": 1000,
+                  "type": "array",
+                  "items": {
+                    "type": ["string", "number", "boolean", "null"]
+                  }
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "$var": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 200
+                    }
+                  },
+                  "required": ["$var"],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "path": {
+                      "minItems": 1,
+                      "maxItems": 32,
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "maxLength": 200
+                      }
+                    },
+                    "equals": {
+                      "anyOf": [
+                        {
+                          "type": ["string", "number", "boolean", "null"]
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "$var": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 200
+                            }
+                          },
+                          "required": ["$var"],
+                          "additionalProperties": false
+                        }
+                      ]
+                    }
+                  },
+                  "required": ["path"],
+                  "additionalProperties": false
+                }
+              ]
+            }
+          },
+          "required": ["field", "operator"],
+          "additionalProperties": false
         }
       ]
+    },
+    "FilterTree": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "v": {
+              "type": "number",
+              "const": 1
+            },
+            "op": {
+              "type": "string",
+              "enum": ["and", "or", "not"]
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/FilterNode"
+              }
+            }
+          },
+          "required": ["op", "children"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "v": {
+              "type": "number",
+              "const": 1
+            },
+            "field": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            "operator": {
+              "type": "string",
+              "enum": [
+                "eq",
+                "neq",
+                "in",
+                "nin",
+                "lt",
+                "lte",
+                "gt",
+                "gte",
+                "contains",
+                "startsWith",
+                "isNull",
+                "isNotNull",
+                "between",
+                "has",
+                "matches"
+              ]
+            },
+            "value": {
+              "anyOf": [
+                {
+                  "type": ["string", "number", "boolean", "null"]
+                },
+                {
+                  "maxItems": 1000,
+                  "type": "array",
+                  "items": {
+                    "type": ["string", "number", "boolean", "null"]
+                  }
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "$var": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 200
+                    }
+                  },
+                  "required": ["$var"],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "path": {
+                      "minItems": 1,
+                      "maxItems": 32,
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "maxLength": 200
+                      }
+                    },
+                    "equals": {
+                      "anyOf": [
+                        {
+                          "type": ["string", "number", "boolean", "null"]
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "$var": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 200
+                            }
+                          },
+                          "required": ["$var"],
+                          "additionalProperties": false
+                        }
+                      ]
+                    }
+                  },
+                  "required": ["path"],
+                  "additionalProperties": false
+                }
+              ]
+            }
+          },
+          "required": ["field", "operator"],
+          "additionalProperties": false
+        }
+      ],
+      "description": "Shared filter grammar (`@paperos/core/filter`, PAP-279): a group `{ op, children }` or a condition `{ field, operator, value }`, optional `v: 1`."
     },
     "Integration": {
       "type": "object",

@@ -30,8 +30,9 @@ Three org standards must be encoded rather than documented: every page declares 
 intent phrase, permission) so the actions registry, WebMCP surface and voice controller read from
 the spec; user-visible text is an EN/ES message key, never a literal; placeholders are marked so dev
 mode can show them. Four round-4 issues (PAP-380, PAP-361, PAP-366, PAP-467) already write keys the
-v1 unknown-key rule would reject. `FilterTree` (PAP-279) and the component registry (PAP-74) are in
-flight in parallel; PAP-375 (spec i18n) and PAP-751 (versioning tooling) come later.
+v1 unknown-key rule would reject. `FilterTree` (PAP-279, ADR 0012) landed on `main` during this
+session; the component registry (PAP-74) is in flight; PAP-375 (spec i18n) and PAP-751 (versioning
+tooling) come later.
 
 ## Decision
 
@@ -82,9 +83,9 @@ We will define `page.spec.yaml` once, as `PageSpecSchema` in `@paperos/spec`
   (`SPEC_VERSIONS`), the `Codemod` interface and `migrateSpec()` as an identity skeleton; tooling is
   PAP-751 (`docs/platform/page-spec-versioning.md`).
 * **Dependencies.** `zod ^4.6.5` and `yaml ^2.9.1` are declared in `packages/spec/package.json` (not
-  in the root catalog yet: follow-up for the root owner); `tsx` runs the generator. `FilterTree` is a
-  local alias in `schema/filter.ts` mirroring PAP-279's shape with a `TODO(PAP-279)` naming the exact
-  import to switch to (`import { filterTreeSchema, type FilterTree } from '@paperos/core/filter'`).
+  in the root catalog yet: follow-up for the root owner); `tsx` runs the generator. `FilterTree` is
+  `filterTreeSchema` from `@paperos/core/filter` (PAP-279, ADR 0012), re-exported by
+  `schema/filter.ts` with named `$defs` (`FilterTree`, `FilterNode`); the spec never copies the grammar.
 
 ## Consequences
 
@@ -95,9 +96,10 @@ specified, in both languages. Placeholders are visible to dev mode by declaratio
 
 **Negative.** Interim `access`, `data` and `integrations` shapes will change under PAP-116/119/121;
 their fixtures will need updating (that is why they live in separate files). Requiring message keys
-means every fixture carries `default` text or a key, which is more typing than a sentence. The local
-`FilterTree` alias is a temporary duplicate until PAP-279 merges. Zod refinements are not in the JSON
-Schema, so editors see fewer errors than the validator.
+means every fixture carries `default` text or a key, which is more typing than a sentence. Importing
+`@paperos/core/filter` makes `@paperos/spec` depend on `@paperos/core` (allowed by the module
+boundary rule) and pulls the filter grammar's limits (depth 8, 200 conditions) into spec validation.
+Zod refinements are not in the JSON Schema, so editors see fewer errors than the validator.
 
 **Neutral.** JSON Schema formatting is Biome's, so the drift test compares structure, not bytes.
 Position mapping walks the YAML AST rather than keeping a CST; anchors resolve to the anchor's
@@ -123,8 +125,8 @@ position, which is the position of the merged document.
 
 ## Re-open criteria
 
-- **Fact.** PAP-279 merges `@paperos/core/filter` (remove the alias); PAP-74's registry fixes a
-  different `ComponentRef` grammar; PAP-375 needs a `MessageRef` shape other than `string | { id, default }`.
+- **Fact.** PAP-74's registry fixes a different `ComponentRef` grammar; PAP-375 needs a `MessageRef`
+  shape other than `string | { id, default }`; ADR 0012 changes the `FilterTree` shape.
 - **Budget.** A 300-spec validation run exceeds 2 s (PAP-115's budget) because of the AST position walk.
 - **Advisory.** A Zod 4 or `yaml` 2 advisory with no patched version within 14 days.
 
