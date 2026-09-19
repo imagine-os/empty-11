@@ -14,9 +14,9 @@ Numbers are pre-assigned by the plan; take yours, do not renumber.
 | 0004 | [local-first-sync](0004-local-first-sync.md) | PAP-31 | Accepted |
 | 0005 | crdt-library | PAP-139 | Planned |
 | 0006 | [canvas-and-editor-libraries](0006-canvas-and-editor-libraries.md) | PAP-127 | Accepted |
-| 0007 | payroll-provider | PAP-176 | Planned |
+| 0007 | [payroll-provider](0007-payroll-provider.md) | PAP-176 | Proposed |
 | 0008 | [crm-marketing-stack](0008-crm-marketing-stack.md) | PAP-188 | Proposed |
-| 0009 | library-evaluation-rubric | PAP-209 | Planned |
+| 0009 | [library-evaluation-rubric](0009-library-evaluation-rubric.md) | PAP-209 | Accepted |
 | 0010 | [branching-and-commits](0010-branching-and-commits.md) | PAP-46 | Accepted |
 | 0011 | shared-value-types | PAP-302 | Planned |
 | 0012 | filter-grammar | PAP-279 | Planned |
@@ -34,4 +34,5 @@ Numbers are pre-assigned by the plan; take yours, do not renumber.
 | 0024 | threat-model-baseline | PAP-219 | Planned |
 | 0025 | compose-smoke-workflow | PAP-754 | Planned |
 
-The ADR template lands with PAP-209 at `docs/adr/template.md`; until then copy 0001's headings.
+The ADR template is [`template.md`](template.md) (PAP-209, ADR 0009): PAP-130 frontmatter over
+ADR 0001's Nygard headings, plus the generated Alternatives table and Re-open criteria.

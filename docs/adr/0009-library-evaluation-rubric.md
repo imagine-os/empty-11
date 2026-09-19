@@ -116,8 +116,10 @@ retrofit, only that new ADRs use it.
 
 **Outstanding sign-off.** The spec asks for Atlas to approve weights and gates,
 Iris to confirm the a11y anchors and Sentinel to pass the CLI. Atlas and Iris
-are asked in comments on PAP-209; the CLI is not built in this session (see
-*Gaps*), so Sentinel's pass is deferred to the follow-up issue.
+are asked in comments on PAP-209; the CLI is not built in this session (the
+CLI, the Zod schemas, the facts collector and the worked example are listed as
+not-yet-delivered in `docs/changelog/unreleased/PAP-209.md`), so Sentinel's pass
+is deferred to the follow-up issue.
 
 ## Alternatives rejected
 
