@@ -32,7 +32,7 @@ Numbers are pre-assigned by the plan; take yours, do not renumber.
 | 0022 | [device-matrix](0022-device-matrix.md) | PAP-14 | Accepted |
 | 0023 | [review-rubrics](0023-review-rubrics.md) | PAP-79 | Accepted |
 | 0024 | threat-model-baseline | PAP-219 | Planned |
-| 0025 | compose-smoke-workflow | PAP-754 | Planned |
+| 0025 | [compose-smoke-workflow](0025-compose-smoke-workflow.md) | PAP-754 | Accepted |
 
 The ADR template is [`template.md`](template.md) (PAP-209, ADR 0009): PAP-130 frontmatter over
 ADR 0001's Nygard headings, plus the generated Alternatives table and Re-open criteria.

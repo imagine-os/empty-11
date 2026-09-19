@@ -15,6 +15,11 @@ or `-`), **Status** (`live`, `stub`, `planned`).
 | CLI | `pnpm build` — build every app; `BASE_PATH` and `VITE_GIT_SHA` are the build inputs | PAP-13 | - | live |
 | WebMCP | page actions registry (id, intent phrase, permission) per page | PAP-16 | per action | planned |
 | MCP | connector catalog | PAP-210 | per connector | planned |
+| CLI | `node ops/ci/compose-smoke/discover.mjs` — finds compose stacks under `ops/compose/**` and `spikes/oss-products/*` that ship a `smoke.json`, prints the CI job matrix | PAP-754 | - | live |
+| CLI | `node ops/ci/compose-smoke/probe.mjs --url <url>` — polls a health endpoint until it answers or a timeout elapses | PAP-754 | - | live |
+| CLI | `node ops/ci/compose-smoke/validate.mjs --type <smoke\|result> <file>` — validates a `smoke.json` config or a compose-smoke result JSON | PAP-754 | - | live |
+| CLI | `node ops/ci/compose-smoke/build-result.mjs` — assembles and validates one stack's result JSON from the workflow's captured numbers | PAP-754 | - | live |
+| Action | `compose-smoke` reusable workflow (`workflow_call`/`workflow_dispatch`) — runs every discovered compose stack, captures health and `docker stats`, uploads one result JSON per stack | PAP-754 | `contents: read` | live |
 | CLI | `commitlint --config ops/forge/commitlint.config.cjs` — enforce the commit grammar (types, scope, `Linear:` / `Character:` / session trailers) | PAP-46 | - | stub (config present, not wired to a hook or CI) |
 | CLI | `scripts/worktree.sh new\|done\|list PAP-<n>` — create and retire the per-issue worktree; exit 0 success, 2 refusal | PAP-46 | repo write | planned (contract frozen in `docs/platform/branching-and-commits.md` section 3.1) |
 | CLI | `scripts/apply-branch-policy.ts [--dry-run\|--apply\|--print-parity] --repo <slug>` — apply the forge rulesets idempotently | PAP-46 | forge admin | planned (Needs Justin to apply) |
