@@ -1,0 +1,44 @@
+{
+  "id": "libraries",
+  "title": "Library Discovery & Integration",
+  "kind": "process",
+  "version": "0.1.0",
+  "owner": {
+    "agent": "Scout",
+    "project": "libraries"
+  },
+  "provides": [
+    {
+      "contract": "@paperos/contract-libraries",
+      "version": "0.1.0",
+      "impl": "default"
+    }
+  ],
+  "requires": [
+    {
+      "contract": "@paperos/contract-collab",
+      "range": "^0.1.0",
+      "ports": ["DocsPort", "AdrPort"]
+    },
+    {
+      "contract": "@paperos/contract-quality",
+      "range": "^0.1.0",
+      "optional": true,
+      "ports": ["GateRunnerPort"]
+    }
+  ],
+  "capabilities": [
+    "library-records",
+    "rubric-scores",
+    "adr-frontmatter",
+    "license-policy",
+    "mcp-connectors",
+    "renovate-groups"
+  ],
+  "events": {
+    "publishes": ["libraries.evaluation.recorded"]
+  },
+  "swapRisk": "low",
+  "optional": true,
+  "issues": ["PAP-209", "PAP-210"]
+}

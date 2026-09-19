@@ -1,0 +1,41 @@
+{
+  "id": "design-system",
+  "title": "Design System",
+  "kind": "runtime",
+  "version": "0.1.0",
+  "owner": {
+    "agent": "Iris",
+    "project": "design-system"
+  },
+  "provides": [
+    {
+      "contract": "@paperos/contract-design-system",
+      "version": "0.1.0",
+      "impl": "default"
+    }
+  ],
+  "requires": [],
+  "capabilities": [
+    "component-registry",
+    "dtcg-tokens",
+    "theme",
+    "icons",
+    "motion",
+    "state-components"
+  ],
+  "slots": {
+    "fills": [
+      {
+        "slot": "shell.settings.sections",
+        "component": "ui.design.ThemeSection",
+        "order": 20
+      }
+    ]
+  },
+  "events": {
+    "publishes": ["design-system.theme.changed"]
+  },
+  "swapRisk": "high",
+  "optional": false,
+  "issues": ["PAP-66", "PAP-67"]
+}

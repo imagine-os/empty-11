@@ -1,0 +1,22 @@
+{
+  "id": "requires-range-mismatch",
+  "kind": "runtime",
+  "version": "0.1.0",
+  "owner": {
+    "agent": "Atlas",
+    "project": "module-system"
+  },
+  "provides": [
+    {
+      "contract": "@paperos/contract-requires-range-mismatch",
+      "version": "0.1.0"
+    }
+  ],
+  "requires": [
+    {
+      "contract": "@paperos/contract-collab",
+      "range": "^0.2.0"
+    }
+  ],
+  "swapRisk": "low"
+}

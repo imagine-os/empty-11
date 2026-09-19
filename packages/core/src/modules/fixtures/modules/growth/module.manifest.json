@@ -1,0 +1,71 @@
+{
+  "id": "growth",
+  "title": "Growth: Marketing, Outreach & CRM",
+  "kind": "runtime",
+  "version": "0.1.0",
+  "owner": {
+    "agent": "Beacon",
+    "project": "growth"
+  },
+  "provides": [
+    {
+      "contract": "@paperos/contract-growth",
+      "version": "0.1.0",
+      "impl": "default"
+    }
+  ],
+  "requires": [
+    {
+      "contract": "@paperos/contract-tables",
+      "range": "^0.1.0",
+      "ports": ["registerDataset", "ViewQueryPort"]
+    },
+    {
+      "contract": "@paperos/contract-data-layer",
+      "range": "^0.1.0",
+      "ports": ["RepositoryPort"]
+    },
+    {
+      "contract": "@paperos/contract-business-core",
+      "range": "^0.1.0",
+      "ports": ["EntitlementsPort"]
+    },
+    {
+      "contract": "@paperos/contract-collab",
+      "range": "^0.1.0",
+      "ports": ["NotificationPort"]
+    },
+    {
+      "contract": "@paperos/contract-agents",
+      "range": "^0.1.0",
+      "optional": true,
+      "ports": ["AgentRuntimePort"]
+    }
+  ],
+  "capabilities": [
+    "crm",
+    "social-adapters",
+    "outreach",
+    "landing-pages",
+    "attribution",
+    "segments",
+    "support-channels"
+  ],
+  "slots": {
+    "fills": [
+      {
+        "slot": "shell.nav",
+        "component": "ui.growth.CrmNav",
+        "order": 40
+      }
+    ]
+  },
+  "events": {
+    "publishes": ["growth.contact.created", "growth.campaign.sent"],
+    "subscribes": ["business-core.payment.settled"]
+  },
+  "swapRisk": "medium",
+  "optional": true,
+  "secrets": ["RESEND_API_KEY"],
+  "issues": ["PAP-188", "PAP-198"]
+}

@@ -1,0 +1,72 @@
+{
+  "id": "identity",
+  "title": "Identity, Roles & Audiences",
+  "kind": "runtime",
+  "version": "0.1.0",
+  "owner": {
+    "agent": "Forge",
+    "project": "identity"
+  },
+  "provides": [
+    {
+      "contract": "@paperos/contract-identity",
+      "version": "0.1.0",
+      "impl": "default"
+    }
+  ],
+  "requires": [
+    {
+      "contract": "@paperos/contract-data-layer",
+      "range": "^0.1.0",
+      "ports": ["RepositoryPort", "UnitOfWorkPort"]
+    }
+  ],
+  "capabilities": [
+    "authentication",
+    "permission",
+    "tenant",
+    "membership",
+    "audiences",
+    "impersonation"
+  ],
+  "slots": {
+    "fills": [
+      {
+        "slot": "shell.userMenu",
+        "component": "ui.identity.UserMenu",
+        "order": 10
+      },
+      {
+        "slot": "shell.tenantSwitcher",
+        "component": "ui.identity.TenantSwitcher",
+        "order": 0
+      }
+    ]
+  },
+  "events": {
+    "publishes": [
+      "identity.session.started",
+      "identity.session.ended",
+      "identity.membership.changed"
+    ]
+  },
+  "swapRisk": "critical",
+  "entities": [
+    {
+      "name": "Tenant",
+      "table": "tenants"
+    },
+    {
+      "name": "User",
+      "table": "users"
+    },
+    {
+      "name": "Membership",
+      "table": "memberships"
+    }
+  ],
+  "permissions": ["identity.user.read", "identity.user.invite", "identity.impersonate"],
+  "optional": false,
+  "dependsOn": ["data-layer"],
+  "issues": ["PAP-55", "PAP-56"]
+}

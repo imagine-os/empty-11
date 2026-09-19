@@ -1,0 +1,60 @@
+{
+  "id": "agents",
+  "title": "Agent Characters & Orgs",
+  "kind": "tooling",
+  "version": "0.1.0",
+  "owner": {
+    "agent": "Atlas",
+    "project": "agents"
+  },
+  "provides": [
+    {
+      "contract": "@paperos/contract-agents",
+      "version": "0.1.0",
+      "impl": "default"
+    }
+  ],
+  "requires": [
+    {
+      "contract": "@paperos/contract-identity",
+      "range": "^0.1.0",
+      "ports": ["PrincipalPort"]
+    },
+    {
+      "contract": "@paperos/contract-pm-linear",
+      "range": "^0.1.0",
+      "ports": ["PmSourcePort", "QueuePort"]
+    },
+    {
+      "contract": "@paperos/contract-collab",
+      "range": "^0.1.0",
+      "ports": ["PromptLogPort"]
+    }
+  ],
+  "capabilities": [
+    "character-schema",
+    "handoff",
+    "session-status",
+    "agent-runtime",
+    "budget",
+    "prompt-log",
+    "skills",
+    "mcp-allowlist"
+  ],
+  "slots": {
+    "fills": [
+      {
+        "slot": "shell.header.actions",
+        "component": "ui.agents.RunButton",
+        "order": 10
+      }
+    ]
+  },
+  "events": {
+    "publishes": ["agents.session.started", "agents.handoff.written"],
+    "subscribes": ["pm-linear.issue.transitioned"]
+  },
+  "swapRisk": "medium",
+  "optional": true,
+  "issues": ["PAP-103", "PAP-104"]
+}

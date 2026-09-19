@@ -1,0 +1,23 @@
+{
+  "id": "depends-on-disagrees",
+  "kind": "runtime",
+  "version": "0.1.0",
+  "owner": {
+    "agent": "Atlas",
+    "project": "module-system"
+  },
+  "provides": [
+    {
+      "contract": "@paperos/contract-depends-on-disagrees",
+      "version": "0.1.0"
+    }
+  ],
+  "requires": [
+    {
+      "contract": "@paperos/contract-identity",
+      "range": "^0.1.0"
+    }
+  ],
+  "swapRisk": "low",
+  "dependsOn": ["data-layer"]
+}

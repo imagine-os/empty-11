@@ -39,6 +39,9 @@ Here now:
   port, the Airtable / Notion / ClickUp equivalence column and the planned `dataset|field|record|view`
   tables (PAP-161, ADR 0016). Generated JSON Schema lives beside the code in
   `packages/views/schema/`.
+* [`manifest.md`](manifest.md) — module manifest field reference, diagnostic codes, the
+  `modules:validate` CLI and the eighteen golden fixtures (PAP-433, ADR 0014). The schema lives in
+  `packages/core/src/modules/manifest.ts`; its JSON Schema is generated beside it.
 
 * [`page-spec.md`](page-spec.md) — **generated** field reference and issue codes of `page.spec.yaml`
   v1 (`pnpm --filter @paperos/spec gen:schemas`, PAP-114, ADR 0015). Never hand-edited.

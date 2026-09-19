@@ -1,0 +1,17 @@
+{
+  "id": "owner-unknown",
+  "kind": "runtime",
+  "version": "0.1.0",
+  "owner": {
+    "agent": "Atlas",
+    "project": "not-a-project"
+  },
+  "provides": [
+    {
+      "contract": "@paperos/contract-owner-unknown",
+      "version": "0.1.0"
+    }
+  ],
+  "requires": [],
+  "swapRisk": "low"
+}

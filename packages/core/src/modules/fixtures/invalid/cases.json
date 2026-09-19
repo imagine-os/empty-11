@@ -1,0 +1,91 @@
+[
+  {
+    "code": "SCHEMA_INVALID",
+    "subject": "schema-invalid.json",
+    "withGoldens": false,
+    "others": [],
+    "contracts": null,
+    "why": "An unknown field (`swapRick`, a typo for `swapRisk`) \u2014 additionalProperties is false, so a typo fails loudly instead of being silently ignored."
+  },
+  {
+    "code": "OWNER_UNKNOWN",
+    "subject": "owner-unknown.json",
+    "withGoldens": false,
+    "others": [],
+    "contracts": null,
+    "why": "`owner.project` is not a project key in plan.json. The agent is an enum in the schema; the project list moves, so the validator owns it."
+  },
+  {
+    "code": "REQUIRES_UNRESOLVED",
+    "subject": "requires-unresolved.json",
+    "withGoldens": true,
+    "others": [],
+    "contracts": null,
+    "why": "A non-optional requirement no module in the workspace provides."
+  },
+  {
+    "code": "REQUIRES_RANGE_MISMATCH",
+    "subject": "requires-range-mismatch.json",
+    "withGoldens": true,
+    "others": [],
+    "contracts": null,
+    "why": "collab provides `@paperos/contract-collab` 0.1.0; this module asks for ^0.2.0. Pre-1.0, a minor bump is breaking."
+  },
+  {
+    "code": "DEPENDS_ON_DISAGREES",
+    "subject": "depends-on-disagrees.json",
+    "withGoldens": true,
+    "others": [],
+    "contracts": null,
+    "why": "`dependsOn` says data-layer, `requires` derives identity. dependsOn is derived, never authored against the grain."
+  },
+  {
+    "code": "SLOT_UNKNOWN",
+    "subject": "slot-unknown.json",
+    "withGoldens": true,
+    "others": [],
+    "contracts": null,
+    "why": "A fill targeting `shell.nope`, which no module exposes."
+  },
+  {
+    "code": "TOPIC_UNDECLARED",
+    "subject": "topic-undeclared.json",
+    "withGoldens": false,
+    "others": [],
+    "contracts": {
+      "@paperos/contract-topic-undeclared": {
+        "version": "0.1.0",
+        "topics": ["topic-undeclared.other.thing"]
+      }
+    },
+    "why": "The module publishes a topic its own contract package does not declare. Checked only when the contract package resolved."
+  },
+  {
+    "code": "DUPLICATE_PROVIDER",
+    "subject": "duplicate-provider.json",
+    "withGoldens": true,
+    "others": [],
+    "contracts": null,
+    "why": "A second module providing `@paperos/contract-tables` under the same `impl`. Two implementations are fine; two with the same name are not."
+  },
+  {
+    "code": "PROVIDES_VERSION_MISMATCH",
+    "subject": "provides-version-mismatch.json",
+    "withGoldens": false,
+    "others": [],
+    "contracts": {
+      "@paperos/contract-provides-version-mismatch": {
+        "version": "0.1.0"
+      }
+    },
+    "why": "The manifest declares contract 0.2.0 while the contract package is at 0.1.0."
+  },
+  {
+    "code": "CYCLE",
+    "subject": "cycle-a.json",
+    "withGoldens": false,
+    "others": ["cycle-b.json"],
+    "contracts": null,
+    "why": "Two modules that require each other non-optionally. The message names the whole path."
+  }
+]

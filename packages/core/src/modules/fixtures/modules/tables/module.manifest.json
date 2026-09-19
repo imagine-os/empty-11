@@ -1,0 +1,89 @@
+{
+  "id": "tables",
+  "title": "Table & Views Engine",
+  "kind": "runtime",
+  "version": "0.1.0",
+  "owner": {
+    "agent": "Nova",
+    "project": "tables"
+  },
+  "provides": [
+    {
+      "contract": "@paperos/contract-tables",
+      "version": "0.1.0",
+      "impl": "default"
+    }
+  ],
+  "requires": [
+    {
+      "contract": "@paperos/contract-data-layer",
+      "range": "^0.1.0",
+      "ports": ["RepositoryPort", "UnitOfWorkPort"]
+    },
+    {
+      "contract": "@paperos/contract-identity",
+      "range": "^0.1.0",
+      "ports": ["PermissionPort"]
+    },
+    {
+      "contract": "@paperos/contract-design-system",
+      "range": "^0.1.0",
+      "ports": ["ComponentRegistry"]
+    },
+    {
+      "contract": "@paperos/contract-input",
+      "range": "^0.1.0",
+      "ports": ["DragSensor", "CommandRegistry"]
+    }
+  ],
+  "capabilities": [
+    "view-spec",
+    "field-defs",
+    "dataset-registration",
+    "view-query",
+    "renderers",
+    "field-plugins",
+    "formulas",
+    "automations"
+  ],
+  "slots": {
+    "fills": [
+      {
+        "slot": "view.toolbar",
+        "component": "ui.tables.ViewToolbar",
+        "order": 0
+      },
+      {
+        "slot": "dashboard.blocks",
+        "component": "ui.tables.ViewBlock",
+        "order": 10
+      }
+    ]
+  },
+  "events": {
+    "publishes": ["tables.view.created", "tables.record.updated"],
+    "subscribes": ["data-layer.outbox.flushed"]
+  },
+  "swapRisk": "high",
+  "entities": [
+    {
+      "name": "View",
+      "table": "views"
+    },
+    {
+      "name": "Record",
+      "table": "records"
+    }
+  ],
+  "optional": true,
+  "dependsOn": ["data-layer", "design-system", "identity", "input"],
+  "resilience": {
+    "ViewQueryPort": {
+      "timeoutMs": 8000,
+      "retries": 1,
+      "backoff": "fixed",
+      "fallback": "cache"
+    }
+  },
+  "issues": ["PAP-161", "PAP-279"]
+}

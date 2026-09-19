@@ -1,0 +1,54 @@
+{
+  "id": "input",
+  "title": "Multi-Input Control & Accessibility",
+  "kind": "runtime",
+  "version": "0.1.0",
+  "owner": {
+    "agent": "Nova",
+    "project": "input"
+  },
+  "provides": [
+    {
+      "contract": "@paperos/contract-input",
+      "version": "0.1.0",
+      "impl": "default"
+    }
+  ],
+  "requires": [
+    {
+      "contract": "@paperos/contract-app-shell",
+      "range": "^0.1.0",
+      "ports": ["SlotPort", "CommandRegistry"]
+    },
+    {
+      "contract": "@paperos/contract-design-system",
+      "range": "^0.1.0",
+      "ports": ["MotionTokens"]
+    }
+  ],
+  "capabilities": [
+    "input-events",
+    "command-registry",
+    "keymaps",
+    "focus",
+    "dnd-sensors",
+    "voice-routing",
+    "gamepad",
+    "tv-remote"
+  ],
+  "slots": {
+    "fills": [
+      {
+        "slot": "shell.commandBar",
+        "component": "ui.input.CommandPalette",
+        "order": 0
+      }
+    ]
+  },
+  "events": {
+    "publishes": ["input.command.invoked"]
+  },
+  "swapRisk": "low",
+  "optional": true,
+  "issues": ["PAP-150", "PAP-152"]
+}

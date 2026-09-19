@@ -1,0 +1,55 @@
+{
+  "id": "spec-builder",
+  "title": "Spec Builder",
+  "kind": "tooling",
+  "version": "0.1.0",
+  "owner": {
+    "agent": "Quill",
+    "project": "spec-builder"
+  },
+  "provides": [
+    {
+      "contract": "@paperos/contract-spec-builder",
+      "version": "0.1.0",
+      "impl": "default"
+    }
+  ],
+  "requires": [
+    {
+      "contract": "@paperos/contract-design-system",
+      "range": "^0.1.0",
+      "ports": ["ComponentRegistry"]
+    },
+    {
+      "contract": "@paperos/contract-identity",
+      "range": "^0.1.0",
+      "ports": ["PermissionPort"]
+    },
+    {
+      "contract": "@paperos/contract-data-layer",
+      "range": "^0.1.0",
+      "ports": ["RepositoryPort"]
+    },
+    {
+      "contract": "@paperos/contract-app-shell",
+      "range": "^0.1.0",
+      "ports": ["RouteContribution", "SlotPort"]
+    }
+  ],
+  "capabilities": ["page-spec", "app-spec", "validator", "generators", "flow-graph"],
+  "slots": {
+    "fills": [
+      {
+        "slot": "shell.settings.sections",
+        "component": "ui.spec.SpecSection",
+        "order": 40
+      }
+    ]
+  },
+  "events": {
+    "publishes": ["spec-builder.spec.generated"]
+  },
+  "swapRisk": "high",
+  "optional": true,
+  "issues": ["PAP-114", "PAP-118"]
+}

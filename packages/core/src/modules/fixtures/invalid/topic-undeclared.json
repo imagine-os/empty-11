@@ -1,0 +1,20 @@
+{
+  "id": "topic-undeclared",
+  "kind": "runtime",
+  "version": "0.1.0",
+  "owner": {
+    "agent": "Atlas",
+    "project": "module-system"
+  },
+  "provides": [
+    {
+      "contract": "@paperos/contract-topic-undeclared",
+      "version": "0.1.0"
+    }
+  ],
+  "requires": [],
+  "swapRisk": "low",
+  "events": {
+    "publishes": ["topic-undeclared.thing.happened"]
+  }
+}

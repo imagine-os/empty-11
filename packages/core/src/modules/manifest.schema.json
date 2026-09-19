@@ -1,0 +1,550 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://paperos.dev/schema/module-manifest/1",
+  "x-generated-by": "pnpm --filter @paperos/core gen:schemas (packages/core/src/modules/gen-schemas.ts)",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]+$",
+      "description": "Module id, unique in a workspace."
+    },
+    "title": {
+      "description": "Human name; the UI reads the catalog, not this.",
+      "type": "string",
+      "minLength": 1
+    },
+    "kind": {
+      "type": "string",
+      "enum": [
+        "runtime",
+        "service",
+        "tooling",
+        "process",
+        "kernel"
+      ]
+    },
+    "version": {
+      "type": "string",
+      "description": "semver of the implementation."
+    },
+    "owner": {
+      "type": "object",
+      "properties": {
+        "agent": {
+          "type": "string",
+          "enum": [
+            "Atlas",
+            "Forge",
+            "Iris",
+            "Quill",
+            "Sentinel",
+            "Nova",
+            "Ledger",
+            "Beacon",
+            "Scout"
+          ],
+          "description": "Roster character that owns the contract."
+        },
+        "project": {
+          "type": "string",
+          "description": "Linear project key from plan.json."
+        }
+      },
+      "required": [
+        "agent",
+        "project"
+      ],
+      "additionalProperties": false,
+      "description": "Who may bump this module’s contract version."
+    },
+    "provides": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "contract": {
+            "type": "string",
+            "pattern": "^@paperos\\/contract-[a-z][a-z0-9-]*$",
+            "description": "Contract package name, `@paperos/contract-<module>`."
+          },
+          "version": {
+            "type": "string",
+            "description": "Contract version this module implements."
+          },
+          "impl": {
+            "default": "default",
+            "description": "Implementation name; two implementations of one contract differ here.",
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*$"
+          }
+        },
+        "required": [
+          "contract",
+          "version"
+        ],
+        "additionalProperties": false,
+        "description": "A contract this module implements."
+      }
+    },
+    "requires": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "contract": {
+            "type": "string",
+            "pattern": "^@paperos\\/contract-[a-z][a-z0-9-]*$",
+            "description": "Contract package name, `@paperos/contract-<module>`."
+          },
+          "range": {
+            "type": "string",
+            "description": "semver range; pre-1.0 uses `^0.x` (minor is breaking)."
+          },
+          "optional": {
+            "default": false,
+            "description": "The module boots without it and `resolve` returns undefined.",
+            "type": "boolean"
+          },
+          "ports": {
+            "default": [],
+            "description": "Ports actually used, so the compatibility matrix can say what breaks whom.",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "required": [
+          "contract",
+          "range"
+        ],
+        "additionalProperties": false,
+        "description": "A contract this module consumes."
+      }
+    },
+    "capabilities": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "slots": {
+      "type": "object",
+      "properties": {
+        "exposes": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z][a-zA-Z0-9-]*(\\.[a-z][a-zA-Z0-9-]*)+$",
+                "description": "UI slot id, e.g. `shell.nav`."
+              },
+              "props": {
+                "description": "JSON Schema for the slot props.",
+                "type": "object",
+                "propertyNames": {
+                  "type": "string"
+                },
+                "additionalProperties": {}
+              },
+              "description": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id"
+            ],
+            "additionalProperties": false,
+            "description": "A named extension point this module renders."
+          }
+        },
+        "fills": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "slot": {
+                "type": "string",
+                "pattern": "^[a-z][a-zA-Z0-9-]*(\\.[a-z][a-zA-Z0-9-]*)+$",
+                "description": "UI slot id, e.g. `shell.nav`."
+              },
+              "component": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Registered `ui.<component>` id or a lazy import specifier."
+              },
+              "order": {
+                "description": "Ascending render order inside the slot.",
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              },
+              "when": {
+                "description": "Guard expression, e.g. `can(\"tables.read\")` or `flag(\"x\")`.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "slot",
+              "component"
+            ],
+            "additionalProperties": false,
+            "description": "A contribution into another module’s slot."
+          }
+        }
+      },
+      "additionalProperties": false,
+      "description": "UI extension points exposed and filled."
+    },
+    "events": {
+      "type": "object",
+      "properties": {
+        "publishes": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*(\\.[a-z][a-z0-9-]*)+$",
+            "description": "Event topic name."
+          }
+        },
+        "subscribes": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*(\\.[a-z][a-z0-9-]*)+$",
+            "description": "Event topic name."
+          }
+        }
+      },
+      "additionalProperties": false,
+      "description": "Event topics, declared in the publishing module’s contract package."
+    },
+    "swapRisk": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ]
+    },
+    "routes": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "pattern": "^\\/",
+            "description": "Route path contributed to the shell router."
+          },
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "layout": {
+            "type": "string",
+            "minLength": 1
+          },
+          "permission": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "path"
+        ],
+        "additionalProperties": false,
+        "description": "PAP-264 route contribution."
+      }
+    },
+    "navItems": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "labelKey": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Message catalog key; never a literal label."
+          },
+          "to": {
+            "type": "string",
+            "pattern": "^\\/"
+          },
+          "icon": {
+            "type": "string",
+            "minLength": 1
+          },
+          "order": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "permission": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "id",
+          "labelKey",
+          "to"
+        ],
+        "additionalProperties": false,
+        "description": "PAP-264 navigation entry."
+      }
+    },
+    "entities": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "table": {
+            "type": "string",
+            "minLength": 1
+          },
+          "contract": {
+            "description": "Contract that owns the entity’s type.",
+            "type": "string",
+            "pattern": "^@paperos\\/contract-[a-z][a-z0-9-]*$"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "additionalProperties": false,
+        "description": "PAP-264 entity contributed by this module."
+      }
+    },
+    "permissions": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "jobs": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "schedule": {
+            "description": "Cron expression, or absent for on-demand.",
+            "type": "string",
+            "minLength": 1
+          },
+          "queue": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "additionalProperties": false,
+        "description": "PAP-264 background job."
+      }
+    },
+    "settingsSchema": {
+      "description": "JSON Schema of the module’s config.",
+      "type": "object",
+      "propertyNames": {
+        "type": "string"
+      },
+      "additionalProperties": {}
+    },
+    "integrations": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "kind": {
+            "default": "other",
+            "type": "string",
+            "enum": [
+              "api",
+              "webhook",
+              "oauth",
+              "smtp",
+              "storage",
+              "other"
+            ]
+          },
+          "optional": {
+            "default": true,
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "additionalProperties": false,
+        "description": "PAP-264 third-party integration."
+      }
+    },
+    "optional": {
+      "default": true,
+      "description": "False for a core module that cannot be disabled.",
+      "type": "boolean"
+    },
+    "dependsOn": {
+      "description": "Deprecated (PAP-264): derived from `requires`; must agree when both are present.",
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9-]+$",
+        "description": "Module id, unique in a workspace."
+      }
+    },
+    "secrets": {
+      "default": [],
+      "description": "PAP-444: secret names only, never values.",
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "lifecycle": {
+      "type": "object",
+      "properties": {
+        "startupBudgetMs": {
+          "type": "integer",
+          "exclusiveMinimum": 0,
+          "maximum": 9007199254740991
+        },
+        "healthIntervalMs": {
+          "type": "integer",
+          "exclusiveMinimum": 0,
+          "maximum": 9007199254740991
+        },
+        "drainTimeoutMs": {
+          "type": "integer",
+          "exclusiveMinimum": 0,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "startupBudgetMs",
+        "healthIntervalMs",
+        "drainTimeoutMs"
+      ],
+      "additionalProperties": false,
+      "description": "PAP-546 lifecycle and health budgets."
+    },
+    "resilience": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string",
+        "minLength": 1
+      },
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "timeoutMs": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          },
+          "retries": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "backoff": {
+            "type": "string",
+            "enum": [
+              "none",
+              "fixed",
+              "exponential"
+            ]
+          },
+          "circuitBreaker": {
+            "type": "object",
+            "properties": {
+              "failureThreshold": {
+                "type": "integer",
+                "exclusiveMinimum": 0,
+                "maximum": 9007199254740991
+              },
+              "resetMs": {
+                "type": "integer",
+                "exclusiveMinimum": 0,
+                "maximum": 9007199254740991
+              }
+            },
+            "required": [
+              "failureThreshold",
+              "resetMs"
+            ],
+            "additionalProperties": false
+          },
+          "fallback": {
+            "type": "string",
+            "enum": [
+              "none",
+              "cache",
+              "degrade",
+              "queue"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "description": "PAP-548 resilience policy for one port."
+      }
+    },
+    "issues": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^PAP-[0-9]+$"
+      }
+    }
+  },
+  "required": [
+    "id",
+    "kind",
+    "version",
+    "owner",
+    "provides",
+    "requires",
+    "swapRisk"
+  ],
+  "additionalProperties": false,
+  "description": "PaperOS module manifest (Module System section 1.2).",
+  "title": "PaperOS module manifest"
+}

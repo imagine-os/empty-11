@@ -21,7 +21,7 @@ Numbers are pre-assigned by the plan; take yours, do not renumber.
 | 0011 | shared-value-types | PAP-302 | Planned |
 | 0012 | [filter-grammar](0012-filter-grammar.md) | PAP-279 | Accepted |
 | 0013 | [domain-events-outbox](0013-domain-events-outbox.md) | PAP-555 | Accepted |
-| 0014 | module-manifest | PAP-433 | Planned |
+| 0014 | [module-manifest](0014-module-manifest.md) | PAP-433 | Accepted |
 | 0015 | [page-spec-schema](0015-page-spec-schema.md) | PAP-114 | Accepted |
 | 0016 | [view-model](0016-view-model.md) | PAP-161 | Accepted |
 | 0017 | audience-model | PAP-55 | Planned |

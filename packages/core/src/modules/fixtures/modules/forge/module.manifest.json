@@ -1,0 +1,56 @@
+{
+  "id": "forge",
+  "title": "Version Control & Forge Independence",
+  "kind": "service",
+  "version": "0.1.0",
+  "owner": {
+    "agent": "Forge",
+    "project": "forge"
+  },
+  "provides": [
+    {
+      "contract": "@paperos/contract-forge",
+      "version": "0.1.0",
+      "impl": "default"
+    }
+  ],
+  "requires": [
+    {
+      "contract": "@paperos/contract-identity",
+      "range": "^0.1.0",
+      "ports": ["PrincipalPort"]
+    },
+    {
+      "contract": "@paperos/contract-quality",
+      "range": "^0.1.0",
+      "optional": true,
+      "ports": ["GateRunnerPort"]
+    }
+  ],
+  "capabilities": ["repos", "trees", "commits", "pull-requests", "mirror-status", "ci-runner"],
+  "events": {
+    "publishes": ["forge.push.received", "forge.mirror.diverged"],
+    "subscribes": ["quality.gate.completed"]
+  },
+  "swapRisk": "medium",
+  "optional": true,
+  "secrets": ["FORGEJO_TOKEN", "GITHUB_TOKEN"],
+  "lifecycle": {
+    "startupBudgetMs": 3000,
+    "healthIntervalMs": 30000,
+    "drainTimeoutMs": 20000
+  },
+  "resilience": {
+    "ForgePort": {
+      "timeoutMs": 10000,
+      "retries": 3,
+      "backoff": "exponential",
+      "circuitBreaker": {
+        "failureThreshold": 5,
+        "resetMs": 60000
+      },
+      "fallback": "queue"
+    }
+  },
+  "issues": ["PAP-44", "PAP-46"]
+}

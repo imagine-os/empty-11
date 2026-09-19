@@ -1,0 +1,71 @@
+{
+  "id": "collab",
+  "title": "In-App Collaboration & Knowledge",
+  "kind": "runtime",
+  "version": "0.1.0",
+  "owner": {
+    "agent": "Nova",
+    "project": "collab"
+  },
+  "provides": [
+    {
+      "contract": "@paperos/contract-collab",
+      "version": "0.1.0",
+      "impl": "default"
+    }
+  ],
+  "requires": [
+    {
+      "contract": "@paperos/contract-data-layer",
+      "range": "^0.1.0",
+      "ports": ["RepositoryPort"]
+    },
+    {
+      "contract": "@paperos/contract-identity",
+      "range": "^0.1.0",
+      "ports": ["PrincipalPort"]
+    },
+    {
+      "contract": "@paperos/contract-realtime",
+      "range": "^0.1.0",
+      "ports": ["RoomPort", "PresencePort"]
+    },
+    {
+      "contract": "@paperos/contract-design-system",
+      "range": "^0.1.0",
+      "ports": ["ComponentRegistry"]
+    }
+  ],
+  "capabilities": ["comments", "docs", "prompt-log", "changelog", "notifications", "adr"],
+  "slots": {
+    "fills": [
+      {
+        "slot": "record.panel.tabs",
+        "component": "ui.collab.CommentsTab",
+        "order": 10
+      },
+      {
+        "slot": "shell.inspector",
+        "component": "ui.collab.Inspector",
+        "order": 20
+      }
+    ]
+  },
+  "events": {
+    "publishes": ["collab.comment.created", "collab.notification.sent"],
+    "subscribes": ["realtime.room.joined"]
+  },
+  "swapRisk": "medium",
+  "entities": [
+    {
+      "name": "Comment",
+      "table": "comments"
+    },
+    {
+      "name": "Document",
+      "table": "documents"
+    }
+  ],
+  "optional": true,
+  "issues": ["PAP-127", "PAP-133"]
+}

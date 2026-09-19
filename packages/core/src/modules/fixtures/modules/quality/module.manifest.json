@@ -1,0 +1,48 @@
+{
+  "id": "quality",
+  "title": "Quality Pipeline",
+  "kind": "tooling",
+  "version": "0.1.0",
+  "owner": {
+    "agent": "Sentinel",
+    "project": "quality"
+  },
+  "provides": [
+    {
+      "contract": "@paperos/contract-quality",
+      "version": "0.1.0",
+      "impl": "default"
+    }
+  ],
+  "requires": [
+    {
+      "contract": "@paperos/contract-forge",
+      "range": "^0.1.0",
+      "ports": ["ForgePort"]
+    },
+    {
+      "contract": "@paperos/contract-pm-linear",
+      "range": "^0.1.0",
+      "ports": ["PmSourcePort"]
+    }
+  ],
+  "capabilities": ["gate-artefacts", "findings", "gate-runner", "rc-manifest"],
+  "slots": {
+    "fills": [
+      {
+        "slot": "shell.nav",
+        "component": "ui.quality.GatesNav",
+        "order": 60,
+        "when": "can(\"quality.gate.read\")"
+      }
+    ]
+  },
+  "events": {
+    "publishes": ["quality.gate.completed", "quality.finding.raised"],
+    "subscribes": ["forge.push.received", "pm-linear.issue.transitioned"]
+  },
+  "swapRisk": "medium",
+  "optional": true,
+  "dependsOn": ["forge", "pm-linear"],
+  "issues": ["PAP-79", "PAP-239"]
+}

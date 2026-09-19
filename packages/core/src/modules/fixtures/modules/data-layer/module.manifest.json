@@ -1,0 +1,75 @@
+{
+  "id": "data-layer",
+  "title": "Data Layer & Database",
+  "kind": "runtime",
+  "version": "0.1.0",
+  "owner": {
+    "agent": "Forge",
+    "project": "data-layer"
+  },
+  "provides": [
+    {
+      "contract": "@paperos/contract-data-layer",
+      "version": "0.1.0",
+      "impl": "default"
+    }
+  ],
+  "requires": [
+    {
+      "contract": "@paperos/contract-identity",
+      "range": "^0.1.0",
+      "optional": true,
+      "ports": ["PrincipalPort"]
+    }
+  ],
+  "capabilities": [
+    "tenant-context",
+    "repositories",
+    "unit-of-work",
+    "event-bus",
+    "jobs",
+    "files",
+    "search",
+    "audit",
+    "sync",
+    "email",
+    "idempotency"
+  ],
+  "events": {
+    "publishes": ["data-layer.job.completed", "data-layer.outbox.flushed"]
+  },
+  "swapRisk": "critical",
+  "entities": [
+    {
+      "name": "Event",
+      "table": "events",
+      "contract": "@paperos/contract-data-layer"
+    },
+    {
+      "name": "Job",
+      "table": "jobs"
+    },
+    {
+      "name": "Audit",
+      "table": "audit_log"
+    },
+    {
+      "name": "File",
+      "table": "files"
+    }
+  ],
+  "jobs": [
+    {
+      "name": "outbox-flush",
+      "schedule": "*/1 * * * *",
+      "queue": "default"
+    }
+  ],
+  "optional": false,
+  "lifecycle": {
+    "startupBudgetMs": 2000,
+    "healthIntervalMs": 15000,
+    "drainTimeoutMs": 30000
+  },
+  "issues": ["PAP-31", "PAP-303", "PAP-555"]
+}

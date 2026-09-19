@@ -19,3 +19,5 @@ export const PAPEROS_VERSION = '0.1.0' as const;
 export * from './events/index.js';
 
 export * from './filter/index.js';
+/** Module manifest schema, `defineModule()` and the validator (ADR 0014). */
+export * from './modules/index.js';

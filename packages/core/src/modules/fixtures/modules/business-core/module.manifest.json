@@ -1,0 +1,80 @@
+{
+  "id": "business-core",
+  "title": "Business Core: Payments, Finance & Payroll",
+  "kind": "runtime",
+  "version": "0.1.0",
+  "owner": {
+    "agent": "Ledger",
+    "project": "business-core"
+  },
+  "provides": [
+    {
+      "contract": "@paperos/contract-business-core",
+      "version": "0.1.0",
+      "impl": "default"
+    }
+  ],
+  "requires": [
+    {
+      "contract": "@paperos/contract-data-layer",
+      "range": "^0.1.0",
+      "ports": ["RepositoryPort"]
+    },
+    {
+      "contract": "@paperos/contract-identity",
+      "range": "^0.1.0",
+      "ports": ["PermissionPort"]
+    },
+    {
+      "contract": "@paperos/contract-tables",
+      "range": "^0.1.0",
+      "ports": ["registerDataset"]
+    }
+  ],
+  "capabilities": [
+    "finance-model",
+    "ledger",
+    "posting-rules",
+    "billing",
+    "payments",
+    "tax",
+    "payroll",
+    "documents",
+    "entitlements"
+  ],
+  "slots": {
+    "fills": [
+      {
+        "slot": "dashboard.blocks",
+        "component": "ui.business.RevenueBlock",
+        "order": 20
+      }
+    ]
+  },
+  "events": {
+    "publishes": ["business-core.invoice.issued", "business-core.payment.settled"],
+    "subscribes": ["tables.record.updated"]
+  },
+  "swapRisk": "high",
+  "entities": [
+    {
+      "name": "LedgerEntry",
+      "table": "ledger_entries"
+    }
+  ],
+  "optional": true,
+  "secrets": ["STRIPE_SECRET_KEY", "STRIPE_WEBHOOK_SECRET"],
+  "resilience": {
+    "PaymentsPort": {
+      "timeoutMs": 15000,
+      "retries": 2,
+      "backoff": "exponential",
+      "circuitBreaker": {
+        "failureThreshold": 4,
+        "resetMs": 120000
+      },
+      "fallback": "queue"
+    }
+  },
+  "issues": ["PAP-176", "PAP-188"]
+}

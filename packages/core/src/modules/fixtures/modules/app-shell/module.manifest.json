@@ -1,0 +1,137 @@
+{
+  "id": "app-shell",
+  "title": "Universal App Shell",
+  "kind": "runtime",
+  "version": "0.1.0",
+  "owner": {
+    "agent": "Forge",
+    "project": "app-shell"
+  },
+  "provides": [
+    {
+      "contract": "@paperos/contract-app-shell",
+      "version": "0.1.0",
+      "impl": "default"
+    }
+  ],
+  "requires": [
+    {
+      "contract": "@paperos/contract-identity",
+      "range": "^0.1.0",
+      "ports": ["AuthPort", "PermissionPort"]
+    },
+    {
+      "contract": "@paperos/contract-design-system",
+      "range": "^0.1.0",
+      "ports": ["ThemePort", "IconPort"]
+    },
+    {
+      "contract": "@paperos/contract-spec-builder",
+      "range": "^0.1.0",
+      "optional": true,
+      "ports": ["GeneratorPlugin"]
+    }
+  ],
+  "capabilities": [
+    "routing",
+    "layout",
+    "window-manager",
+    "config",
+    "secrets",
+    "flags",
+    "i18n",
+    "native-capabilities"
+  ],
+  "slots": {
+    "exposes": [
+      {
+        "id": "shell.nav",
+        "description": "Primary navigation rail."
+      },
+      {
+        "id": "shell.sidebar",
+        "description": "Contextual sidebar beside the route outlet."
+      },
+      {
+        "id": "shell.inspector",
+        "description": "Right-hand inspector panel."
+      },
+      {
+        "id": "shell.commandBar",
+        "description": "Command palette entries and input handlers."
+      },
+      {
+        "id": "shell.header.actions",
+        "description": "Actions in the app header."
+      },
+      {
+        "id": "shell.userMenu",
+        "description": "Entries in the signed-in user menu."
+      },
+      {
+        "id": "shell.tenantSwitcher",
+        "description": "Tenant picker contents."
+      },
+      {
+        "id": "shell.settings.sections",
+        "description": "Sections of the settings page."
+      },
+      {
+        "id": "record.panel.tabs",
+        "description": "Tabs on a record detail panel."
+      },
+      {
+        "id": "view.toolbar",
+        "description": "Controls above a table or board view."
+      },
+      {
+        "id": "dashboard.blocks",
+        "description": "Blocks a dashboard can place."
+      }
+    ]
+  },
+  "events": {
+    "publishes": ["app-shell.route.changed", "app-shell.window.detached"],
+    "subscribes": ["identity.session.ended"]
+  },
+  "swapRisk": "critical",
+  "routes": [
+    {
+      "path": "/",
+      "id": "shell.root",
+      "layout": "shell"
+    },
+    {
+      "path": "/settings",
+      "id": "shell.settings",
+      "permission": "settings.read"
+    }
+  ],
+  "navItems": [
+    {
+      "id": "shell.home",
+      "labelKey": "nav.home",
+      "to": "/",
+      "icon": "home",
+      "order": 0
+    }
+  ],
+  "settingsSchema": {
+    "type": "object",
+    "properties": {
+      "defaultLocale": {
+        "type": "string",
+        "enum": ["en", "es"],
+        "default": "en"
+      }
+    },
+    "additionalProperties": false
+  },
+  "optional": false,
+  "lifecycle": {
+    "startupBudgetMs": 1500,
+    "healthIntervalMs": 30000,
+    "drainTimeoutMs": 10000
+  },
+  "issues": ["PAP-16", "PAP-264", "PAP-447"]
+}

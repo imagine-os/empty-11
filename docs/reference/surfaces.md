@@ -59,6 +59,9 @@ or `-`), **Status** (`live`, `stub`, `planned`).
 | CLI | `pnpm --filter @paperos/tokens ramps` — regenerate one colour ramp's OKLCH steps with `culori`, print DTCG JSON to stdout for hand-review before pasting into `core.tokens.json` | PAP-66 | - | live |
 | CLI | `pnpm --filter @paperos/tokens tokens:lint` — DTCG schema (kebab names), alias resolvability, cycle detection, unused alias-only primitives | PAP-66 | - | live |
 | CLI | `pnpm --filter @paperos/tokens tokens:check` — WCAG contrast assertions (`fg.default` 4.5:1, `fg.muted` 3:1, status and on-accent pairs) across light/dark/hc; `--report <path>` writes the JSON the evidence swatch page reads | PAP-66 | - | live |
+| CLI | `pnpm --filter @paperos/core modules:validate [--json] [--root <dir>]` — validate every `module.manifest.json` in the workspace; prints a table (module, kind, provides, requires, swap risk, status) and exits 1 on any error | PAP-433 | - | live (`--fix` reserved for PAP-552, prints "not wired yet") |
+| CLI | `pnpm --filter @paperos/core gen:schemas` — regenerate `packages/core/src/modules/manifest.schema.json` from the Zod schema | PAP-433 | - | live |
+| API | `validateManifest(manifest, { others, contracts })` / `validateManifests(all)` from `@paperos/core/modules` — pure synchronous manifest validation, usable in a Vite config, on the server and in the browser | PAP-433 | - | live |
 
 The placeholder route declares no actions: it has no controls. The first page with a control adds
 its actions registry and its rows here; the shape it declares against is the `Action` row above

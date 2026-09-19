@@ -1,0 +1,17 @@
+{
+  "id": "provides-version-mismatch",
+  "kind": "runtime",
+  "version": "0.1.0",
+  "owner": {
+    "agent": "Atlas",
+    "project": "module-system"
+  },
+  "provides": [
+    {
+      "contract": "@paperos/contract-provides-version-mismatch",
+      "version": "0.2.0"
+    }
+  ],
+  "requires": [],
+  "swapRisk": "low"
+}

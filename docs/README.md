@@ -7,7 +7,7 @@ it is not a rule.
 | -- | -- | -- |
 | `adr/` | Architecture Decision Records, `<nnnn>-<slug>.md`, Nygard style | Append-only; supersede, never rewrite. Register: [`adr/README.md`](adr/README.md) |
 | `changelog/unreleased/` | one fragment per issue, `PAP-<n>.md` | Never edit `CHANGELOG.md` by hand; add a fragment |
-| `platform/` | generated and hand-written platform reference (dependency map, compat matrix) | Generated files are never hand-edited |
+| `platform/` | generated and hand-written platform reference (module manifest, dependency map, compat matrix) | Generated files are never hand-edited |
 | `reference/surfaces.md` | every MCP / WebMCP, CLI and API ability | Append a row in the same pass that adds the ability |
 | `research/` | `<slug>.md` library and option evaluations behind ADRs | Dated; superseded research says so at the top |
 | `pm/` | plans, schedules, kanban snapshots, prompts and replies | Numbered files are append-only |

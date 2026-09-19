@@ -1,0 +1,75 @@
+{
+  "id": "migration",
+  "title": "Migration & Import Tools",
+  "kind": "runtime",
+  "version": "0.1.0",
+  "owner": {
+    "agent": "Scout",
+    "project": "migration"
+  },
+  "provides": [
+    {
+      "contract": "@paperos/contract-migration",
+      "version": "0.1.0",
+      "impl": "default"
+    }
+  ],
+  "requires": [
+    {
+      "contract": "@paperos/contract-tables",
+      "range": "^0.1.0",
+      "ports": ["registerDataset"]
+    },
+    {
+      "contract": "@paperos/contract-data-layer",
+      "range": "^0.1.0",
+      "ports": ["RepositoryPort"]
+    },
+    {
+      "contract": "@paperos/contract-collab",
+      "range": "^0.1.0",
+      "ports": ["DocsPort"]
+    },
+    {
+      "contract": "@paperos/contract-business-core",
+      "range": "^0.1.0",
+      "optional": true,
+      "ports": ["LedgerPort"]
+    },
+    {
+      "contract": "@paperos/contract-pm-linear",
+      "range": "^0.1.0",
+      "optional": true,
+      "ports": ["PmSourcePort"]
+    }
+  ],
+  "capabilities": [
+    "source-connectors",
+    "mapping",
+    "import-runs",
+    "external-id-map",
+    "export-archive",
+    "template-packs"
+  ],
+  "slots": {
+    "fills": [
+      {
+        "slot": "shell.settings.sections",
+        "component": "ui.migration.ImportSection",
+        "order": 60
+      }
+    ]
+  },
+  "events": {
+    "publishes": ["migration.run.finished"]
+  },
+  "swapRisk": "low",
+  "jobs": [
+    {
+      "name": "import-run",
+      "queue": "migration"
+    }
+  ],
+  "optional": true,
+  "issues": ["PAP-208", "PAP-210"]
+}

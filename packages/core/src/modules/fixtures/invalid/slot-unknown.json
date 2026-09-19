@@ -1,0 +1,25 @@
+{
+  "id": "slot-unknown",
+  "kind": "runtime",
+  "version": "0.1.0",
+  "owner": {
+    "agent": "Atlas",
+    "project": "design-system"
+  },
+  "provides": [
+    {
+      "contract": "@paperos/contract-slot-unknown",
+      "version": "0.1.0"
+    }
+  ],
+  "requires": [],
+  "swapRisk": "low",
+  "slots": {
+    "fills": [
+      {
+        "slot": "shell.nope",
+        "component": "ui.demo.Widget"
+      }
+    ]
+  }
+}

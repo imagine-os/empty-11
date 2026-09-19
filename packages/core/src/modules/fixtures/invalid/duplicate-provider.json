@@ -1,0 +1,18 @@
+{
+  "id": "duplicate-provider",
+  "kind": "runtime",
+  "version": "0.1.0",
+  "owner": {
+    "agent": "Atlas",
+    "project": "tables"
+  },
+  "provides": [
+    {
+      "contract": "@paperos/contract-tables",
+      "version": "0.1.0",
+      "impl": "default"
+    }
+  ],
+  "requires": [],
+  "swapRisk": "low"
+}

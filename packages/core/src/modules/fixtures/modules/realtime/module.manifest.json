@@ -1,0 +1,57 @@
+{
+  "id": "realtime",
+  "title": "Multiplayer & Realtime",
+  "kind": "runtime",
+  "version": "0.1.0",
+  "owner": {
+    "agent": "Nova",
+    "project": "realtime"
+  },
+  "provides": [
+    {
+      "contract": "@paperos/contract-realtime",
+      "version": "0.1.0",
+      "impl": "default"
+    }
+  ],
+  "requires": [
+    {
+      "contract": "@paperos/contract-data-layer",
+      "range": "^0.1.0",
+      "ports": ["RepositoryPort"]
+    },
+    {
+      "contract": "@paperos/contract-identity",
+      "range": "^0.1.0",
+      "ports": ["PrincipalPort"]
+    }
+  ],
+  "capabilities": [
+    "doc-rooms",
+    "presence",
+    "live-records",
+    "reconciler",
+    "push-transport",
+    "window-bus"
+  ],
+  "events": {
+    "publishes": ["realtime.room.joined", "realtime.conflict.resolved"],
+    "subscribes": ["data-layer.outbox.flushed"]
+  },
+  "swapRisk": "high",
+  "optional": true,
+  "lifecycle": {
+    "startupBudgetMs": 2500,
+    "healthIntervalMs": 10000,
+    "drainTimeoutMs": 15000
+  },
+  "resilience": {
+    "PushTransportPort": {
+      "timeoutMs": 5000,
+      "retries": 2,
+      "backoff": "exponential",
+      "fallback": "degrade"
+    }
+  },
+  "issues": ["PAP-139", "PAP-150"]
+}

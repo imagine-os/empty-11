@@ -1,0 +1,52 @@
+{
+  "id": "pm-linear",
+  "title": "Project Management & Claude Pipeline",
+  "kind": "service",
+  "version": "0.1.0",
+  "owner": {
+    "agent": "Atlas",
+    "project": "pm-linear"
+  },
+  "provides": [
+    {
+      "contract": "@paperos/contract-pm-linear",
+      "version": "0.1.0",
+      "impl": "default"
+    }
+  ],
+  "requires": [
+    {
+      "contract": "@paperos/contract-data-layer",
+      "range": "^0.1.0",
+      "ports": ["RepositoryPort"]
+    },
+    {
+      "contract": "@paperos/contract-tables",
+      "range": "^0.1.0",
+      "ports": ["registerDataset", "ViewQueryPort"]
+    },
+    {
+      "contract": "@paperos/contract-collab",
+      "range": "^0.1.0",
+      "ports": ["CommentPort"]
+    }
+  ],
+  "capabilities": ["issue-contract", "queue", "webhooks", "claim", "transition"],
+  "slots": {
+    "fills": [
+      {
+        "slot": "shell.nav",
+        "component": "ui.pm.BoardNav",
+        "order": 30
+      }
+    ]
+  },
+  "events": {
+    "publishes": ["pm-linear.issue.transitioned", "pm-linear.session.ended"],
+    "subscribes": ["quality.gate.completed"]
+  },
+  "swapRisk": "high",
+  "optional": true,
+  "secrets": ["LINEAR_API_KEY"],
+  "issues": ["PAP-93", "PAP-96"]
+}

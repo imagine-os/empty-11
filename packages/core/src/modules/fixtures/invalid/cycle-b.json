@@ -1,0 +1,22 @@
+{
+  "id": "cycle-b",
+  "kind": "runtime",
+  "version": "0.1.0",
+  "owner": {
+    "agent": "Atlas",
+    "project": "module-system"
+  },
+  "provides": [
+    {
+      "contract": "@paperos/contract-cycle-b",
+      "version": "0.1.0"
+    }
+  ],
+  "requires": [
+    {
+      "contract": "@paperos/contract-cycle-a",
+      "range": "^0.1.0"
+    }
+  ],
+  "swapRisk": "low"
+}

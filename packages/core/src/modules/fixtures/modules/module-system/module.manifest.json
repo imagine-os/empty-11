@@ -1,0 +1,39 @@
+{
+  "id": "module-system",
+  "title": "Module System & Swap Tooling (kernel)",
+  "kind": "kernel",
+  "version": "0.1.0",
+  "owner": {
+    "agent": "Atlas",
+    "project": "module-system"
+  },
+  "provides": [
+    {
+      "contract": "@paperos/contract-module-system",
+      "version": "0.1.0",
+      "impl": "default"
+    }
+  ],
+  "requires": [],
+  "capabilities": [
+    "registry",
+    "di-container",
+    "flag-swap",
+    "gateway",
+    "slots-runtime",
+    "conformance-runner",
+    "swap-cli",
+    "migration-adapter-kit"
+  ],
+  "events": {
+    "publishes": ["module-system.module.registered", "module-system.impl.swapped"]
+  },
+  "swapRisk": "critical",
+  "optional": false,
+  "lifecycle": {
+    "startupBudgetMs": 500,
+    "healthIntervalMs": 60000,
+    "drainTimeoutMs": 5000
+  },
+  "issues": ["PAP-433", "PAP-434", "PAP-439"]
+}
