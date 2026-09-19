@@ -47,6 +47,10 @@ or `-`), **Status** (`live`, `stub`, `planned`).
 | CLI | `node scripts/security-controls.ts --boundary B<n>` / `--summary` — list one trust boundary's controls, or counts per boundary | PAP-219 | - | live |
 | API | `POST /api/v1/security/csp-report` — CSP violation report sink (`report-to paperos-csp`), rate limited 30/min/IP and sampled | PAP-219 | - | planned (profile in `ops/security/headers.json`; route lands with `apps/api`) |
 | API | `securityHeaders({ profile })` — the baseline header and CSP middleware contract every surface calls; `CSP_NONCE` request-context key | PAP-219 | - | planned (contract frozen in `docs/security/hardening-baseline.md` section 13; Forge implements) |
+| CLI | `ops/compose/dev/bin/up.sh` — start the local dev stack (Postgres 17, ElectricSQL, MinIO, Mailpit), wait for health, print ports and env vars | PAP-42 | - | live |
+| CLI | `ops/compose/dev/bin/down.sh` — stop the local dev stack, keep data | PAP-42 | - | live |
+| CLI | `ops/compose/dev/bin/reset.sh` — stop the local dev stack and delete its volumes | PAP-42 | - | live |
+| CLI | `ops/compose/dev/bin/logs.sh [service]` — tail local dev stack logs | PAP-42 | - | live |
 
 The placeholder route declares no actions: it has no controls. The first page with a control adds
 its actions registry and its rows here; the shape it declares against is the `Action` row above

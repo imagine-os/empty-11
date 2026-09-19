@@ -1,0 +1,5 @@
+{
+  "healthcheck": "http://localhost:8025/readyz",
+  "warmupSeconds": 30,
+  "ramBudgetMb": 1024
+}

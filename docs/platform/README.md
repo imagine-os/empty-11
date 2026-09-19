@@ -34,3 +34,6 @@ The module-system issues (PAP-433 onwards) land the generated files.
 * [`character-schema.md`](character-schema.md) — the character schema every agent character is
   declared in: fields, scope registry, validation codes, inheritance, editor wiring (PAP-103,
   ADR 0020). Generated JSON Schema lives in `packages/agents/schema/`.
+* [`dev-stack.md`](dev-stack.md) — the local dev stack (Postgres 17, ElectricSQL, MinIO, Mailpit):
+  ports, roles, env vars, what's deferred (PAP-42). Compose file and scripts live in
+  [`ops/compose/dev/`](../../ops/compose/dev/README.md).
