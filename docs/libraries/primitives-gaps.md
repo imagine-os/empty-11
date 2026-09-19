@@ -20,7 +20,7 @@ that PAP-67's children and the pages downstream do not each invent their own ans
 | Command palette | PAP-338 and the assistant surfaces | Base UI `Autocomplete` in a `Dialog` | `cmdk` is not needed: Base UI ships both Autocomplete and Combobox. Do not introduce `cmdk` — it would be a second, unvirtualized list implementation. |
 | Sonner-style toast stacking | PAP-237 | Base UI `Toast` | Base UI has a first-party Toast; do not add `sonner`. |
 | Drawer / bottom sheet | PAP-70, mobile shells | Base UI `Drawer` (swipe-to-dismiss, first-party) | Do not add `vaul`. |
-| Resizable split panes | PAP-950 | none yet — open | No candidate ships one. Decide in PAP-950; `react-resizable-panels` is the obvious candidate and needs its own scorecard. |
+| Resizable split panes | PAP-950 | none yet — open | Base UI has none; Ark ships a `splitter`. Decide in PAP-950 by scoring `react-resizable-panels` against Ark's splitter; whichever wins needs a scorecard. |
 | Tree view | org chart (PAP-113), file surfaces | none yet — open | Ark UI and React Aria both have one; if we need it, score them against each other rather than defaulting. |
 
 ## 2. What the fallback costs
@@ -40,8 +40,10 @@ it is bounded by three rules:
 
 Recorded because it is why the gap list is this short: Combobox **with built-in virtualization**
 (PAP-238's 5,000-option requirement), Autocomplete, NumberField, OTP Field, Drawer, Menubar,
-NavigationMenu, ScrollArea, Toast, Field/Fieldset/Form, PreviewCard, Meter. On Radix, six of those
-would have been ours to build or source.
+NavigationMenu, ScrollArea, Toast, Field/Fieldset/Form, PreviewCard, Meter. Four of those —
+Combobox, Autocomplete, NumberField and Drawer, plus Meter — are absent from Radix and would have
+been ours to build or source (checked against `radix-ui@1.6.7`'s own dependency list, not its
+docs site).
 
 ## 4. Keeping this file honest
 

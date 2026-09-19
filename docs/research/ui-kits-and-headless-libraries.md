@@ -114,15 +114,19 @@ combobox that survives 5,000 options.
 | **Combobox / Autocomplete** | **yes, both** | **no** | yes | yes | recipe: Popover + `cmdk` |
 | Virtualized list for the combobox | **built in** (`virtualized` prop) | no | **built in** (`Virtualizer` + `ListLayout`) | bring TanStack Virtual | bring your own |
 | **Calendar / DatePicker / DateField** | **no** | **no** | **yes** (13 calendar systems) | yes | recipe over `react-day-picker` |
-| NumberField / OTP field | yes | no | yes | yes | recipe |
-| Drawer (swipe to dismiss) | yes | no | no | no | recipe (`vaul`) |
-| NavigationMenu | yes | yes | no | no | yes (Radix) |
-| Toast | yes | no (deprecated) | yes | yes | recipe (`sonner`) |
+| NumberField | yes | no | yes | yes (`number-input`) | recipe |
+| OTP / PIN field | yes | yes (`one-time-password-field`) | no | yes (`pin-input`) | recipe (`input-otp`) |
+| Drawer | yes (swipe to dismiss) | no | no | yes | recipe (`vaul`) |
+| NavigationMenu | yes | yes | no | yes | yes (Radix) |
+| Toast | yes | yes | yes | yes | recipe (`sonner`) |
 | Field / Form / Fieldset | yes | yes (Form) | yes | yes | yes |
 
-Sources, all fetched 2026-09-19: `https://base-ui.com/llms.txt` (component index),
-`https://www.radix-ui.com/primitives/docs/overview/introduction`,
-`https://react-aria.adobe.com/`, `https://ark-ui.com/llms.txt`, `https://ui.shadcn.com/llms.txt`.
+Sources: `https://base-ui.com/llms.txt`, `https://ark-ui.com/llms.txt` and
+`https://ui.shadcn.com/llms.txt` (vendor component indexes, fetched 2026-09-19), plus — for Radix,
+Ark and React Aria — the **installed packages themselves**, which is the fact that counts:
+`radix-ui@1.6.7`'s dependency list, Ark's `dist/components/` directory and React Aria's
+`dist/types/src/` exports, all read from the spike's `node_modules` on 2026-09-19. Reading the
+tarballs rather than the docs sites corrected four cells in this table.
 The Base UI `virtualized` prop and React Aria's `Virtualizer`/`ListLayout` were both compiled
 against in the spike (`src/base-ui/combobox.tsx`, `src/react-aria/combobox.tsx`) and typecheck
 clean, which is stronger evidence than the docs.
@@ -130,7 +134,9 @@ clean, which is stronger evidence than the docs.
 **The two gaps that cost money.** Radix has no combobox at all — the community answer, and shadcn's
 own recipe, is Radix Popover plus `cmdk`, which is what the spike measured; `cmdk` does not
 virtualize, so the 5,000-option requirement means TanStack Virtual on top. Base UI has no calendar,
-so dates come from somewhere else whatever we pick. Full list:
+so dates come from somewhere else whatever we pick. Everything else is closer than the reputations
+suggest: Ark has the broadest inventory of the five (a splitter and a tree view nobody else ships),
+and Radix is thinner than expected only in combobox, number field and drawer. Full list:
 [`docs/libraries/primitives-gaps.md`](../libraries/primitives-gaps.md).
 
 ---
@@ -335,8 +341,8 @@ and Radix UI primitives", [llms.txt](https://ui.shadcn.com/llms.txt), 2026-09-19
 | **Base UI `@base-ui/react`** | 1.8.0 | 4 | 4 | 2 | 4 | 4 | 3 | 3 | 3 | 4 | **87** | pass | 26 | **adopt** |
 | `react-aria-components` | 1.21.1 | 4 | 4 | 2 | 4 | 3 | 3 | 2 | 4 | 3 | **84** | pass | 28 | **adopt (scoped: date & time)** |
 | shadcn/ui | 4.21.0 | 4 | 3 | 2 | 3 | 4 | 4 | 3 | 3 | 4 | **83** | pass | 28 | adopt-eligible, not chosen |
-| Ark UI `@ark-ui/react` | 5.39.2 | 4 | 4 | 2 | 3 | 3 | 3 | 3 | 3 | 4 | **81** | pass | 30 | adopt-eligible, not chosen |
-| Radix `radix-ui` | 1.6.7 | 4 | 3 | 2 | 3 | 4 | 3 | 3 | 3 | 4 | **80** | pass | 34 | adopt-eligible, not chosen |
+| Ark UI `@ark-ui/react` | 5.39.2 | 4 | 4 | 2 | 3 | 3 | 3 | 3 | 3 | 4 | **81** | pass | 28 | adopt-eligible, not chosen |
+| Radix `radix-ui` | 1.6.7 | 4 | 3 | 2 | 3 | 4 | 3 | 3 | 3 | 4 | **80** | pass | 30 | adopt-eligible, not chosen |
 
 Every candidate clears 75, and no gate fails: this is a field of five good libraries, not one
 winner and four rejects. The rubric's thresholds therefore do not decide it — **the top four are
@@ -346,20 +352,20 @@ writing `reject` on an 80-point library would be a lie about the measurement.
 
 `migrationCostHours` basis: hours to build PAP-67's twenty components on the candidate from
 today's empty `packages/ui`, counting each primitive that must be hand-built or sourced elsewhere
-at 2–3 h (Radix: combobox + virtualization + number field + OTP + drawer + toast; Ark and React
-Aria: wrapper ceremony per component; shadcn: 18 h to copy plus ~10 h to retrofit PAP-66 tokens,
-the i18n rule and the actions registry into source we then own forever).
+at 2–3 h (Radix: combobox + its virtualization + number field + drawer; Ark and React Aria:
+wrapper ceremony per component against a wordier API; shadcn: 18 h to copy plus ~10 h to retrofit
+PAP-66 tokens, the i18n rule and the actions registry into source we then own forever).
 
 ### 6.7 Breaking the tie
 
-Rubric §7 step 1 — lower `migrationCostHours` wins — puts Base UI first (26 h) ahead of React Aria
-and shadcn (28 h each). That margin is inside the noise of the estimate, so step 2, the owning
+Rubric §7 step 1 — lower `migrationCostHours` wins — puts Base UI first (26 h) ahead of React Aria,
+shadcn and Ark (28 h each). That margin is inside the noise of the estimate, so step 2, the owning
 character's written judgement, carries it:
 
 1. **Inventory fit.** Base UI covers more of PAP-67's twenty out of the box than anything except
-   React Aria, and it is the only candidate with a **virtualized combobox built in** — PAP-238's
-   5,000-option requirement solved by a prop rather than by wiring TanStack Virtual into someone
-   else's listbox.
+   React Aria, and it is one of only two (with React Aria) whose **combobox virtualizes built
+   in** — PAP-238's 5,000-option requirement solved by a prop rather than by wiring TanStack
+   Virtual into someone else's listbox.
 2. **Soundness at our settings.** Base UI and Radix are the only two with zero declaration errors
    under `exactOptionalPropertyTypes`, and Base UI is the only one of those two that has a combobox.
 3. **Who is actually building it.** Radix's authors are Base UI's authors. Choosing Radix in

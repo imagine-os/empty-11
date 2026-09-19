@@ -28,7 +28,7 @@ facts:
   publint: "1 suggestion (no type field)"
   attw: unknown
   tscErrorsStrictNoSkipLibCheck: 0
-  missingPrimitives: ["Combobox", "NumberField", "OTPField", "Drawer", "Calendar/DatePicker", "Toast (deprecated)"]
+  missingPrimitives: ["Combobox", "Autocomplete", "NumberField", "Drawer", "Meter", "Calendar/DatePicker"] # verified against radix-ui@1.6.7 dependencies, not the docs site
   a11yStatement: "https://www.radix-ui.com/primitives/docs/overview/accessibility"
   docsFormat: "HTML docs site"
   llmsTxt: "none — https://www.radix-ui.com/llms.txt returns 404 (checked 2026-09-19)"
@@ -53,6 +53,6 @@ gates:
   vendorNoSelfHost: { result: pass, evidence: "npm package" }
   openAdvisory: { result: pass, evidence: "pnpm audit, 0 advisories, 2026-09-19" }
 total: 80 # 16+12+6+9+12+9+3.75+7.5+5 = 80.25
-migrationCostHours: 34 # combobox + virtualization + number field + OTP + drawer + toast all hand-built or sourced
+migrationCostHours: 30 # combobox + its virtualization + number field + drawer hand-built or sourced
 verdict: adopt
 decision: not-chosen # ADR 0029: the predecessor of the chosen library, by the same authors

@@ -87,8 +87,7 @@ Specifically:
 
 **Positive.** The largest inventory match to PAP-67's twenty, including a **virtualized Combobox
 built in** — PAP-238's 5,000-option requirement is a prop, not a TanStack Virtual integration — plus
-Autocomplete, NumberField, OTP Field, Drawer, Menubar, NavigationMenu and Toast that Radix would
-have had us build or source. Zero declaration errors at our compiler settings with `skipLibCheck`
+the Autocomplete, NumberField, Drawer and Meter that Radix would have had us build or source. Zero declaration errors at our compiler settings with `skipLibCheck`
 off, and zero CSS shipped, so PAP-66's tokens stay the single source of truth. The library is built
 by the people who built Radix and Floating UI, on a monthly cadence, with `llms.txt` and a markdown
 twin of every docs page for the sessions that will write against it.
@@ -149,7 +148,9 @@ would fight PAP-66's tokens, the i18n rule and the actions registry in twenty pl
 genuinely good way to encode WAI-ARIA. It loses on three small things that add up: two declaration
 errors at our settings, the thinnest in-weights coverage of the five (a session will fetch docs for
 every non-trivial use), and a collection API that is more ceremony than Base UI's. Its
-multi-framework reach — React, Vue, Svelte, Solid — is value PaperOS does not need.
+multi-framework reach — React, Vue, Svelte, Solid — is value PaperOS does not need. Recorded in
+its favour, though: it has the **broadest inventory of the five**, including a splitter and a tree
+view nobody else ships, so it is the first place to look when a gap appears.
 *The fact that would change the answer:* PaperOS needing a non-React surface.
 
 **Quick rejects** (one paragraph each in the research doc §7): **Headless UI** (half of PAP-67's
@@ -172,14 +173,15 @@ domain extras, `inputBreadth` (10) and `themingFit` (5), whose anchors are writt
 | **`@base-ui/react`** | 1.8.0 | 4 | 4 | 2 | 4 | 4 | 3 | 3 | 3 | 4 | **87** | pass | 26 | **adopt** |
 | `react-aria-components` | 1.21.1 | 4 | 4 | 2 | 4 | 3 | 3 | 2 | 4 | 3 | **84** | pass | 28 | **adopt (date & time only)** |
 | `shadcn` | 4.21.0 | 4 | 3 | 2 | 3 | 4 | 4 | 3 | 3 | 4 | 83 | pass | 28 | adopt-eligible, not chosen |
-| `@ark-ui/react` | 5.39.2 | 4 | 4 | 2 | 3 | 3 | 3 | 3 | 3 | 4 | 81 | pass | 30 | adopt-eligible, not chosen |
-| `radix-ui` | 1.6.7 | 4 | 3 | 2 | 3 | 4 | 3 | 3 | 3 | 4 | 80 | pass | 34 | adopt-eligible, not chosen |
+| `@ark-ui/react` | 5.39.2 | 4 | 4 | 2 | 3 | 3 | 3 | 3 | 3 | 4 | 81 | pass | 28 | adopt-eligible, not chosen |
+| `radix-ui` | 1.6.7 | 4 | 3 | 2 | 3 | 4 | 3 | 3 | 3 | 4 | 80 | pass | 30 | adopt-eligible, not chosen |
 
 Scorecards: `docs/libraries/scorecards/{base-ui-react@1.8.0,react-aria-components@1.21.1,shadcn@4.21.0,ark-ui-react@5.39.2,radix-ui@1.6.7}.yaml`.
 
 All five clear the 75-point `adopt` threshold and no gate fails, so the thresholds do not decide
 this: the top four sit inside rubric §7's 5-point tie band. Step 1 (lower `migrationCostHours`)
-puts Base UI first at 26 h against 28 h, a margin inside the estimate's own noise, so step 2 —
+puts Base UI first at 26 h against 28 h for the next three, a margin inside the estimate's own
+noise, so step 2 —
 the owning character's written judgement — carries it, recorded above and in research §6.7:
 inventory fit (the only virtualized combobox), soundness at our compiler settings, and maintainer
 continuity (Radix's authors are Base UI's authors). No score was re-cut to produce that ordering;
