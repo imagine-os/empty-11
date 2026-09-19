@@ -317,6 +317,27 @@
       }
     },
     {
+      "includes": ["packages/input/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "paths": {
+                  "@paperos/collab": "R3/R8: packages/input may not import the packages/collab module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: collab).",
+                  "@paperos/crm": "R3/R8: packages/input may not import the packages/crm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: growth).",
+                  "@paperos/finance": "R3/R8: packages/input may not import the packages/finance module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: business-core).",
+                  "@paperos/import": "R3/R8: packages/input may not import the packages/import module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: migration).",
+                  "@paperos/pm": "R3/R8: packages/input may not import the packages/pm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: pm-linear)."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
       "includes": ["packages/jobs/**"],
       "linter": {
         "rules": {

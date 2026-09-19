@@ -93,11 +93,12 @@ plugin expresses "type-only edges count" or the acyclic-contract-graph check as 
 within a week of parallel sessions, and the violation message could not name the owner without a
 lookup table that is itself a second source of truth.
 
-**`ownership.json` as a Zod schema in `packages/core`.** The spec asked for Zod. Zod is not in the
-`pnpm-workspace.yaml` catalog and that file has one owner (PAP-13), so the validator is
-hand-written with the same `safeParse` shape. PAP-264 / PAP-433 swap the body for
-`z.object(...)` when zod enters the catalog; the exported types and the `parseOwnership` signature
-do not change.
+**`ownership.json` as a Zod schema in `packages/core`.** The spec asked for Zod. When this was
+built zod was not a dependency of `@paperos/core` and adding it needed a catalog entry in
+`pnpm-workspace.yaml`, a file with one owner (PAP-13), so the validator is hand-written with the
+same `safeParse` shape and reports every problem at once. PAP-555 brought zod into core hours
+later for the event envelope, so the swap is now a small follow-up: replace the body with
+`z.object(...)`; the exported types and the `parseOwnership` signature do not change.
 
 **Per-package `dependencies` in each `package.json` as the boundary.** Rejected: workspace
 `dependencies` do not stop a deep relative import (`../../crm/src/...`), do not distinguish

@@ -44,18 +44,19 @@ module.exports = {
       name: 'R6-react-only-in-ui-layers',
       severity: 'error',
       comment:
-        'R6 React lives in the UI layers only (packages/tokens, packages/ui, packages/views, packages/spec, packages/collab, apps/web, apps/desktop, apps/mobile). Everything else is pure TypeScript so it can run in a worker, in the API and in a test without a DOM.',
+        'R6 React lives in the UI layers only (packages/collab, packages/input, packages/spec, packages/tokens, packages/ui, packages/views, apps/desktop, apps/mobile, apps/web). Everything else is pure TypeScript so it can run in a worker, in the API and in a test without a DOM.',
       from: {
         path: '^(apps|packages)/',
         pathNot: [
+          '^packages/collab/',
+          '^packages/input/',
+          '^packages/spec/',
           '^packages/tokens/',
           '^packages/ui/',
           '^packages/views/',
-          '^packages/spec/',
-          '^packages/collab/',
-          '^apps/web/',
           '^apps/desktop/',
           '^apps/mobile/',
+          '^apps/web/',
         ],
       },
       to: {
@@ -376,7 +377,7 @@ module.exports = {
       name: 'R1-packages-core-allowed-deps',
       severity: 'error',
       comment:
-        'R1 packages/core may import only nothing — packages/core is contract zero: it imports no other workspace package, so everyone can import it. Owner: app-shell (ownership.json packages."packages/core", issues PAP-13).',
+        'R1 packages/core may import no other workspace package — packages/core is contract zero: it imports no other workspace package, so everyone can import it. Owner: app-shell (ownership.json packages."packages/core", issues PAP-13).',
       from: {
         path: '^packages/core/',
         pathNot: [
@@ -615,6 +616,43 @@ module.exports = {
           '^packages/core/',
           '^packages/db/',
           '^packages/jobs/',
+          '^packages/contracts/[^/]+/',
+          '^packages/collab/',
+          '^packages/crm/',
+          '^packages/finance/',
+          '^packages/import/',
+          '^packages/pm/',
+          '^apps/[^/]*/src/generated/.*$',
+          '^packages/core/src/modules/[^/]*\\.schema\\.json$',
+          '^(?:|.*/)drizzle/(?:|.*/)[^/]*\\.sql$',
+          '^docs/platform/dependency-map\\.json$',
+          '^ops/ci/breakpoints\\.json$',
+        ],
+      },
+    },
+    {
+      name: 'R8-packages-input-allowed-deps',
+      severity: 'error',
+      comment:
+        'R8 packages/input may import only packages/core, packages/tokens, packages/contracts/* — add the dependency to this package\'s allowedDeps in ownership.json (owner review) or reach the code through a contract port. Owner: input (ownership.json packages."packages/input", issues PAP-150).',
+      from: {
+        path: '^packages/input/',
+        pathNot: [
+          '^(?:|.*/)[^/]*\\.test\\.ts$',
+          '^(?:|.*/)[^/]*\\.test\\.tsx$',
+          '^(?:|.*/)[^/]*\\.spec\\.ts$',
+          '^(?:|.*/)[^/]*\\.spec\\.tsx$',
+          '^(?:|.*/)test/.*$',
+          '^(?:|.*/)tests/.*$',
+          '^(?:|.*/)__tests__/.*$',
+        ],
+      },
+      to: {
+        path: '^(apps|packages)/',
+        pathNot: [
+          '^packages/input/',
+          '^packages/core/',
+          '^packages/tokens/',
           '^packages/contracts/[^/]+/',
           '^packages/collab/',
           '^packages/crm/',
@@ -1306,7 +1344,7 @@ module.exports = {
       name: 'R8-packages-config-biome-allowed-deps',
       severity: 'error',
       comment:
-        'R8 packages/config-biome may import only nothing — add the dependency to this package\'s allowedDeps in ownership.json (owner review) or reach the code through a contract port. Owner: app-shell (ownership.json packages."packages/config-biome", issues PAP-13).',
+        'R8 packages/config-biome may import no other workspace package — add the dependency to this package\'s allowedDeps in ownership.json (owner review) or reach the code through a contract port. Owner: app-shell (ownership.json packages."packages/config-biome", issues PAP-13).',
       from: {
         path: '^packages/config-biome/',
         pathNot: [
@@ -1340,7 +1378,7 @@ module.exports = {
       name: 'R8-packages-config-ts-allowed-deps',
       severity: 'error',
       comment:
-        'R8 packages/config-ts may import only nothing — add the dependency to this package\'s allowedDeps in ownership.json (owner review) or reach the code through a contract port. Owner: app-shell (ownership.json packages."packages/config-ts", issues PAP-13).',
+        'R8 packages/config-ts may import no other workspace package — add the dependency to this package\'s allowedDeps in ownership.json (owner review) or reach the code through a contract port. Owner: app-shell (ownership.json packages."packages/config-ts", issues PAP-13).',
       from: {
         path: '^packages/config-ts/',
         pathNot: [

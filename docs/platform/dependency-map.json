@@ -83,7 +83,7 @@
       "owner": "data-layer",
       "optional": false,
       "issues": ["PAP-555"],
-      "present": false
+      "present": true
     },
     {
       "id": "packages/core/src/filter",
@@ -91,7 +91,7 @@
       "owner": "data-layer",
       "optional": false,
       "issues": ["PAP-279"],
-      "present": false
+      "present": true
     },
     {
       "id": "packages/core/src/flags",
@@ -187,7 +187,7 @@
       "owner": "data-layer",
       "optional": false,
       "issues": ["PAP-32", "PAP-33", "PAP-34", "PAP-38"],
-      "present": false
+      "present": true
     },
     {
       "id": "packages/email",
@@ -204,6 +204,14 @@
       "optional": false,
       "issues": ["PAP-37"],
       "present": false
+    },
+    {
+      "id": "packages/input",
+      "kind": "runtime",
+      "owner": "input",
+      "optional": false,
+      "issues": ["PAP-150"],
+      "present": true
     },
     {
       "id": "packages/jobs",
@@ -307,7 +315,7 @@
       "owner": "business-core",
       "optional": true,
       "issues": ["PAP-175"],
-      "present": false
+      "present": true
     },
     {
       "id": "packages/import",
@@ -1038,6 +1046,24 @@
       "issues": ["PAP-37"]
     },
     {
+      "from": "packages/input",
+      "to": "packages/core",
+      "kind": "allowed",
+      "issues": ["PAP-150"]
+    },
+    {
+      "from": "packages/input",
+      "to": "packages/tokens",
+      "kind": "allowed",
+      "issues": ["PAP-150"]
+    },
+    {
+      "from": "packages/input",
+      "to": "packages/contracts/quality",
+      "kind": "allowed",
+      "issues": ["PAP-150"]
+    },
+    {
       "from": "packages/jobs",
       "to": "packages/core",
       "kind": "allowed",
@@ -1650,6 +1676,22 @@
         "packages/boundaries/src/repo.ts",
         "packages/boundaries/src/rules.ts"
       ]
+    },
+    {
+      "from": "packages/db",
+      "to": "packages/core",
+      "kind": "import",
+      "undeclared": false,
+      "issues": ["PAP-32", "PAP-33", "PAP-34", "PAP-38"],
+      "via": ["packages/db/src/outbox-driver.ts", "packages/db/src/subscriptions.ts"]
+    },
+    {
+      "from": "packages/spec",
+      "to": "packages/core",
+      "kind": "import",
+      "undeclared": false,
+      "issues": ["PAP-114"],
+      "via": ["packages/spec/src/schema/filter.ts"]
     },
     {
       "from": "@paperos/contract-app-shell",

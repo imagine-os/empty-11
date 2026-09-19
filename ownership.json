@@ -303,6 +303,14 @@
       "optional": false,
       "allowedDeps": ["packages/core", "packages/db", "packages/jobs", "packages/contracts/*"]
     },
+    "packages/input": {
+      "owner": "input",
+      "issues": ["PAP-150"],
+      "kind": "runtime",
+      "optional": false,
+      "allowedDeps": ["packages/core", "packages/tokens", "packages/contracts/*"],
+      "note": "Input event abstraction, modality detection, focus and the actions registry. Ships an optional React entry point (`@paperos/input/react`), so it is on the R6 react list."
+    },
     "packages/jobs": {
       "owner": "data-layer",
       "issues": ["PAP-43"],
@@ -726,14 +734,15 @@
       }
     ],
     "react": [
+      "packages/collab",
+      "packages/input",
+      "packages/spec",
       "packages/tokens",
       "packages/ui",
       "packages/views",
-      "packages/spec",
-      "packages/collab",
-      "apps/web",
       "apps/desktop",
-      "apps/mobile"
+      "apps/mobile",
+      "apps/web"
     ]
   }
 }
