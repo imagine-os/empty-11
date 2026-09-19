@@ -17,6 +17,7 @@
     "lint": "biome check .",
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "test": "vitest run --passWithNoTests",
+    "test:perf": "PAPEROS_PERF_STRICT=1 vitest run src/filter/filter.perf.test.ts",
     "clean": "node -e \"require('node:fs').rmSync('coverage',{recursive:true,force:true})\"",
     "example:filter": "tsx examples/filter.ts"
   },

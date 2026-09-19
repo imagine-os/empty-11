@@ -270,7 +270,11 @@ describe('toSql on PGlite ≡ evaluate in memory', () => {
       },
     ].map((r, id) => ({ ...r, id }));
     await db.insert(things).values(rows);
-  }, 60_000);
+    // PGlite (WASM Postgres) startup can race and stall under heavy parallel load (observed:
+    // one failure across 29-35 concurrent turbo tasks, passed on rerun). Generous headroom here
+    // matches the 120 s budget on the property test below rather than a tight bound tuned for an
+    // idle box.
+  }, 120_000);
 
   afterAll(async () => {
     await client.close();
