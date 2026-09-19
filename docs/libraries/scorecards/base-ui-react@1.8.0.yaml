@@ -23,7 +23,7 @@ facts:
   companyOrFoundationBacked: "MUI SAS"
   medianFirstResponseDays: unknown # GitHub API not reachable from this environment
   archived: false
-  gzipBytes: 80384 # 78.5 KB, Select+Dialog+Menu+Combobox, one entry, react external
+  gzipBytes: 80418 # 78.5 KB, Select+Dialog+Menu+Combobox, one entry, react external
   entryImports:
     ["@base-ui/react/select", "@base-ui/react/dialog", "@base-ui/react/menu", "@base-ui/react/combobox"]
   treeShakes: true
@@ -40,7 +40,7 @@ facts:
 scores:
   license: { score: 4, evidence: "https://raw.githubusercontent.com/mui/base-ui/master/LICENSE + npm license field, both MIT, fetched 2026-09-19" }
   maintenance: { score: 4, evidence: "https://base-ui.com/react/overview/releases — monthly minors 1.1.0 (2026-01-15) to 1.8.0 (2026-09-04); team of 7 at https://base-ui.com/react/overview/about.md" }
-  bundle: { score: 2, evidence: "spikes/PAP-212-ui-kits/results/summary.json — 80384 B gzipped for the four components" }
+  bundle: { score: 2, evidence: "spikes/PAP-212-ui-kits/results/summary.json — 80418 B gzipped for the four components" }
   a11y: { score: 4, evidence: "https://base-ui.com/react/overview/accessibility.md — APG adherence, initialFocus/finalFocus, screen-reader testing claim; inert in 29 dist files" }
   ts: { score: 4, evidence: "spikes/PAP-212-ui-kits — 0 declaration errors at strict + exactOptionalPropertyTypes + skipLibCheck:false; publint clean" }
   agent: { score: 3, evidence: "https://base-ui.com/llms.txt (200) and a .md twin per page; held at 3 for the 1.0 package rename, the anchor-1 known-wrong-answer trap" }

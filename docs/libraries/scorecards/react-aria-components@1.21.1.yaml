@@ -18,7 +18,7 @@ facts:
   companyOrFoundationBacked: "Adobe"
   medianFirstResponseDays: unknown
   archived: false
-  gzipBytes: 81613 # 79.7 KB for the four components, react external
+  gzipBytes: 81565 # 79.7 KB for the four components, react external
   entryImports: ["react-aria-components"]
   treeShakes: true
   types: shipped
@@ -32,7 +32,7 @@ facts:
 scores:
   license: { score: 4, evidence: "https://raw.githubusercontent.com/adobe/react-spectrum/main/LICENSE — Apache-2.0, allow tier" }
   maintenance: { score: 4, evidence: "npm: 1.21.1 published 2026-09-04, nightlies through 2026-09-18; Adobe-funded team" }
-  bundle: { score: 2, evidence: "spikes/PAP-212-ui-kits/results/summary.json — 81613 B gzipped, the largest measured" }
+  bundle: { score: 2, evidence: "spikes/PAP-212-ui-kits/results/summary.json — 81565 B gzipped, the largest measured" }
   a11y: { score: 4, evidence: "https://react-aria.adobe.com/ — 'extensively tested using many popular screen readers and devices', 30+ languages, RTL, 13 calendar systems (fetched 2026-09-19)" }
   ts: { score: 3, evidence: "spikes/PAP-212-ui-kits — 2 declaration errors at exactOptionalPropertyTypes; publint flags the export map" }
   agent: { score: 3, evidence: "markdown docs + llms.txt (200) but the docs domain moved: react-spectrum.adobe.com/react-aria/components.html 301s to react-aria.adobe.com, and .../react-aria/llms.txt is 404; hooks and components are two parallel APIs" }

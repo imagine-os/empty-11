@@ -19,7 +19,7 @@ facts:
   companyOrFoundationBacked: unknown
   medianFirstResponseDays: unknown
   archived: false
-  gzipBytes: 52634 # 51.4 KB: Radix + cmdk + clsx + tailwind-merge + class-variance-authority
+  gzipBytes: 52636 # 51.4 KB: Radix + cmdk + clsx + tailwind-merge + class-variance-authority
   entryImports: ["radix-ui", "cmdk", "clsx", "tailwind-merge", "class-variance-authority"]
   treeShakes: true
   types: "ours after copy"
@@ -33,7 +33,7 @@ facts:
 scores:
   license: { score: 4, evidence: "https://raw.githubusercontent.com/shadcn-ui/ui/main/LICENSE.md — MIT" }
   maintenance: { score: 3, evidence: "npm publish times 4.19.1..4.21.0 inside two weeks; maintainer count and company backing not verifiable from here, so the rubric's single-maintainer cap cannot be cleared with a link" }
-  bundle: { score: 2, evidence: "spikes/PAP-212-ui-kits/results/summary.json — 52634 B gzipped for the four recipes" }
+  bundle: { score: 2, evidence: "spikes/PAP-212-ui-kits/results/summary.json — 52636 B gzipped for the four recipes" }
   a11y: { score: 3, evidence: "inherits Radix's APG behaviour (https://www.radix-ui.com/primitives/docs/overview/accessibility); the copied markup is then ours to keep accessible" }
   ts: { score: 4, evidence: "copied source is our own typed code; 0 declaration errors in the measured tree" }
   agent: { score: 4, evidence: "https://ui.shadcn.com/llms.txt, official MCP server (https://ui.shadcn.com/docs/mcp) and Claude Code Skills (https://ui.shadcn.com/docs/skills), plus registry JSON schemas" }

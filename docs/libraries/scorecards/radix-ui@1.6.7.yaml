@@ -21,7 +21,7 @@ facts:
   companyOrFoundationBacked: "WorkOS"
   medianFirstResponseDays: unknown
   archived: false
-  gzipBytes: 44134 # 43.1 KB for the four, INCLUDING cmdk — Radix ships no combobox
+  gzipBytes: 44126 # 43.1 KB for the four, INCLUDING cmdk — Radix ships no combobox
   entryImports: ["radix-ui (Select, Dialog, DropdownMenu, Popover)", "cmdk"]
   treeShakes: true
   types: shipped
@@ -37,7 +37,7 @@ facts:
 scores:
   license: { score: 4, evidence: "https://raw.githubusercontent.com/radix-ui/primitives/main/LICENSE — MIT" }
   maintenance: { score: 3, evidence: "last stable 2026-07-24 with RCs to 2026-07-31 and nothing since; 204 open issues / 151 open PRs and no GitHub releases or published roadmap (https://github.com/radix-ui/primitives, 2026-09-19); the original authors now maintain Base UI (https://base-ui.com/react/overview/about.md)" }
-  bundle: { score: 2, evidence: "spikes/PAP-212-ui-kits/results/summary.json — 44134 B gzipped, the smallest measured, and that number includes cmdk" }
+  bundle: { score: 2, evidence: "spikes/PAP-212-ui-kits/results/summary.json — 44126 B gzipped, the smallest measured, and that number includes cmdk" }
   a11y: { score: 3, evidence: "https://www.radix-ui.com/primitives/docs/overview/accessibility — APG guidelines, 'tested in a wide selection of modern browsers and commonly used assistive technologies', documented focus management; RTL via @radix-ui/react-direction 1.1.4" }
   ts: { score: 4, evidence: "spikes/PAP-212-ui-kits — 0 declaration errors at strict + exactOptionalPropertyTypes + skipLibCheck:false; publint suggestion only" }
   agent: { score: 3, evidence: "stable naming and heavy in-weights coverage, but no llms.txt (404) and two live package shapes (radix-ui vs @radix-ui/react-*) a session picks between" }

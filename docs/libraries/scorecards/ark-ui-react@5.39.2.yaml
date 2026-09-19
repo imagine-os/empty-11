@@ -17,7 +17,7 @@ facts:
   companyOrFoundationBacked: "Chakra Systems Inc."
   medianFirstResponseDays: unknown
   archived: false
-  gzipBytes: 58266 # 56.9 KB for the four components, react external
+  gzipBytes: 58308 # 56.9 KB for the four components, react external
   entryImports: ["@ark-ui/react/select", "@ark-ui/react/dialog", "@ark-ui/react/menu", "@ark-ui/react/combobox", "@ark-ui/react/portal"]
   treeShakes: true
   types: shipped
@@ -32,7 +32,7 @@ facts:
 scores:
   license: { score: 4, evidence: "https://raw.githubusercontent.com/chakra-ui/ark/main/LICENSE — MIT" }
   maintenance: { score: 4, evidence: "npm publish times: four minors between 2026-08-17 and 2026-09-13; Chakra Systems Inc.; per-framework changelogs at https://ark-ui.com/react/docs/overview/changelog" }
-  bundle: { score: 2, evidence: "spikes/PAP-212-ui-kits/results/summary.json — 58266 B gzipped; results/top-modules.json shows the Zag machines as the top three" }
+  bundle: { score: 2, evidence: "spikes/PAP-212-ui-kits/results/summary.json — 58308 B gzipped; results/top-modules.json shows the Zag machines as the top three" }
   a11y: { score: 3, evidence: "WAI-ARIA patterns encoded in Zag.js machines with documented keyboard support per component and dir support (@zag-js/menu machine); no upstream screen-reader testing claim" }
   ts: { score: 3, evidence: "spikes/PAP-212-ui-kits — 2 declaration errors at exactOptionalPropertyTypes; publint clean" }
   agent: { score: 3, evidence: "https://ark-ui.com/llms.txt plus a markdown twin per page; held at 3 — thinnest in-weights coverage of the five and an idiosyncratic collection API (createListCollection/useListCollection)" }
