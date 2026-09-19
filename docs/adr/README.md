@@ -17,7 +17,7 @@ Numbers are pre-assigned by the plan; take yours, do not renumber.
 | 0007 | payroll-provider | PAP-176 | Planned |
 | 0008 | [crm-marketing-stack](0008-crm-marketing-stack.md) | PAP-188 | Proposed |
 | 0009 | library-evaluation-rubric | PAP-209 | Planned |
-| 0010 | branching-and-commits | PAP-46 | Planned |
+| 0010 | [branching-and-commits](0010-branching-and-commits.md) | PAP-46 | Accepted |
 | 0011 | shared-value-types | PAP-302 | Planned |
 | 0012 | filter-grammar | PAP-279 | Planned |
 | 0013 | domain-events-outbox | PAP-555 | Planned |

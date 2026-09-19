@@ -8,6 +8,11 @@ Platform reference. Two kinds of file live here and they are treated differently
   CI fails when the committed copy is stale.
 * **Hand-written** — the swap playbook, the kernel walkthrough, runbooks.
 
+Here now:
+
+* [`branching-and-commits.md`](branching-and-commits.md) — ref namespace, worktree-per-issue,
+  Conventional Commits and ref protection for parallel agent sessions (PAP-46, ADR 0010).
+  Configuration lives in [`ops/forge/`](../../ops/forge/README.md).
 * [`forge-topology.md`](forge-topology.md) — Forgejo/GitHub mirroring topology, failover and
   failure modes (PAP-44, hand-written; implemented by PAP-47).
 
