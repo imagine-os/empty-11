@@ -265,6 +265,9 @@ importers:
       '@paperos/config-ts':
         specifier: workspace:*
         version: link:../config-ts
+      '@vitest/coverage-v8':
+        specifier: 'catalog:'
+        version: 3.2.7(vitest@3.2.7(@types/node@22.20.4)(jsdom@26.1.0)(tsx@4.23.13)(yaml@2.9.1))
       fast-check:
         specifier: ^4.10.1
         version: 4.10.1
