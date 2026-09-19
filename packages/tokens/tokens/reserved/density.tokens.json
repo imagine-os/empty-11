@@ -1,0 +1,4 @@
+{
+  "$description": "Reserved namespace for PAP-669 (density modes): compact, default and comfortable control-height, spacing and row-height tokens applied via a `data-density` attribute the same way themes apply via `data-theme`. Empty on purpose -- `density.*` is wired into the build's merge and CSS-variable emission today, so PAP-669 lands tokens here without any build-config change.",
+  "density": {}
+}

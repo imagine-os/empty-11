@@ -1,0 +1,684 @@
+{
+  "$description": "PAP-66 core (primitive) design tokens. Generated ramps come from `pnpm ramps` (culori); everything else is hand-authored. Never reference these directly from components -- use the semantic layer or a theme file.",
+  "color": {
+    "neutral": {
+      "50": {
+        "$type": "color",
+        "$value": "oklch(0.98 0.0012 260)"
+      },
+      "100": {
+        "$type": "color",
+        "$value": "oklch(0.95 0.0024 260)"
+      },
+      "200": {
+        "$type": "color",
+        "$value": "oklch(0.9 0.0048 260)"
+      },
+      "300": {
+        "$type": "color",
+        "$value": "oklch(0.83 0.0078 260)"
+      },
+      "400": {
+        "$type": "color",
+        "$value": "oklch(0.74 0.0102 260)"
+      },
+      "500": {
+        "$type": "color",
+        "$value": "oklch(0.64 0.012 260)"
+      },
+      "600": {
+        "$type": "color",
+        "$value": "oklch(0.55 0.0114 260)"
+      },
+      "700": {
+        "$type": "color",
+        "$value": "oklch(0.46 0.0098 260)"
+      },
+      "800": {
+        "$type": "color",
+        "$value": "oklch(0.38 0.0079 260)"
+      },
+      "900": {
+        "$type": "color",
+        "$value": "oklch(0.3 0.006 260)"
+      },
+      "950": {
+        "$type": "color",
+        "$value": "oklch(0.22 0.0043 260)"
+      }
+    },
+    "accent": {
+      "50": {
+        "$type": "color",
+        "$value": "oklch(0.98 0.0094 260)"
+      },
+      "100": {
+        "$type": "color",
+        "$value": "oklch(0.95 0.0238 260)"
+      },
+      "200": {
+        "$type": "color",
+        "$value": "oklch(0.9 0.0485 260)"
+      },
+      "300": {
+        "$type": "color",
+        "$value": "oklch(0.83 0.0848 260)"
+      },
+      "400": {
+        "$type": "color",
+        "$value": "oklch(0.74 0.1343 260)"
+      },
+      "500": {
+        "$type": "color",
+        "$value": "oklch(0.64 0.19 260)"
+      },
+      "600": {
+        "$type": "color",
+        "$value": "oklch(0.55 0.1805 260)"
+      },
+      "700": {
+        "$type": "color",
+        "$value": "oklch(0.46 0.1558 260)"
+      },
+      "800": {
+        "$type": "color",
+        "$value": "oklch(0.38 0.1254 260)"
+      },
+      "900": {
+        "$type": "color",
+        "$value": "oklch(0.3 0.095 260)"
+      },
+      "950": {
+        "$type": "color",
+        "$value": "oklch(0.22 0.0684 260)"
+      }
+    },
+    "success": {
+      "50": {
+        "$type": "color",
+        "$value": "oklch(0.98 0.017 145)"
+      },
+      "100": {
+        "$type": "color",
+        "$value": "oklch(0.95 0.034 145)"
+      },
+      "200": {
+        "$type": "color",
+        "$value": "oklch(0.9 0.068 145)"
+      },
+      "300": {
+        "$type": "color",
+        "$value": "oklch(0.83 0.1105 145)"
+      },
+      "400": {
+        "$type": "color",
+        "$value": "oklch(0.74 0.1445 145)"
+      },
+      "500": {
+        "$type": "color",
+        "$value": "oklch(0.64 0.17 145)"
+      },
+      "600": {
+        "$type": "color",
+        "$value": "oklch(0.55 0.1615 145)"
+      },
+      "700": {
+        "$type": "color",
+        "$value": "oklch(0.46 0.1394 145)"
+      },
+      "800": {
+        "$type": "color",
+        "$value": "oklch(0.38 0.1122 145)"
+      },
+      "900": {
+        "$type": "color",
+        "$value": "oklch(0.3 0.085 145)"
+      },
+      "950": {
+        "$type": "color",
+        "$value": "oklch(0.22 0.0612 145)"
+      }
+    },
+    "warning": {
+      "50": {
+        "$type": "color",
+        "$value": "oklch(0.98 0.016 80)"
+      },
+      "100": {
+        "$type": "color",
+        "$value": "oklch(0.95 0.032 80)"
+      },
+      "200": {
+        "$type": "color",
+        "$value": "oklch(0.9 0.064 80)"
+      },
+      "300": {
+        "$type": "color",
+        "$value": "oklch(0.83 0.104 80)"
+      },
+      "400": {
+        "$type": "color",
+        "$value": "oklch(0.74 0.136 80)"
+      },
+      "500": {
+        "$type": "color",
+        "$value": "oklch(0.64 0.1325 80)"
+      },
+      "600": {
+        "$type": "color",
+        "$value": "oklch(0.55 0.1139 80)"
+      },
+      "700": {
+        "$type": "color",
+        "$value": "oklch(0.46 0.0953 80)"
+      },
+      "800": {
+        "$type": "color",
+        "$value": "oklch(0.38 0.0787 80)"
+      },
+      "900": {
+        "$type": "color",
+        "$value": "oklch(0.3 0.0621 80)"
+      },
+      "950": {
+        "$type": "color",
+        "$value": "oklch(0.22 0.0456 80)"
+      }
+    },
+    "danger": {
+      "50": {
+        "$type": "color",
+        "$value": "oklch(0.98 0.0097 25)"
+      },
+      "100": {
+        "$type": "color",
+        "$value": "oklch(0.95 0.0248 25)"
+      },
+      "200": {
+        "$type": "color",
+        "$value": "oklch(0.9 0.0519 25)"
+      },
+      "300": {
+        "$type": "color",
+        "$value": "oklch(0.83 0.0943 25)"
+      },
+      "400": {
+        "$type": "color",
+        "$value": "oklch(0.74 0.1583 25)"
+      },
+      "500": {
+        "$type": "color",
+        "$value": "oklch(0.64 0.2 25)"
+      },
+      "600": {
+        "$type": "color",
+        "$value": "oklch(0.55 0.19 25)"
+      },
+      "700": {
+        "$type": "color",
+        "$value": "oklch(0.46 0.164 25)"
+      },
+      "800": {
+        "$type": "color",
+        "$value": "oklch(0.38 0.132 25)"
+      },
+      "900": {
+        "$type": "color",
+        "$value": "oklch(0.3 0.1 25)"
+      },
+      "950": {
+        "$type": "color",
+        "$value": "oklch(0.22 0.072 25)"
+      }
+    },
+    "info": {
+      "50": {
+        "$type": "color",
+        "$value": "oklch(0.98 0.0118 230)"
+      },
+      "100": {
+        "$type": "color",
+        "$value": "oklch(0.95 0.0298 230)"
+      },
+      "200": {
+        "$type": "color",
+        "$value": "oklch(0.9 0.06 230)"
+      },
+      "300": {
+        "$type": "color",
+        "$value": "oklch(0.83 0.0975 230)"
+      },
+      "400": {
+        "$type": "color",
+        "$value": "oklch(0.74 0.1275 230)"
+      },
+      "500": {
+        "$type": "color",
+        "$value": "oklch(0.64 0.1275 230)"
+      },
+      "600": {
+        "$type": "color",
+        "$value": "oklch(0.55 0.1096 230)"
+      },
+      "700": {
+        "$type": "color",
+        "$value": "oklch(0.46 0.0916 230)"
+      },
+      "800": {
+        "$type": "color",
+        "$value": "oklch(0.38 0.0757 230)"
+      },
+      "900": {
+        "$type": "color",
+        "$value": "oklch(0.3 0.0598 230)"
+      },
+      "950": {
+        "$type": "color",
+        "$value": "oklch(0.22 0.0438 230)"
+      }
+    },
+    "base": {
+      "white": {
+        "$type": "color",
+        "$value": "oklch(100% 0 0)"
+      },
+      "black": {
+        "$type": "color",
+        "$value": "oklch(0% 0 0)"
+      },
+      "transparent": {
+        "$type": "color",
+        "$value": "oklch(0% 0 0 / 0)"
+      }
+    }
+  },
+  "font": {
+    "family": {
+      "sans": {
+        "$type": "font-family",
+        "$value": ["Inter Variable", "Inter", "system-ui", "sans-serif"]
+      },
+      "mono": {
+        "$type": "font-family",
+        "$value": ["JetBrains Mono", "ui-monospace", "SFMono-Regular", "monospace"]
+      }
+    },
+    "size": {
+      "xs": {
+        "$type": "fluid-size",
+        "$value": {
+          "min": "12px",
+          "max": "16px"
+        }
+      },
+      "sm": {
+        "$type": "fluid-size",
+        "$value": {
+          "min": "14px",
+          "max": "18px"
+        }
+      },
+      "md": {
+        "$type": "fluid-size",
+        "$value": {
+          "min": "16px",
+          "max": "22px"
+        }
+      },
+      "lg": {
+        "$type": "fluid-size",
+        "$value": {
+          "min": "18px",
+          "max": "26px"
+        }
+      },
+      "xl": {
+        "$type": "fluid-size",
+        "$value": {
+          "min": "20px",
+          "max": "30px"
+        }
+      },
+      "2xl": {
+        "$type": "fluid-size",
+        "$value": {
+          "min": "24px",
+          "max": "36px"
+        }
+      },
+      "3xl": {
+        "$type": "fluid-size",
+        "$value": {
+          "min": "30px",
+          "max": "46px"
+        }
+      },
+      "4xl": {
+        "$type": "fluid-size",
+        "$value": {
+          "min": "36px",
+          "max": "58px"
+        }
+      }
+    },
+    "line-height": {
+      "tight": {
+        "$type": "number",
+        "$value": 1.1
+      },
+      "snug": {
+        "$type": "number",
+        "$value": 1.25
+      },
+      "normal": {
+        "$type": "number",
+        "$value": 1.5
+      },
+      "relaxed": {
+        "$type": "number",
+        "$value": 1.625
+      }
+    },
+    "weight": {
+      "regular": {
+        "$type": "font-weight",
+        "$value": 400
+      },
+      "medium": {
+        "$type": "font-weight",
+        "$value": 500
+      },
+      "semibold": {
+        "$type": "font-weight",
+        "$value": 600
+      },
+      "bold": {
+        "$type": "font-weight",
+        "$value": 700
+      }
+    }
+  },
+  "space": {
+    "0": {
+      "$type": "dimension",
+      "$value": "0px"
+    },
+    "4": {
+      "$type": "dimension",
+      "$value": "4px"
+    },
+    "8": {
+      "$type": "dimension",
+      "$value": "8px"
+    },
+    "12": {
+      "$type": "dimension",
+      "$value": "12px"
+    },
+    "16": {
+      "$type": "dimension",
+      "$value": "16px"
+    },
+    "20": {
+      "$type": "dimension",
+      "$value": "20px"
+    },
+    "24": {
+      "$type": "dimension",
+      "$value": "24px"
+    },
+    "32": {
+      "$type": "dimension",
+      "$value": "32px"
+    },
+    "40": {
+      "$type": "dimension",
+      "$value": "40px"
+    },
+    "48": {
+      "$type": "dimension",
+      "$value": "48px"
+    },
+    "64": {
+      "$type": "dimension",
+      "$value": "64px"
+    },
+    "80": {
+      "$type": "dimension",
+      "$value": "80px"
+    },
+    "96": {
+      "$type": "dimension",
+      "$value": "96px"
+    }
+  },
+  "radius": {
+    "none": {
+      "$type": "dimension",
+      "$value": "0px"
+    },
+    "xs": {
+      "$type": "dimension",
+      "$value": "2px"
+    },
+    "sm": {
+      "$type": "dimension",
+      "$value": "4px"
+    },
+    "md": {
+      "$type": "dimension",
+      "$value": "8px"
+    },
+    "lg": {
+      "$type": "dimension",
+      "$value": "12px"
+    },
+    "xl": {
+      "$type": "dimension",
+      "$value": "16px"
+    },
+    "2xl": {
+      "$type": "dimension",
+      "$value": "24px"
+    },
+    "full": {
+      "$type": "dimension",
+      "$value": "9999px"
+    }
+  },
+  "shadow": {
+    "1": {
+      "$type": "shadow",
+      "$value": "0 1px 2px oklch(25% 0.02 260 / 0.06)"
+    },
+    "2": {
+      "$type": "shadow",
+      "$value": "0 2px 4px oklch(25% 0.02 260 / 0.08), 0 1px 2px oklch(25% 0.02 260 / 0.06)"
+    },
+    "3": {
+      "$type": "shadow",
+      "$value": "0 4px 8px oklch(25% 0.02 260 / 0.10), 0 2px 4px oklch(25% 0.02 260 / 0.06)"
+    },
+    "4": {
+      "$type": "shadow",
+      "$value": "0 8px 16px oklch(25% 0.02 260 / 0.12), 0 4px 8px oklch(25% 0.02 260 / 0.06)"
+    },
+    "5": {
+      "$type": "shadow",
+      "$value": "0 16px 32px oklch(25% 0.02 260 / 0.16), 0 6px 12px oklch(25% 0.02 260 / 0.08)"
+    }
+  },
+  "shadow-dark": {
+    "1": {
+      "$type": "shadow",
+      "$value": "0 1px 2px oklch(0% 0 0 / 0.40)"
+    },
+    "2": {
+      "$type": "shadow",
+      "$value": "0 2px 4px oklch(0% 0 0 / 0.48), 0 1px 2px oklch(0% 0 0 / 0.32)"
+    },
+    "3": {
+      "$type": "shadow",
+      "$value": "0 4px 8px oklch(0% 0 0 / 0.52), 0 2px 4px oklch(0% 0 0 / 0.32)"
+    },
+    "4": {
+      "$type": "shadow",
+      "$value": "0 8px 16px oklch(0% 0 0 / 0.56), 0 4px 8px oklch(0% 0 0 / 0.36)"
+    },
+    "5": {
+      "$type": "shadow",
+      "$value": "0 16px 32px oklch(0% 0 0 / 0.64), 0 6px 12px oklch(0% 0 0 / 0.40)"
+    }
+  },
+  "motion": {
+    "duration": {
+      "instant": {
+        "$type": "duration",
+        "$value": "0ms"
+      },
+      "fast": {
+        "$type": "duration",
+        "$value": "120ms"
+      },
+      "base": {
+        "$type": "duration",
+        "$value": "200ms"
+      },
+      "slow": {
+        "$type": "duration",
+        "$value": "320ms"
+      },
+      "deliberate": {
+        "$type": "duration",
+        "$value": "480ms"
+      }
+    },
+    "ease": {
+      "standard": {
+        "$type": "cubic-bezier",
+        "$value": [0.4, 0, 0.2, 1]
+      },
+      "enter": {
+        "$type": "cubic-bezier",
+        "$value": [0, 0, 0.2, 1]
+      },
+      "exit": {
+        "$type": "cubic-bezier",
+        "$value": [0.4, 0, 1, 1]
+      },
+      "spring": {
+        "$type": "cubic-bezier",
+        "$value": [0.34, 1.56, 0.64, 1]
+      }
+    }
+  },
+  "z": {
+    "base": {
+      "$type": "number",
+      "$value": 0
+    },
+    "raised": {
+      "$type": "number",
+      "$value": 10
+    },
+    "sticky": {
+      "$type": "number",
+      "$value": 100
+    },
+    "dropdown": {
+      "$type": "number",
+      "$value": 1000
+    },
+    "overlay": {
+      "$type": "number",
+      "$value": 1100
+    },
+    "modal": {
+      "$type": "number",
+      "$value": 1200
+    },
+    "popover": {
+      "$type": "number",
+      "$value": 1300
+    },
+    "toast": {
+      "$type": "number",
+      "$value": 1400
+    },
+    "tooltip": {
+      "$type": "number",
+      "$value": 1500
+    }
+  },
+  "breakpoint": {
+    "$description": "PAP-14 (device matrix) had not landed when this was written; using the brief's fallback matrix (360/390/768/1280/1920/2560/3840). Re-derive from docs/research/device-matrix.md once PAP-14 lands (see docs/adr/0018-design-tokens.md Consequences).",
+    "xs": {
+      "$type": "dimension",
+      "$value": "360px"
+    },
+    "sm": {
+      "$type": "dimension",
+      "$value": "390px"
+    },
+    "md": {
+      "$type": "dimension",
+      "$value": "768px"
+    },
+    "lg": {
+      "$type": "dimension",
+      "$value": "1280px"
+    },
+    "xl": {
+      "$type": "dimension",
+      "$value": "1920px"
+    },
+    "2xl": {
+      "$type": "dimension",
+      "$value": "2560px"
+    },
+    "3xl": {
+      "$type": "dimension",
+      "$value": "3840px"
+    }
+  },
+  "size": {
+    "target": {
+      "min": {
+        "$type": "dimension",
+        "$value": "44px"
+      }
+    },
+    "control": {
+      "sm": {
+        "$type": "dimension",
+        "$value": "32px"
+      },
+      "md": {
+        "$type": "dimension",
+        "$value": "40px"
+      },
+      "lg": {
+        "$type": "dimension",
+        "$value": "48px"
+      }
+    },
+    "icon": {
+      "sm": {
+        "$type": "dimension",
+        "$value": "16px"
+      },
+      "md": {
+        "$type": "dimension",
+        "$value": "20px"
+      },
+      "lg": {
+        "$type": "dimension",
+        "$value": "24px"
+      },
+      "xl": {
+        "$type": "dimension",
+        "$value": "32px"
+      }
+    }
+  }
+}

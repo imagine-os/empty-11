@@ -1,0 +1,57 @@
+{
+  "$description": "High-contrast theme: color.* semantic roles for data-theme=\"hc\", a light-background maximum-contrast mode (WCAG AAA-leaning). Never selected automatically from prefers-color-scheme -- only an explicit data-theme=\"hc\" (a user setting) applies it, matching Windows/forced-colors conventions where high contrast is opt-in. Borders and text carry black/near-black tones so meaning never depends on a subtle hue difference.",
+  "color": {
+    "bg": {
+      "canvas": { "$type": "color", "$value": "{color.base.white}" },
+      "surface": { "$type": "color", "$value": "{color.base.white}" },
+      "raised": { "$type": "color", "$value": "{color.base.white}" },
+      "overlay": { "$type": "color", "$value": "oklch(0% 0 0 / 0.80)" }
+    },
+    "fg": {
+      "default": { "$type": "color", "$value": "{color.base.black}" },
+      "muted": { "$type": "color", "$value": "{color.neutral.800}" },
+      "subtle": { "$type": "color", "$value": "{color.neutral.700}" },
+      "on-accent": { "$type": "color", "$value": "{color.base.white}" }
+    },
+    "border": {
+      "default": { "$type": "color", "$value": "{color.base.black}" },
+      "strong": { "$type": "color", "$value": "{color.base.black}" },
+      "focus": { "$type": "color", "$value": "{color.base.black}" }
+    },
+    "accent": {
+      "default": { "$type": "color", "$value": "{color.accent.950}" },
+      "hover": { "$type": "color", "$value": "{color.base.black}" },
+      "active": { "$type": "color", "$value": "{color.base.black}" }
+    },
+    "success": {
+      "bg": { "$type": "color", "$value": "{color.base.white}" },
+      "fg": { "$type": "color", "$value": "{color.success.950}" },
+      "border": { "$type": "color", "$value": "{color.base.black}" }
+    },
+    "warning": {
+      "bg": { "$type": "color", "$value": "{color.base.white}" },
+      "fg": { "$type": "color", "$value": "{color.warning.950}" },
+      "border": { "$type": "color", "$value": "{color.base.black}" }
+    },
+    "danger": {
+      "bg": { "$type": "color", "$value": "{color.base.white}" },
+      "fg": { "$type": "color", "$value": "{color.danger.950}" },
+      "border": { "$type": "color", "$value": "{color.base.black}" }
+    },
+    "info": {
+      "bg": { "$type": "color", "$value": "{color.base.white}" },
+      "fg": { "$type": "color", "$value": "{color.info.950}" },
+      "border": { "$type": "color", "$value": "{color.base.black}" }
+    },
+    "focus": { "$type": "color", "$value": "{color.base.black}" }
+  },
+  "shadow": {
+    "role": {
+      "1": { "$type": "shadow", "$value": "0 0 0 1px oklch(0% 0 0)" },
+      "2": { "$type": "shadow", "$value": "0 0 0 1px oklch(0% 0 0)" },
+      "3": { "$type": "shadow", "$value": "0 0 0 1px oklch(0% 0 0)" },
+      "4": { "$type": "shadow", "$value": "0 0 0 2px oklch(0% 0 0)" },
+      "5": { "$type": "shadow", "$value": "0 0 0 2px oklch(0% 0 0)" }
+    }
+  }
+}

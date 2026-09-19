@@ -15,5 +15,8 @@ Here now:
   Configuration lives in [`ops/forge/`](../../ops/forge/README.md).
 * [`forge-topology.md`](forge-topology.md) — Forgejo/GitHub mirroring topology, failover and
   failure modes (PAP-44, hand-written; implemented by PAP-47).
+* [`design-tokens.md`](design-tokens.md) — DTCG token source, the `--pos-*` naming grammar, theme
+  switching, fluid type, sRGB fallback, and validation (`tokens:lint`/`tokens:check`/`build:check`)
+  for `@paperos/tokens` (PAP-66, ADR 0018).
 
 The module-system issues (PAP-433 onwards) land the generated files.

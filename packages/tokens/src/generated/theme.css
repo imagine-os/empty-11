@@ -1,0 +1,93 @@
+/**
+ * GENERATED FILE -- do not edit by hand.
+ * Source: packages/tokens/tokens/**.tokens.json
+ * Run `pnpm --filter @paperos/tokens build` to regenerate.
+ * CI's drift check fails if a commit changes the sources without also
+ * committing a fresh build of this file.
+ */
+
+@theme {
+  /* Disable Tailwind's built-in palette so only tokens resolve. */
+  --color-*: initial;
+
+  --color-canvas: var(--pos-color-bg-canvas);
+  --color-surface: var(--pos-color-bg-surface);
+  --color-raised: var(--pos-color-bg-raised);
+  --color-overlay: var(--pos-color-bg-overlay);
+  --color-fg: var(--pos-color-fg-default);
+  --color-fg-muted: var(--pos-color-fg-muted);
+  --color-fg-subtle: var(--pos-color-fg-subtle);
+  --color-on-accent: var(--pos-color-fg-on-accent);
+  --color-border: var(--pos-color-border-default);
+  --color-border-strong: var(--pos-color-border-strong);
+  --color-accent: var(--pos-color-accent-default);
+  --color-accent-hover: var(--pos-color-accent-hover);
+  --color-accent-active: var(--pos-color-accent-active);
+  --color-success: var(--pos-color-success-fg);
+  --color-success-bg: var(--pos-color-success-bg);
+  --color-warning: var(--pos-color-warning-fg);
+  --color-warning-bg: var(--pos-color-warning-bg);
+  --color-danger: var(--pos-color-danger-fg);
+  --color-danger-bg: var(--pos-color-danger-bg);
+  --color-info: var(--pos-color-info-fg);
+  --color-info-bg: var(--pos-color-info-bg);
+  --color-focus: var(--pos-color-focus);
+
+  --text-xs: var(--pos-font-size-xs);
+  --text-sm: var(--pos-font-size-sm);
+  --text-md: var(--pos-font-size-md);
+  --text-lg: var(--pos-font-size-lg);
+  --text-xl: var(--pos-font-size-xl);
+  --text-2xl: var(--pos-font-size-2xl);
+  --text-3xl: var(--pos-font-size-3xl);
+  --text-4xl: var(--pos-font-size-4xl);
+
+  --font-sans: var(--pos-font-family-sans);
+  --font-mono: var(--pos-font-family-mono);
+  --font-weight-regular: var(--pos-font-weight-regular);
+  --font-weight-medium: var(--pos-font-weight-medium);
+  --font-weight-semibold: var(--pos-font-weight-semibold);
+  --font-weight-bold: var(--pos-font-weight-bold);
+
+  --radius-none: var(--pos-radius-none);
+  --radius-xs: var(--pos-radius-xs);
+  --radius-sm: var(--pos-radius-sm);
+  --radius-md: var(--pos-radius-md);
+  --radius-lg: var(--pos-radius-lg);
+  --radius-xl: var(--pos-radius-xl);
+  --radius-2xl: var(--pos-radius-2xl);
+  --radius-full: var(--pos-radius-full);
+
+  --spacing-0: var(--pos-space-0);
+  --spacing-4: var(--pos-space-4);
+  --spacing-8: var(--pos-space-8);
+  --spacing-12: var(--pos-space-12);
+  --spacing-16: var(--pos-space-16);
+  --spacing-20: var(--pos-space-20);
+  --spacing-24: var(--pos-space-24);
+  --spacing-32: var(--pos-space-32);
+  --spacing-40: var(--pos-space-40);
+  --spacing-48: var(--pos-space-48);
+  --spacing-64: var(--pos-space-64);
+  --spacing-80: var(--pos-space-80);
+  --spacing-96: var(--pos-space-96);
+
+  --breakpoint-xs: var(--pos-breakpoint-xs);
+  --breakpoint-sm: var(--pos-breakpoint-sm);
+  --breakpoint-md: var(--pos-breakpoint-md);
+  --breakpoint-lg: var(--pos-breakpoint-lg);
+  --breakpoint-xl: var(--pos-breakpoint-xl);
+  --breakpoint-2xl: var(--pos-breakpoint-2xl);
+  --breakpoint-3xl: var(--pos-breakpoint-3xl);
+
+  --shadow-1: var(--pos-shadow-role-1);
+  --shadow-2: var(--pos-shadow-role-2);
+  --shadow-3: var(--pos-shadow-role-3);
+  --shadow-4: var(--pos-shadow-role-4);
+  --shadow-5: var(--pos-shadow-role-5);
+
+  --ease-standard: var(--pos-motion-ease-standard);
+  --ease-enter: var(--pos-motion-ease-enter);
+  --ease-exit: var(--pos-motion-ease-exit);
+  --ease-spring: var(--pos-motion-ease-spring);
+}

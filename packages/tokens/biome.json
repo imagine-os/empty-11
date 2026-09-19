@@ -1,0 +1,17 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.5.14/schema.json",
+  "extends": ["@paperos/config-biome/preset.json"],
+  "overrides": [
+    {
+      "includes": ["src/generated/theme.css"],
+      "css": { "parser": { "tailwindDirectives": true } },
+      "linter": { "enabled": false },
+      "formatter": { "enabled": false }
+    },
+    {
+      "includes": ["src/generated/**"],
+      "linter": { "enabled": false },
+      "formatter": { "enabled": false }
+    }
+  ]
+}

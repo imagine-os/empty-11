@@ -1,0 +1,43 @@
+{
+  "name": "@paperos/tokens",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "PaperOS design tokens (design-system module): DTCG JSON source, compiled to CSS custom properties, a Tailwind v4 theme and typed TS exports.",
+  "exports": {
+    ".": "./src/index.ts",
+    "./tokens.css": "./src/generated/tokens.css",
+    "./theme.css": "./src/generated/theme.css"
+  },
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "files": [
+    "src",
+    "tokens",
+    "schema"
+  ],
+  "scripts": {
+    "build": "tsx scripts/build.ts",
+    "build:check": "tsx scripts/build.ts --check",
+    "ramps": "tsx scripts/generate-ramps.ts",
+    "tokens:check": "tsx scripts/check-contrast.ts",
+    "tokens:lint": "tsx scripts/lint-tokens.ts",
+    "lint": "biome check .",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "vitest run --passWithNoTests",
+    "clean": "node -e \"require('node:fs').rmSync('coverage',{recursive:true,force:true})\""
+  },
+  "dependencies": {
+    "culori": "^4.0.2"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "catalog:",
+    "@paperos/config-ts": "workspace:*",
+    "@types/culori": "^4.0.1",
+    "@types/node": "catalog:",
+    "ajv": "^8.20.0",
+    "tsx": "^4.20.6",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}
