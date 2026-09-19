@@ -1,0 +1,69 @@
+{
+  "$comment": "Resolved to ids at apply time by scripts/apply-branch-policy.ts. Shipped rulesets carry bypass_actors: [] so the JSON files stay directly importable and safe by default. Copy to bypass-actors.json (gitignored) or pass --bypass-actors <file>.",
+  "github": {
+    "paperos-main": [
+      {
+        "actor_type": "Integration",
+        "slug": "paperos-agents",
+        "bypass_mode": "pull_request",
+        "issue": "PAP-521",
+        "why": "merge queue and release automation"
+      },
+      {
+        "actor_type": "Team",
+        "slug": "forge-mirror",
+        "bypass_mode": "always",
+        "issue": "PAP-47",
+        "why": "mirror pushes must not fight protection; a fine-grained PAT pushes as its owner, so that owner is the sole member of this team"
+      }
+    ],
+    "paperos-release-branches": [
+      {
+        "actor_type": "Integration",
+        "slug": "paperos-agents",
+        "bypass_mode": "always",
+        "issue": "PAP-521",
+        "why": "release cuts"
+      }
+    ],
+    "paperos-release-tags": [
+      {
+        "actor_type": "Integration",
+        "slug": "paperos-agents",
+        "bypass_mode": "always",
+        "issue": "PAP-52",
+        "why": "the only identity allowed to create *-v* tags"
+      }
+    ],
+    "paperos-hotfix-branches": [
+      {
+        "actor_type": "Team",
+        "slug": "owners",
+        "bypass_mode": "always",
+        "issue": "PAP-48",
+        "why": "bot-atlas is the only identity allowed to cut a hotfix branch"
+      }
+    ]
+  },
+  "forgejo": {
+    "main": {
+      "push_whitelist_usernames": ["bot-atlas"],
+      "merge_whitelist_usernames": ["bot-atlas"],
+      "issue": "PAP-48"
+    },
+    "release/*": {
+      "push_whitelist_usernames": ["bot-atlas", "bot-forge"],
+      "merge_whitelist_usernames": ["bot-atlas"],
+      "issue": "PAP-48"
+    },
+    "hotfix/*": {
+      "push_whitelist_usernames": ["bot-atlas"],
+      "merge_whitelist_usernames": ["bot-atlas"],
+      "issue": "PAP-48"
+    },
+    "tags:*-v*": {
+      "whitelist_usernames": ["bot-forge"],
+      "issue": "PAP-52"
+    }
+  }
+}

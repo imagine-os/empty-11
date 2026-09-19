@@ -1,0 +1,155 @@
+{
+  "version": 1,
+  "issue": "PAP-46",
+  "doc": "docs/platform/branching-and-commits.md",
+  "requiredCheck": "ci / check",
+  "modes": {
+    "target": "plan default: PR-gated main. Apply every artifact below.",
+    "build-loop": "Justin's git-only policy (decision 0001): builders push to main directly. Apply only the artifacts whose modes include \"build-loop\"."
+  },
+  "artifacts": [
+    {
+      "file": "github-main.json",
+      "forge": "github",
+      "modes": ["target"],
+      "apply": {
+        "method": "POST",
+        "path": "/repos/{owner}/{repo}/rulesets",
+        "update": {
+          "method": "PUT",
+          "path": "/repos/{owner}/{repo}/rulesets/{ruleset_id}"
+        }
+      },
+      "matchBy": "name",
+      "note": "Applying this ends build-loop mode for the repo: direct pushes to main stop working."
+    },
+    {
+      "file": "github-release.json",
+      "forge": "github",
+      "modes": ["target", "build-loop"],
+      "apply": {
+        "method": "POST",
+        "path": "/repos/{owner}/{repo}/rulesets",
+        "update": {
+          "method": "PUT",
+          "path": "/repos/{owner}/{repo}/rulesets/{ruleset_id}"
+        }
+      },
+      "matchBy": "name"
+    },
+    {
+      "file": "github-hotfix.json",
+      "forge": "github",
+      "modes": ["target", "build-loop"],
+      "apply": {
+        "method": "POST",
+        "path": "/repos/{owner}/{repo}/rulesets",
+        "update": {
+          "method": "PUT",
+          "path": "/repos/{owner}/{repo}/rulesets/{ruleset_id}"
+        }
+      },
+      "matchBy": "name",
+      "note": "Hotfix branches are Atlas-only (creation rule + bypass) and are the one path that may merge while main is red; deletion is deliberately NOT blocked so they can be cleaned up after the fix lands."
+    },
+    {
+      "file": "github-tags.json",
+      "forge": "github",
+      "modes": ["target", "build-loop"],
+      "apply": {
+        "method": "POST",
+        "path": "/repos/{owner}/{repo}/rulesets",
+        "update": {
+          "method": "PUT",
+          "path": "/repos/{owner}/{repo}/rulesets/{ruleset_id}"
+        }
+      },
+      "matchBy": "name",
+      "note": "Round-4 amendment: *-v* tags may be created only by the release identity."
+    },
+    {
+      "file": "github-signing.json",
+      "forge": "github",
+      "modes": ["target", "build-loop"],
+      "apply": {
+        "method": "POST",
+        "path": "/repos/{owner}/{repo}/rulesets",
+        "update": {
+          "method": "PUT",
+          "path": "/repos/{owner}/{repo}/rulesets/{ruleset_id}"
+        }
+      },
+      "matchBy": "name",
+      "enforcement": "disabled",
+      "note": "Ships disabled. Flip enforcement to \"active\" only after PAP-48 provisions per-character SSH signing keys and allowed_signers."
+    },
+    {
+      "file": "forgejo-main.json",
+      "forge": "forgejo",
+      "modes": ["target"],
+      "apply": {
+        "method": "POST",
+        "path": "/repos/{owner}/{repo}/branch_protections",
+        "update": {
+          "method": "PATCH",
+          "path": "/repos/{owner}/{repo}/branch_protections/{name}"
+        }
+      },
+      "matchBy": "rule_name",
+      "note": "Applying this ends build-loop mode for the repo."
+    },
+    {
+      "file": "forgejo-release.json",
+      "forge": "forgejo",
+      "modes": ["target", "build-loop"],
+      "apply": {
+        "method": "POST",
+        "path": "/repos/{owner}/{repo}/branch_protections",
+        "update": {
+          "method": "PATCH",
+          "path": "/repos/{owner}/{repo}/branch_protections/{name}"
+        }
+      },
+      "matchBy": "rule_name"
+    },
+    {
+      "file": "forgejo-hotfix.json",
+      "forge": "forgejo",
+      "modes": ["target", "build-loop"],
+      "apply": {
+        "method": "POST",
+        "path": "/repos/{owner}/{repo}/branch_protections",
+        "update": {
+          "method": "PATCH",
+          "path": "/repos/{owner}/{repo}/branch_protections/{name}"
+        }
+      },
+      "matchBy": "rule_name"
+    },
+    {
+      "file": "forgejo-tags.json",
+      "forge": "forgejo",
+      "modes": ["target", "build-loop"],
+      "apply": {
+        "method": "POST",
+        "path": "/repos/{owner}/{repo}/tag_protections",
+        "update": {
+          "method": "PATCH",
+          "path": "/repos/{owner}/{repo}/tag_protections/{id}"
+        }
+      },
+      "matchBy": "name_pattern"
+    }
+  ],
+  "bypassActors": {
+    "shipped": [],
+    "resolveFrom": "bypass-actors.example.json",
+    "note": "Shipped files carry empty bypass lists so they are directly importable. The apply script resolves slugs to ids and merges them in."
+  },
+  "needsJustin": {
+    "id": "NJ-PAP-46",
+    "ask": "Apply these rulesets to imagine-os/empty-11 (paperos-template) and its Forgejo twin.",
+    "why": "GitHub repository rulesets and Forgejo admin are irreversible external settings; no session touches them.",
+    "blockedOn": ["PAP-45", "PAP-48"]
+  }
+}

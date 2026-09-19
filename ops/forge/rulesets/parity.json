@@ -1,0 +1,52 @@
+{
+  "version": 1,
+  "issue": "PAP-46",
+  "note": "Printed by scripts/apply-branch-policy.ts --print-parity, and after every apply, so a reader always knows which GitHub guarantees Forgejo cannot give. Degrade gracefully: never fail an apply because of a gap.",
+  "githubOnly": [
+    {
+      "feature": "merge_queue",
+      "gap": "Forgejo has no merge queue.",
+      "mitigation": "PAP-527 merge automation serialises merges and reruns `ci / check` on the merge result before pushing; block_on_outdated_branch approximates the up-to-date requirement."
+    },
+    {
+      "feature": "required_linear_history",
+      "gap": "No per-branch linear-history rule on Forgejo.",
+      "mitigation": "Repository settings allow only squash and rebase merge styles (PATCH /repos/{owner}/{repo} allow_merge_commits=false); the rebase-before-push workflow keeps history linear."
+    },
+    {
+      "feature": "commit_message_pattern / branch_name_pattern / tag_name_pattern",
+      "gap": "Forgejo branch protection has no metadata pattern rules.",
+      "mitigation": "commitlint in the commit-msg hook and in `ci / check` is the authoritative check on both forges; pr-lint (PAP-49) checks the branch name."
+    },
+    {
+      "feature": "allowed_merge_methods (per rule)",
+      "gap": "Forgejo sets allowed merge styles per repository, not per protected branch.",
+      "mitigation": "Repository-level setting; recorded here so the difference is visible."
+    },
+    {
+      "feature": "bypass_mode: pull_request",
+      "gap": "Forgejo whitelists are all-or-nothing per branch.",
+      "mitigation": "Use the narrowest whitelist (bot-atlas only) instead of a partial bypass."
+    },
+    {
+      "feature": "required_status_checks.integration_id",
+      "gap": "Forgejo cannot pin a status context to a specific app.",
+      "mitigation": "Context name `ci / check` only; bot token scopes (PAP-48) limit who can report it."
+    },
+    {
+      "feature": "enforcement: evaluate (dry-run mode)",
+      "gap": "No evaluate mode on Forgejo.",
+      "mitigation": "Use --dry-run on the apply script for the diff instead."
+    }
+  ],
+  "forgejoOnly": [
+    {
+      "feature": "protected_file_patterns / unprotected_file_patterns",
+      "note": "Finer than CODEOWNERS. Left empty for now; CODEOWNERS plus ownership.json is the single ownership source (doc §8)."
+    },
+    {
+      "feature": "apply_to_admins",
+      "note": "Set true. GitHub's equivalent is simply having no bypass actor."
+    }
+  ]
+}

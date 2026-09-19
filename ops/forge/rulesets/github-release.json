@@ -1,0 +1,67 @@
+{
+  "name": "paperos-release-branches",
+  "target": "branch",
+  "enforcement": "active",
+  "bypass_actors": [],
+  "conditions": {
+    "ref_name": {
+      "include": ["refs/heads/release/*"],
+      "exclude": []
+    }
+  },
+  "rules": [
+    {
+      "type": "deletion"
+    },
+    {
+      "type": "non_fast_forward"
+    },
+    {
+      "type": "creation"
+    },
+    {
+      "type": "required_linear_history"
+    },
+    {
+      "type": "pull_request",
+      "parameters": {
+        "required_approving_review_count": 1,
+        "dismiss_stale_reviews_on_push": true,
+        "require_code_owner_review": true,
+        "require_last_push_approval": false,
+        "required_review_thread_resolution": true,
+        "allowed_merge_methods": ["squash"]
+      }
+    },
+    {
+      "type": "required_status_checks",
+      "parameters": {
+        "strict_required_status_checks_policy": true,
+        "do_not_enforce_on_create": false,
+        "required_status_checks": [
+          {
+            "context": "ci / check"
+          }
+        ]
+      }
+    },
+    {
+      "type": "branch_name_pattern",
+      "parameters": {
+        "name": "release/<yyyy-mm-dd>",
+        "negate": false,
+        "operator": "regex",
+        "pattern": "^release/[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+      }
+    },
+    {
+      "type": "commit_message_pattern",
+      "parameters": {
+        "name": "Linear issue reference (PAP-n) in scope or trailer",
+        "negate": false,
+        "operator": "regex",
+        "pattern": "PAP-[0-9]+"
+      }
+    }
+  ]
+}

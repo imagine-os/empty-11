@@ -1,0 +1,26 @@
+{
+  "name": "paperos-release-tags",
+  "target": "tag",
+  "enforcement": "active",
+  "bypass_actors": [],
+  "conditions": {
+    "ref_name": {
+      "include": ["refs/tags/*-v*"],
+      "exclude": []
+    }
+  },
+  "rules": [
+    { "type": "creation" },
+    { "type": "update" },
+    { "type": "deletion" },
+    {
+      "type": "tag_name_pattern",
+      "parameters": {
+        "name": "<component>-v<semver>",
+        "negate": false,
+        "operator": "regex",
+        "pattern": "^[a-z][a-z0-9-]*-v[0-9]+\\.[0-9]+\\.[0-9]+(-(rc|alpha|beta)\\.[0-9]+)?$"
+      }
+    }
+  ]
+}
