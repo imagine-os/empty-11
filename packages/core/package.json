@@ -5,7 +5,8 @@
   "type": "module",
   "description": "Contract-zero primitives: pure TypeScript, no React, no database.",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./filter": "./src/filter/index.ts"
   },
   "main": "./src/index.ts",
   "types": "./src/index.ts",
@@ -16,12 +17,20 @@
     "lint": "biome check .",
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "test": "vitest run --passWithNoTests",
-    "clean": "node -e \"require('node:fs').rmSync('coverage',{recursive:true,force:true})\""
+    "clean": "node -e \"require('node:fs').rmSync('coverage',{recursive:true,force:true})\"",
+    "example:filter": "tsx examples/filter.ts"
   },
   "devDependencies": {
     "@biomejs/biome": "catalog:",
+    "@electric-sql/pglite": "^0.5.8",
     "@paperos/config-ts": "workspace:*",
+    "fast-check": "^4.10.1",
+    "tsx": "^4.23.13",
     "typescript": "catalog:",
     "vitest": "catalog:"
+  },
+  "dependencies": {
+    "drizzle-orm": "^0.45.2",
+    "zod": "^4.6.5"
   }
 }

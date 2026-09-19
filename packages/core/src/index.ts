@@ -9,3 +9,5 @@
 
 /** Version of the PaperOS platform contract this checkout implements. */
 export const PAPEROS_VERSION = '0.1.0' as const;
+
+export * from './filter/index.js';
