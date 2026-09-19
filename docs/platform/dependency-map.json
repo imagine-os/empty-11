@@ -1,0 +1,1885 @@
+{
+  "generated": true,
+  "by": "pnpm gen:dep-map",
+  "issue": "PAP-305",
+  "adr": "docs/adr/0026-package-boundaries.md",
+  "ownershipVersion": 1,
+  "nodes": [
+    {
+      "id": "apps/web",
+      "kind": "runtime",
+      "owner": "app-shell",
+      "optional": false,
+      "issues": ["PAP-13", "PAP-16", "PAP-18"],
+      "present": true
+    },
+    {
+      "id": "apps/desktop",
+      "kind": "runtime",
+      "owner": "app-shell",
+      "optional": false,
+      "issues": ["PAP-19"],
+      "present": true
+    },
+    {
+      "id": "apps/mobile",
+      "kind": "runtime",
+      "owner": "app-shell",
+      "optional": false,
+      "issues": ["PAP-20"],
+      "present": true
+    },
+    {
+      "id": "apps/api",
+      "kind": "runtime",
+      "owner": "data-layer",
+      "optional": false,
+      "issues": ["PAP-267"],
+      "present": true
+    },
+    {
+      "id": "apps/worker",
+      "kind": "runtime",
+      "owner": "data-layer",
+      "optional": false,
+      "issues": ["PAP-43"],
+      "present": false
+    },
+    {
+      "id": "apps/collab-server",
+      "kind": "runtime",
+      "owner": "realtime",
+      "optional": false,
+      "issues": ["PAP-140"],
+      "present": false
+    },
+    {
+      "id": "packages/core",
+      "kind": "core",
+      "owner": "app-shell",
+      "optional": false,
+      "issues": ["PAP-13"],
+      "present": true
+    },
+    {
+      "id": "packages/core/src/audience",
+      "kind": "core",
+      "owner": "identity",
+      "optional": false,
+      "issues": ["PAP-55"],
+      "present": false
+    },
+    {
+      "id": "packages/core/src/devices",
+      "kind": "core",
+      "owner": "app-shell",
+      "optional": false,
+      "issues": ["PAP-14"],
+      "present": true
+    },
+    {
+      "id": "packages/core/src/events",
+      "kind": "core",
+      "owner": "data-layer",
+      "optional": false,
+      "issues": ["PAP-555"],
+      "present": false
+    },
+    {
+      "id": "packages/core/src/filter",
+      "kind": "core",
+      "owner": "data-layer",
+      "optional": false,
+      "issues": ["PAP-279"],
+      "present": false
+    },
+    {
+      "id": "packages/core/src/flags",
+      "kind": "core",
+      "owner": "app-shell",
+      "optional": false,
+      "issues": ["PAP-366"],
+      "present": false
+    },
+    {
+      "id": "packages/core/src/i18n",
+      "kind": "core",
+      "owner": "app-shell",
+      "optional": false,
+      "issues": ["PAP-27"],
+      "present": false
+    },
+    {
+      "id": "packages/core/src/modules",
+      "kind": "core",
+      "owner": "app-shell",
+      "optional": false,
+      "issues": ["PAP-264", "PAP-305", "PAP-433"],
+      "present": true
+    },
+    {
+      "id": "packages/core/src/native",
+      "kind": "core",
+      "owner": "app-shell",
+      "optional": false,
+      "issues": ["PAP-259"],
+      "present": false
+    },
+    {
+      "id": "packages/core/src/nav",
+      "kind": "core",
+      "owner": "app-shell",
+      "optional": false,
+      "issues": ["PAP-16"],
+      "present": false
+    },
+    {
+      "id": "packages/core/src/pwa",
+      "kind": "core",
+      "owner": "app-shell",
+      "optional": false,
+      "issues": ["PAP-18"],
+      "present": false
+    },
+    {
+      "id": "packages/core/src/types",
+      "kind": "core",
+      "owner": "data-layer",
+      "optional": false,
+      "issues": ["PAP-302"],
+      "present": false
+    },
+    {
+      "id": "packages/core/src/windows",
+      "kind": "core",
+      "owner": "app-shell",
+      "optional": false,
+      "issues": ["PAP-21"],
+      "present": false
+    },
+    {
+      "id": "packages/api-client",
+      "kind": "runtime",
+      "owner": "data-layer",
+      "optional": false,
+      "issues": ["PAP-268"],
+      "present": false
+    },
+    {
+      "id": "packages/api-contract",
+      "kind": "runtime",
+      "owner": "data-layer",
+      "optional": false,
+      "issues": ["PAP-268"],
+      "present": false
+    },
+    {
+      "id": "packages/auth",
+      "kind": "runtime",
+      "owner": "identity",
+      "optional": false,
+      "issues": ["PAP-57"],
+      "present": false
+    },
+    {
+      "id": "packages/db",
+      "kind": "runtime",
+      "owner": "data-layer",
+      "optional": false,
+      "issues": ["PAP-32", "PAP-33", "PAP-34", "PAP-38"],
+      "present": false
+    },
+    {
+      "id": "packages/email",
+      "kind": "runtime",
+      "owner": "data-layer",
+      "optional": false,
+      "issues": ["PAP-43"],
+      "present": false
+    },
+    {
+      "id": "packages/files",
+      "kind": "runtime",
+      "owner": "data-layer",
+      "optional": false,
+      "issues": ["PAP-37"],
+      "present": false
+    },
+    {
+      "id": "packages/jobs",
+      "kind": "runtime",
+      "owner": "data-layer",
+      "optional": false,
+      "issues": ["PAP-43"],
+      "present": false
+    },
+    {
+      "id": "packages/permissions",
+      "kind": "runtime",
+      "owner": "identity",
+      "optional": false,
+      "issues": ["PAP-59", "PAP-60"],
+      "present": false
+    },
+    {
+      "id": "packages/search",
+      "kind": "runtime",
+      "owner": "data-layer",
+      "optional": false,
+      "issues": ["PAP-39"],
+      "present": false
+    },
+    {
+      "id": "packages/spec",
+      "kind": "runtime",
+      "owner": "spec-builder",
+      "optional": false,
+      "issues": ["PAP-114"],
+      "present": true
+    },
+    {
+      "id": "packages/sync",
+      "kind": "runtime",
+      "owner": "data-layer",
+      "optional": false,
+      "issues": ["PAP-36", "PAP-270", "PAP-271", "PAP-272"],
+      "present": false
+    },
+    {
+      "id": "packages/tokens",
+      "kind": "runtime",
+      "owner": "design-system",
+      "optional": false,
+      "issues": ["PAP-66"],
+      "present": false
+    },
+    {
+      "id": "packages/ui",
+      "kind": "runtime",
+      "owner": "design-system",
+      "optional": false,
+      "issues": ["PAP-67", "PAP-74"],
+      "present": true
+    },
+    {
+      "id": "packages/views",
+      "kind": "runtime",
+      "owner": "tables",
+      "optional": false,
+      "issues": ["PAP-161"],
+      "present": true
+    },
+    {
+      "id": "packages/agents",
+      "kind": "runtime",
+      "owner": "agents",
+      "optional": false,
+      "issues": ["PAP-103", "PAP-108"],
+      "present": true
+    },
+    {
+      "id": "packages/kernel",
+      "kind": "runtime",
+      "owner": "module-system",
+      "optional": false,
+      "issues": ["PAP-434"],
+      "present": true
+    },
+    {
+      "id": "packages/collab",
+      "kind": "module",
+      "owner": "collab",
+      "optional": true,
+      "issues": ["PAP-128", "PAP-131", "PAP-141", "PAP-145"],
+      "present": false
+    },
+    {
+      "id": "packages/crm",
+      "kind": "module",
+      "owner": "growth",
+      "optional": true,
+      "issues": ["PAP-187"],
+      "present": false
+    },
+    {
+      "id": "packages/finance",
+      "kind": "module",
+      "owner": "business-core",
+      "optional": true,
+      "issues": ["PAP-175"],
+      "present": false
+    },
+    {
+      "id": "packages/import",
+      "kind": "module",
+      "owner": "migration",
+      "optional": true,
+      "issues": ["PAP-199"],
+      "present": false
+    },
+    {
+      "id": "packages/pm",
+      "kind": "module",
+      "owner": "pm-linear",
+      "optional": true,
+      "issues": ["PAP-100", "PAP-305"],
+      "present": true
+    },
+    {
+      "id": "packages/contracts/quality",
+      "kind": "contract",
+      "owner": "quality",
+      "optional": false,
+      "issues": ["PAP-79", "PAP-239"],
+      "present": true
+    },
+    {
+      "id": "packages/boundaries",
+      "kind": "tooling",
+      "owner": "app-shell",
+      "optional": false,
+      "issues": ["PAP-305"],
+      "present": true
+    },
+    {
+      "id": "packages/config-biome",
+      "kind": "tooling",
+      "owner": "app-shell",
+      "optional": false,
+      "issues": ["PAP-13"],
+      "present": true
+    },
+    {
+      "id": "packages/config-ts",
+      "kind": "tooling",
+      "owner": "app-shell",
+      "optional": false,
+      "issues": ["PAP-13"],
+      "present": true
+    }
+  ],
+  "contracts": [
+    {
+      "id": "@paperos/contract-app-shell",
+      "path": "packages/contracts/app-shell",
+      "owner": "app-shell",
+      "ownerAgent": "Forge",
+      "swapRisk": "critical",
+      "present": false
+    },
+    {
+      "id": "@paperos/contract-data-layer",
+      "path": "packages/contracts/data-layer",
+      "owner": "data-layer",
+      "ownerAgent": "Forge",
+      "swapRisk": "critical",
+      "present": false
+    },
+    {
+      "id": "@paperos/contract-forge",
+      "path": "packages/contracts/forge",
+      "owner": "forge",
+      "ownerAgent": "Forge",
+      "swapRisk": "medium",
+      "present": false
+    },
+    {
+      "id": "@paperos/contract-identity",
+      "path": "packages/contracts/identity",
+      "owner": "identity",
+      "ownerAgent": "Forge",
+      "swapRisk": "critical",
+      "present": false
+    },
+    {
+      "id": "@paperos/contract-design-system",
+      "path": "packages/contracts/design-system",
+      "owner": "design-system",
+      "ownerAgent": "Iris",
+      "swapRisk": "high",
+      "present": false
+    },
+    {
+      "id": "@paperos/contract-quality",
+      "path": "packages/contracts/quality",
+      "owner": "quality",
+      "ownerAgent": "Sentinel",
+      "swapRisk": "medium",
+      "present": true
+    },
+    {
+      "id": "@paperos/contract-pm-linear",
+      "path": "packages/contracts/pm-linear",
+      "owner": "pm-linear",
+      "ownerAgent": "Atlas",
+      "swapRisk": "high",
+      "present": false
+    },
+    {
+      "id": "@paperos/contract-agents",
+      "path": "packages/contracts/agents",
+      "owner": "agents",
+      "ownerAgent": "Atlas",
+      "swapRisk": "medium",
+      "present": false
+    },
+    {
+      "id": "@paperos/contract-spec-builder",
+      "path": "packages/contracts/spec-builder",
+      "owner": "spec-builder",
+      "ownerAgent": "Quill",
+      "swapRisk": "high",
+      "present": false
+    },
+    {
+      "id": "@paperos/contract-collab",
+      "path": "packages/contracts/collab",
+      "owner": "collab",
+      "ownerAgent": "Nova",
+      "swapRisk": "medium",
+      "present": false
+    },
+    {
+      "id": "@paperos/contract-realtime",
+      "path": "packages/contracts/realtime",
+      "owner": "realtime",
+      "ownerAgent": "Nova",
+      "swapRisk": "high",
+      "present": false
+    },
+    {
+      "id": "@paperos/contract-input",
+      "path": "packages/contracts/input",
+      "owner": "input",
+      "ownerAgent": "Nova",
+      "swapRisk": "low",
+      "present": false
+    },
+    {
+      "id": "@paperos/contract-tables",
+      "path": "packages/contracts/tables",
+      "owner": "tables",
+      "ownerAgent": "Nova",
+      "swapRisk": "high",
+      "present": false
+    },
+    {
+      "id": "@paperos/contract-business-core",
+      "path": "packages/contracts/business-core",
+      "owner": "business-core",
+      "ownerAgent": "Ledger",
+      "swapRisk": "high",
+      "present": false
+    },
+    {
+      "id": "@paperos/contract-growth",
+      "path": "packages/contracts/growth",
+      "owner": "growth",
+      "ownerAgent": "Beacon",
+      "swapRisk": "medium",
+      "present": false
+    },
+    {
+      "id": "@paperos/contract-migration",
+      "path": "packages/contracts/migration",
+      "owner": "migration",
+      "ownerAgent": "Scout",
+      "swapRisk": "low",
+      "present": false
+    },
+    {
+      "id": "@paperos/contract-libraries",
+      "path": "packages/contracts/libraries",
+      "owner": "libraries",
+      "ownerAgent": "Scout",
+      "swapRisk": "low",
+      "present": false
+    }
+  ],
+  "edges": [
+    {
+      "from": "apps/web",
+      "to": "packages/core",
+      "kind": "allowed",
+      "issues": ["PAP-13", "PAP-16", "PAP-18"]
+    },
+    {
+      "from": "apps/web",
+      "to": "packages/tokens",
+      "kind": "allowed",
+      "issues": ["PAP-13", "PAP-16", "PAP-18"]
+    },
+    {
+      "from": "apps/web",
+      "to": "packages/ui",
+      "kind": "allowed",
+      "issues": ["PAP-13", "PAP-16", "PAP-18"]
+    },
+    {
+      "from": "apps/web",
+      "to": "packages/spec",
+      "kind": "allowed",
+      "issues": ["PAP-13", "PAP-16", "PAP-18"]
+    },
+    {
+      "from": "apps/web",
+      "to": "packages/views",
+      "kind": "allowed",
+      "issues": ["PAP-13", "PAP-16", "PAP-18"]
+    },
+    {
+      "from": "apps/web",
+      "to": "packages/sync",
+      "kind": "allowed",
+      "issues": ["PAP-13", "PAP-16", "PAP-18"]
+    },
+    {
+      "from": "apps/web",
+      "to": "packages/api-client",
+      "kind": "allowed",
+      "issues": ["PAP-13", "PAP-16", "PAP-18"]
+    },
+    {
+      "from": "apps/web",
+      "to": "packages/api-contract",
+      "kind": "allowed",
+      "issues": ["PAP-13", "PAP-16", "PAP-18"]
+    },
+    {
+      "from": "apps/web",
+      "to": "packages/auth",
+      "kind": "allowed",
+      "issues": ["PAP-13", "PAP-16", "PAP-18"]
+    },
+    {
+      "from": "apps/web",
+      "to": "packages/permissions",
+      "kind": "allowed",
+      "issues": ["PAP-13", "PAP-16", "PAP-18"]
+    },
+    {
+      "from": "apps/web",
+      "to": "packages/collab",
+      "kind": "allowed",
+      "issues": ["PAP-13", "PAP-16", "PAP-18"]
+    },
+    {
+      "from": "apps/web",
+      "to": "packages/kernel",
+      "kind": "allowed",
+      "issues": ["PAP-13", "PAP-16", "PAP-18"]
+    },
+    {
+      "from": "apps/web",
+      "to": "packages/files",
+      "kind": "allowed",
+      "issues": ["PAP-13", "PAP-16", "PAP-18"]
+    },
+    {
+      "from": "apps/web",
+      "to": "packages/search",
+      "kind": "allowed",
+      "issues": ["PAP-13", "PAP-16", "PAP-18"]
+    },
+    {
+      "from": "apps/web",
+      "to": "packages/contracts/quality",
+      "kind": "allowed",
+      "issues": ["PAP-13", "PAP-16", "PAP-18"]
+    },
+    {
+      "from": "apps/desktop",
+      "to": "packages/core",
+      "kind": "allowed",
+      "issues": ["PAP-19"]
+    },
+    {
+      "from": "apps/desktop",
+      "to": "packages/tokens",
+      "kind": "allowed",
+      "issues": ["PAP-19"]
+    },
+    {
+      "from": "apps/desktop",
+      "to": "packages/ui",
+      "kind": "allowed",
+      "issues": ["PAP-19"]
+    },
+    {
+      "from": "apps/desktop",
+      "to": "packages/spec",
+      "kind": "allowed",
+      "issues": ["PAP-19"]
+    },
+    {
+      "from": "apps/desktop",
+      "to": "packages/views",
+      "kind": "allowed",
+      "issues": ["PAP-19"]
+    },
+    {
+      "from": "apps/desktop",
+      "to": "packages/sync",
+      "kind": "allowed",
+      "issues": ["PAP-19"]
+    },
+    {
+      "from": "apps/desktop",
+      "to": "packages/api-client",
+      "kind": "allowed",
+      "issues": ["PAP-19"]
+    },
+    {
+      "from": "apps/desktop",
+      "to": "packages/api-contract",
+      "kind": "allowed",
+      "issues": ["PAP-19"]
+    },
+    {
+      "from": "apps/desktop",
+      "to": "packages/auth",
+      "kind": "allowed",
+      "issues": ["PAP-19"]
+    },
+    {
+      "from": "apps/desktop",
+      "to": "packages/permissions",
+      "kind": "allowed",
+      "issues": ["PAP-19"]
+    },
+    {
+      "from": "apps/desktop",
+      "to": "packages/collab",
+      "kind": "allowed",
+      "issues": ["PAP-19"]
+    },
+    {
+      "from": "apps/desktop",
+      "to": "packages/kernel",
+      "kind": "allowed",
+      "issues": ["PAP-19"]
+    },
+    {
+      "from": "apps/desktop",
+      "to": "packages/files",
+      "kind": "allowed",
+      "issues": ["PAP-19"]
+    },
+    {
+      "from": "apps/desktop",
+      "to": "packages/search",
+      "kind": "allowed",
+      "issues": ["PAP-19"]
+    },
+    {
+      "from": "apps/desktop",
+      "to": "packages/contracts/quality",
+      "kind": "allowed",
+      "issues": ["PAP-19"]
+    },
+    {
+      "from": "apps/mobile",
+      "to": "packages/core",
+      "kind": "allowed",
+      "issues": ["PAP-20"]
+    },
+    {
+      "from": "apps/mobile",
+      "to": "packages/tokens",
+      "kind": "allowed",
+      "issues": ["PAP-20"]
+    },
+    {
+      "from": "apps/mobile",
+      "to": "packages/ui",
+      "kind": "allowed",
+      "issues": ["PAP-20"]
+    },
+    {
+      "from": "apps/mobile",
+      "to": "packages/spec",
+      "kind": "allowed",
+      "issues": ["PAP-20"]
+    },
+    {
+      "from": "apps/mobile",
+      "to": "packages/views",
+      "kind": "allowed",
+      "issues": ["PAP-20"]
+    },
+    {
+      "from": "apps/mobile",
+      "to": "packages/sync",
+      "kind": "allowed",
+      "issues": ["PAP-20"]
+    },
+    {
+      "from": "apps/mobile",
+      "to": "packages/api-client",
+      "kind": "allowed",
+      "issues": ["PAP-20"]
+    },
+    {
+      "from": "apps/mobile",
+      "to": "packages/api-contract",
+      "kind": "allowed",
+      "issues": ["PAP-20"]
+    },
+    {
+      "from": "apps/mobile",
+      "to": "packages/auth",
+      "kind": "allowed",
+      "issues": ["PAP-20"]
+    },
+    {
+      "from": "apps/mobile",
+      "to": "packages/permissions",
+      "kind": "allowed",
+      "issues": ["PAP-20"]
+    },
+    {
+      "from": "apps/mobile",
+      "to": "packages/collab",
+      "kind": "allowed",
+      "issues": ["PAP-20"]
+    },
+    {
+      "from": "apps/mobile",
+      "to": "packages/kernel",
+      "kind": "allowed",
+      "issues": ["PAP-20"]
+    },
+    {
+      "from": "apps/mobile",
+      "to": "packages/files",
+      "kind": "allowed",
+      "issues": ["PAP-20"]
+    },
+    {
+      "from": "apps/mobile",
+      "to": "packages/search",
+      "kind": "allowed",
+      "issues": ["PAP-20"]
+    },
+    {
+      "from": "apps/mobile",
+      "to": "packages/contracts/quality",
+      "kind": "allowed",
+      "issues": ["PAP-20"]
+    },
+    {
+      "from": "apps/api",
+      "to": "packages/core",
+      "kind": "allowed",
+      "issues": ["PAP-267"]
+    },
+    {
+      "from": "apps/api",
+      "to": "packages/db",
+      "kind": "allowed",
+      "issues": ["PAP-267"]
+    },
+    {
+      "from": "apps/api",
+      "to": "packages/api-contract",
+      "kind": "allowed",
+      "issues": ["PAP-267"]
+    },
+    {
+      "from": "apps/api",
+      "to": "packages/auth",
+      "kind": "allowed",
+      "issues": ["PAP-267"]
+    },
+    {
+      "from": "apps/api",
+      "to": "packages/permissions",
+      "kind": "allowed",
+      "issues": ["PAP-267"]
+    },
+    {
+      "from": "apps/api",
+      "to": "packages/jobs",
+      "kind": "allowed",
+      "issues": ["PAP-267"]
+    },
+    {
+      "from": "apps/api",
+      "to": "packages/files",
+      "kind": "allowed",
+      "issues": ["PAP-267"]
+    },
+    {
+      "from": "apps/api",
+      "to": "packages/search",
+      "kind": "allowed",
+      "issues": ["PAP-267"]
+    },
+    {
+      "from": "apps/api",
+      "to": "packages/email",
+      "kind": "allowed",
+      "issues": ["PAP-267"]
+    },
+    {
+      "from": "apps/api",
+      "to": "packages/sync",
+      "kind": "allowed",
+      "issues": ["PAP-267"]
+    },
+    {
+      "from": "apps/api",
+      "to": "packages/kernel",
+      "kind": "allowed",
+      "issues": ["PAP-267"]
+    },
+    {
+      "from": "apps/api",
+      "to": "packages/contracts/quality",
+      "kind": "allowed",
+      "issues": ["PAP-267"]
+    },
+    {
+      "from": "apps/worker",
+      "to": "packages/core",
+      "kind": "allowed",
+      "issues": ["PAP-43"]
+    },
+    {
+      "from": "apps/worker",
+      "to": "packages/db",
+      "kind": "allowed",
+      "issues": ["PAP-43"]
+    },
+    {
+      "from": "apps/worker",
+      "to": "packages/jobs",
+      "kind": "allowed",
+      "issues": ["PAP-43"]
+    },
+    {
+      "from": "apps/worker",
+      "to": "packages/files",
+      "kind": "allowed",
+      "issues": ["PAP-43"]
+    },
+    {
+      "from": "apps/worker",
+      "to": "packages/search",
+      "kind": "allowed",
+      "issues": ["PAP-43"]
+    },
+    {
+      "from": "apps/worker",
+      "to": "packages/email",
+      "kind": "allowed",
+      "issues": ["PAP-43"]
+    },
+    {
+      "from": "apps/worker",
+      "to": "packages/kernel",
+      "kind": "allowed",
+      "issues": ["PAP-43"]
+    },
+    {
+      "from": "apps/worker",
+      "to": "packages/contracts/quality",
+      "kind": "allowed",
+      "issues": ["PAP-43"]
+    },
+    {
+      "from": "apps/collab-server",
+      "to": "packages/core",
+      "kind": "allowed",
+      "issues": ["PAP-140"]
+    },
+    {
+      "from": "apps/collab-server",
+      "to": "packages/db",
+      "kind": "allowed",
+      "issues": ["PAP-140"]
+    },
+    {
+      "from": "apps/collab-server",
+      "to": "packages/auth",
+      "kind": "allowed",
+      "issues": ["PAP-140"]
+    },
+    {
+      "from": "apps/collab-server",
+      "to": "packages/permissions",
+      "kind": "allowed",
+      "issues": ["PAP-140"]
+    },
+    {
+      "from": "apps/collab-server",
+      "to": "packages/kernel",
+      "kind": "allowed",
+      "issues": ["PAP-140"]
+    },
+    {
+      "from": "apps/collab-server",
+      "to": "packages/contracts/quality",
+      "kind": "allowed",
+      "issues": ["PAP-140"]
+    },
+    {
+      "from": "packages/api-client",
+      "to": "packages/core",
+      "kind": "allowed",
+      "issues": ["PAP-268"]
+    },
+    {
+      "from": "packages/api-client",
+      "to": "packages/api-contract",
+      "kind": "allowed",
+      "issues": ["PAP-268"]
+    },
+    {
+      "from": "packages/api-client",
+      "to": "packages/contracts/quality",
+      "kind": "allowed",
+      "issues": ["PAP-268"]
+    },
+    {
+      "from": "packages/api-contract",
+      "to": "packages/core",
+      "kind": "allowed",
+      "issues": ["PAP-268"]
+    },
+    {
+      "from": "packages/api-contract",
+      "to": "packages/contracts/quality",
+      "kind": "allowed",
+      "issues": ["PAP-268"]
+    },
+    {
+      "from": "packages/auth",
+      "to": "packages/core",
+      "kind": "allowed",
+      "issues": ["PAP-57"]
+    },
+    {
+      "from": "packages/auth",
+      "to": "packages/db",
+      "kind": "allowed",
+      "issues": ["PAP-57"]
+    },
+    {
+      "from": "packages/auth",
+      "to": "packages/contracts/quality",
+      "kind": "allowed",
+      "issues": ["PAP-57"]
+    },
+    {
+      "from": "packages/db",
+      "to": "packages/core",
+      "kind": "allowed",
+      "issues": ["PAP-32", "PAP-33", "PAP-34", "PAP-38"]
+    },
+    {
+      "from": "packages/db",
+      "to": "packages/contracts/quality",
+      "kind": "allowed",
+      "issues": ["PAP-32", "PAP-33", "PAP-34", "PAP-38"]
+    },
+    {
+      "from": "packages/email",
+      "to": "packages/core",
+      "kind": "allowed",
+      "issues": ["PAP-43"]
+    },
+    {
+      "from": "packages/email",
+      "to": "packages/db",
+      "kind": "allowed",
+      "issues": ["PAP-43"]
+    },
+    {
+      "from": "packages/email",
+      "to": "packages/jobs",
+      "kind": "allowed",
+      "issues": ["PAP-43"]
+    },
+    {
+      "from": "packages/email",
+      "to": "packages/files",
+      "kind": "allowed",
+      "issues": ["PAP-43"]
+    },
+    {
+      "from": "packages/email",
+      "to": "packages/contracts/quality",
+      "kind": "allowed",
+      "issues": ["PAP-43"]
+    },
+    {
+      "from": "packages/files",
+      "to": "packages/core",
+      "kind": "allowed",
+      "issues": ["PAP-37"]
+    },
+    {
+      "from": "packages/files",
+      "to": "packages/db",
+      "kind": "allowed",
+      "issues": ["PAP-37"]
+    },
+    {
+      "from": "packages/files",
+      "to": "packages/jobs",
+      "kind": "allowed",
+      "issues": ["PAP-37"]
+    },
+    {
+      "from": "packages/files",
+      "to": "packages/contracts/quality",
+      "kind": "allowed",
+      "issues": ["PAP-37"]
+    },
+    {
+      "from": "packages/jobs",
+      "to": "packages/core",
+      "kind": "allowed",
+      "issues": ["PAP-43"]
+    },
+    {
+      "from": "packages/jobs",
+      "to": "packages/db",
+      "kind": "allowed",
+      "issues": ["PAP-43"]
+    },
+    {
+      "from": "packages/jobs",
+      "to": "packages/contracts/quality",
+      "kind": "allowed",
+      "issues": ["PAP-43"]
+    },
+    {
+      "from": "packages/permissions",
+      "to": "packages/core",
+      "kind": "allowed",
+      "issues": ["PAP-59", "PAP-60"]
+    },
+    {
+      "from": "packages/permissions",
+      "to": "packages/db",
+      "kind": "allowed",
+      "issues": ["PAP-59", "PAP-60"]
+    },
+    {
+      "from": "packages/permissions",
+      "to": "packages/auth",
+      "kind": "allowed",
+      "issues": ["PAP-59", "PAP-60"]
+    },
+    {
+      "from": "packages/permissions",
+      "to": "packages/contracts/quality",
+      "kind": "allowed",
+      "issues": ["PAP-59", "PAP-60"]
+    },
+    {
+      "from": "packages/search",
+      "to": "packages/core",
+      "kind": "allowed",
+      "issues": ["PAP-39"]
+    },
+    {
+      "from": "packages/search",
+      "to": "packages/db",
+      "kind": "allowed",
+      "issues": ["PAP-39"]
+    },
+    {
+      "from": "packages/search",
+      "to": "packages/jobs",
+      "kind": "allowed",
+      "issues": ["PAP-39"]
+    },
+    {
+      "from": "packages/search",
+      "to": "packages/contracts/quality",
+      "kind": "allowed",
+      "issues": ["PAP-39"]
+    },
+    {
+      "from": "packages/spec",
+      "to": "packages/core",
+      "kind": "allowed",
+      "issues": ["PAP-114"]
+    },
+    {
+      "from": "packages/spec",
+      "to": "packages/tokens",
+      "kind": "allowed",
+      "issues": ["PAP-114"]
+    },
+    {
+      "from": "packages/spec",
+      "to": "packages/ui",
+      "kind": "allowed",
+      "issues": ["PAP-114"]
+    },
+    {
+      "from": "packages/spec",
+      "to": "packages/contracts/quality",
+      "kind": "allowed",
+      "issues": ["PAP-114"]
+    },
+    {
+      "from": "packages/sync",
+      "to": "packages/core",
+      "kind": "allowed",
+      "issues": ["PAP-36", "PAP-270", "PAP-271", "PAP-272"]
+    },
+    {
+      "from": "packages/sync",
+      "to": "packages/db",
+      "kind": "allowed",
+      "issues": ["PAP-36", "PAP-270", "PAP-271", "PAP-272"]
+    },
+    {
+      "from": "packages/sync",
+      "to": "packages/contracts/quality",
+      "kind": "allowed",
+      "issues": ["PAP-36", "PAP-270", "PAP-271", "PAP-272"]
+    },
+    {
+      "from": "packages/tokens",
+      "to": "packages/contracts/quality",
+      "kind": "allowed",
+      "issues": ["PAP-66"]
+    },
+    {
+      "from": "packages/ui",
+      "to": "packages/core",
+      "kind": "allowed",
+      "issues": ["PAP-67", "PAP-74"]
+    },
+    {
+      "from": "packages/ui",
+      "to": "packages/tokens",
+      "kind": "allowed",
+      "issues": ["PAP-67", "PAP-74"]
+    },
+    {
+      "from": "packages/ui",
+      "to": "packages/contracts/quality",
+      "kind": "allowed",
+      "issues": ["PAP-67", "PAP-74"]
+    },
+    {
+      "from": "packages/views",
+      "to": "packages/core",
+      "kind": "allowed",
+      "issues": ["PAP-161"]
+    },
+    {
+      "from": "packages/views",
+      "to": "packages/db",
+      "kind": "allowed",
+      "issues": ["PAP-161"]
+    },
+    {
+      "from": "packages/views",
+      "to": "packages/tokens",
+      "kind": "allowed",
+      "issues": ["PAP-161"]
+    },
+    {
+      "from": "packages/views",
+      "to": "packages/ui",
+      "kind": "allowed",
+      "issues": ["PAP-161"]
+    },
+    {
+      "from": "packages/views",
+      "to": "packages/contracts/quality",
+      "kind": "allowed",
+      "issues": ["PAP-161"]
+    },
+    {
+      "from": "packages/agents",
+      "to": "packages/core",
+      "kind": "allowed",
+      "issues": ["PAP-103", "PAP-108"]
+    },
+    {
+      "from": "packages/agents",
+      "to": "packages/contracts/quality",
+      "kind": "allowed",
+      "issues": ["PAP-103", "PAP-108"]
+    },
+    {
+      "from": "packages/kernel",
+      "to": "packages/core",
+      "kind": "allowed",
+      "issues": ["PAP-434"]
+    },
+    {
+      "from": "packages/kernel",
+      "to": "packages/contracts/quality",
+      "kind": "allowed",
+      "issues": ["PAP-434"]
+    },
+    {
+      "from": "packages/collab",
+      "to": "packages/core",
+      "kind": "allowed",
+      "issues": ["PAP-128", "PAP-131", "PAP-141", "PAP-145"]
+    },
+    {
+      "from": "packages/collab",
+      "to": "packages/db",
+      "kind": "allowed",
+      "issues": ["PAP-128", "PAP-131", "PAP-141", "PAP-145"]
+    },
+    {
+      "from": "packages/collab",
+      "to": "packages/ui",
+      "kind": "allowed",
+      "issues": ["PAP-128", "PAP-131", "PAP-141", "PAP-145"]
+    },
+    {
+      "from": "packages/collab",
+      "to": "packages/spec",
+      "kind": "allowed",
+      "issues": ["PAP-128", "PAP-131", "PAP-141", "PAP-145"]
+    },
+    {
+      "from": "packages/collab",
+      "to": "packages/views",
+      "kind": "allowed",
+      "issues": ["PAP-128", "PAP-131", "PAP-141", "PAP-145"]
+    },
+    {
+      "from": "packages/collab",
+      "to": "packages/sync",
+      "kind": "allowed",
+      "issues": ["PAP-128", "PAP-131", "PAP-141", "PAP-145"]
+    },
+    {
+      "from": "packages/collab",
+      "to": "packages/api-contract",
+      "kind": "allowed",
+      "issues": ["PAP-128", "PAP-131", "PAP-141", "PAP-145"]
+    },
+    {
+      "from": "packages/collab",
+      "to": "packages/permissions",
+      "kind": "allowed",
+      "issues": ["PAP-128", "PAP-131", "PAP-141", "PAP-145"]
+    },
+    {
+      "from": "packages/collab",
+      "to": "packages/jobs",
+      "kind": "allowed",
+      "issues": ["PAP-128", "PAP-131", "PAP-141", "PAP-145"]
+    },
+    {
+      "from": "packages/collab",
+      "to": "packages/files",
+      "kind": "allowed",
+      "issues": ["PAP-128", "PAP-131", "PAP-141", "PAP-145"]
+    },
+    {
+      "from": "packages/collab",
+      "to": "packages/search",
+      "kind": "allowed",
+      "issues": ["PAP-128", "PAP-131", "PAP-141", "PAP-145"]
+    },
+    {
+      "from": "packages/collab",
+      "to": "packages/email",
+      "kind": "allowed",
+      "issues": ["PAP-128", "PAP-131", "PAP-141", "PAP-145"]
+    },
+    {
+      "from": "packages/collab",
+      "to": "packages/tokens",
+      "kind": "allowed",
+      "issues": ["PAP-128", "PAP-131", "PAP-141", "PAP-145"]
+    },
+    {
+      "from": "packages/collab",
+      "to": "packages/contracts/quality",
+      "kind": "allowed",
+      "issues": ["PAP-128", "PAP-131", "PAP-141", "PAP-145"]
+    },
+    {
+      "from": "packages/crm",
+      "to": "packages/core",
+      "kind": "allowed",
+      "issues": ["PAP-187"]
+    },
+    {
+      "from": "packages/crm",
+      "to": "packages/db",
+      "kind": "allowed",
+      "issues": ["PAP-187"]
+    },
+    {
+      "from": "packages/crm",
+      "to": "packages/ui",
+      "kind": "allowed",
+      "issues": ["PAP-187"]
+    },
+    {
+      "from": "packages/crm",
+      "to": "packages/spec",
+      "kind": "allowed",
+      "issues": ["PAP-187"]
+    },
+    {
+      "from": "packages/crm",
+      "to": "packages/views",
+      "kind": "allowed",
+      "issues": ["PAP-187"]
+    },
+    {
+      "from": "packages/crm",
+      "to": "packages/sync",
+      "kind": "allowed",
+      "issues": ["PAP-187"]
+    },
+    {
+      "from": "packages/crm",
+      "to": "packages/api-contract",
+      "kind": "allowed",
+      "issues": ["PAP-187"]
+    },
+    {
+      "from": "packages/crm",
+      "to": "packages/permissions",
+      "kind": "allowed",
+      "issues": ["PAP-187"]
+    },
+    {
+      "from": "packages/crm",
+      "to": "packages/jobs",
+      "kind": "allowed",
+      "issues": ["PAP-187"]
+    },
+    {
+      "from": "packages/crm",
+      "to": "packages/files",
+      "kind": "allowed",
+      "issues": ["PAP-187"]
+    },
+    {
+      "from": "packages/crm",
+      "to": "packages/search",
+      "kind": "allowed",
+      "issues": ["PAP-187"]
+    },
+    {
+      "from": "packages/crm",
+      "to": "packages/email",
+      "kind": "allowed",
+      "issues": ["PAP-187"]
+    },
+    {
+      "from": "packages/crm",
+      "to": "packages/contracts/quality",
+      "kind": "allowed",
+      "issues": ["PAP-187"]
+    },
+    {
+      "from": "packages/finance",
+      "to": "packages/core",
+      "kind": "allowed",
+      "issues": ["PAP-175"]
+    },
+    {
+      "from": "packages/finance",
+      "to": "packages/db",
+      "kind": "allowed",
+      "issues": ["PAP-175"]
+    },
+    {
+      "from": "packages/finance",
+      "to": "packages/ui",
+      "kind": "allowed",
+      "issues": ["PAP-175"]
+    },
+    {
+      "from": "packages/finance",
+      "to": "packages/spec",
+      "kind": "allowed",
+      "issues": ["PAP-175"]
+    },
+    {
+      "from": "packages/finance",
+      "to": "packages/views",
+      "kind": "allowed",
+      "issues": ["PAP-175"]
+    },
+    {
+      "from": "packages/finance",
+      "to": "packages/sync",
+      "kind": "allowed",
+      "issues": ["PAP-175"]
+    },
+    {
+      "from": "packages/finance",
+      "to": "packages/api-contract",
+      "kind": "allowed",
+      "issues": ["PAP-175"]
+    },
+    {
+      "from": "packages/finance",
+      "to": "packages/permissions",
+      "kind": "allowed",
+      "issues": ["PAP-175"]
+    },
+    {
+      "from": "packages/finance",
+      "to": "packages/jobs",
+      "kind": "allowed",
+      "issues": ["PAP-175"]
+    },
+    {
+      "from": "packages/finance",
+      "to": "packages/files",
+      "kind": "allowed",
+      "issues": ["PAP-175"]
+    },
+    {
+      "from": "packages/finance",
+      "to": "packages/search",
+      "kind": "allowed",
+      "issues": ["PAP-175"]
+    },
+    {
+      "from": "packages/finance",
+      "to": "packages/email",
+      "kind": "allowed",
+      "issues": ["PAP-175"]
+    },
+    {
+      "from": "packages/finance",
+      "to": "packages/contracts/quality",
+      "kind": "allowed",
+      "issues": ["PAP-175"]
+    },
+    {
+      "from": "packages/import",
+      "to": "packages/core",
+      "kind": "allowed",
+      "issues": ["PAP-199"]
+    },
+    {
+      "from": "packages/import",
+      "to": "packages/db",
+      "kind": "allowed",
+      "issues": ["PAP-199"]
+    },
+    {
+      "from": "packages/import",
+      "to": "packages/ui",
+      "kind": "allowed",
+      "issues": ["PAP-199"]
+    },
+    {
+      "from": "packages/import",
+      "to": "packages/spec",
+      "kind": "allowed",
+      "issues": ["PAP-199"]
+    },
+    {
+      "from": "packages/import",
+      "to": "packages/views",
+      "kind": "allowed",
+      "issues": ["PAP-199"]
+    },
+    {
+      "from": "packages/import",
+      "to": "packages/sync",
+      "kind": "allowed",
+      "issues": ["PAP-199"]
+    },
+    {
+      "from": "packages/import",
+      "to": "packages/api-contract",
+      "kind": "allowed",
+      "issues": ["PAP-199"]
+    },
+    {
+      "from": "packages/import",
+      "to": "packages/permissions",
+      "kind": "allowed",
+      "issues": ["PAP-199"]
+    },
+    {
+      "from": "packages/import",
+      "to": "packages/jobs",
+      "kind": "allowed",
+      "issues": ["PAP-199"]
+    },
+    {
+      "from": "packages/import",
+      "to": "packages/files",
+      "kind": "allowed",
+      "issues": ["PAP-199"]
+    },
+    {
+      "from": "packages/import",
+      "to": "packages/search",
+      "kind": "allowed",
+      "issues": ["PAP-199"]
+    },
+    {
+      "from": "packages/import",
+      "to": "packages/email",
+      "kind": "allowed",
+      "issues": ["PAP-199"]
+    },
+    {
+      "from": "packages/import",
+      "to": "packages/contracts/quality",
+      "kind": "allowed",
+      "issues": ["PAP-199"]
+    },
+    {
+      "from": "packages/pm",
+      "to": "packages/core",
+      "kind": "allowed",
+      "issues": ["PAP-100", "PAP-305"]
+    },
+    {
+      "from": "packages/pm",
+      "to": "packages/db",
+      "kind": "allowed",
+      "issues": ["PAP-100", "PAP-305"]
+    },
+    {
+      "from": "packages/pm",
+      "to": "packages/ui",
+      "kind": "allowed",
+      "issues": ["PAP-100", "PAP-305"]
+    },
+    {
+      "from": "packages/pm",
+      "to": "packages/spec",
+      "kind": "allowed",
+      "issues": ["PAP-100", "PAP-305"]
+    },
+    {
+      "from": "packages/pm",
+      "to": "packages/views",
+      "kind": "allowed",
+      "issues": ["PAP-100", "PAP-305"]
+    },
+    {
+      "from": "packages/pm",
+      "to": "packages/sync",
+      "kind": "allowed",
+      "issues": ["PAP-100", "PAP-305"]
+    },
+    {
+      "from": "packages/pm",
+      "to": "packages/api-contract",
+      "kind": "allowed",
+      "issues": ["PAP-100", "PAP-305"]
+    },
+    {
+      "from": "packages/pm",
+      "to": "packages/permissions",
+      "kind": "allowed",
+      "issues": ["PAP-100", "PAP-305"]
+    },
+    {
+      "from": "packages/pm",
+      "to": "packages/jobs",
+      "kind": "allowed",
+      "issues": ["PAP-100", "PAP-305"]
+    },
+    {
+      "from": "packages/pm",
+      "to": "packages/files",
+      "kind": "allowed",
+      "issues": ["PAP-100", "PAP-305"]
+    },
+    {
+      "from": "packages/pm",
+      "to": "packages/search",
+      "kind": "allowed",
+      "issues": ["PAP-100", "PAP-305"]
+    },
+    {
+      "from": "packages/pm",
+      "to": "packages/email",
+      "kind": "allowed",
+      "issues": ["PAP-100", "PAP-305"]
+    },
+    {
+      "from": "packages/pm",
+      "to": "packages/contracts/quality",
+      "kind": "allowed",
+      "issues": ["PAP-100", "PAP-305"]
+    },
+    {
+      "from": "packages/contracts/quality",
+      "to": "packages/core",
+      "kind": "allowed",
+      "issues": ["PAP-79", "PAP-239"]
+    },
+    {
+      "from": "packages/boundaries",
+      "to": "packages/core",
+      "kind": "allowed",
+      "issues": ["PAP-305"]
+    },
+    {
+      "from": "apps/web",
+      "to": "packages/ui",
+      "kind": "import",
+      "undeclared": false,
+      "issues": ["PAP-13", "PAP-16", "PAP-18"],
+      "via": ["apps/web/src/App.tsx"]
+    },
+    {
+      "from": "packages/boundaries",
+      "to": "packages/core",
+      "kind": "import",
+      "undeclared": false,
+      "issues": ["PAP-305"],
+      "via": [
+        "packages/boundaries/src/map.ts",
+        "packages/boundaries/src/repo.ts",
+        "packages/boundaries/src/rules.ts"
+      ]
+    },
+    {
+      "from": "@paperos/contract-app-shell",
+      "to": "@paperos/contract-identity",
+      "kind": "requires"
+    },
+    {
+      "from": "@paperos/contract-app-shell",
+      "to": "@paperos/contract-design-system",
+      "kind": "requires"
+    },
+    {
+      "from": "@paperos/contract-app-shell",
+      "to": "@paperos/contract-spec-builder",
+      "kind": "requires"
+    },
+    {
+      "from": "@paperos/contract-data-layer",
+      "to": "@paperos/contract-identity",
+      "kind": "requires"
+    },
+    {
+      "from": "@paperos/contract-forge",
+      "to": "@paperos/contract-identity",
+      "kind": "requires"
+    },
+    {
+      "from": "@paperos/contract-forge",
+      "to": "@paperos/contract-quality",
+      "kind": "requires"
+    },
+    {
+      "from": "@paperos/contract-identity",
+      "to": "@paperos/contract-data-layer",
+      "kind": "requires"
+    },
+    {
+      "from": "@paperos/contract-quality",
+      "to": "@paperos/contract-forge",
+      "kind": "requires"
+    },
+    {
+      "from": "@paperos/contract-quality",
+      "to": "@paperos/contract-pm-linear",
+      "kind": "requires"
+    },
+    {
+      "from": "@paperos/contract-pm-linear",
+      "to": "@paperos/contract-data-layer",
+      "kind": "requires"
+    },
+    {
+      "from": "@paperos/contract-pm-linear",
+      "to": "@paperos/contract-tables",
+      "kind": "requires"
+    },
+    {
+      "from": "@paperos/contract-pm-linear",
+      "to": "@paperos/contract-collab",
+      "kind": "requires"
+    },
+    {
+      "from": "@paperos/contract-agents",
+      "to": "@paperos/contract-identity",
+      "kind": "requires"
+    },
+    {
+      "from": "@paperos/contract-agents",
+      "to": "@paperos/contract-pm-linear",
+      "kind": "requires"
+    },
+    {
+      "from": "@paperos/contract-agents",
+      "to": "@paperos/contract-collab",
+      "kind": "requires"
+    },
+    {
+      "from": "@paperos/contract-spec-builder",
+      "to": "@paperos/contract-design-system",
+      "kind": "requires"
+    },
+    {
+      "from": "@paperos/contract-spec-builder",
+      "to": "@paperos/contract-identity",
+      "kind": "requires"
+    },
+    {
+      "from": "@paperos/contract-spec-builder",
+      "to": "@paperos/contract-data-layer",
+      "kind": "requires"
+    },
+    {
+      "from": "@paperos/contract-spec-builder",
+      "to": "@paperos/contract-app-shell",
+      "kind": "requires"
+    },
+    {
+      "from": "@paperos/contract-collab",
+      "to": "@paperos/contract-data-layer",
+      "kind": "requires"
+    },
+    {
+      "from": "@paperos/contract-collab",
+      "to": "@paperos/contract-identity",
+      "kind": "requires"
+    },
+    {
+      "from": "@paperos/contract-collab",
+      "to": "@paperos/contract-realtime",
+      "kind": "requires"
+    },
+    {
+      "from": "@paperos/contract-collab",
+      "to": "@paperos/contract-design-system",
+      "kind": "requires"
+    },
+    {
+      "from": "@paperos/contract-realtime",
+      "to": "@paperos/contract-data-layer",
+      "kind": "requires"
+    },
+    {
+      "from": "@paperos/contract-realtime",
+      "to": "@paperos/contract-identity",
+      "kind": "requires"
+    },
+    {
+      "from": "@paperos/contract-input",
+      "to": "@paperos/contract-app-shell",
+      "kind": "requires"
+    },
+    {
+      "from": "@paperos/contract-input",
+      "to": "@paperos/contract-design-system",
+      "kind": "requires"
+    },
+    {
+      "from": "@paperos/contract-tables",
+      "to": "@paperos/contract-data-layer",
+      "kind": "requires"
+    },
+    {
+      "from": "@paperos/contract-tables",
+      "to": "@paperos/contract-identity",
+      "kind": "requires"
+    },
+    {
+      "from": "@paperos/contract-tables",
+      "to": "@paperos/contract-design-system",
+      "kind": "requires"
+    },
+    {
+      "from": "@paperos/contract-tables",
+      "to": "@paperos/contract-input",
+      "kind": "requires"
+    },
+    {
+      "from": "@paperos/contract-business-core",
+      "to": "@paperos/contract-data-layer",
+      "kind": "requires"
+    },
+    {
+      "from": "@paperos/contract-business-core",
+      "to": "@paperos/contract-identity",
+      "kind": "requires"
+    },
+    {
+      "from": "@paperos/contract-business-core",
+      "to": "@paperos/contract-tables",
+      "kind": "requires"
+    },
+    {
+      "from": "@paperos/contract-growth",
+      "to": "@paperos/contract-tables",
+      "kind": "requires"
+    },
+    {
+      "from": "@paperos/contract-growth",
+      "to": "@paperos/contract-data-layer",
+      "kind": "requires"
+    },
+    {
+      "from": "@paperos/contract-growth",
+      "to": "@paperos/contract-business-core",
+      "kind": "requires"
+    },
+    {
+      "from": "@paperos/contract-growth",
+      "to": "@paperos/contract-collab",
+      "kind": "requires"
+    },
+    {
+      "from": "@paperos/contract-growth",
+      "to": "@paperos/contract-agents",
+      "kind": "requires"
+    },
+    {
+      "from": "@paperos/contract-migration",
+      "to": "@paperos/contract-tables",
+      "kind": "requires"
+    },
+    {
+      "from": "@paperos/contract-migration",
+      "to": "@paperos/contract-data-layer",
+      "kind": "requires"
+    },
+    {
+      "from": "@paperos/contract-migration",
+      "to": "@paperos/contract-collab",
+      "kind": "requires"
+    },
+    {
+      "from": "@paperos/contract-migration",
+      "to": "@paperos/contract-business-core",
+      "kind": "requires"
+    },
+    {
+      "from": "@paperos/contract-migration",
+      "to": "@paperos/contract-pm-linear",
+      "kind": "requires"
+    },
+    {
+      "from": "@paperos/contract-libraries",
+      "to": "@paperos/contract-collab",
+      "kind": "requires"
+    },
+    {
+      "from": "@paperos/contract-libraries",
+      "to": "@paperos/contract-quality",
+      "kind": "requires"
+    }
+  ]
+}

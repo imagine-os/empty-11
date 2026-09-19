@@ -16,7 +16,9 @@
     }
   },
   "json": {
-    "formatter": { "enabled": true }
+    "formatter": {
+      "enabled": true
+    }
   },
   "linter": {
     "enabled": true,
@@ -38,7 +40,675 @@
   "assist": {
     "enabled": true,
     "actions": {
-      "source": { "organizeImports": "on" }
+      "source": {
+        "organizeImports": "on"
+      }
     }
-  }
+  },
+  "overrides": [
+    {
+      "includes": ["apps/web/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "paths": {
+                  "@paperos/crm": "R3/R8: apps/web may not import the packages/crm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: growth).",
+                  "@paperos/finance": "R3/R8: apps/web may not import the packages/finance module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: business-core).",
+                  "@paperos/import": "R3/R8: apps/web may not import the packages/import module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: migration).",
+                  "@paperos/pm": "R3/R8: apps/web may not import the packages/pm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: pm-linear)."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["apps/desktop/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "paths": {
+                  "@paperos/crm": "R3/R8: apps/desktop may not import the packages/crm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: growth).",
+                  "@paperos/finance": "R3/R8: apps/desktop may not import the packages/finance module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: business-core).",
+                  "@paperos/import": "R3/R8: apps/desktop may not import the packages/import module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: migration).",
+                  "@paperos/pm": "R3/R8: apps/desktop may not import the packages/pm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: pm-linear)."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["apps/mobile/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "paths": {
+                  "@paperos/crm": "R3/R8: apps/mobile may not import the packages/crm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: growth).",
+                  "@paperos/finance": "R3/R8: apps/mobile may not import the packages/finance module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: business-core).",
+                  "@paperos/import": "R3/R8: apps/mobile may not import the packages/import module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: migration).",
+                  "@paperos/pm": "R3/R8: apps/mobile may not import the packages/pm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: pm-linear)."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["apps/api/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "paths": {
+                  "@paperos/collab": "R3/R8: apps/api may not import the packages/collab module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: collab).",
+                  "@paperos/crm": "R3/R8: apps/api may not import the packages/crm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: growth).",
+                  "@paperos/finance": "R3/R8: apps/api may not import the packages/finance module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: business-core).",
+                  "@paperos/import": "R3/R8: apps/api may not import the packages/import module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: migration).",
+                  "@paperos/pm": "R3/R8: apps/api may not import the packages/pm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: pm-linear)."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["apps/worker/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "paths": {
+                  "@paperos/collab": "R3/R8: apps/worker may not import the packages/collab module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: collab).",
+                  "@paperos/crm": "R3/R8: apps/worker may not import the packages/crm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: growth).",
+                  "@paperos/finance": "R3/R8: apps/worker may not import the packages/finance module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: business-core).",
+                  "@paperos/import": "R3/R8: apps/worker may not import the packages/import module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: migration).",
+                  "@paperos/pm": "R3/R8: apps/worker may not import the packages/pm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: pm-linear)."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["apps/collab-server/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "paths": {
+                  "@paperos/collab": "R3/R8: apps/collab-server may not import the packages/collab module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: collab).",
+                  "@paperos/crm": "R3/R8: apps/collab-server may not import the packages/crm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: growth).",
+                  "@paperos/finance": "R3/R8: apps/collab-server may not import the packages/finance module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: business-core).",
+                  "@paperos/import": "R3/R8: apps/collab-server may not import the packages/import module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: migration).",
+                  "@paperos/pm": "R3/R8: apps/collab-server may not import the packages/pm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: pm-linear)."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["packages/core/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "paths": {
+                  "@paperos/collab": "R3/R8: packages/core may not import the packages/collab module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: collab).",
+                  "@paperos/crm": "R3/R8: packages/core may not import the packages/crm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: growth).",
+                  "@paperos/finance": "R3/R8: packages/core may not import the packages/finance module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: business-core).",
+                  "@paperos/import": "R3/R8: packages/core may not import the packages/import module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: migration).",
+                  "@paperos/pm": "R3/R8: packages/core may not import the packages/pm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: pm-linear)."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["packages/api-client/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "paths": {
+                  "@paperos/collab": "R3/R8: packages/api-client may not import the packages/collab module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: collab).",
+                  "@paperos/crm": "R3/R8: packages/api-client may not import the packages/crm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: growth).",
+                  "@paperos/finance": "R3/R8: packages/api-client may not import the packages/finance module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: business-core).",
+                  "@paperos/import": "R3/R8: packages/api-client may not import the packages/import module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: migration).",
+                  "@paperos/pm": "R3/R8: packages/api-client may not import the packages/pm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: pm-linear)."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["packages/api-contract/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "paths": {
+                  "@paperos/collab": "R3/R8: packages/api-contract may not import the packages/collab module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: collab).",
+                  "@paperos/crm": "R3/R8: packages/api-contract may not import the packages/crm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: growth).",
+                  "@paperos/finance": "R3/R8: packages/api-contract may not import the packages/finance module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: business-core).",
+                  "@paperos/import": "R3/R8: packages/api-contract may not import the packages/import module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: migration).",
+                  "@paperos/pm": "R3/R8: packages/api-contract may not import the packages/pm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: pm-linear)."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["packages/auth/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "paths": {
+                  "@paperos/collab": "R3/R8: packages/auth may not import the packages/collab module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: collab).",
+                  "@paperos/crm": "R3/R8: packages/auth may not import the packages/crm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: growth).",
+                  "@paperos/finance": "R3/R8: packages/auth may not import the packages/finance module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: business-core).",
+                  "@paperos/import": "R3/R8: packages/auth may not import the packages/import module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: migration).",
+                  "@paperos/pm": "R3/R8: packages/auth may not import the packages/pm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: pm-linear)."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["packages/db/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "paths": {
+                  "@paperos/collab": "R3/R8: packages/db may not import the packages/collab module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: collab).",
+                  "@paperos/crm": "R3/R8: packages/db may not import the packages/crm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: growth).",
+                  "@paperos/finance": "R3/R8: packages/db may not import the packages/finance module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: business-core).",
+                  "@paperos/import": "R3/R8: packages/db may not import the packages/import module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: migration).",
+                  "@paperos/pm": "R3/R8: packages/db may not import the packages/pm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: pm-linear)."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["packages/email/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "paths": {
+                  "@paperos/collab": "R3/R8: packages/email may not import the packages/collab module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: collab).",
+                  "@paperos/crm": "R3/R8: packages/email may not import the packages/crm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: growth).",
+                  "@paperos/finance": "R3/R8: packages/email may not import the packages/finance module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: business-core).",
+                  "@paperos/import": "R3/R8: packages/email may not import the packages/import module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: migration).",
+                  "@paperos/pm": "R3/R8: packages/email may not import the packages/pm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: pm-linear)."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["packages/files/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "paths": {
+                  "@paperos/collab": "R3/R8: packages/files may not import the packages/collab module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: collab).",
+                  "@paperos/crm": "R3/R8: packages/files may not import the packages/crm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: growth).",
+                  "@paperos/finance": "R3/R8: packages/files may not import the packages/finance module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: business-core).",
+                  "@paperos/import": "R3/R8: packages/files may not import the packages/import module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: migration).",
+                  "@paperos/pm": "R3/R8: packages/files may not import the packages/pm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: pm-linear)."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["packages/jobs/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "paths": {
+                  "@paperos/collab": "R3/R8: packages/jobs may not import the packages/collab module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: collab).",
+                  "@paperos/crm": "R3/R8: packages/jobs may not import the packages/crm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: growth).",
+                  "@paperos/finance": "R3/R8: packages/jobs may not import the packages/finance module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: business-core).",
+                  "@paperos/import": "R3/R8: packages/jobs may not import the packages/import module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: migration).",
+                  "@paperos/pm": "R3/R8: packages/jobs may not import the packages/pm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: pm-linear)."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["packages/permissions/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "paths": {
+                  "@paperos/collab": "R3/R8: packages/permissions may not import the packages/collab module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: collab).",
+                  "@paperos/crm": "R3/R8: packages/permissions may not import the packages/crm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: growth).",
+                  "@paperos/finance": "R3/R8: packages/permissions may not import the packages/finance module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: business-core).",
+                  "@paperos/import": "R3/R8: packages/permissions may not import the packages/import module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: migration).",
+                  "@paperos/pm": "R3/R8: packages/permissions may not import the packages/pm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: pm-linear)."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["packages/search/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "paths": {
+                  "@paperos/collab": "R3/R8: packages/search may not import the packages/collab module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: collab).",
+                  "@paperos/crm": "R3/R8: packages/search may not import the packages/crm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: growth).",
+                  "@paperos/finance": "R3/R8: packages/search may not import the packages/finance module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: business-core).",
+                  "@paperos/import": "R3/R8: packages/search may not import the packages/import module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: migration).",
+                  "@paperos/pm": "R3/R8: packages/search may not import the packages/pm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: pm-linear)."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["packages/spec/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "paths": {
+                  "@paperos/collab": "R3/R8: packages/spec may not import the packages/collab module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: collab).",
+                  "@paperos/crm": "R3/R8: packages/spec may not import the packages/crm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: growth).",
+                  "@paperos/finance": "R3/R8: packages/spec may not import the packages/finance module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: business-core).",
+                  "@paperos/import": "R3/R8: packages/spec may not import the packages/import module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: migration).",
+                  "@paperos/pm": "R3/R8: packages/spec may not import the packages/pm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: pm-linear)."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["packages/sync/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "paths": {
+                  "@paperos/collab": "R3/R8: packages/sync may not import the packages/collab module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: collab).",
+                  "@paperos/crm": "R3/R8: packages/sync may not import the packages/crm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: growth).",
+                  "@paperos/finance": "R3/R8: packages/sync may not import the packages/finance module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: business-core).",
+                  "@paperos/import": "R3/R8: packages/sync may not import the packages/import module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: migration).",
+                  "@paperos/pm": "R3/R8: packages/sync may not import the packages/pm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: pm-linear)."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["packages/tokens/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "paths": {
+                  "@paperos/collab": "R3/R8: packages/tokens may not import the packages/collab module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: collab).",
+                  "@paperos/crm": "R3/R8: packages/tokens may not import the packages/crm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: growth).",
+                  "@paperos/finance": "R3/R8: packages/tokens may not import the packages/finance module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: business-core).",
+                  "@paperos/import": "R3/R8: packages/tokens may not import the packages/import module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: migration).",
+                  "@paperos/pm": "R3/R8: packages/tokens may not import the packages/pm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: pm-linear)."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["packages/ui/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "paths": {
+                  "@paperos/collab": "R3/R8: packages/ui may not import the packages/collab module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: collab).",
+                  "@paperos/crm": "R3/R8: packages/ui may not import the packages/crm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: growth).",
+                  "@paperos/finance": "R3/R8: packages/ui may not import the packages/finance module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: business-core).",
+                  "@paperos/import": "R3/R8: packages/ui may not import the packages/import module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: migration).",
+                  "@paperos/pm": "R3/R8: packages/ui may not import the packages/pm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: pm-linear)."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["packages/views/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "paths": {
+                  "@paperos/collab": "R3/R8: packages/views may not import the packages/collab module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: collab).",
+                  "@paperos/crm": "R3/R8: packages/views may not import the packages/crm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: growth).",
+                  "@paperos/finance": "R3/R8: packages/views may not import the packages/finance module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: business-core).",
+                  "@paperos/import": "R3/R8: packages/views may not import the packages/import module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: migration).",
+                  "@paperos/pm": "R3/R8: packages/views may not import the packages/pm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: pm-linear)."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["packages/agents/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "paths": {
+                  "@paperos/collab": "R3/R8: packages/agents may not import the packages/collab module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: collab).",
+                  "@paperos/crm": "R3/R8: packages/agents may not import the packages/crm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: growth).",
+                  "@paperos/finance": "R3/R8: packages/agents may not import the packages/finance module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: business-core).",
+                  "@paperos/import": "R3/R8: packages/agents may not import the packages/import module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: migration).",
+                  "@paperos/pm": "R3/R8: packages/agents may not import the packages/pm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: pm-linear)."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["packages/kernel/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "paths": {
+                  "@paperos/collab": "R3/R8: packages/kernel may not import the packages/collab module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: collab).",
+                  "@paperos/crm": "R3/R8: packages/kernel may not import the packages/crm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: growth).",
+                  "@paperos/finance": "R3/R8: packages/kernel may not import the packages/finance module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: business-core).",
+                  "@paperos/import": "R3/R8: packages/kernel may not import the packages/import module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: migration).",
+                  "@paperos/pm": "R3/R8: packages/kernel may not import the packages/pm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: pm-linear)."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["packages/collab/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "paths": {
+                  "@paperos/crm": "R3/R8: packages/collab may not import the packages/crm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: growth).",
+                  "@paperos/finance": "R3/R8: packages/collab may not import the packages/finance module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: business-core).",
+                  "@paperos/import": "R3/R8: packages/collab may not import the packages/import module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: migration).",
+                  "@paperos/pm": "R3/R8: packages/collab may not import the packages/pm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: pm-linear)."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["packages/crm/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "paths": {
+                  "@paperos/collab": "R3/R8: packages/crm may not import the packages/collab module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: collab).",
+                  "@paperos/finance": "R3/R8: packages/crm may not import the packages/finance module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: business-core).",
+                  "@paperos/import": "R3/R8: packages/crm may not import the packages/import module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: migration).",
+                  "@paperos/pm": "R3/R8: packages/crm may not import the packages/pm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: pm-linear)."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["packages/finance/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "paths": {
+                  "@paperos/collab": "R3/R8: packages/finance may not import the packages/collab module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: collab).",
+                  "@paperos/crm": "R3/R8: packages/finance may not import the packages/crm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: growth).",
+                  "@paperos/import": "R3/R8: packages/finance may not import the packages/import module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: migration).",
+                  "@paperos/pm": "R3/R8: packages/finance may not import the packages/pm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: pm-linear)."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["packages/import/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "paths": {
+                  "@paperos/collab": "R3/R8: packages/import may not import the packages/collab module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: collab).",
+                  "@paperos/crm": "R3/R8: packages/import may not import the packages/crm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: growth).",
+                  "@paperos/finance": "R3/R8: packages/import may not import the packages/finance module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: business-core).",
+                  "@paperos/pm": "R3/R8: packages/import may not import the packages/pm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: pm-linear)."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["packages/pm/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "paths": {
+                  "@paperos/collab": "R3/R8: packages/pm may not import the packages/collab module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: collab).",
+                  "@paperos/crm": "R3/R8: packages/pm may not import the packages/crm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: growth).",
+                  "@paperos/finance": "R3/R8: packages/pm may not import the packages/finance module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: business-core).",
+                  "@paperos/import": "R3/R8: packages/pm may not import the packages/import module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: migration)."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["packages/contracts/quality/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "paths": {
+                  "@paperos/collab": "R3/R8: packages/contracts/quality may not import the packages/collab module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: collab).",
+                  "@paperos/crm": "R3/R8: packages/contracts/quality may not import the packages/crm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: growth).",
+                  "@paperos/finance": "R3/R8: packages/contracts/quality may not import the packages/finance module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: business-core).",
+                  "@paperos/import": "R3/R8: packages/contracts/quality may not import the packages/import module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: migration).",
+                  "@paperos/pm": "R3/R8: packages/contracts/quality may not import the packages/pm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: pm-linear)."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["packages/boundaries/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "paths": {
+                  "@paperos/collab": "R3/R8: packages/boundaries may not import the packages/collab module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: collab).",
+                  "@paperos/crm": "R3/R8: packages/boundaries may not import the packages/crm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: growth).",
+                  "@paperos/finance": "R3/R8: packages/boundaries may not import the packages/finance module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: business-core).",
+                  "@paperos/import": "R3/R8: packages/boundaries may not import the packages/import module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: migration).",
+                  "@paperos/pm": "R3/R8: packages/boundaries may not import the packages/pm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: pm-linear)."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["packages/config-biome/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "paths": {
+                  "@paperos/collab": "R3/R8: packages/config-biome may not import the packages/collab module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: collab).",
+                  "@paperos/crm": "R3/R8: packages/config-biome may not import the packages/crm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: growth).",
+                  "@paperos/finance": "R3/R8: packages/config-biome may not import the packages/finance module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: business-core).",
+                  "@paperos/import": "R3/R8: packages/config-biome may not import the packages/import module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: migration).",
+                  "@paperos/pm": "R3/R8: packages/config-biome may not import the packages/pm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: pm-linear)."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["packages/config-ts/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "paths": {
+                  "@paperos/collab": "R3/R8: packages/config-ts may not import the packages/collab module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: collab).",
+                  "@paperos/crm": "R3/R8: packages/config-ts may not import the packages/crm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: growth).",
+                  "@paperos/finance": "R3/R8: packages/config-ts may not import the packages/finance module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: business-core).",
+                  "@paperos/import": "R3/R8: packages/config-ts may not import the packages/import module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: migration).",
+                  "@paperos/pm": "R3/R8: packages/config-ts may not import the packages/pm module. Couple through @paperos/core/events, a @paperos/contract-* port or the kernel (owner: pm-linear)."
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
 }
