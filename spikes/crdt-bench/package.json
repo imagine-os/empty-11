@@ -1,0 +1,26 @@
+{
+  "name": "@paperos/spike-crdt-bench",
+  "version": "0.1.0",
+  "private": true,
+  "description": "PAP-139: standalone benchmark harness comparing Yjs, Automerge and Loro behind one CrdtAdapter interface.",
+  "type": "module",
+  "scripts": {
+    "bench": "tsx --expose-gc src/run.ts --out bench/results.json --md bench/results.md",
+    "bench:crdt": "tsx --expose-gc src/run.ts",
+    "test": "vitest run",
+    "check": "pnpm test && pnpm bench:crdt --workload a --runs 1 --scale tiny",
+    "bundle-size": "node scripts/bundle-size.mjs"
+  },
+  "dependencies": {
+    "@automerge/automerge": "3.5.0",
+    "loro-crdt": "1.16.1",
+    "yjs": "13.6.32"
+  },
+  "devDependencies": {
+    "@types/node": "22.15.0",
+    "esbuild": "0.28.2",
+    "tsx": "4.20.6",
+    "typescript": "5.9.3",
+    "vitest": "3.2.4"
+  }
+}

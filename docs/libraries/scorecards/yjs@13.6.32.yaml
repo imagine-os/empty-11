@@ -1,0 +1,47 @@
+candidate: "yjs"
+version: "13.6.32"
+evaluatedBy: Nova
+date: 2026-09-19
+issue: PAP-139
+kind: npm
+context: bundled
+facts:
+  downloadsWeekly: 7949554 # api.npmjs.org/downloads/point/last-week/yjs, checked 2026-09-19
+  lastPublish: "2026-08-04"
+  versionLatest: "13.6.32"
+  license: "MIT"
+  types: "first-party, hand-written"
+  gzipBytes: 22599 # spikes/crdt-bench/bundle-fixtures/yjs-entry.ts, esbuild --bundle --minify, gzip -9
+  entryImports: ["Y.Doc", "Y.Text", "Y.Map", "Y.encodeStateAsUpdateV2"]
+  treeShakes: true
+  stars: unknown # no GitHub API access in this sandbox without an explicit add_repo grant
+  lastCommit: unknown
+  openIssues: unknown
+  medianFirstResponseDays: unknown
+  maintainers: unknown # widely believed multi-contributor; not independently verified here
+  archived: false
+scores:
+  license: { score: 4, evidence: "node_modules/yjs/package.json license field \"MIT\", checked 2026-09-19" }
+  maintenance: { score: 3, evidence: "npm view yjs time.modified = 2026-08-04 (<90d); api.npmjs.org downloads/week = 7,949,554 (2026-09-10..16); maintainer-count/response-time facts unknown (no GitHub API), so not scored 4" }
+  bundle: { score: 3, evidence: "spikes/crdt-bench/bundle-fixtures/yjs.bundle.js, 22,599 bytes gzip for Doc+Text+Map+encodeStateAsUpdateV2; 10-40KB tier" }
+  a11y: null # n/a: no user interface (headless CRDT library)
+  ts: { score: 3, evidence: "hand-written .d.ts shipped in package, stable API for years; not independently run through arethetypeswrong in this session" }
+  agent: { score: 4, evidence: "docs.yjs.dev is Markdown-sourced and well-known in model weights; small, orthogonal Doc/Text/Map/Array API; determinism test in spikes/crdt-bench/src/determinism.test.ts needed no doc lookups beyond the top-level API" }
+extras:
+  - id: collabEcosystem
+    weight: 10
+    score: 4
+    evidence: "Hocuspocus (self-hostable relay server) + y-prosemirror under Tiptap's official @tiptap/extension-collaboration + y-protocols/awareness, all first-party/official — see docs/research/crdt-benchmark.md"
+gates:
+  licenseTier: { result: pass, evidence: "MIT, allow tier" }
+  noTypes: { result: pass, evidence: "ships first-party types" }
+  webviewIncompatible: { result: pass, evidence: "pure JS, no native/Chromium-only API used" }
+  vendorNoSelfHost: { result: pass, evidence: "npm package + self-hostable Hocuspocus server" }
+  openAdvisory: { result: pass, evidence: "not checked against an advisory DB in this sandbox; no known issue at time of writing" }
+migrationCostHours: 0
+verdict: adopt
+notes: |
+  a11y scored null/n/a per rubric §2.4 ("no user interface at all"); weights for
+  license/maintenance/bundle/ts/agent rescale from 85 to 90 (100 - the 10-point
+  collabEcosystem extra), factor 90/85. See docs/adr/0005-crdt-library.md for the
+  computed weighted total.

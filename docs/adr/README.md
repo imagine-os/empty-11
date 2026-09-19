@@ -12,7 +12,7 @@ Numbers are pre-assigned by the plan; take yours, do not renumber.
 | 0002 | [git-forgejo-mirror](0002-git-forgejo-mirror.md) | PAP-44 | Accepted |
 | 0003 | [auth-library](0003-auth-library.md) | PAP-56 | Accepted |
 | 0004 | [local-first-sync](0004-local-first-sync.md) | PAP-31 | Accepted |
-| 0005 | crdt-library | PAP-139 | Planned |
+| 0005 | [crdt-library](0005-crdt-library.md) | PAP-139 | Accepted |
 | 0006 | [canvas-and-editor-libraries](0006-canvas-and-editor-libraries.md) | PAP-127 | Accepted |
 | 0007 | [payroll-provider](0007-payroll-provider.md) | PAP-176 | Proposed |
 | 0008 | [crm-marketing-stack](0008-crm-marketing-stack.md) | PAP-188 | Proposed |

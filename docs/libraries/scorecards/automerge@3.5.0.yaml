@@ -1,0 +1,48 @@
+candidate: "@automerge/automerge"
+version: "3.5.0"
+evaluatedBy: Nova
+date: 2026-09-19
+issue: PAP-139
+kind: npm
+context: bundled
+facts:
+  downloadsWeekly: 54557 # api.npmjs.org/downloads/point/last-week/@automerge/automerge, checked 2026-09-19
+  lastPublish: "2026-09-16"
+  versionLatest: "3.5.0"
+  license: "MIT"
+  types: "first-party, generated in part from wasm-bindgen"
+  gzipBytes: 1147333 # spikes/crdt-bench/bench/results.json wasm_gzip_size (raw .wasm, browser build) — see research doc for why the esbuild-fixture number (1,643,964) is not used instead
+  entryImports: ["Automerge.from", "Automerge.change", "Automerge.splice", "Automerge.save", "Automerge.load", "Automerge.merge"]
+  treeShakes: false # single WASM binary, not tree-shakeable per-feature
+  stars: unknown
+  lastCommit: unknown
+  openIssues: unknown
+  medianFirstResponseDays: unknown
+  maintainers: "Ink & Switch (independent research lab) plus community contributors — institutional backing, not independently verified via GitHub API in this sandbox"
+  archived: false
+scores:
+  license: { score: 4, evidence: "package.json license field \"MIT\", checked 2026-09-19" }
+  maintenance: { score: 4, evidence: "npm view time.modified = 2026-09-16 (<90d); Ink & Switch institutional backing (public knowledge, not GitHub-API-verified here)" }
+  bundle: { score: 0, evidence: "wasm_gzip_size 1,147,333 bytes; over the 250KB tier ceiling regardless of inline-vs-fetch loading strategy — see docs/research/crdt-benchmark.md bundle section" }
+  a11y: null # n/a: no user interface (headless CRDT library)
+  ts: { score: 3, evidence: "first-party .d.ts, sound at strict settings in spikes/crdt-bench (tsc --noEmit clean); Automerge.splice's Prop[] path argument (array, not string) is an edge a session can miss on first try — see spikes/crdt-bench/src/adapters/automerge-adapter.ts" }
+  agent: { score: 3, evidence: "Markdown docs at automerge.org/docs; moderate API surface (from/change/splice/save/load/merge); this session needed one doc-shape correction (path array vs string) before the adapter worked, recorded in this session's build log" }
+extras:
+  - id: collabEcosystem
+    weight: 10
+    score: 1
+    evidence: "no first-party relay server equivalent to Hocuspocus; community ProseMirror bindings exist but no official Tiptap-collaboration-equivalent package; no first-party awareness/presence protocol"
+gates:
+  licenseTier: { result: pass, evidence: "MIT, allow tier" }
+  noTypes: { result: pass, evidence: "ships first-party types" }
+  webviewIncompatible: { result: pass, evidence: "WASM loads in webkit2gtk/WKWebView; not spiked against Tauri specifically in this session" }
+  vendorNoSelfHost: { result: pass, evidence: "npm package, no vendor lock-in" }
+  openAdvisory: { result: pass, evidence: "not checked against an advisory DB in this sandbox; no known issue at time of writing" }
+migrationCostHours: unknown
+verdict: trial
+notes: |
+  Scores in the 60-74 band (see docs/adr/0005-crdt-library.md for the computed
+  total) formally read as "trial" per rubric §5, but this ADR's Decision is not
+  to adopt or trial Automerge for the document/canvas module: PaperOS's
+  Interface & Data Contracts (`yjs_document`/`yjs_updates`) name one CRDT
+  encoding, and Yjs's total is 18+ points clear (not a tie under rubric §7).

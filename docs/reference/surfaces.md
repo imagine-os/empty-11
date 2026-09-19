@@ -29,6 +29,8 @@ or `-`), **Status** (`live`, `stub`, `planned`).
 | API | GitHub `POST/PUT /repos/{owner}/{repo}/rulesets`, Forgejo `POST /repos/{owner}/{repo}/branch_protections` and `.../tag_protections` — the endpoints the ruleset JSON is posted to | PAP-46 | forge admin | planned (payloads live in `ops/forge/rulesets/`, manifest `index.json`) |
 | CLI | `node scripts/gen-breakpoints.ts [--check]` — regenerate/verify `ops/ci/breakpoints.json` from `packages/core/src/devices/matrix.ts` | PAP-14 | - | stub |
 | CLI | `pnpm --filter views parity:report` (`--emit`, `--selftest`) — validate `packages/views/src/parity/checklist.json`, print per-product and per-category view-feature coverage, regenerate the two CSVs under `docs/research/`; exit 1 on any validation error | PAP-162 | - | live |
+| CLI | `pnpm bench:crdt [--workload a\|b\|c\|all] [--scale tiny\|default\|full] [--runs N] [--out\|--md <path>]` — run the Yjs/Automerge/Loro CRDT benchmark in `spikes/crdt-bench/`; `pnpm bench` is the CI-scale default (writes `bench/results.json`/`results.md`) | PAP-139 | - | live (spike, never imported by the app) |
+| CLI | `pnpm bundle-size` (in `spikes/crdt-bench/`) — gzip size of a minimal esbuild bundle per CRDT library | PAP-139 | - | live (spike) |
 
 The placeholder route declares no actions: it has no controls. The first page with a control adds
 its actions registry and its rows here.

@@ -1,0 +1,962 @@
+[
+  {
+    "lib": "automerge",
+    "libVersion": "3.5.0",
+    "workload": "a",
+    "metric": "apply_p50",
+    "value": 0.108,
+    "unit": "ms",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "automerge",
+    "libVersion": "3.5.0",
+    "workload": "a",
+    "metric": "apply_p99",
+    "value": 0.236,
+    "unit": "ms",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "automerge",
+    "libVersion": "3.5.0",
+    "workload": "a",
+    "metric": "encode_time",
+    "value": 8.546,
+    "unit": "ms",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "automerge",
+    "libVersion": "3.5.0",
+    "workload": "a",
+    "metric": "encoded_size",
+    "value": 70965,
+    "unit": "bytes",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "automerge",
+    "libVersion": "3.5.0",
+    "workload": "a",
+    "metric": "load_time",
+    "value": 51.636,
+    "unit": "ms",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "automerge",
+    "libVersion": "3.5.0",
+    "workload": "a",
+    "metric": "memory_after_load_heap",
+    "value": 23296,
+    "unit": "bytes",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "automerge",
+    "libVersion": "3.5.0",
+    "workload": "a",
+    "metric": "memory_after_load_rss",
+    "value": 1048576,
+    "unit": "bytes",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "automerge",
+    "libVersion": "3.5.0",
+    "workload": "a",
+    "metric": "merge_time_divergent",
+    "value": 85.531,
+    "unit": "ms",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "automerge",
+    "libVersion": "3.5.0",
+    "workload": "a",
+    "metric": "wasm_gzip_size",
+    "value": 1147333,
+    "unit": "bytes",
+    "runs": 1,
+    "scale": "default"
+  },
+  {
+    "lib": "automerge",
+    "libVersion": "3.5.0",
+    "workload": "b",
+    "metric": "apply_p50",
+    "value": 2.417,
+    "unit": "ms",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "automerge",
+    "libVersion": "3.5.0",
+    "workload": "b",
+    "metric": "apply_p99",
+    "value": 6.56,
+    "unit": "ms",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "automerge",
+    "libVersion": "3.5.0",
+    "workload": "b",
+    "metric": "encode_time",
+    "value": 36.166,
+    "unit": "ms",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "automerge",
+    "libVersion": "3.5.0",
+    "workload": "b",
+    "metric": "encoded_size",
+    "value": 145376,
+    "unit": "bytes",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "automerge",
+    "libVersion": "3.5.0",
+    "workload": "b",
+    "metric": "load_time",
+    "value": 323.952,
+    "unit": "ms",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "automerge",
+    "libVersion": "3.5.0",
+    "workload": "b",
+    "metric": "memory_after_load_heap",
+    "value": 499944,
+    "unit": "bytes",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "automerge",
+    "libVersion": "3.5.0",
+    "workload": "b",
+    "metric": "memory_after_load_rss",
+    "value": 2097152,
+    "unit": "bytes",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "automerge",
+    "libVersion": "3.5.0",
+    "workload": "b",
+    "metric": "merge_time_divergent",
+    "value": 902.309,
+    "unit": "ms",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "automerge",
+    "libVersion": "3.5.0",
+    "workload": "c",
+    "metric": "apply_p50",
+    "value": 0.468,
+    "unit": "ms",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "automerge",
+    "libVersion": "3.5.0",
+    "workload": "c",
+    "metric": "apply_p99",
+    "value": 5.071,
+    "unit": "ms",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "automerge",
+    "libVersion": "3.5.0",
+    "workload": "c",
+    "metric": "convergence_wall_time",
+    "value": 2498.019,
+    "unit": "ms",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "automerge",
+    "libVersion": "3.5.0",
+    "workload": "c",
+    "metric": "encoded_size",
+    "value": 10097,
+    "unit": "bytes",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "automerge",
+    "libVersion": "3.5.0",
+    "workload": "c",
+    "metric": "memory_after_load_heap",
+    "value": 1272,
+    "unit": "bytes",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "automerge",
+    "libVersion": "3.5.0",
+    "workload": "c",
+    "metric": "memory_after_load_rss",
+    "value": 131072,
+    "unit": "bytes",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "automerge",
+    "libVersion": "3.5.0",
+    "workload": "c",
+    "metric": "peers_converged",
+    "value": 1,
+    "unit": "bool",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "loro-crdt",
+    "libVersion": "1.16.1",
+    "workload": "a",
+    "metric": "apply_p50",
+    "value": 0.005,
+    "unit": "ms",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "loro-crdt",
+    "libVersion": "1.16.1",
+    "workload": "a",
+    "metric": "apply_p99",
+    "value": 0.035,
+    "unit": "ms",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "loro-crdt",
+    "libVersion": "1.16.1",
+    "workload": "a",
+    "metric": "encode_time",
+    "value": 6.022,
+    "unit": "ms",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "loro-crdt",
+    "libVersion": "1.16.1",
+    "workload": "a",
+    "metric": "encoded_size",
+    "value": 100452,
+    "unit": "bytes",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "loro-crdt",
+    "libVersion": "1.16.1",
+    "workload": "a",
+    "metric": "load_time",
+    "value": 0.342,
+    "unit": "ms",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "loro-crdt",
+    "libVersion": "1.16.1",
+    "workload": "a",
+    "metric": "memory_after_load_heap",
+    "value": 768,
+    "unit": "bytes",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "loro-crdt",
+    "libVersion": "1.16.1",
+    "workload": "a",
+    "metric": "memory_after_load_rss",
+    "value": 131072,
+    "unit": "bytes",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "loro-crdt",
+    "libVersion": "1.16.1",
+    "workload": "a",
+    "metric": "merge_time_divergent",
+    "value": 34.457,
+    "unit": "ms",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "loro-crdt",
+    "libVersion": "1.16.1",
+    "workload": "a",
+    "metric": "wasm_gzip_size",
+    "value": 1072193,
+    "unit": "bytes",
+    "runs": 1,
+    "scale": "default"
+  },
+  {
+    "lib": "loro-crdt",
+    "libVersion": "1.16.1",
+    "workload": "b",
+    "metric": "apply_p50",
+    "value": 0.014,
+    "unit": "ms",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "loro-crdt",
+    "libVersion": "1.16.1",
+    "workload": "b",
+    "metric": "apply_p99",
+    "value": 0.055,
+    "unit": "ms",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "loro-crdt",
+    "libVersion": "1.16.1",
+    "workload": "b",
+    "metric": "encode_time",
+    "value": 23.394,
+    "unit": "ms",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "loro-crdt",
+    "libVersion": "1.16.1",
+    "workload": "b",
+    "metric": "encoded_size",
+    "value": 192646,
+    "unit": "bytes",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "loro-crdt",
+    "libVersion": "1.16.1",
+    "workload": "b",
+    "metric": "load_time",
+    "value": 2.143,
+    "unit": "ms",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "loro-crdt",
+    "libVersion": "1.16.1",
+    "workload": "b",
+    "metric": "memory_after_load_heap",
+    "value": 752,
+    "unit": "bytes",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "loro-crdt",
+    "libVersion": "1.16.1",
+    "workload": "b",
+    "metric": "memory_after_load_rss",
+    "value": 0,
+    "unit": "bytes",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "loro-crdt",
+    "libVersion": "1.16.1",
+    "workload": "b",
+    "metric": "merge_time_divergent",
+    "value": 18.975,
+    "unit": "ms",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "loro-crdt",
+    "libVersion": "1.16.1",
+    "workload": "c",
+    "metric": "apply_p50",
+    "value": 0.127,
+    "unit": "ms",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "loro-crdt",
+    "libVersion": "1.16.1",
+    "workload": "c",
+    "metric": "apply_p99",
+    "value": 3.631,
+    "unit": "ms",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "loro-crdt",
+    "libVersion": "1.16.1",
+    "workload": "c",
+    "metric": "convergence_wall_time",
+    "value": 52187.593,
+    "unit": "ms",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "loro-crdt",
+    "libVersion": "1.16.1",
+    "workload": "c",
+    "metric": "encoded_size",
+    "value": 42988,
+    "unit": "bytes",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "loro-crdt",
+    "libVersion": "1.16.1",
+    "workload": "c",
+    "metric": "memory_after_load_heap",
+    "value": 984,
+    "unit": "bytes",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "loro-crdt",
+    "libVersion": "1.16.1",
+    "workload": "c",
+    "metric": "memory_after_load_rss",
+    "value": 131072,
+    "unit": "bytes",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "loro-crdt",
+    "libVersion": "1.16.1",
+    "workload": "c",
+    "metric": "peers_converged",
+    "value": 1,
+    "unit": "bool",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "yjs",
+    "libVersion": "13.6.32",
+    "workload": "a",
+    "metric": "apply_p50",
+    "value": 0.012,
+    "unit": "ms",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "yjs",
+    "libVersion": "13.6.32",
+    "workload": "a",
+    "metric": "apply_p99",
+    "value": 0.072,
+    "unit": "ms",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "yjs",
+    "libVersion": "13.6.32",
+    "workload": "a",
+    "metric": "encode_time",
+    "value": 14.014,
+    "unit": "ms",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "yjs",
+    "libVersion": "13.6.32",
+    "workload": "a",
+    "metric": "encoded_size",
+    "value": 63253,
+    "unit": "bytes",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "yjs",
+    "libVersion": "13.6.32",
+    "workload": "a",
+    "metric": "load_time",
+    "value": 30.5,
+    "unit": "ms",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "yjs",
+    "libVersion": "13.6.32",
+    "workload": "a",
+    "metric": "memory_after_load_heap",
+    "value": 2290512,
+    "unit": "bytes",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "yjs",
+    "libVersion": "13.6.32",
+    "workload": "a",
+    "metric": "memory_after_load_rss",
+    "value": 0,
+    "unit": "bytes",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "yjs",
+    "libVersion": "13.6.32",
+    "workload": "a",
+    "metric": "merge_time_divergent",
+    "value": 13.325,
+    "unit": "ms",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "yjs",
+    "libVersion": "13.6.32",
+    "workload": "a",
+    "metric": "wasm_gzip_size",
+    "value": 0,
+    "unit": "bytes",
+    "runs": 1,
+    "scale": "default"
+  },
+  {
+    "lib": "yjs",
+    "libVersion": "13.6.32",
+    "workload": "b",
+    "metric": "apply_p50",
+    "value": 0.005,
+    "unit": "ms",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "yjs",
+    "libVersion": "13.6.32",
+    "workload": "b",
+    "metric": "apply_p99",
+    "value": 0.037,
+    "unit": "ms",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "yjs",
+    "libVersion": "13.6.32",
+    "workload": "b",
+    "metric": "encode_time",
+    "value": 27.298,
+    "unit": "ms",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "yjs",
+    "libVersion": "13.6.32",
+    "workload": "b",
+    "metric": "encoded_size",
+    "value": 328422,
+    "unit": "bytes",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "yjs",
+    "libVersion": "13.6.32",
+    "workload": "b",
+    "metric": "load_time",
+    "value": 40.882,
+    "unit": "ms",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "yjs",
+    "libVersion": "13.6.32",
+    "workload": "b",
+    "metric": "memory_after_load_heap",
+    "value": 3272776,
+    "unit": "bytes",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "yjs",
+    "libVersion": "13.6.32",
+    "workload": "b",
+    "metric": "memory_after_load_rss",
+    "value": 0,
+    "unit": "bytes",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "yjs",
+    "libVersion": "13.6.32",
+    "workload": "b",
+    "metric": "merge_time_divergent",
+    "value": 18.031,
+    "unit": "ms",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "yjs",
+    "libVersion": "13.6.32",
+    "workload": "c",
+    "metric": "apply_p50",
+    "value": 0.047,
+    "unit": "ms",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "yjs",
+    "libVersion": "13.6.32",
+    "workload": "c",
+    "metric": "apply_p99",
+    "value": 0.318,
+    "unit": "ms",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "yjs",
+    "libVersion": "13.6.32",
+    "workload": "c",
+    "metric": "convergence_wall_time",
+    "value": 299.501,
+    "unit": "ms",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "yjs",
+    "libVersion": "13.6.32",
+    "workload": "c",
+    "metric": "encoded_size",
+    "value": 7539,
+    "unit": "bytes",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "yjs",
+    "libVersion": "13.6.32",
+    "workload": "c",
+    "metric": "memory_after_load_heap",
+    "value": 10400,
+    "unit": "bytes",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "yjs",
+    "libVersion": "13.6.32",
+    "workload": "c",
+    "metric": "memory_after_load_rss",
+    "value": 0,
+    "unit": "bytes",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "yjs",
+    "libVersion": "13.6.32",
+    "workload": "c",
+    "metric": "peers_converged",
+    "value": 1,
+    "unit": "bool",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "yjs-gc",
+    "libVersion": "13.6.32",
+    "workload": "a",
+    "metric": "apply_p50",
+    "value": 0.009,
+    "unit": "ms",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "yjs-gc",
+    "libVersion": "13.6.32",
+    "workload": "a",
+    "metric": "apply_p99",
+    "value": 0.048,
+    "unit": "ms",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "yjs-gc",
+    "libVersion": "13.6.32",
+    "workload": "a",
+    "metric": "encode_time",
+    "value": 11.777,
+    "unit": "ms",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "yjs-gc",
+    "libVersion": "13.6.32",
+    "workload": "a",
+    "metric": "encoded_size",
+    "value": 65714,
+    "unit": "bytes",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "yjs-gc",
+    "libVersion": "13.6.32",
+    "workload": "a",
+    "metric": "load_time",
+    "value": 16.067,
+    "unit": "ms",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "yjs-gc",
+    "libVersion": "13.6.32",
+    "workload": "a",
+    "metric": "memory_after_load_heap",
+    "value": 2283712,
+    "unit": "bytes",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "yjs-gc",
+    "libVersion": "13.6.32",
+    "workload": "a",
+    "metric": "memory_after_load_rss",
+    "value": 0,
+    "unit": "bytes",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "yjs-gc",
+    "libVersion": "13.6.32",
+    "workload": "a",
+    "metric": "merge_time_divergent",
+    "value": 11.691,
+    "unit": "ms",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "yjs-gc",
+    "libVersion": "13.6.32",
+    "workload": "a",
+    "metric": "wasm_gzip_size",
+    "value": 0,
+    "unit": "bytes",
+    "runs": 1,
+    "scale": "default"
+  },
+  {
+    "lib": "yjs-gc",
+    "libVersion": "13.6.32",
+    "workload": "b",
+    "metric": "apply_p50",
+    "value": 0.005,
+    "unit": "ms",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "yjs-gc",
+    "libVersion": "13.6.32",
+    "workload": "b",
+    "metric": "apply_p99",
+    "value": 0.036,
+    "unit": "ms",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "yjs-gc",
+    "libVersion": "13.6.32",
+    "workload": "b",
+    "metric": "encode_time",
+    "value": 14.892,
+    "unit": "ms",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "yjs-gc",
+    "libVersion": "13.6.32",
+    "workload": "b",
+    "metric": "encoded_size",
+    "value": 143506,
+    "unit": "bytes",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "yjs-gc",
+    "libVersion": "13.6.32",
+    "workload": "b",
+    "metric": "load_time",
+    "value": 20.505,
+    "unit": "ms",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "yjs-gc",
+    "libVersion": "13.6.32",
+    "workload": "b",
+    "metric": "memory_after_load_heap",
+    "value": 2060240,
+    "unit": "bytes",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "yjs-gc",
+    "libVersion": "13.6.32",
+    "workload": "b",
+    "metric": "memory_after_load_rss",
+    "value": 0,
+    "unit": "bytes",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "yjs-gc",
+    "libVersion": "13.6.32",
+    "workload": "b",
+    "metric": "merge_time_divergent",
+    "value": 8.655,
+    "unit": "ms",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "yjs-gc",
+    "libVersion": "13.6.32",
+    "workload": "c",
+    "metric": "apply_p50",
+    "value": 0.045,
+    "unit": "ms",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "yjs-gc",
+    "libVersion": "13.6.32",
+    "workload": "c",
+    "metric": "apply_p99",
+    "value": 0.151,
+    "unit": "ms",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "yjs-gc",
+    "libVersion": "13.6.32",
+    "workload": "c",
+    "metric": "convergence_wall_time",
+    "value": 286.663,
+    "unit": "ms",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "yjs-gc",
+    "libVersion": "13.6.32",
+    "workload": "c",
+    "metric": "encoded_size",
+    "value": 7549,
+    "unit": "bytes",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "yjs-gc",
+    "libVersion": "13.6.32",
+    "workload": "c",
+    "metric": "memory_after_load_heap",
+    "value": 0,
+    "unit": "bytes",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "yjs-gc",
+    "libVersion": "13.6.32",
+    "workload": "c",
+    "metric": "memory_after_load_rss",
+    "value": 0,
+    "unit": "bytes",
+    "runs": 5,
+    "scale": "default"
+  },
+  {
+    "lib": "yjs-gc",
+    "libVersion": "13.6.32",
+    "workload": "c",
+    "metric": "peers_converged",
+    "value": 1,
+    "unit": "bool",
+    "runs": 5,
+    "scale": "default"
+  }
+]

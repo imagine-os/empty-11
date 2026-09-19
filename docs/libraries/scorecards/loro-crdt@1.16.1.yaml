@@ -1,0 +1,48 @@
+candidate: "loro-crdt"
+version: "1.16.1"
+evaluatedBy: Nova
+date: 2026-09-19
+issue: PAP-139
+kind: npm
+context: bundled
+facts:
+  downloadsWeekly: 156776 # api.npmjs.org/downloads/point/last-week/loro-crdt, checked 2026-09-19
+  lastPublish: "2026-09-10"
+  versionLatest: "1.16.1"
+  license: "MIT"
+  types: "first-party, generated from wasm-bindgen, notably ergonomic"
+  gzipBytes: 1072193 # spikes/crdt-bench/bench/results.json wasm_gzip_size (raw .wasm, browser build)
+  entryImports: ["LoroDoc", "getText", "getMap", "export", "import"]
+  treeShakes: false # single WASM binary
+  stars: unknown
+  lastCommit: unknown
+  openIssues: unknown
+  medianFirstResponseDays: unknown
+  maintainers: "small dedicated team (loro.dev); institutional/company backing not independently verified via GitHub API in this sandbox"
+  archived: false
+scores:
+  license: { score: 4, evidence: "package.json license field \"MIT\", checked 2026-09-19" }
+  maintenance: { score: 3, evidence: "npm view time.modified = 2026-09-10 (<90d), frequent releases (spec's own \"Loro version churn\" edge case is evidence of an actively-shipping project); company/foundation backing and maintainer count unverified without GitHub API access, so not scored 4" }
+  bundle: { score: 0, evidence: "wasm_gzip_size 1,072,193 bytes; over the 250KB tier ceiling — see docs/research/crdt-benchmark.md bundle section for why the smaller esbuild-fixture number is not used" }
+  a11y: null # n/a: no user interface (headless CRDT library)
+  ts: { score: 4, evidence: "LoroDoc/LoroText/LoroMap types are notably ergonomic even though generated from wasm-bindgen; spikes/crdt-bench/src/adapters/loro-adapter.ts needed no any-casts or ts-expect-error" }
+  agent: { score: 2, evidence: "docs at loro.dev are Markdown but the library is young enough that this session had to check the docs for encode/import mode names (snapshot vs update) rather than knowing them from training; API is small but the export-mode choice is a first-try trap" }
+extras:
+  - id: collabEcosystem
+    weight: 10
+    score: 0
+    evidence: "no first-party relay server; only an experimental, pre-1.0 ProseMirror binding (loro-prosemirror), no Tiptap-official package, no first-party awareness protocol"
+gates:
+  licenseTier: { result: pass, evidence: "MIT, allow tier" }
+  noTypes: { result: pass, evidence: "ships first-party types" }
+  webviewIncompatible: { result: pass, evidence: "WASM loads in webkit2gtk/WKWebView; not spiked against Tauri specifically in this session" }
+  vendorNoSelfHost: { result: pass, evidence: "npm package, no vendor lock-in" }
+  openAdvisory: { result: pass, evidence: "not checked against an advisory DB in this sandbox; no known issue at time of writing" }
+migrationCostHours: unknown
+verdict: trial
+notes: |
+  Scores in the 60-74 band (see docs/adr/0005-crdt-library.md for the computed
+  total) formally read as "trial" per rubric §5, but this ADR's Decision is not
+  to adopt or trial Loro for the document/canvas module, for the same reason as
+  Automerge (see that scorecard's notes) plus the workload (c) relay-cost
+  finding in docs/research/crdt-benchmark.md.
