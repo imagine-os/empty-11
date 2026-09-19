@@ -28,6 +28,9 @@ or `-`), **Status** (`live`, `stub`, `planned`).
 | CLI | `scripts/apply-branch-policy.ts [--dry-run\|--apply\|--print-parity] --repo <slug>` — apply the forge rulesets idempotently | PAP-46 | forge admin | planned (Needs Justin to apply) |
 | API | GitHub `POST/PUT /repos/{owner}/{repo}/rulesets`, Forgejo `POST /repos/{owner}/{repo}/branch_protections` and `.../tag_protections` — the endpoints the ruleset JSON is posted to | PAP-46 | forge admin | planned (payloads live in `ops/forge/rulesets/`, manifest `index.json`) |
 | CLI | `node scripts/gen-breakpoints.ts [--check]` — regenerate/verify `ops/ci/breakpoints.json` from `packages/core/src/devices/matrix.ts` | PAP-14 | - | stub |
+| CLI | `pnpm --filter @paperos/contract-quality calibrate <output.json>` — score a reviewer output against the 15-case calibration set and print the agreement number and the disagreements | PAP-79 | - | live |
+| CLI | `pnpm --filter @paperos/contract-quality build:schemas` — regenerate the JSON Schemas in `packages/contracts/quality/schemas/` from the Zod sources | PAP-79 | - | live |
+| CLI | `pnpm --filter @paperos/contract-quality build:docs` — regenerate `docs/quality/rubrics/<domain>.md` from `packages/contracts/quality/src/rubrics/<domain>.json` | PAP-79 | - | live |
 | CLI | `pnpm --filter views parity:report` (`--emit`, `--selftest`) — validate `packages/views/src/parity/checklist.json`, print per-product and per-category view-feature coverage, regenerate the two CSVs under `docs/research/`; exit 1 on any validation error | PAP-162 | - | live |
 
 The placeholder route declares no actions: it has no controls. The first page with a control adds
