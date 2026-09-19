@@ -91,6 +91,8 @@ Rippling and Deel-as-embedded-EOR are not realistic runners-up for the *first* a
 
 Per the spec, these are PaperOS-owned regardless of which adapter PAP-184 implements first: employee sync from `fin_employee` (PAP-175) into `payroll_employee_link`, the pay-period calendar, the approval flow (`payroll.approve` + typed net-total confirmation, agents draft-only), ledger posting on `payroll.approved`/`payroll.paid` (PAP-179 accounts), and the paystub portal page. None of this changes if the adapter is swapped later — it is exactly the port/adapter seam the module-system rules (`docs/module-system.md`) call for.
 
+The seam itself — the `PayrollProvider`, `Capabilities` and `PayrollEvent` types this section describes — is this issue's lasting artefact and lives at [`packages/finance/src/payroll/provider.ts`](../../packages/finance/src/payroll/provider.ts) (types only, no runtime; compiles under strict TypeScript; a Vitest `expectTypeOf` test and a tiny mock adapter live alongside it in the same folder). PAP-398 implements it against Gusto Embedded (or Check, per Justin's NJ-12 answer); PAP-186's `upcomingPayroll` and the ledger-posting flow consume `PayrollEvent` from the same file.
+
 ## Needs Justin (NJ-12)
 
 **Ask:** Justin picks the first payroll provider to actually sandbox: **Gusto Embedded (recommended by this research's score)** or **Check (the schedule's pre-set default and the runner-up here)**. Nothing has been signed or requested; both remain sandbox-only until Justin says otherwise.

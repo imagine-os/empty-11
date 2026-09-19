@@ -244,6 +244,21 @@ importers:
         specifier: 'catalog:'
         version: 3.2.7(@types/node@22.20.4)(jsdom@26.1.0)(tsx@4.23.13)(yaml@2.9.1)
 
+  packages/finance:
+    devDependencies:
+      '@biomejs/biome':
+        specifier: 'catalog:'
+        version: 2.5.14
+      '@paperos/config-ts':
+        specifier: workspace:*
+        version: link:../config-ts
+      typescript:
+        specifier: 'catalog:'
+        version: 5.9.3
+      vitest:
+        specifier: 'catalog:'
+        version: 3.2.7(@types/node@22.20.4)(jsdom@26.1.0)(tsx@4.23.13)(yaml@2.9.1)
+
   packages/input:
     dependencies:
       zod:
