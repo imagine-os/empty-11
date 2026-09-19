@@ -6,7 +6,7 @@ Generated from `ownership.json` and the import graph of the working tree.
 Run `pnpm gen:dep-map` after any import or ownership change and commit both files;
 `pnpm lint:deps` and the `@paperos/boundaries` tests fail when the committed copy is stale.
 
-Packages on disk today: **15**. Import edges: **2**, of them undeclared: **0**.
+Packages on disk today: **18**. Import edges: **4**, of them undeclared: **0**.
 
 ## Imports today
 
@@ -22,6 +22,8 @@ flowchart LR
     apps_desktop["app:desktop<br/><small>app-shell</small>"]
     apps_mobile["app:mobile<br/><small>app-shell</small>"]
     apps_api["app:api<br/><small>data-layer</small>"]
+    packages_db["db<br/><small>data-layer</small>"]
+    packages_input["input<br/><small>input</small>"]
     packages_spec["spec<br/><small>spec-builder</small>"]
     packages_ui["ui<br/><small>design-system</small>"]
     packages_views["views<br/><small>tables</small>"]
@@ -29,6 +31,7 @@ flowchart LR
     packages_kernel["kernel<br/><small>module-system</small>"]
   end
   subgraph module["module"]
+    packages_finance["finance<br/><small>business-core</small>"]
     packages_pm["pm<br/><small>pm-linear</small>"]
   end
   subgraph contract["contract"]
@@ -41,6 +44,8 @@ flowchart LR
   end
   apps_web --> packages_ui
   packages_boundaries --> packages_core
+  packages_db --> packages_core
+  packages_spec --> packages_core
 ```
 
 ## Contract graph
@@ -129,8 +134,8 @@ None. Every import in the tree is covered by `allowedDeps`.
 | `packages/core` | core | app-shell | no | yes | PAP-13 |
 | `packages/core/src/audience` | core | identity | no | planned | PAP-55 |
 | `packages/core/src/devices` | core | app-shell | no | yes | PAP-14 |
-| `packages/core/src/events` | core | data-layer | no | planned | PAP-555 |
-| `packages/core/src/filter` | core | data-layer | no | planned | PAP-279 |
+| `packages/core/src/events` | core | data-layer | no | yes | PAP-555 |
+| `packages/core/src/filter` | core | data-layer | no | yes | PAP-279 |
 | `packages/core/src/flags` | core | app-shell | no | planned | PAP-366 |
 | `packages/core/src/i18n` | core | app-shell | no | planned | PAP-27 |
 | `packages/core/src/modules` | core | app-shell | no | yes | PAP-264, PAP-305, PAP-433 |
@@ -142,9 +147,10 @@ None. Every import in the tree is covered by `allowedDeps`.
 | `packages/api-client` | runtime | data-layer | no | planned | PAP-268 |
 | `packages/api-contract` | runtime | data-layer | no | planned | PAP-268 |
 | `packages/auth` | runtime | identity | no | planned | PAP-57 |
-| `packages/db` | runtime | data-layer | no | planned | PAP-32, PAP-33, PAP-34, PAP-38 |
+| `packages/db` | runtime | data-layer | no | yes | PAP-32, PAP-33, PAP-34, PAP-38 |
 | `packages/email` | runtime | data-layer | no | planned | PAP-43 |
 | `packages/files` | runtime | data-layer | no | planned | PAP-37 |
+| `packages/input` | runtime | input | no | yes | PAP-150 |
 | `packages/jobs` | runtime | data-layer | no | planned | PAP-43 |
 | `packages/permissions` | runtime | identity | no | planned | PAP-59, PAP-60 |
 | `packages/search` | runtime | data-layer | no | planned | PAP-39 |
@@ -157,7 +163,7 @@ None. Every import in the tree is covered by `allowedDeps`.
 | `packages/kernel` | runtime | module-system | no | yes | PAP-434 |
 | `packages/collab` | module | collab | yes | planned | PAP-128, PAP-131, PAP-141, PAP-145 |
 | `packages/crm` | module | growth | yes | planned | PAP-187 |
-| `packages/finance` | module | business-core | yes | planned | PAP-175 |
+| `packages/finance` | module | business-core | yes | yes | PAP-175 |
 | `packages/import` | module | migration | yes | planned | PAP-199 |
 | `packages/pm` | module | pm-linear | yes | yes | PAP-100, PAP-305 |
 | `packages/contracts/quality` | contract | quality | no | yes | PAP-79, PAP-239 |
@@ -182,6 +188,7 @@ None. Every import in the tree is covered by `allowedDeps`.
 | `packages/db` | `packages/core`, `packages/contracts/quality` |
 | `packages/email` | `packages/core`, `packages/db`, `packages/jobs`, `packages/files`, `packages/contracts/quality` |
 | `packages/files` | `packages/core`, `packages/db`, `packages/jobs`, `packages/contracts/quality` |
+| `packages/input` | `packages/core`, `packages/tokens`, `packages/contracts/quality` |
 | `packages/jobs` | `packages/core`, `packages/db`, `packages/contracts/quality` |
 | `packages/permissions` | `packages/core`, `packages/db`, `packages/auth`, `packages/contracts/quality` |
 | `packages/search` | `packages/core`, `packages/db`, `packages/jobs`, `packages/contracts/quality` |

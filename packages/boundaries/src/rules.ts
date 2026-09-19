@@ -113,12 +113,15 @@ function perSourceRule(
 ): CruiserRule {
   const allowed = entry.allowedDeps ?? [];
   const family = ruleFamily(key, entry);
-  const allowedList = allowed.length > 0 ? allowed.join(', ') : 'nothing';
+  const allowedList =
+    allowed.length > 0
+      ? `may import only ${allowed.join(', ')}`
+      : 'may import no other workspace package';
   return {
     name: `${family}-${slug(key)}-allowed-deps`,
     severity: 'error',
     comment:
-      `${family} ${key} may import only ${allowedList} — ${FAMILY_ADVICE[family] ?? ''} ` +
+      `${family} ${key} ${allowedList} — ${FAMILY_ADVICE[family] ?? ''} ` +
       `Owner: ${entry.owner} (ownership.json packages."${key}", issues ${entry.issues.join(', ')}).`,
     from: { path: dirRe(prefix, key), pathNot: testFileRegexes(ownership, prefix) },
     to: {
