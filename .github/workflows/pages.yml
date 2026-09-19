@@ -119,8 +119,12 @@ jobs:
             base="/${REPO_NAME}/previews/${name}/"
             is_prod=false
           fi
+          # Artifact names may not contain `/` (actions/upload-artifact v4
+          # rejects them), so the preview artifact gets a slug of the base path.
+          slug="$(printf '%s' "${base}" | sed -e 's#^/##' -e 's#/$##' -e 's#[^A-Za-z0-9._-]#-#g')"
           {
             echo "value=${base}"
+            echo "slug=${slug}"
             echo "is-production=${is_prod}"
             echo "build-time=$(date -u +%FT%TZ)"
           } >> "$GITHUB_OUTPUT"
@@ -144,7 +148,7 @@ jobs:
         if: steps.base-path.outputs.is-production != 'true'
         uses: actions/upload-artifact@v4
         with:
-          name: pages-preview-${{ steps.base-path.outputs.value }}
+          name: pages-preview-${{ steps.base-path.outputs.slug }}
           path: apps/web/dist
           retention-days: 14
           if-no-files-found: error

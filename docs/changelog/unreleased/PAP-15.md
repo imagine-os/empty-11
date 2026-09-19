@@ -14,3 +14,6 @@
 - Paths: `.github/workflows/pages.yml`, `ops/ci/pages/`, `apps/web/public/404.html`,
   `apps/web/vite.config.ts`, `docs/platform/pages-deploy.md`.
 - Needs Justin: repo Settings → Pages → Source: GitHub Actions (see `ops/ci/pages/README.md`).
+- Review fix (Sentinel): the preview artifact is named `pages-preview-<slug>` (base path with
+  slashes replaced); `actions/upload-artifact@v4` rejects names containing `/`, so every
+  `pull_request` and `workflow_dispatch` run would have failed at the upload step.

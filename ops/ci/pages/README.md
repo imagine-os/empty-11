@@ -64,7 +64,7 @@ available here without a policy exception.
   meaningless until the merge step lands, so not built either.
 
 Until then, a reviewer gets the preview build by downloading the workflow run's
-`pages-preview-<base-path>` artifact and opening `index.html` locally (or via `pnpm dlx serve`),
+`pages-preview-<slug>` artifact (the base path with slashes replaced, e.g. `pages-preview-empty-11-previews-pr-7`) and opening `index.html` locally (or via `pnpm dlx serve`),
 which still validates the build and lets someone eyeball it without touching production.
 
 ## Local build + smoke check
