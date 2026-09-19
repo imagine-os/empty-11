@@ -34,7 +34,7 @@ export function parseSpec(source: string, options: ParseOptions = {}): ParseResu
   const text = normaliseSource(source);
   const pre: SpecIssue[] = [];
 
-  const bytes = Buffer.byteLength(text, 'utf8');
+  const bytes = new TextEncoder().encode(text).byteLength;
   const limit = options.sizeLimitBytes ?? SPEC_SIZE_LIMIT_BYTES;
   if (bytes > limit) {
     pre.push({
