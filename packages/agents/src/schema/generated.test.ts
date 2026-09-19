@@ -63,7 +63,9 @@ describe('generated files are committed and current', () => {
     );
   });
 
-  it('fixtures/valid/roster.json is current (gen:fixtures --check)', () => {
+  const SPAWN = { timeout: 60_000 };
+
+  it('fixtures/valid/roster.json is current (gen:fixtures --check)', SPAWN, () => {
     expect(() =>
       execFileSync(process.execPath, ['scripts/gen-fixtures.ts', '--check'], {
         cwd: PKG,
@@ -72,16 +74,20 @@ describe('generated files are committed and current', () => {
     ).not.toThrow();
   });
 
-  it('plan.json agents[] converts to 37 characters that agree with the golden fixtures (convert:plan --check)', () => {
-    const out = execFileSync(process.execPath, ['scripts/convert-plan.ts', '--check'], {
-      cwd: PKG,
-      stdio: 'pipe',
-      encoding: 'utf8',
-    });
-    expect(out).toBe('');
-  });
+  it(
+    'plan.json agents[] converts to 37 characters that agree with the golden fixtures (convert:plan --check)',
+    SPAWN,
+    () => {
+      const out = execFileSync(process.execPath, ['scripts/convert-plan.ts', '--check'], {
+        cwd: PKG,
+        stdio: 'pipe',
+        encoding: 'utf8',
+      });
+      expect(out).toBe('');
+    },
+  );
 
-  it('pnpm validate exits 1 on an invalid fixture and 0 on the golden set', () => {
+  it('pnpm validate exits 1 on an invalid fixture and 0 on the golden set', SPAWN, () => {
     expect(() =>
       execFileSync(process.execPath, ['scripts/validate.ts', 'fixtures/valid', '--quiet'], {
         cwd: PKG,
