@@ -379,11 +379,16 @@ character's written judgement, carries it:
 
 Not scorecarded: each fails on a structural property no score would rescue.
 
-**Headless UI 2.2.10** (`@headlessui/react`, MIT, last publish 2026-04-07). Tailwind Labs' own
-headless set, and the closest fit to our styling stack on paper. Rejected on inventory and pace:
-no combobox virtualization, no date primitives, no navigation menu, and five months between
-stable publishes while the four scored candidates all shipped inside three weeks. A library that
-supplies a third of the twenty components cannot be the foundation for the twenty.
+**Headless UI 2.2.10** (`@headlessui/react`, MIT, last stable publish 2026-04-07). Tailwind Labs'
+own headless set, and on paper the closest fit to our styling stack; its Combobox even virtualizes
+natively (a `virtual` prop, [docs](https://headlessui.com/react/combobox), 2026-09-19). Rejected on
+inventory and pace. Its published component list — Dropdown Menu, Disclosure, Dialog, Popover,
+Tabs, Transition, Button, Checkbox, Combobox, Fieldset, Input, Listbox, Radio Group, Select,
+Switch, Textarea — has no date picker, no toast, no drawer, no navigation menu, no menubar, no
+context menu, no number field and no scroll area, which is roughly half of what PAP-67 and its
+downstream issues need. And the pace: no stable release since 2026-04-07, five months, while the
+four scored candidates all shipped inside the last three weeks. A library that supplies half the
+twenty components cannot be the foundation for the twenty.
 
 **Mantine 9.6.1** (`@mantine/core`, MIT, 2026-09-09). Healthy and complete, but it is a *styled*
 kit: it ships CSS (`sideEffects: ["*.css"]`), owns its own theming object and expects components to

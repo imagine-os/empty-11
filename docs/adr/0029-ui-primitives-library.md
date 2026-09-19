@@ -152,8 +152,9 @@ every non-trivial use), and a collection API that is more ceremony than Base UI'
 multi-framework reach — React, Vue, Svelte, Solid — is value PaperOS does not need.
 *The fact that would change the answer:* PaperOS needing a non-React surface.
 
-**Quick rejects** (one paragraph each in the research doc §7): **Headless UI** (inventory too thin,
-five months between releases), **Mantine** (styled kit, ships CSS, owns its theme), **MUI Material**
+**Quick rejects** (one paragraph each in the research doc §7): **Headless UI** (half of PAP-67's
+twenty missing — no date picker, toast, drawer, navigation menu or number field — and no stable
+release since 2026-04-07), **Mantine** (styled kit, ships CSS, owns its theme), **MUI Material**
 (Material Design plus an Emotion CSS-in-JS runtime — and MUI's own answer to this problem is Base
 UI), **Chakra UI v3** (Ark and Zag underneath, with a style layer we would have to neutralise),
 **Ant Design** (an enterprise design language with 48 runtime dependencies and a visual identity
