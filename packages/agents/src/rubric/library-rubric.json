@@ -1,0 +1,348 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "id": "paperos.library-rubric",
+  "version": "1.0.0",
+  "title": "PaperOS library evaluation rubric",
+  "status": "accepted",
+  "adr": "docs/adr/0009-library-evaluation-rubric.md",
+  "doc": "docs/platform/library-rubric.md",
+  "issue": "PAP-209",
+  "updatedAt": "2026-09-19",
+  "owner": "Scout",
+  "scoreRange": { "min": 0, "max": 4, "naAllowed": true },
+  "totalFormula": "round(sum((score_i / 4) * rescaledWeight_i))",
+  "criteria": [
+    {
+      "id": "license",
+      "label": "License",
+      "weight": 20,
+      "naAllowed": false,
+      "facts": ["license", "licenseFileText", "context"],
+      "anchors": {
+        "4": "Allow-tier SPDX for the context; LICENSE text and license field agree; no CLA, field-of-use limit or attribution burden beyond a notices file.",
+        "3": "Allow tier with friction we carry: field/file disagreement resolving in our favour, a required attribution surface, or MPL-2.0 where we may patch files.",
+        "2": "Review tier in a context the policy allows with a waiver (LGPL/GPL in dev or service, AGPL-3.0 in service, BUSL-1.1, ELv2, bespoke SEE LICENSE IN); waiver drafted, ADR written, expiry set.",
+        "1": "Review tier with the waiver plausible but unwritten, or open core whose free tier is allow-licensed while the features we want are not.",
+        "0": "Block tier or unknown: SSPL-1.0, Commons Clause, JSON, UNLICENSED, missing, or any copyleft in a bundled context. Hard gate licenseTier fails."
+      }
+    },
+    {
+      "id": "maintenance",
+      "label": "Maintenance",
+      "weight": 20,
+      "naAllowed": false,
+      "facts": [
+        "lastPublish",
+        "lastCommit",
+        "maintainers",
+        "medianFirstResponseDays",
+        "archived",
+        "stars"
+      ],
+      "caps": [
+        {
+          "when": "maintainers <= 1 and not companyOrFoundationBacked",
+          "maxScore": 2,
+          "note": "Single-maintainer projects cap at 2 unless a company or foundation backs them; name the backer with a link."
+        }
+      ],
+      "anchors": {
+        "4": "Release within 90 days; 3+ active maintainers or company/foundation backing; median first response under 14 days; published cadence or roadmap; breaking changes ship codemods or a migration guide.",
+        "3": "Release within 180 days; 2+ maintainers; median first response under 30 days; issues triaged even when not fixed.",
+        "2": "Release within 12 months; one maintainer or a small team with visible backlog debt; median first response under 90 days.",
+        "1": "No release in 12 months but the repo is alive (commits, answered issues), or a healthy fork exists that we would have to follow.",
+        "0": "Archived, or 18 months with no commit and no answered issue, or the maintainer announced they are stopping."
+      }
+    },
+    {
+      "id": "bundle",
+      "label": "Bundle size",
+      "weight": 15,
+      "naAllowed": true,
+      "naCases": ["server-only", "cli-only", "dev-only", "crate", "image", "saas"],
+      "facts": ["gzipBytes", "entryImports", "treeShakes"],
+      "measurement": "gzipped size of the imports we actually use, from an esbuild metafile over a fixture entry point; vendor claims are not evidence",
+      "anchors": {
+        "4": "Under 10 KB gzipped for the used imports; tree-shakeable (ESM, accurate sideEffects); no runtime CSS-in-JS cost; no polyfill pull-in.",
+        "3": "10-40 KB gzipped; tree-shakes correctly; peer dependencies we already ship.",
+        "2": "40-100 KB gzipped, or tree-shakes only with a plugin/config we must maintain, or it drags in one heavyweight peer we would otherwise not ship.",
+        "1": "100-250 KB gzipped, or lazy-loadable only as one route chunk, or it ships a WASM blob we must host.",
+        "0": "Over 250 KB gzipped for the used imports, or unbundleable (CDN-only, no ESM)."
+      }
+    },
+    {
+      "id": "a11y",
+      "label": "Accessibility",
+      "weight": 15,
+      "naAllowed": true,
+      "naCases": ["no-user-interface"],
+      "approvedBy": "Iris",
+      "facts": ["a11yStatement", "openA11yIssues"],
+      "anchors": {
+        "4": "Correct roles and ARIA out of the box; full keyboard operation with documented focus order and focus trapping/restore; visible focus not suppressed; nothing hover-only or drag-only (every drag has a keyboard equivalent); respects prefers-reduced-motion and forced-colors; 44 px targets or configurable; published a11y statement or APG conformance; upstream tests with a screen reader.",
+        "3": "Correct roles and keyboard operation; one or two named gaps with open upstream issues; focus visible; reduced-motion honoured; drag has a keyboard equivalent even if clumsy.",
+        "2": "Keyboard-operable with our wrapper: we supply roles, labels or focus management, and the work is bounded and named in migrationCostHours.",
+        "1": "Keyboard operation only by replacing the library's interaction layer, or a core interaction is drag-only / hover-only with no keyboard path, or it sets outline: none globally.",
+        "0": "Inaccessible by construction (no accessible tree, no focus model) and upstream says it is out of scope; a UI library at 0 cannot be adopted for a customer-facing surface."
+      }
+    },
+    {
+      "id": "ts",
+      "label": "TypeScript quality",
+      "weight": 15,
+      "naAllowed": true,
+      "naCases": ["no-javascript-surface"],
+      "facts": ["types", "attw", "publint"],
+      "anchors": {
+        "4": "Hand-written types shipped in the package; correct ESM + CJS export map (arethetypeswrong and publint clean); passes under strict, noUncheckedIndexedAccess and exactOptionalPropertyTypes; generics and inference work with no any at the boundary; typed errors rather than stringly-typed throws.",
+        "3": "Hand-written types, sound at our compiler settings; one or two anys at the edges; export map fine; errors typed but coarse.",
+        "2": "@types/* from DefinitelyTyped, current with the runtime version we use, or shipped types with known drift worked around in one place.",
+        "1": "Generated or partial types that lie about the runtime, or types that force skipLibCheck or a ts-expect-error, or @types/* lagging a major behind.",
+        "0": "No types at all and none on DefinitelyTyped. Hard gate noTypes fails."
+      }
+    },
+    {
+      "id": "agent",
+      "label": "Agent-friendliness",
+      "weight": 15,
+      "naAllowed": false,
+      "facts": ["docsFormat", "llmsTxt", "context7Id"],
+      "anchors": {
+        "4": "Markdown docs or llms.txt / raw-markdown route; typed copy-pasteable examples that compile; small orthogonal API surface; typed errors with actionable messages; stable naming across versions; well known to Claude so a session writes correct code without fetching docs; a Context7 or MCP docs source exists.",
+        "3": "Good docs in Markdown or easily fetched HTML; examples mostly typed; moderate surface; Claude knows it but not the current major, so a session must check the changelog.",
+        "2": "Docs are a generated API reference or a hard-to-fetch site; examples untyped or JS-only; several ways to do the same thing; one doc fetch needed per non-trivial use.",
+        "1": "Docs are a README plus source reading, or the current major renamed things the model remembers by their old names, or the API depends on implicit global state a session will not guess.",
+        "0": "No usable docs; the only reference is a Discord, a video course or a paywall."
+      }
+    }
+  ],
+  "weightsSum": 100,
+  "naRule": {
+    "behaviour": "drop-and-rescale",
+    "description": "An n/a criterion is dropped and the remaining weights are rescaled proportionally to 100 (or to 100 - sum(extraWeights) when extras are used). The rescaled weights are recorded on the scorecard as rescaledWeights.",
+    "requiresEvidence": true
+  },
+  "extras": {
+    "maxCount": 2,
+    "maxTotalWeight": 25,
+    "allowedWeights": [5, 10],
+    "rule": "Extras take their weight out of the base six, which rescale proportionally to 100 - sum(extraWeights). Every extra ships 0-4 anchors written out in the ADR, and the same extras with the same weights are applied to every candidate in the comparison. Extras never remove a hard gate.",
+    "standard": [
+      {
+        "id": "security",
+        "label": "Supply-chain and advisories",
+        "defaultWeight": 10,
+        "source": "PAP-755",
+        "facts": ["scorecard", "advisories"],
+        "anchors": {
+          "4": "OpenSSF Scorecard >= 7.0, no open advisory above low, signed releases or build provenance.",
+          "3": "Scorecard >= 6.0, no open advisory above moderate, releases from CI.",
+          "2": "Scorecard >= 5.0, open moderate advisory with a patched version available.",
+          "1": "Scorecard >= 4.0, or an open high advisory with a patched version available.",
+          "0": "Scorecard < 4.0, or an open high advisory with no patched version."
+        }
+      },
+      {
+        "id": "packaging",
+        "label": "Packaging correctness",
+        "defaultWeight": 5,
+        "source": "PAP-755",
+        "facts": ["publint", "attw"],
+        "anchors": {
+          "4": "publint and arethetypeswrong both clean; correct exports map, ESM + CJS, no dual-package hazard.",
+          "3": "Both clean apart from warnings we do not hit.",
+          "2": "One tool reports a problem we configure around in our own build.",
+          "1": "One tool reports a problem we must patch the package for.",
+          "0": "Either tool reports an error class we would have to patch around permanently."
+        }
+      }
+    ]
+  },
+  "gates": [
+    {
+      "id": "licenseTier",
+      "label": "License tier",
+      "failsWhen": "The SPDX expression is outside the allow tier for the candidate's context and no unexpired waiver in ops/licenses/waivers.yaml covers it.",
+      "clearedBy": "Waiver plus ADR; block tier needs Justin.",
+      "source": "PAP-211"
+    },
+    {
+      "id": "noTypes",
+      "label": "No TypeScript types",
+      "failsWhen": "No types ship and none exist on DefinitelyTyped, for a candidate with a JavaScript surface.",
+      "clearedBy": "ADR exception naming who maintains the .d.ts."
+    },
+    {
+      "id": "webviewIncompatible",
+      "label": "Tauri WebView incompatibility",
+      "failsWhen": "A UI candidate does not work in webkit2gtk (Linux) or WKWebView (macOS/iOS): Chromium-only APIs, unsupported CSS, or a crash in the spike.",
+      "clearedBy": "A tested fallback path recorded with the spike artefact."
+    },
+    {
+      "id": "vendorNoSelfHost",
+      "label": "Vendor cloud with no self-host path",
+      "failsWhen": "A hosted vendor with no self-host option and no data export we can run on our own box.",
+      "clearedBy": "Nothing; this one is structural."
+    },
+    {
+      "id": "openAdvisory",
+      "label": "Open critical advisory",
+      "failsWhen": "An open critical advisory exists with no patched version.",
+      "clearedBy": "A patched release, or a registered pnpm patch entry with an expiry.",
+      "source": "PAP-755"
+    }
+  ],
+  "gateRule": "Gates are evaluated before scoring. Any gate with result 'fail' forces verdict 'reject' regardless of the total; a scorecard whose verdict disagrees is invalid. 'waived' requires an ADR id.",
+  "thresholds": [
+    {
+      "verdict": "adopt",
+      "minTotal": 75,
+      "maxTotal": 100,
+      "note": "Registry status adopted; usage note and version pin required."
+    },
+    {
+      "verdict": "trial",
+      "minTotal": 60,
+      "maxTotal": 74,
+      "note": "Allowed behind one module boundary or feature flag, with an ADR reviewDate no more than 90 days out."
+    },
+    {
+      "verdict": "reject",
+      "minTotal": 0,
+      "maxTotal": 59,
+      "note": "Not used; recorded so the next session does not re-litigate it."
+    }
+  ],
+  "evidenceRule": {
+    "minScoreRequiringEvidence": 3,
+    "accepts": ["url", "repo-path"],
+    "onMissing": "error",
+    "message": "Scores of 3 or 4 require a URL or a repo path in evidence; pnpm lib score exits non-zero and names the criterion.",
+    "lowScoreBehaviour": "warn"
+  },
+  "tieRule": {
+    "windowPoints": 5,
+    "order": ["migrationCostHours", "owningCharacterWrittenJudgement"],
+    "forbidden": "re-scoring to break a tie"
+  },
+  "factFreshness": { "warnAfterDays": 7, "failAfterDays": null, "unknownValue": "unknown" },
+  "licensePolicy": {
+    "source": "ops/licenses/policy.yaml",
+    "prose": "docs/libraries/license-policy.md",
+    "issue": "PAP-211",
+    "fallback": "draftTiers",
+    "onFallback": "print 'license policy: draft (PAP-211 unmerged)' and set facts.licensePolicySource = 'draft'",
+    "contexts": ["bundled", "server", "dev", "service"],
+    "draftTiers": {
+      "allow": [
+        "MIT",
+        "Apache-2.0",
+        "BSD-2-Clause",
+        "BSD-3-Clause",
+        "ISC",
+        "0BSD",
+        "Unlicense",
+        "CC0-1.0",
+        "Zlib",
+        "BlueOak-1.0.0",
+        "Python-2.0",
+        "MPL-2.0",
+        "OFL-1.1",
+        "CC-BY-4.0"
+      ],
+      "review": [
+        "LGPL-2.1-or-later",
+        "LGPL-3.0-or-later",
+        "GPL-2.0-or-later",
+        "GPL-3.0-or-later",
+        "AGPL-3.0-or-later",
+        "BUSL-1.1",
+        "Elastic-2.0",
+        "WTFPL",
+        "SEE LICENSE IN"
+      ],
+      "block": ["SSPL-1.0", "Commons-Clause", "JSON", "UNLICENSED", "UNKNOWN"],
+      "contextLimits": {
+        "bundled": { "copyleftAllowed": false },
+        "server": {
+          "review": [
+            "LGPL-2.1-or-later",
+            "LGPL-3.0-or-later",
+            "GPL-2.0-or-later",
+            "GPL-3.0-or-later"
+          ]
+        },
+        "dev": {
+          "review": [
+            "LGPL-2.1-or-later",
+            "LGPL-3.0-or-later",
+            "GPL-2.0-or-later",
+            "GPL-3.0-or-later"
+          ]
+        },
+        "service": { "review": ["AGPL-3.0-or-later", "BUSL-1.1", "Elastic-2.0"] }
+      }
+    }
+  },
+  "candidateKinds": {
+    "npm": { "bundleApplies": true },
+    "crate": {
+      "bundleApplies": false,
+      "bundleAppliesWhen": "ships WASM we bundle",
+      "factsSource": "crates.io"
+    },
+    "image": {
+      "bundleApplies": false,
+      "factsSource": "Docker Hub + repo",
+      "extraFacts": ["composeSmokeRssMb", "composeSmokeCpu"]
+    },
+    "oss-product": { "bundleApplies": false, "decidingGate": "vendorNoSelfHost" },
+    "saas": {
+      "bundleApplies": false,
+      "tsScores": "client SDK",
+      "decidingGate": "vendorNoSelfHost"
+    },
+    "monorepo": {
+      "scoreOnly": "imported packages, listed in facts.entryImports",
+      "maintenanceScope": "repo"
+    },
+    "open-core": {
+      "scoreTier": "free",
+      "listIn": "facts.excludedFeatures",
+      "note": "a needed feature behind the paid tier caps license at 1 and needs a Needs Justin card"
+    }
+  },
+  "scorecard": {
+    "folder": "docs/libraries/scorecards/",
+    "fileName": "<candidate>@<version>.yaml",
+    "template": "docs/libraries/scorecard.template.yaml",
+    "fields": {
+      "candidate": "string",
+      "version": "string",
+      "evaluatedBy": "character name",
+      "date": "ISO date",
+      "issue": "PAP-<n>",
+      "kind": "npm | crate | image | oss-product | saas",
+      "context": "bundled | server | dev | service",
+      "facts": "embedded facts.json or a path to it",
+      "scores": "{ <criterionId>: { score: 0..4 | 'n/a', evidence: string } }",
+      "extras": "[{ id, weight, score, evidence }]",
+      "gates": "{ <gateId>: { result: pass | fail | waived, evidence, adr? } }",
+      "migrationCostHours": "number",
+      "rescaledWeights": "{ <criterionId>: number } written by the CLI",
+      "total": "number written by the CLI",
+      "verdict": "adopt | trial | reject"
+    }
+  },
+  "cli": {
+    "command": "pnpm lib score <scorecard.yaml>",
+    "flags": {
+      "--facts-only": "emit facts without scoring, for PAP-218 pre-scores",
+      "--facts-from <dir>": "read a spike kit results/summary.json so measured FPS and bundle numbers populate facts"
+    },
+    "factsCollector": "scripts/lib-facts.ts",
+    "factsCache": ".cache/lib-facts/",
+    "renders": "the Markdown Alternatives table an ADR pastes under 'Alternatives rejected'"
+  },
+  "changeControl": "Weights, anchors, gates and thresholds change only through an ADR superseding ADR 0009, approved by Atlas, naming the scorecards to recompute. Adding a domain extra to one comparison is not a rubric change."
+}
