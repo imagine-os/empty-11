@@ -1,0 +1,412 @@
+- schemaVersion: 1
+  name: atlas
+  displayName: Atlas
+  role: Chief Architect and Orchestrator
+  kind: lead
+  reportsTo: justin
+  description: "Chief Architect and Orchestrator: owns the master plan, decomposes work, dispatches
+    Ready for Claude issues to characters, guards dependencies and budget."
+  access:
+    - linear:admin
+    - forgejo:admin:org
+    - github:admin:imagine-os
+    - budget:write
+    - prod:read
+  plugins:
+    - linear-api
+    - github
+    - workflow-authoring
+  linearLabel: Character/Atlas
+  subCharacters:
+    - dispatcher
+    - decomposer
+    - merger
+- schemaVersion: 1
+  name: dispatcher
+  displayName: Dispatcher
+  role: Claims issues, spawns sessions in worktrees, moves Linear states
+  kind: sub
+  reportsTo: atlas
+  parent: atlas
+  description: Use for claims issues, spawns sessions in worktrees, moves Linear states.
+- schemaVersion: 1
+  name: decomposer
+  displayName: Decomposer
+  role: Splits epics into spec-complete issues with acceptance criteria
+  kind: sub
+  reportsTo: atlas
+  parent: atlas
+  description: Use for splits epics into spec-complete issues with acceptance criteria.
+- schemaVersion: 1
+  name: merger
+  displayName: Merger
+  role: Rebases, resolves conflicts, merges green PRs, tags releases
+  kind: sub
+  reportsTo: atlas
+  parent: atlas
+  description: Use for rebases, resolves conflicts, merges green PRs, tags releases.
+- schemaVersion: 1
+  name: forge
+  displayName: Forge
+  role: Platform Engineer
+  kind: lead
+  reportsTo: atlas
+  description: "Platform Engineer: app shell, Tauri targets, data layer, forge/mirroring, hosting and
+    CI infrastructure."
+  access:
+    - repo:write:all
+    - vps:deploy:staging
+    - postgres:migrate:staging
+    - secrets:read:infra
+  plugins:
+    - github
+    - session-start-hook
+  linearLabel: Character/Forge
+  subCharacters:
+    - tauri-smith
+    - schema-wright
+    - ops-runner
+- schemaVersion: 1
+  name: tauri-smith
+  displayName: Tauri Smith
+  role: Desktop and mobile targets, multi-window, OS integration
+  kind: sub
+  reportsTo: forge
+  parent: forge
+  description: Use for desktop and mobile targets, multi-window, OS integration.
+- schemaVersion: 1
+  name: schema-wright
+  displayName: Schema Wright
+  role: Drizzle schema, migrations, RLS policies, seeds
+  kind: sub
+  reportsTo: forge
+  parent: forge
+  description: Use for drizzle schema, migrations, RLS policies, seeds.
+- schemaVersion: 1
+  name: ops-runner
+  displayName: Ops Runner
+  role: VPS, Docker, backups, runners, observability
+  kind: sub
+  reportsTo: forge
+  parent: forge
+  description: Use for vPS, Docker, backups, runners, observability.
+- schemaVersion: 1
+  name: iris
+  displayName: Iris
+  role: Design Systems Lead
+  kind: lead
+  reportsTo: atlas
+  description: "Design Systems Lead: tokens, components, theming, motion, Storybook and accessibility
+    of the component library."
+  access:
+    - repo:write:packages/ui
+    - storybook:deploy
+    - design-tokens:write
+  plugins:
+    - artifact-design
+    - dataviz
+  linearLabel: Character/Iris
+  subCharacters:
+    - token-keeper
+    - component-crafter
+    - motion-and-input-stylist
+- schemaVersion: 1
+  name: token-keeper
+  displayName: Token Keeper
+  role: DTCG tokens, themes, per-tenant branding
+  kind: sub
+  reportsTo: iris
+  parent: iris
+  description: Use for dTCG tokens, themes, per-tenant branding.
+- schemaVersion: 1
+  name: component-crafter
+  displayName: Component Crafter
+  role: Headless primitives to production components with stories
+  kind: sub
+  reportsTo: iris
+  parent: iris
+  description: Use for headless primitives to production components with stories.
+- schemaVersion: 1
+  name: motion-and-input-stylist
+  displayName: Motion and Input Stylist
+  role: Transitions, reduced motion, focus and input-state styling
+  kind: sub
+  reportsTo: iris
+  parent: iris
+  description: Use for transitions, reduced motion, focus and input-state styling.
+- schemaVersion: 1
+  name: quill
+  displayName: Quill
+  role: Spec and Documentation Lead
+  kind: lead
+  reportsTo: atlas
+  description: "Spec and Documentation Lead: page/app specs, docs engine content, changelogs, ADRs and
+    prompt-log curation."
+  access:
+    - repo:write:specs
+    - repo:write:docs
+    - notion:write
+    - drive:read
+    - linear:comment
+  plugins:
+    - notion-api
+    - linear-api
+  linearLabel: Character/Quill
+  subCharacters:
+    - page-spec-writer
+    - changelog-scribe
+    - prompt-logger
+- schemaVersion: 1
+  name: page-spec-writer
+  displayName: Page Spec Writer
+  role: Interviews, drafts and validates page.spec.yaml files
+  kind: sub
+  reportsTo: quill
+  parent: quill
+  description: Use for interviews, drafts and validates page.spec.yaml files.
+- schemaVersion: 1
+  name: changelog-scribe
+  displayName: Changelog Scribe
+  role: Turns merged PRs into human and tenant changelogs
+  kind: sub
+  reportsTo: quill
+  parent: quill
+  description: Use for turns merged PRs into human and tenant changelogs.
+- schemaVersion: 1
+  name: prompt-logger
+  displayName: Prompt Logger
+  role: Curates and redacts session logs into searchable knowledge
+  kind: sub
+  reportsTo: quill
+  parent: quill
+  description: Use for curates and redacts session logs into searchable knowledge.
+- schemaVersion: 1
+  name: sentinel
+  displayName: Sentinel
+  role: Quality Lead
+  kind: lead
+  reportsTo: atlas
+  description: "Quality Lead: owns the four review gates, reviewer agents, visual and video
+    inspection, edge-case discovery and release digests."
+  access:
+    - repo:review
+    - ci:admin
+    - artifacts:write
+    - linear:comment
+  plugins:
+    - code-review
+    - security-review
+    - simplify
+  linearLabel: Character/Sentinel
+  subCharacters:
+    - code-reviewer
+    - security-auditor
+    - visual-inspector
+    - edge-case-hunter
+- schemaVersion: 1
+  name: code-reviewer
+  displayName: Code Reviewer
+  role: Correctness and simplification review on every PR
+  kind: sub
+  reportsTo: sentinel
+  parent: sentinel
+  description: Use for correctness and simplification review on every PR.
+- schemaVersion: 1
+  name: security-auditor
+  displayName: Security Auditor
+  role: Auth, RLS, secrets, dependency and injection review
+  kind: sub
+  reportsTo: sentinel
+  parent: sentinel
+  description: Use for auth, RLS, secrets, dependency and injection review.
+- schemaVersion: 1
+  name: visual-inspector
+  displayName: Visual Inspector
+  role: Screenshot and video-replay inspection across the breakpoint matrix
+  kind: sub
+  reportsTo: sentinel
+  parent: sentinel
+  description: Use for screenshot and video-replay inspection across the breakpoint matrix.
+- schemaVersion: 1
+  name: edge-case-hunter
+  displayName: Edge Case Hunter
+  role: Adversarial inputs, empty/huge states, offline and slow-device scenarios
+  kind: sub
+  reportsTo: sentinel
+  parent: sentinel
+  description: Use for adversarial inputs, empty/huge states, offline and slow-device scenarios.
+- schemaVersion: 1
+  name: nova
+  displayName: Nova
+  role: Product Systems Engineer
+  kind: lead
+  reportsTo: atlas
+  description: "Product Systems Engineer: multiplayer, collaboration surfaces, canvas, tables and
+    views engine, multi-input control."
+  access:
+    - repo:write:packages/views
+    - repo:write:packages/collab
+    - repo:write:apps/web
+    - yjs-server:deploy:staging
+  plugins:
+    - github
+  linearLabel: Character/Nova
+  subCharacters:
+    - crdt-engineer
+    - views-engineer
+    - canvas-cartographer
+- schemaVersion: 1
+  name: crdt-engineer
+  displayName: CRDT Engineer
+  role: Yjs rooms, presence, offline queue, conflict UX
+  kind: sub
+  reportsTo: nova
+  parent: nova
+  description: Use for yjs rooms, presence, offline queue, conflict UX.
+- schemaVersion: 1
+  name: views-engineer
+  displayName: Views Engineer
+  role: Grid, kanban, calendar, gallery, chart views and the query compiler
+  kind: sub
+  reportsTo: nova
+  parent: nova
+  description: Use for grid, kanban, calendar, gallery, chart views and the query compiler.
+- schemaVersion: 1
+  name: canvas-cartographer
+  displayName: Canvas Cartographer
+  role: UX-flow canvas generated from specs, comments anchored to elements
+  kind: sub
+  reportsTo: nova
+  parent: nova
+  description: Use for uX-flow canvas generated from specs, comments anchored to elements.
+- schemaVersion: 1
+  name: ledger
+  displayName: Ledger
+  role: Business Systems Lead
+  kind: lead
+  reportsTo: atlas
+  description: "Business Systems Lead: Stripe billing and Connect, double-entry ledger, invoicing,
+    finance reports, payroll adapters."
+  access:
+    - stripe:write:test
+    - stripe:read:live
+    - repo:write:packages/finance
+    - ledger:post:staging
+  plugins:
+    - github
+  linearLabel: Character/Ledger
+  subCharacters:
+    - payments-integrator
+    - bookkeeper
+    - payroll-adapter
+- schemaVersion: 1
+  name: payments-integrator
+  displayName: Payments Integrator
+  role: Stripe products, subscriptions, Connect, Tax, webhooks
+  kind: sub
+  reportsTo: ledger
+  parent: ledger
+  description: Use for stripe products, subscriptions, Connect, Tax, webhooks.
+- schemaVersion: 1
+  name: bookkeeper
+  displayName: Bookkeeper
+  role: Ledger, journal posting rules, P&L and cash-flow reports
+  kind: sub
+  reportsTo: ledger
+  parent: ledger
+  description: Use for ledger, journal posting rules, P&L and cash-flow reports.
+- schemaVersion: 1
+  name: payroll-adapter
+  displayName: Payroll Adapter
+  role: Provider interface and first Check/Gusto Embedded adapter
+  kind: sub
+  reportsTo: ledger
+  parent: ledger
+  description: Use for provider interface and first Check/Gusto Embedded adapter.
+- schemaVersion: 1
+  name: beacon
+  displayName: Beacon
+  role: Growth Lead
+  kind: lead
+  reportsTo: atlas
+  description: "Growth Lead: CRM, outreach sequences, social scheduling, landing pages, attribution
+    and support inbox."
+  access:
+    - webflow:write
+    - crm:write:staging
+    - email:send:sandbox
+    - repo:write:packages/growth
+  plugins:
+    - github
+  linearLabel: Character/Beacon
+  subCharacters:
+    - campaign-composer
+    - crm-builder
+    - outreach-sequencer
+- schemaVersion: 1
+  name: campaign-composer
+  displayName: Campaign Composer
+  role: Drafts posts, emails and landing copy from changelogs and specs for approval
+  kind: sub
+  reportsTo: beacon
+  parent: beacon
+  description: Use for drafts posts, emails and landing copy from changelogs and specs for approval.
+- schemaVersion: 1
+  name: crm-builder
+  displayName: CRM Builder
+  role: Lead, contact, deal and segment models and views
+  kind: sub
+  reportsTo: beacon
+  parent: beacon
+  description: Use for lead, contact, deal and segment models and views.
+- schemaVersion: 1
+  name: outreach-sequencer
+  displayName: Outreach Sequencer
+  role: Sequences, warmup, reply detection, compliance
+  kind: sub
+  reportsTo: beacon
+  parent: beacon
+  description: Use for sequences, warmup, reply detection, compliance.
+- schemaVersion: 1
+  name: scout
+  displayName: Scout
+  role: Library and Migration Researcher
+  kind: lead
+  reportsTo: atlas
+  description: "Library and Migration Researcher: evaluates libraries and OSS products, maintains the
+    registry, builds importers and business templates."
+  access:
+    - repo:write:docs/registry
+    - repo:write:packages/import
+    - external-apis:read
+  plugins:
+    - github
+  linearLabel: Character/Scout
+  subCharacters:
+    - library-evaluator
+    - import-mapper
+    - template-packager
+- schemaVersion: 1
+  name: library-evaluator
+  displayName: Library Evaluator
+  role: Rubric scoring, ADR drafts, license checks
+  kind: sub
+  reportsTo: scout
+  parent: scout
+  description: Use for rubric scoring, ADR drafts, license checks.
+- schemaVersion: 1
+  name: import-mapper
+  displayName: Import Mapper
+  role: Schema mapping, dry runs, ID mapping for migrations
+  kind: sub
+  reportsTo: scout
+  parent: scout
+  description: Use for schema mapping, dry runs, ID mapping for migrations.
+- schemaVersion: 1
+  name: template-packager
+  displayName: Template Packager
+  role: Business-type seed packs and demo data
+  kind: sub
+  reportsTo: scout
+  parent: scout
+  description: Use for business-type seed packs and demo data.

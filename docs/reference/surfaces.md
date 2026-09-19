@@ -33,6 +33,11 @@ or `-`), **Status** (`live`, `stub`, `planned`).
 | CLI | `pnpm --filter @paperos/contract-quality build:docs` — regenerate `docs/quality/rubrics/<domain>.md` from `packages/contracts/quality/src/rubrics/<domain>.json` | PAP-79 | - | live |
 | CLI | `pnpm --filter views parity:report` (`--emit`, `--selftest`) — validate `packages/views/src/parity/checklist.json`, print per-product and per-category view-feature coverage, regenerate the two CSVs under `docs/research/`; exit 1 on any validation error | PAP-162 | - | live |
 | CLI | `pnpm --filter @paperos/core example:filter` — print a `FilterTree`, its SQL, its English and Spanish explanation and its URL form (`@paperos/core/filter`, PAP-279) | PAP-279 | - | live |
+| CLI | `pnpm --filter @paperos/agents validate [dir\|file ...]` — validate roster YAML against the character schema, registry and graph rules; exit 0 ok, 1 errors, 2 usage; `--json`, `--quiet` | PAP-103 | - | live |
+| CLI | `pnpm --filter @paperos/agents gen:schemas [--check]` — regenerate `packages/agents/schema/*.schema.json`; `--check` fails on drift | PAP-103 | - | live |
+| CLI | `pnpm --filter @paperos/agents gen:fixtures [--check]` — resolve the golden roster into `fixtures/valid/roster.json` | PAP-103 | - | live |
+| CLI | `pnpm --filter @paperos/agents convert:plan [--check]` — dry-run conversion of plan.json `agents[]` into character skeletons | PAP-103 | - | live |
+| API | `@paperos/agents/schema` — `CharacterSchema`, `RosterSchema`, `validateRoster`, `resolveInheritance`, `SCOPES`, `KNOWN_TOOLS`, JSON Schema generators | PAP-103 | - | live |
 
 The placeholder route declares no actions: it has no controls. The first page with a control adds
 its actions registry and its rows here.

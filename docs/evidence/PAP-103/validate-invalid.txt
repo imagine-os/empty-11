@@ -1,0 +1,59 @@
+== fixtures/invalid/budget-missing.yaml (expect BUDGET_MISSING)
+error BUDGET_MISSING [alpha budget.perDayUsd]: alpha has no perDayUsd on itself, its parent or the roster defaults
+error BUDGET_MISSING [alpha budget.maxTurns]: alpha has no maxTurns on itself, its parent or the roster defaults
+FAIL fixtures/invalid/budget-missing.yaml: 1 characters, 2 errors, 1 warnings
+== fixtures/invalid/cycle.yaml (expect REPORTS_TO_CYCLE)
+error REPORTS_TO_CYCLE [alpha reportsTo]: reportsTo cycle: alpha -> beta -> gamma -> alpha
+FAIL fixtures/invalid/cycle.yaml: 3 characters, 1 errors, 1 warnings
+== fixtures/invalid/destructive-scope.yaml (expect DESTRUCTIVE_SCOPE)
+error DESTRUCTIVE_SCOPE [beta access]: linear:delete is destructive-class; only a lead reporting to justin may hold it (threat model §4)
+FAIL fixtures/invalid/destructive-scope.yaml: 2 characters, 1 errors, 1 warnings
+== fixtures/invalid/dup-label.yaml (expect DUP_LABEL)
+error DUP_LABEL [beta linearLabel]: label Character/Alpha is also carried by alpha
+FAIL fixtures/invalid/dup-label.yaml: 2 characters, 1 errors, 1 warnings
+== fixtures/invalid/dup-name.yaml (expect DUP_NAME)
+error DUP_NAME [alpha name]: alpha is declared 2 times
+FAIL fixtures/invalid/dup-name.yaml: 2 characters, 1 errors, 1 warnings
+== fixtures/invalid/lead-label-missing.yaml (expect LEAD_LABEL_MISSING)
+error LEAD_LABEL_MISSING [alpha linearLabel]: lead alpha needs a Character/<Lead> label
+FAIL fixtures/invalid/lead-label-missing.yaml: 1 characters, 1 errors, 1 warnings
+== fixtures/invalid/parent-not-lead.yaml (expect PARENT_NOT_LEAD)
+error PARENT_NOT_LEAD [second parent]: second's parent first is a sub
+FAIL fixtures/invalid/parent-not-lead.yaml: 3 characters, 1 errors, 1 warnings
+== fixtures/invalid/schema-invalid.yaml (expect SCHEMA_INVALID)
+error SCHEMA_INVALID [alpha characters.0.permissionMode]: Invalid option: expected one of "default"|"acceptEdits"|"plan"|"dontAsk"
+error SCHEMA_INVALID [alpha characters.0]: Unrecognized key: "colour"
+FAIL fixtures/invalid/schema-invalid.yaml: 0 characters, 2 errors, 0 warnings
+== fixtures/invalid/sub-list-mismatch.yaml (expect SUB_LIST_MISMATCH)
+error SUB_LIST_MISMATCH [alpha subCharacters]: alpha lists [first, missing] but the roster has [first]
+FAIL fixtures/invalid/sub-list-mismatch.yaml: 2 characters, 1 errors, 1 warnings
+== fixtures/invalid/sub-mcp-not-in-lead.yaml (expect SUB_MCP_NOT_IN_LEAD)
+error SUB_MCP_NOT_IN_LEAD [first mcpServers]: sub first uses github but lead alpha does not
+FAIL fixtures/invalid/sub-mcp-not-in-lead.yaml: 2 characters, 1 errors, 1 warnings
+== fixtures/invalid/sub-scope-not-in-lead.yaml (expect SUB_SCOPE_NOT_IN_LEAD)
+error SUB_SCOPE_NOT_IN_LEAD [first access]: sub first holds repo:write:packages/ui but lead alpha does not
+FAIL fixtures/invalid/sub-scope-not-in-lead.yaml: 2 characters, 1 errors, 1 warnings
+== fixtures/invalid/sub-tool-not-in-lead.yaml (expect SUB_TOOL_NOT_IN_LEAD)
+error SUB_TOOL_NOT_IN_LEAD [first tools.allow]: sub first allows Write but lead alpha does not
+error SUB_TOOL_NOT_IN_LEAD [first tools.allow]: sub first allows Bash(cargo *) but lead alpha does not
+FAIL fixtures/invalid/sub-tool-not-in-lead.yaml: 2 characters, 2 errors, 1 warnings
+== fixtures/invalid/unknown-mcp-server.yaml (expect UNKNOWN_MCP_SERVER)
+error UNKNOWN_MCP_SERVER [alpha mcpServers]: jira is not in the MCP catalog
+error UNKNOWN_MCP_SERVER [alpha tools.allow]: mcp__github__create_issue names server github which is not in alpha's mcpServers
+FAIL fixtures/invalid/unknown-mcp-server.yaml: 1 characters, 2 errors, 1 warnings
+== fixtures/invalid/unknown-parent.yaml (expect UNKNOWN_PARENT)
+error UNKNOWN_REPORTS_TO [orphan reportsTo]: orphan reports to unknown character ghost
+error UNKNOWN_PARENT [orphan parent]: orphan has unknown parent ghost
+error BUDGET_MISSING [orphan budget.perDayUsd]: orphan has no perDayUsd on itself, its parent or the roster defaults
+FAIL fixtures/invalid/unknown-parent.yaml: 1 characters, 3 errors, 1 warnings
+== fixtures/invalid/unknown-reports-to.yaml (expect UNKNOWN_REPORTS_TO)
+error UNKNOWN_REPORTS_TO [alpha reportsTo]: alpha reports to unknown character ghost
+FAIL fixtures/invalid/unknown-reports-to.yaml: 1 characters, 1 errors, 1 warnings
+== fixtures/invalid/unknown-scope.yaml (expect UNKNOWN_SCOPE)
+error UNKNOWN_SCOPE [alpha access]: stripe:write:live is not in the scope registry
+error UNKNOWN_SCOPE [alpha access]: jira:admin is not in the scope registry
+FAIL fixtures/invalid/unknown-scope.yaml: 1 characters, 2 errors, 1 warnings
+== fixtures/invalid/unknown-tool.yaml (expect UNKNOWN_TOOL)
+error UNKNOWN_TOOL [alpha tools.allow]: Teleport is not a known built-in or mcp__server__tool pattern
+error UNKNOWN_TOOL [alpha tools.allow]: Glob(src/**) is not a known built-in or mcp__server__tool pattern
+FAIL fixtures/invalid/unknown-tool.yaml: 1 characters, 2 errors, 1 warnings

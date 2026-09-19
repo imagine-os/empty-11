@@ -1,0 +1,2 @@
+warn  MCP_CATALOG_STUB: mcpServers[] checked against the PAP-210 stub catalog, not the generated one
+ok fixtures/valid: 37 characters, 0 errors, 1 warnings

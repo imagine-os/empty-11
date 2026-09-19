@@ -27,3 +27,6 @@ Here now:
   `packages/views/schema/`.
 
 The module-system issues (PAP-433 onwards) land the generated files.
+* [`character-schema.md`](character-schema.md) — the character schema every agent character is
+  declared in: fields, scope registry, validation codes, inheritance, editor wiring (PAP-103,
+  ADR 0020). Generated JSON Schema lives in `packages/agents/schema/`.
