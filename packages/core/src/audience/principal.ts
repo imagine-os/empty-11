@@ -11,13 +11,14 @@
  */
 import { z } from 'zod';
 
-/** The four principal types. Order is stable; do not reorder (it is part of the contract). */
-export const PRINCIPAL_TYPES = ['human', 'agent', 'service', 'anonymous'] as const;
+import { PRINCIPAL_TYPES, type PrincipalType, principalTypeSchema } from '../types/actor.js';
 
-/** Who is acting: a person, an agent character, a machine integration, or nobody signed in. */
-export type PrincipalType = (typeof PRINCIPAL_TYPES)[number];
-
-export const principalTypeSchema = z.enum(PRINCIPAL_TYPES);
+/**
+ * The four principal types, their union and Zod schema are declared once, in
+ * `@paperos/core/types` (`actor.ts`, PAP-302). They are re-exported here so the
+ * audience model keeps its public names; the two folders never disagree.
+ */
+export { PRINCIPAL_TYPES, type PrincipalType, principalTypeSchema };
 
 /**
  * One attribute value. Attributes carry everything a segment can test: a customer's
