@@ -38,6 +38,16 @@ describe('generateTokensCss', () => {
     }
   });
 
+  it('the sRGB fallback :root block carries the light default of theme-varying colours, not only shared tokens', () => {
+    const fallbackBlock = css.slice(css.indexOf('@supports not'));
+    const rootStart = fallbackBlock.indexOf(':root {');
+    const rootEnd = fallbackBlock.indexOf('}', rootStart);
+    const fallbackRoot = fallbackBlock.slice(rootStart, rootEnd);
+    expect(fallbackRoot).toMatch(/--pos-color-bg-surface: rgb\(/);
+    expect(fallbackRoot).toMatch(/--pos-color-fg-default: rgb\(/);
+    expect(fallbackRoot).not.toContain('oklch(');
+  });
+
   it('the light default in :root matches the explicit [data-theme="light"] block for a theme-varying token', () => {
     const rootBlock = css.slice(0, css.indexOf('@media'));
     const lightBlock = css.slice(

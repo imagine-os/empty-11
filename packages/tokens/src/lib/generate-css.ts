@@ -110,7 +110,12 @@ export function generateTokensCss(
     const supportsBlock = [
       '@supports not (color: oklch(0% 0 0)) {',
       '  /* sRGB fallback for browsers without OKLCH support (DoD, PAP-66). */',
-      fallbackShared.length ? `  :root {\n${declarationBlock(fallbackShared)}\n  }` : '',
+      // Mirror the main `:root` block: shared tokens plus the light default of
+      // every theme-varying token, so a browser without OKLCH and no
+      // `data-theme` attribute still gets its colours.
+      fallbackShared.length || fallbackLight.length
+        ? `  :root {\n${declarationBlock([...fallbackShared, ...fallbackLight])}\n  }`
+        : '',
       fallbackDark.length
         ? `  @media (prefers-color-scheme: dark) {\n    :root:not([data-theme]) {\n${declarationBlock(fallbackDark)}\n    }\n  }`
         : '',

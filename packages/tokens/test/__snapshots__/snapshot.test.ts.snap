@@ -508,9 +508,19 @@ exports[`generated files match their committed snapshot > tokens.css 1`] = `
   --pos-color-accent-800: rgb(20, 62, 132);
   --pos-color-accent-900: rgb(14, 43, 92);
   --pos-color-accent-950: rgb(6, 25, 58);
+  --pos-color-accent-active: rgb(20, 62, 132);
+  --pos-color-accent-default: rgb(41, 108, 217);
+  --pos-color-accent-hover: rgb(27, 83, 173);
   --pos-color-base-black: rgb(0, 0, 0);
   --pos-color-base-transparent: rgba(0, 0, 0, 0);
   --pos-color-base-white: rgb(255, 255, 255);
+  --pos-color-bg-canvas: rgb(248, 248, 249);
+  --pos-color-bg-overlay: rgba(25, 27, 29, 0.48);
+  --pos-color-bg-raised: rgb(255, 255, 255);
+  --pos-color-bg-surface: rgb(255, 255, 255);
+  --pos-color-border-default: rgb(220, 222, 225);
+  --pos-color-border-focus: rgb(41, 108, 217);
+  --pos-color-border-strong: rgb(167, 171, 177);
   --pos-color-danger-100: rgb(255, 233, 230);
   --pos-color-danger-200: rgb(255, 209, 205);
   --pos-color-danger-300: rgb(255, 176, 168);
@@ -522,6 +532,14 @@ exports[`generated files match their committed snapshot > tokens.css 1`] = `
   --pos-color-danger-800: rgb(121, 24, 26);
   --pos-color-danger-900: rgb(85, 17, 18);
   --pos-color-danger-950: rgb(53, 8, 8);
+  --pos-color-danger-bg: rgb(255, 246, 245);
+  --pos-color-danger-border: rgb(255, 176, 168);
+  --pos-color-danger-fg: rgb(121, 24, 26);
+  --pos-color-fg-default: rgb(25, 27, 29);
+  --pos-color-fg-muted: rgb(85, 88, 94);
+  --pos-color-fg-on-accent: rgb(255, 255, 255);
+  --pos-color-fg-subtle: rgb(110, 114, 120);
+  --pos-color-focus: rgb(41, 108, 217);
   --pos-color-info-100: rgb(219, 243, 255);
   --pos-color-info-200: rgb(182, 230, 255);
   --pos-color-info-300: rgb(129, 212, 251);
@@ -533,6 +551,9 @@ exports[`generated files match their committed snapshot > tokens.css 1`] = `
   --pos-color-info-800: rgb(0, 73, 99);
   --pos-color-info-900: rgb(0, 51, 70);
   --pos-color-info-950: rgb(0, 30, 43);
+  --pos-color-info-bg: rgb(241, 250, 255);
+  --pos-color-info-border: rgb(129, 212, 251);
+  --pos-color-info-fg: rgb(0, 73, 99);
   --pos-color-neutral-100: rgb(237, 238, 240);
   --pos-color-neutral-200: rgb(220, 222, 225);
   --pos-color-neutral-300: rgb(196, 199, 204);
@@ -555,6 +576,9 @@ exports[`generated files match their committed snapshot > tokens.css 1`] = `
   --pos-color-success-800: rgb(10, 81, 22);
   --pos-color-success-900: rgb(8, 56, 15);
   --pos-color-success-950: rgb(4, 34, 7);
+  --pos-color-success-bg: rgb(242, 252, 242);
+  --pos-color-success-border: rgb(153, 219, 155);
+  --pos-color-success-fg: rgb(10, 81, 22);
   --pos-color-warning-100: rgb(250, 237, 215);
   --pos-color-warning-200: rgb(245, 218, 175);
   --pos-color-warning-300: rgb(235, 192, 119);
@@ -566,6 +590,9 @@ exports[`generated files match their committed snapshot > tokens.css 1`] = `
   --pos-color-warning-800: rgb(88, 61, 0);
   --pos-color-warning-900: rgb(62, 42, 0);
   --pos-color-warning-950: rgb(38, 24, 0);
+  --pos-color-warning-bg: rgb(254, 248, 237);
+  --pos-color-warning-border: rgb(235, 192, 119);
+  --pos-color-warning-fg: rgb(62, 42, 0);
   --pos-shadow-1: 0 1px 2px rgba(28, 34, 43, 0.06);
   --pos-shadow-2: 0 2px 4px rgba(28, 34, 43, 0.08), 0 1px 2px rgba(28, 34, 43, 0.06);
   --pos-shadow-3: 0 4px 8px rgba(28, 34, 43, 0.1), 0 2px 4px rgba(28, 34, 43, 0.06);
@@ -576,6 +603,11 @@ exports[`generated files match their committed snapshot > tokens.css 1`] = `
   --pos-shadow-dark-3: 0 4px 8px rgba(0, 0, 0, 0.52), 0 2px 4px rgba(0, 0, 0, 0.32);
   --pos-shadow-dark-4: 0 8px 16px rgba(0, 0, 0, 0.56), 0 4px 8px rgba(0, 0, 0, 0.36);
   --pos-shadow-dark-5: 0 16px 32px rgba(0, 0, 0, 0.64), 0 6px 12px rgba(0, 0, 0, 0.4);
+  --pos-shadow-role-1: 0 1px 2px rgba(28, 34, 43, 0.06);
+  --pos-shadow-role-2: 0 2px 4px rgba(28, 34, 43, 0.08), 0 1px 2px rgba(28, 34, 43, 0.06);
+  --pos-shadow-role-3: 0 4px 8px rgba(28, 34, 43, 0.1), 0 2px 4px rgba(28, 34, 43, 0.06);
+  --pos-shadow-role-4: 0 8px 16px rgba(28, 34, 43, 0.12), 0 4px 8px rgba(28, 34, 43, 0.06);
+  --pos-shadow-role-5: 0 16px 32px rgba(28, 34, 43, 0.16), 0 6px 12px rgba(28, 34, 43, 0.08);
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme]) {
