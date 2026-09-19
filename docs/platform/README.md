@@ -46,3 +46,7 @@ The module-system issues (PAP-433 onwards) land the generated files.
 * [`character-schema.md`](character-schema.md) — the character schema every agent character is
   declared in: fields, scope registry, validation codes, inheritance, editor wiring (PAP-103,
   ADR 0020). Generated JSON Schema lives in `packages/agents/schema/`.
+* [`license-policy.md`](license-policy.md) — which dependency licences may enter, in which usage
+  context (bundled / server / dev / service), the waiver rules and the CI gate (PAP-211,
+  ADR 0027). Source of truth: [`ops/licenses/policy.yaml`](../../ops/licenses/policy.yaml);
+  gate: [`ops/licenses/README.md`](../../ops/licenses/README.md).

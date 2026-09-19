@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "paperos-license-check",
+          "informationUri": "https://linear.app/paperos/issue/PAP-211",
+          "version": "1",
+          "rules": [
+            {
+              "id": "license/denied",
+              "shortDescription": {
+                "text": "Dependency licence is deny tier for its usage context"
+              }
+            },
+            {
+              "id": "license/review-unwaived",
+              "shortDescription": {
+                "text": "Review-tier licence with no unexpired waiver"
+              }
+            },
+            {
+              "id": "license/waiver-expired",
+              "shortDescription": {
+                "text": "Waiver has expired"
+              }
+            },
+            {
+              "id": "license/waiver-approver",
+              "shortDescription": {
+                "text": "Deny-tier waiver not approved by Justin"
+              }
+            },
+            {
+              "id": "license/mismatch",
+              "shortDescription": {
+                "text": "LICENSE file text disagrees with the license field"
+              }
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "license/denied",
+          "level": "error",
+          "message": {
+            "text": "seeded-sspl-dep@1.0.0 (SSPL-1.0) in context bundled: SSPL-1.0 is deny tier in the bundled context"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "pnpm-lock.yaml"
+                },
+                "region": {
+                  "startLine": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "license/denied",
+          "level": "error",
+          "message": {
+            "text": "tldraw@5.4.2 (SEE-LICENSE-IN) in context bundled: SEE-LICENSE-IN is deny tier in the bundled context"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "pnpm-lock.yaml"
+                },
+                "region": {
+                  "startLine": 1
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

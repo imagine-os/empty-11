@@ -1,0 +1,17 @@
+$ node ops/licenses/check.mjs --input <live workspace capture + seeded seeded-sspl-dep@1.0.0 (SSPL-1.0) and tldraw@5.4.2 (SEE LICENSE IN)> --markdown - --sarif ... --today 2026-09-19
+### Licence check — FAIL
+
+230 packages scanned · 2 violations · 0 warnings · 8 notices
+
+#### Violations
+
+| Package | Version | Licence | Context | Tier | Why |
+| -- | -- | -- | -- | -- | -- |
+| `seeded-sspl-dep` | 1.0.0 | SSPL-1.0 | bundled | deny | SSPL-1.0 is deny tier in the bundled context |
+| `tldraw` | 5.4.2 | SEE-LICENSE-IN | bundled | deny | SEE-LICENSE-IN is deny tier in the bundled context |
+
+licence check FAILED: 2 violation(s) across 230 packages
+  seeded-sspl-dep@1.0.0 [bundled] SSPL-1.0 → deny: SSPL-1.0 is deny tier in the bundled context
+  tldraw@5.4.2 [bundled] SEE-LICENSE-IN → deny: SEE-LICENSE-IN is deny tier in the bundled context
+report: /tmp/claude-0/-workspace/7e02ca1f-2540-5ec0-922f-a5eafb16cc6b/seeded/report.json
+exit=1

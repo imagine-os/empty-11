@@ -1,0 +1,286 @@
+# PaperOS licence policy (PAP-211, ADR 0027). Prose: docs/platform/license-policy.md
+#
+# This file is the ONE source of truth for licence tiers. It is read as data by
+# `ops/licenses/check.mjs` (the CI gate), by the library rubric's `license`
+# criterion and `licenseTier` gate (PAP-209, packages/agents/src/rubric/
+# library-rubric.json) and by the registry's `license` field verification
+# (PAP-216). Change a tier here, never in a copy.
+#
+# YAML subset, on purpose (same rule as ops/security/controls.yaml, PAP-219):
+# two-space indent, block maps, block sequences of scalars, one block sequence
+# of maps (`exceptions`), `#` comments, unquoted or double-quoted scalars.
+# No anchors, no flow collections, no multi-line scalars. The reader is
+# ops/licenses/lib/yaml-lite.mjs, so the gate runs before any install.
+
+version: 1
+issue: PAP-211
+adr: "0027"
+doc: docs/platform/license-policy.md
+owner: Scout
+reviewedBy: Sentinel
+updatedAt: "2026-09-19"
+waiverFile: ops/licenses/waivers.yaml
+reportPath: reports/licenses.json
+noticesPath: THIRD_PARTY_NOTICES.md
+budgetSeconds: 90
+
+# ---------------------------------------------------------------------------
+# 1. Usage contexts
+# ---------------------------------------------------------------------------
+# A dependency is judged by WHERE it is used, not only by what it is. The same
+# SPDX id can be `allow` in `dev` and `deny` in `bundled`.
+#
+#   bundled  ships inside an artefact a customer runs (web bundle, Tauri app,
+#            mobile app) and the packages those apps import.
+#   server   runs on our own machines and answers over a network (apps/api,
+#            ops/ tooling that ships to the VPS).
+#   dev      build, test and lint only. Never reaches a customer or a server.
+#   service  a whole product we run beside PaperOS, unmodified, talking to us
+#            over its own API. Declared by hand: nothing is derived into it.
+#
+# Precedence when a package lands in more than one context: bundled > server >
+# service > dev. The strictest context decides.
+
+contexts:
+  bundled:
+    label: Shipped to the customer
+    projects:
+      - apps/web
+      - apps/desktop
+      - apps/mobile
+    includes: production dependencies of these apps and of every workspace package they import
+  server:
+    label: Run on our infrastructure
+    projects:
+      - apps/api
+      - ops
+    includes: production dependencies of the API process and of ops tooling deployed to the VPS
+  dev:
+    label: Build and test only
+    projects: []
+    includes: devDependencies of any workspace project, and anything reachable only through them
+  service:
+    label: Separate product run beside PaperOS
+    projects: []
+    includes: declared by hand in servicePackages below; never derived from the lockfile
+
+contextPrecedence:
+  - bundled
+  - server
+  - service
+  - dev
+
+# Products run as a separate service (PAP-215 embed contracts). Nothing today:
+# ADR 0008 rejected every AGPL candidate (Twenty, Postiz, Listmonk, Dub) as
+# `reject` or `borrow`, so no AGPL obligation and no waiver exists for v0.1.
+servicePackages: []
+
+# ---------------------------------------------------------------------------
+# 2. Global tiers
+# ---------------------------------------------------------------------------
+# allow  — ship it, no paperwork beyond THIRD_PARTY_NOTICES.md
+# review — an ADR plus an unexpired waiver, in a context that permits it
+# deny   — never, in any context, without a Justin decision that moves it here
+
+tiers:
+  allow:
+    - MIT
+    - MIT-0
+    - Apache-2.0
+    - BSD-2-Clause
+    - BSD-3-Clause
+    - BSD-3-Clause-Clear
+    - ISC
+    - 0BSD
+    - Unlicense
+    - CC0-1.0
+    - Zlib
+    - BlueOak-1.0.0
+    - Python-2.0
+    - PSF-2.0
+    - MPL-2.0
+    - OFL-1.1
+    - CC-BY-4.0
+    - CC-BY-3.0
+    - Artistic-2.0
+    - BSL-1.0
+    - Apache-2.0 WITH LLVM-exception
+  review:
+    - LGPL-2.1-only
+    - LGPL-2.1-or-later
+    - LGPL-3.0-only
+    - LGPL-3.0-or-later
+    - GPL-2.0-only
+    - GPL-2.0-or-later
+    - GPL-3.0-only
+    - GPL-3.0-or-later
+    - AGPL-3.0-only
+    - AGPL-3.0-or-later
+    - EUPL-1.2
+    - CDDL-1.0
+    - CDDL-1.1
+    - EPL-2.0
+    - OSL-3.0
+    - BUSL-1.1
+    - Elastic-2.0
+    - FSL-1.1-ALv2
+    - FSL-1.1-MIT
+    - WTFPL
+    - SEE-LICENSE-IN
+  deny:
+    - SSPL-1.0
+    - Commons-Clause
+    - JSON
+    - NGPL
+    - Nokia
+    - LicenseRef-UNLICENSED
+    - UNLICENSED
+    - UNKNOWN
+    - NONE
+
+# Any `WITH <exception>` whose exception is listed here forces `deny`, whatever
+# the base licence is: `Apache-2.0 WITH Commons-Clause` is not Apache-2.0.
+denyExceptions:
+  - Commons-Clause
+
+# An SPDX id we have never tiered resolves to this. Unknown is not a pass.
+unknownTier: deny
+# A package with no `license` field and no LICENSE file.
+missingTier: deny
+# Private workspace packages (`"private": true`) and uninstalled optional peers.
+skipPrivateWorkspacePackages: true
+# A production dependency no app's tree reaches yet (a workspace package's own
+# dependency). It is shippable the moment an app imports that package, so it is
+# judged as if it already shipped.
+unreachedProdContext: bundled
+# What a `review`-tier dependency with no unexpired waiver does. `fail` is the
+# default: a review tier is a decision somebody owes, and an unanswered decision
+# is not a green build. Flip to `warn` only for an exploratory branch.
+reviewWithoutWaiver: fail
+
+# ---------------------------------------------------------------------------
+# 3. Per-context rules
+# ---------------------------------------------------------------------------
+# Applied after the global tier, in this order: context `deny`, context
+# `denyFamilies` (prefix match on the SPDX id), context `review`, context
+# `allow`. First match wins, so a context can only be stated explicitly — no
+# rule is inferred.
+
+contextRules:
+  bundled:
+    # Nothing copyleft ships inside a customer artefact. No waiver path here
+    # short of Justin: a waiver in `bundled` is a licence event, not paperwork.
+    deny:
+      - BUSL-1.1
+      - Elastic-2.0
+      - FSL-1.1-ALv2
+      - FSL-1.1-MIT
+      - SEE-LICENSE-IN
+      - WTFPL
+    denyFamilies:
+      - GPL-
+      - LGPL-
+      - AGPL-
+      - EUPL-
+      - OSL-
+      - CDDL-
+      - EPL-
+      - CPAL-
+      - CeCILL
+      - SSPL-
+    review: []
+    allow: []
+  server:
+    # Server-side copyleft is a real obligation but a containable one: the
+    # binary is not distributed. AGPL is the exception — its network clause
+    # reaches a service our customers talk to, so it is `service` only.
+    deny:
+      - AGPL-3.0-only
+      - AGPL-3.0-or-later
+    denyFamilies: []
+    review:
+      - LGPL-2.1-only
+      - LGPL-2.1-or-later
+      - LGPL-3.0-only
+      - LGPL-3.0-or-later
+      - GPL-2.0-only
+      - GPL-2.0-or-later
+      - GPL-3.0-only
+      - GPL-3.0-or-later
+      - BUSL-1.1
+      - Elastic-2.0
+      - SEE-LICENSE-IN
+    allow: []
+  dev:
+    # A GPL CLI that only ever runs on a build machine is fine with a note.
+    # It becomes a violation the moment it moves to `dependencies`, which is
+    # exactly what the context derivation catches.
+    deny: []
+    denyFamilies: []
+    review:
+      - AGPL-3.0-only
+      - AGPL-3.0-or-later
+      - BUSL-1.1
+      - Elastic-2.0
+      - SEE-LICENSE-IN
+    allow:
+      - LGPL-2.1-only
+      - LGPL-2.1-or-later
+      - LGPL-3.0-only
+      - LGPL-3.0-or-later
+      - GPL-2.0-only
+      - GPL-2.0-or-later
+      - GPL-3.0-only
+      - GPL-3.0-or-later
+      - WTFPL
+  service:
+    deny: []
+    denyFamilies: []
+    review:
+      - AGPL-3.0-only
+      - AGPL-3.0-or-later
+      - BUSL-1.1
+      - Elastic-2.0
+      - FSL-1.1-ALv2
+      - FSL-1.1-MIT
+      - SEE-LICENSE-IN
+    allow: []
+
+# ---------------------------------------------------------------------------
+# 4. Compound expressions
+# ---------------------------------------------------------------------------
+# OR: the best branch wins (`MIT OR GPL-3.0-only` in bundled is MIT, allow).
+# AND: the worst branch wins (`GPL-3.0-only AND MIT` is the GPL tier).
+# `+` is read as `-or-later`. Parentheses nest.
+expressionRules:
+  or: best
+  and: worst
+  plusMeans: or-later
+
+# ---------------------------------------------------------------------------
+# 5. Text-over-field rule
+# ---------------------------------------------------------------------------
+# When the LICENSE file in the package disagrees with the `license` field, the
+# FILE wins and the finding is flagged `mismatch`. The tier is then taken from
+# the stricter of the two, so a package cannot launder a licence through its
+# manifest. `SEE LICENSE IN <file>` is never an allow tier: it is a bespoke
+# text a human reads (tldraw, ADR 0006).
+textOverField: true
+mismatchSeverity: warn
+
+# ---------------------------------------------------------------------------
+# 6. Standing policy exceptions
+# ---------------------------------------------------------------------------
+# Long-lived, policy-level carve-outs. Per-package, time-boxed waivers go in
+# ops/licenses/waivers.yaml instead; the checker merges both and treats them
+# identically. Every entry needs an owner, a reason, an ADR and an expiry.
+#
+#   package      npm name, or `crate:<name>` for a Rust crate
+#   versionRange `*`, an exact version, `^x.y.z`, `~x.y.z` or `x.y.*`
+#   license      the SPDX expression (or `SEE-LICENSE-IN`) being excepted
+#   context      bundled | server | dev | service
+#   reason       one sentence, in the present tense
+#   adr          docs/adr/<nnnn>-<slug>.md
+#   approvedBy   Atlas (review tier only) | Justin (required for deny tier)
+#   expires      ISO date; an expired exception FAILS, it does not warn
+exceptions: []

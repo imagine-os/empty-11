@@ -1,0 +1,9 @@
+$ node ops/licenses/check.mjs --markdown - --report reports/licenses.json
+### Licence check — pass
+
+228 packages scanned · 0 violations · 0 warnings · 8 notices
+
+Every dependency is allow tier for the context it is used in.
+
+licence check pass: 228 packages, 0 warning(s), 8 notice(s) → /workspace/wt/PAP-211/reports/licenses.json
+exit=0

@@ -1,0 +1,27 @@
+[
+  {
+    "name": "@paperos/web",
+    "version": "0.1.0",
+    "path": "/repo/apps/web",
+    "private": true,
+    "dependencies": {
+      "react": {
+        "from": "react",
+        "version": "19.3.0",
+        "path": "/repo/node_modules/.pnpm/react@19.3.0/node_modules/react"
+      },
+      "@paperos/core": {
+        "from": "@paperos/core",
+        "version": "link:../../packages/core",
+        "path": "/repo/packages/core",
+        "dependencies": {
+          "drizzle-orm": {
+            "from": "drizzle-orm",
+            "version": "0.45.2",
+            "path": "/repo/node_modules/.pnpm/drizzle-orm@0.45.2/node_modules/drizzle-orm"
+          }
+        }
+      }
+    }
+  }
+]

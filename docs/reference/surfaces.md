@@ -56,6 +56,11 @@ or `-`), **Status** (`live`, `stub`, `planned`).
 | CLI | `pnpm --filter @paperos/tokens ramps` — regenerate one colour ramp's OKLCH steps with `culori`, print DTCG JSON to stdout for hand-review before pasting into `core.tokens.json` | PAP-66 | - | live |
 | CLI | `pnpm --filter @paperos/tokens tokens:lint` — DTCG schema (kebab names), alias resolvability, cycle detection, unused alias-only primitives | PAP-66 | - | live |
 | CLI | `pnpm --filter @paperos/tokens tokens:check` — WCAG contrast assertions (`fg.default` 4.5:1, `fg.muted` 3:1, status and on-accent pairs) across light/dark/hc; `--report <path>` writes the JSON the evidence swatch page reads | PAP-66 | - | live |
+| CLI | `node ops/licenses/check.mjs [--markdown -] [--sarif <path>] [--report <path>] [--policy-only] [--review-warn] [--input <dir>] [--today <date>]` — classify every installed dependency against `ops/licenses/policy.yaml` by usage context, honour waivers, write `reports/licenses.json`; exit 0 pass, 1 violation, 2 cannot run | PAP-211 | - | live |
+| CLI | `node ops/licenses/notices.mjs [--check] [--out <path>]` — generate `THIRD_PARTY_NOTICES.md` from the report's production closure; `--check` fails when the committed file is stale | PAP-211 | - | live |
+| CLI | `cargo deny --config ops/licenses/deny.toml check licenses` — the same allow list for Rust crates | PAP-211 | - | stub (skips until a `Cargo.lock` exists, PAP-19) |
+| API | `reports/licenses.json` — `{ status, scanned, generatedAt, policy, counts, violations[], warnings[], notices[] }`, each finding `{ package, version, license, context, tier, kind, waiver?, reason }`; read by PAP-209's `licenseTier` gate, PAP-216's `license` verification and PAP-217's Renovate delta | PAP-211 | - | live |
+| Action | `licenses` CI job — runs the gate on every push and PR, uploads the report, fails on a violation | PAP-78 | `contents: read` | planned (step list in ADR 0027; PAP-78 owns `.github/workflows/ci.yml`) |
 
 The placeholder route declares no actions: it has no controls. The first page with a control adds
 its actions registry and its rows here; the shape it declares against is the `Action` row above

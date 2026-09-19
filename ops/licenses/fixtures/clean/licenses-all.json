@@ -1,0 +1,27 @@
+{
+  "MIT": [
+    {
+      "name": "react",
+      "versions": ["19.3.0"],
+      "paths": ["/repo/node_modules/.pnpm/react@19.3.0/node_modules/react"],
+      "license": "MIT",
+      "homepage": "https://react.dev/"
+    },
+    {
+      "name": "vitest",
+      "versions": ["3.2.7"],
+      "paths": ["/repo/node_modules/.pnpm/vitest@3.2.7/node_modules/vitest"],
+      "license": "MIT",
+      "homepage": "https://vitest.dev"
+    }
+  ],
+  "Apache-2.0": [
+    {
+      "name": "drizzle-orm",
+      "versions": ["0.45.2"],
+      "paths": ["/repo/node_modules/.pnpm/drizzle-orm@0.45.2/node_modules/drizzle-orm"],
+      "license": "Apache-2.0",
+      "homepage": "https://orm.drizzle.team"
+    }
+  ]
+}

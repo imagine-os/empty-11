@@ -1,0 +1,37 @@
+# PaperOS licence waivers (PAP-211, ADR 0027). Policy: ops/licenses/policy.yaml
+#
+# A waiver is a dated promise that a `review`-tier dependency is acceptable in
+# one context, for one version range, because someone wrote down why. It is not
+# a way to silence the gate: an expired waiver FAILS the build, and a waiver in
+# the `deny` tier needs Justin, not Atlas.
+#
+# Same YAML subset as policy.yaml (ops/licenses/lib/yaml-lite.mjs).
+#
+# Schema, all fields required:
+#   package      npm name, or `crate:<name>` for a Rust crate
+#   versionRange `*`, an exact version, `^x.y.z`, `~x.y.z` or `x.y.*`
+#   license      the SPDX expression the waiver covers, or `SEE-LICENSE-IN`
+#   context      bundled | server | dev | service
+#   reason       one sentence: what we get, and what obligation we accept
+#   adr          docs/adr/<nnnn>-<slug>.md that made the call
+#   approvedBy   Atlas (review tier) | Justin (deny tier)
+#   expires      ISO date. Past today = fail. Set it; `never` is not a value.
+#
+# Example (not active — kept here so the shape is never guessed):
+#
+#   - package: tldraw
+#     versionRange: "3.15.6"
+#     license: SEE-LICENSE-IN
+#     context: bundled
+#     reason: watermarked free production path under the 3.x text, pinned exactly
+#     adr: docs/adr/0006-canvas-and-editor-libraries.md
+#     approvedBy: Justin
+#     expires: "2027-03-01"
+#
+# Nothing is waived today. ADR 0006 rejected tldraw rather than waiving it, and
+# ADR 0008 rejected every AGPL product rather than running one modified, so the
+# repo carries no licence obligation beyond attribution.
+
+version: 1
+issue: PAP-211
+waivers: []

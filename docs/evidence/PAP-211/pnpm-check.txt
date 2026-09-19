@@ -1,0 +1,947 @@
+$ pnpm check   # origin/main is already red at @paperos/agents#lint (see below); rerun excluding it
+
+> paperos-template@0.1.0 check /workspace/wt/PAP-211
+> turbo run lint typecheck test build
+
+• turbo 2.11.2
+
+   • Packages in scope: @paperos/agents, @paperos/config-biome, @paperos/config-ts, @paperos/contract-quality, @paperos/core, @paperos/db, @paperos/finance, @paperos/input, @paperos/spec, @paperos/tokens, @paperos/ui, @paperos/views, @paperos/web
+   • Running lint, typecheck, test, build in 13 packages
+   • Remote caching disabled, using shared worktree cache
+
+@paperos/contract-quality:lint: cache hit, replaying logs 4e9aa7bc7f049b94
+@paperos/contract-quality:lint: 
+@paperos/contract-quality:lint: > @paperos/contract-quality@0.1.0 lint /workspace/wt/review-4a/packages/contracts/quality
+@paperos/contract-quality:lint: > biome check .
+@paperos/contract-quality:lint: 
+@paperos/contract-quality:lint: Checked 31 files in 4s. No fixes applied.
+@paperos/config-ts:lint: cache hit, replaying logs fc2c96632878e62a
+@paperos/config-ts:lint: 
+@paperos/config-ts:lint: > @paperos/config-ts@0.1.0 lint /workspace/wt/review-4a/packages/config-ts
+@paperos/config-ts:lint: > biome check .
+@paperos/config-ts:lint: 
+@paperos/config-ts:lint: Checked 8 files in 2s. No fixes applied.
+@paperos/web:lint: cache hit, replaying logs 7327fc1da6c9bcc5
+@paperos/web:lint: 
+@paperos/web:lint: > @paperos/web@0.1.0 lint /workspace/wt/review-4a/apps/web
+@paperos/web:lint: > biome check .
+@paperos/web:lint: 
+@paperos/web:lint: Checked 11 files in 2s. No fixes applied.
+@paperos/config-ts:typecheck: cache hit, replaying logs 89d42514a8f63908
+@paperos/config-ts:typecheck: 
+@paperos/config-ts:typecheck: > @paperos/config-ts@0.1.0 typecheck /workspace/wt/review-4a/packages/config-ts
+@paperos/config-ts:typecheck: > tsc --noEmit -p tsconfig.json
+@paperos/config-ts:typecheck: 
+@paperos/config-ts:test: cache hit, replaying logs b49f0070ad55638d
+@paperos/config-ts:test: 
+@paperos/config-ts:test: > @paperos/config-ts@0.1.0 test /workspace/wt/review-4a/packages/config-ts
+@paperos/config-ts:test: > vitest run --passWithNoTests
+@paperos/config-ts:test: 
+@paperos/config-ts:test: 
+@paperos/config-ts:test:  RUN  v3.2.7 /workspace/wt/review-4a/packages/config-ts
+@paperos/config-ts:test: 
+@paperos/config-ts:test:  ✓ |config-ts| src/index.test.ts (2 tests) 3ms
+@paperos/config-ts:test: 
+@paperos/config-ts:test:  Test Files  1 passed (1)
+@paperos/config-ts:test:       Tests  2 passed (2)
+@paperos/config-ts:test:    Start at  02:37:23
+@paperos/config-ts:test:    Duration  1.66s (transform 343ms, setup 0ms, collect 273ms, tests 3ms, environment 0ms, prepare 460ms)
+@paperos/config-ts:test: 
+@paperos/core:lint: cache hit, replaying logs d17db2566d3b779d
+@paperos/core:lint: 
+@paperos/core:lint: > @paperos/core@0.1.0 lint /workspace/wt/review-4a/packages/core
+@paperos/core:lint: > biome check . && tsx ../../scripts/events-catalogue.ts --check
+@paperos/core:lint: 
+@paperos/core:lint: Checked 47 files in 4s. No fixes applied.
+@paperos/core:lint: events:catalogue --check: docs/platform/events.md is current (44 topics)
+@paperos/config-biome:lint: cache hit, replaying logs 239363414f20a584
+@paperos/config-biome:lint: 
+@paperos/config-biome:lint: > @paperos/config-biome@0.1.0 lint /workspace/wt/review-4a/packages/config-biome
+@paperos/config-biome:lint: > biome check .
+@paperos/config-biome:lint: 
+@paperos/config-biome:lint: Checked 8 files in 2s. No fixes applied.
+@paperos/ui:lint: cache hit, replaying logs cb7264195a82421f
+@paperos/ui:lint: 
+@paperos/ui:lint: > @paperos/ui@0.1.0 lint /workspace/wt/review-4a/packages/ui
+@paperos/ui:lint: > biome check .
+@paperos/ui:lint: 
+@paperos/ui:lint: Checked 5 files in 4s. No fixes applied.
+@paperos/spec:lint: cache hit, replaying logs 8ca4e9ac3ef7f199
+@paperos/spec:lint: 
+@paperos/spec:lint: > @paperos/spec@0.1.0 lint /workspace/wt/review-4a/packages/spec
+@paperos/spec:lint: > biome check .
+@paperos/spec:lint: 
+@paperos/spec:lint: Checked 50 files in 4s. No fixes applied.
+@paperos/config-biome:typecheck: cache hit, replaying logs 4526804355b0a18e
+@paperos/config-biome:typecheck: 
+@paperos/config-biome:typecheck: > @paperos/config-biome@0.1.0 typecheck /workspace/wt/review-4a/packages/config-biome
+@paperos/config-biome:typecheck: > tsc --noEmit -p tsconfig.json
+@paperos/config-biome:typecheck: 
+@paperos/db:lint: cache hit, replaying logs 1cef06e415f4396c
+@paperos/db:lint: 
+@paperos/db:lint: > @paperos/db@0.1.0 lint /workspace/wt/review-4a/packages/db
+@paperos/db:lint: > biome check .
+@paperos/db:lint: 
+@paperos/db:lint: Checked 12 files in 5s. No fixes applied.
+@paperos/config-biome:test: cache hit, replaying logs d0e539b52fa94257
+@paperos/config-biome:test: 
+@paperos/config-biome:test: > @paperos/config-biome@0.1.0 test /workspace/wt/review-4a/packages/config-biome
+@paperos/config-biome:test: > vitest run --passWithNoTests
+@paperos/config-biome:test: 
+@paperos/config-biome:test: 
+@paperos/config-biome:test:  RUN  v3.2.7 /workspace/wt/review-4a/packages/config-biome
+@paperos/config-biome:test: 
+@paperos/config-biome:test:  ✓ |config-biome| src/index.test.ts (2 tests) 6ms
+@paperos/config-biome:test: 
+@paperos/config-biome:test:  Test Files  1 passed (1)
+@paperos/config-biome:test:       Tests  2 passed (2)
+@paperos/config-biome:test:    Start at  02:37:25
+@paperos/config-biome:test:    Duration  2.13s (transform 180ms, setup 0ms, collect 157ms, tests 6ms, environment 0ms, prepare 515ms)
+@paperos/config-biome:test: 
+@paperos/finance:lint: cache hit, replaying logs 12e84b9b53c92753
+@paperos/finance:lint: 
+@paperos/finance:lint: > @paperos/finance@0.1.0 lint /workspace/wt/review-4a/packages/finance
+@paperos/finance:lint: > biome check .
+@paperos/finance:lint: 
+@paperos/finance:lint: Checked 7 files in 3s. No fixes applied.
+@paperos/agents:lint: cache miss, executing 0d3b20b3d62a52fe
+@paperos/finance:test: cache hit, replaying logs 8e9d5ce81cd6504b
+@paperos/finance:test: 
+@paperos/finance:test: > @paperos/finance@0.1.0 test /workspace/wt/review-4a/packages/finance
+@paperos/finance:test: > vitest run --passWithNoTests
+@paperos/finance:test: 
+@paperos/finance:test: 
+@paperos/finance:test:  RUN  v3.2.7 /workspace/wt/review-4a/packages/finance
+@paperos/finance:test: 
+@paperos/finance:test:  ✓ |finance| src/payroll/provider.test.ts (5 tests) 5ms
+@paperos/finance:test: 
+@paperos/finance:test:  Test Files  1 passed (1)
+@paperos/finance:test:       Tests  5 passed (5)
+@paperos/finance:test:    Start at  02:37:31
+@paperos/finance:test:    Duration  2.86s (transform 335ms, setup 0ms, collect 316ms, tests 5ms, environment 0ms, prepare 358ms)
+@paperos/finance:test: 
+@paperos/input:lint: cache hit, replaying logs 401cbf55d8ff8789
+@paperos/input:lint: 
+@paperos/input:lint: > @paperos/input@0.1.0 lint /workspace/wt/review-4a/packages/input
+@paperos/input:lint: > biome check .
+@paperos/input:lint: 
+@paperos/input:lint: Checked 37 files in 2s. No fixes applied.
+@paperos/contract-quality:build: cache hit, replaying logs 925d8a7e04401a5a
+@paperos/contract-quality:build: 
+@paperos/contract-quality:build: > @paperos/contract-quality@0.1.0 build /workspace/wt/review-4a/packages/contracts/quality
+@paperos/contract-quality:build: > pnpm run build:schemas && pnpm run build:docs
+@paperos/contract-quality:build: 
+@paperos/contract-quality:build: 
+@paperos/contract-quality:build: > @paperos/contract-quality@0.1.0 build:schemas /workspace/wt/review-4a/packages/contracts/quality
+@paperos/contract-quality:build: > tsx scripts/build-schemas.ts
+@paperos/contract-quality:build: 
+@paperos/contract-quality:build: wrote 6 schemas to /workspace/wt/review-4a/packages/contracts/quality/schemas and finding.schema.json to /workspace/wt/review-4a/docs/quality/rubrics
+@paperos/contract-quality:build: 
+@paperos/contract-quality:build: > @paperos/contract-quality@0.1.0 build:docs /workspace/wt/review-4a/packages/contracts/quality
+@paperos/contract-quality:build: > tsx scripts/build-docs.ts
+@paperos/contract-quality:build: 
+@paperos/contract-quality:build: wrote 8 rubric docs to /workspace/wt/review-4a/docs/quality/rubrics
+@paperos/contract-quality:typecheck: cache hit, replaying logs 3988335d9713aff6
+@paperos/contract-quality:typecheck: 
+@paperos/contract-quality:typecheck: > @paperos/contract-quality@0.1.0 typecheck /workspace/wt/review-4a/packages/contracts/quality
+@paperos/contract-quality:typecheck: > tsc --noEmit -p tsconfig.json
+@paperos/contract-quality:typecheck: 
+@paperos/core:test: cache hit, replaying logs 96205bd33969de50
+@paperos/core:test: 
+@paperos/core:test: > @paperos/core@0.1.0 test /workspace/wt/PAP-555/packages/core
+@paperos/core:test: > vitest run --passWithNoTests
+@paperos/core:test: 
+@paperos/core:test: 
+@paperos/core:test:  RUN  v3.2.7 /workspace/wt/PAP-555/packages/core
+@paperos/core:test: 
+@paperos/core:test:  ✓ |core| src/filter/filter.test.ts (29 tests) 504ms
+@paperos/core:test: stdout | src/filter/filter.perf.test.ts > toSql performance > compiles a 50-condition tree in under 1 ms (median of 200 runs after warm-up)
+@paperos/core:test: toSql 50 conditions: median 0.379 ms
+@paperos/core:test: 
+@paperos/core:test:  ✓ |core| src/filter/filter.perf.test.ts (1 test) 2746ms
+@paperos/core:test:    ✓ toSql performance > compiles a 50-condition tree in under 1 ms (median of 200 runs after warm-up)  2708ms
+@paperos/core:test:  ✓ |core| src/events/publish.test.ts (18 tests) 1088ms
+@paperos/core:test:    ✓ drainInProcess > delivers each event once per handler  346ms
+@paperos/core:test:  ✓ |core| src/events/registry.test.ts (16 tests) 81ms
+@paperos/core:test:  ✓ |core| src/events/refs.test.ts (8 tests) 719ms
+@paperos/core:test:    ✓ uuidv7 > is unique across a tight loop  517ms
+@paperos/core:test:  ✓ |core| src/events/catalogue/catalogue.test.ts (5 tests) 137ms
+@paperos/core:test:  ✓ |core| src/devices/matrix.test.ts (18 tests) 88ms
+@paperos/core:test:  ✓ |core| src/events/envelope.test.ts (19 tests) 163ms
+@paperos/core:test:  ✓ |core| src/events/types.test.ts (5 tests) 48ms
+@paperos/core:test:  ✓ |core| src/filter/filter.types.test.ts (6 tests) 34ms
+@paperos/core:test:  ✓ |core| src/index.test.ts (1 test) 12ms
+@paperos/core:test:  ✓ |core| src/filter/filter.property.test.ts (2 tests) 47497ms
+@paperos/core:test:    ✓ toSql on PGlite ≡ evaluate in memory > agrees on 500 random trees, nulls included  7501ms
+@paperos/core:test:    ✓ toSql on PGlite ≡ evaluate in memory > normalize keeps the three-valued result and is idempotent; encode round-trips  1136ms
+@paperos/core:test: 
+@paperos/core:test:  Test Files  12 passed (12)
+@paperos/core:test:       Tests  128 passed (128)
+@paperos/core:test:    Start at  02:21:43
+@paperos/core:test:    Duration  59.06s (transform 6.20s, setup 0ms, collect 54.80s, tests 53.12s, environment 4ms, prepare 14.90s)
+@paperos/core:test: 
+@paperos/views:lint: cache hit, replaying logs 7a3d30e7ffeeb05e
+@paperos/views:lint: 
+@paperos/views:lint: > @paperos/views@0.1.0 lint /workspace/wt/review-4a/packages/views
+@paperos/views:lint: > biome check .
+@paperos/views:lint: 
+@paperos/views:lint: Checked 51 files in 5s. No fixes applied.
+@paperos/contract-quality:test: cache hit, replaying logs 14bdcbf9a20e3ec2
+@paperos/contract-quality:test: 
+@paperos/contract-quality:test: > @paperos/contract-quality@0.1.0 test /workspace/wt/review-4a/packages/contracts/quality
+@paperos/contract-quality:test: > vitest run --passWithNoTests
+@paperos/contract-quality:test: 
+@paperos/contract-quality:test: 
+@paperos/contract-quality:test:  RUN  v3.2.7 /workspace/wt/review-4a/packages/contracts/quality
+@paperos/contract-quality:test: 
+@paperos/contract-quality:test:  ✓ |contract-quality| test/render.test.ts (3 tests) 64ms
+@paperos/contract-quality:test:  ✓ |contract-quality| test/finding.test.ts (18 tests) 635ms
+@paperos/contract-quality:test:  ✓ |contract-quality| test/calibrate.test.ts (5 tests) 147ms
+@paperos/contract-quality:test:  ✓ |contract-quality| test/rubrics.test.ts (6 tests) 150ms
+@paperos/contract-quality:test:  ✓ |contract-quality| test/calibration-set.test.ts (4 tests) 199ms
+@paperos/contract-quality:test:  ✓ |contract-quality| test/drift.test.ts (5 tests) 265ms
+@paperos/contract-quality:test: 
+@paperos/contract-quality:test:  Test Files  6 passed (6)
+@paperos/contract-quality:test:       Tests  41 passed (41)
+@paperos/contract-quality:test:    Start at  02:38:01
+@paperos/contract-quality:test:    Duration  19.49s (transform 3.65s, setup 0ms, collect 17.87s, tests 1.46s, environment 47ms, prepare 9.32s)
+@paperos/contract-quality:test: 
+@paperos/input:typecheck: cache hit, replaying logs 82da8d4b1c0894dd
+@paperos/input:typecheck: 
+@paperos/input:typecheck: > @paperos/input@0.1.0 typecheck /workspace/wt/review-4a/packages/input
+@paperos/input:typecheck: > tsc --noEmit -p tsconfig.json
+@paperos/input:typecheck: 
+@paperos/views:typecheck: cache hit, replaying logs 79759a8b28af3dad
+@paperos/views:typecheck: 
+@paperos/views:typecheck: > @paperos/views@0.1.0 typecheck /workspace/wt/review-4a/packages/views
+@paperos/views:typecheck: > tsc --noEmit -p tsconfig.json
+@paperos/views:typecheck: 
+@paperos/input:test: cache hit, replaying logs be503cb8fe8a6a98
+@paperos/input:test: 
+@paperos/input:test: > @paperos/input@0.1.0 test /workspace/wt/review-4a/packages/input
+@paperos/input:test: > vitest run --passWithNoTests
+@paperos/input:test: 
+@paperos/input:test: 
+@paperos/input:test:  RUN  v3.2.7 /workspace/wt/review-4a/packages/input
+@paperos/input:test: 
+@paperos/input:test:  ✓ |input| src/contract/contract.test.ts (18 tests) 67ms
+@paperos/input:test:  ✓ |input| src/modality/modality.test.ts (13 tests) 86ms
+@paperos/input:test:  ✓ |input| src/normalise/normalise.test.ts (29 tests) 270ms
+@paperos/input:test:  ✓ |input| src/focus/focus.test.ts (13 tests) 30ms
+@paperos/input:test:  ✓ |input| src/chord/chord.test.ts (17 tests) 145ms
+@paperos/input:test:  ✓ |input| src/fixtures/golden.test.ts (3 tests) 695ms
+@paperos/input:test:    ✓ golden fixtures > every golden event validates against InputEventSchema  488ms
+@paperos/input:test:  ✓ |input| src/schema/schema.test.ts (6 tests) 60ms
+@paperos/input:test:  ✓ |input| src/react/react.test.ts (5 tests) 312ms
+@paperos/input:test: 
+@paperos/input:test:  Test Files  8 passed (8)
+@paperos/input:test:       Tests  104 passed (104)
+@paperos/input:test:    Start at  02:37:26
+@paperos/input:test:    Duration  27.63s (transform 1.57s, setup 0ms, collect 8.40s, tests 1.67s, environment 32.76s, prepare 8.52s)
+@paperos/input:test: 
+@paperos/core:typecheck: cache hit, replaying logs e261b1e01c085c41
+@paperos/core:typecheck: 
+@paperos/core:typecheck: > @paperos/core@0.1.0 typecheck /workspace/wt/review-4a/packages/core
+@paperos/core:typecheck: > tsc --noEmit -p tsconfig.json
+@paperos/core:typecheck: 
+@paperos/tokens:test: cache hit, replaying logs bcdc4911f5b6854b
+@paperos/tokens:test: 
+@paperos/tokens:test: > @paperos/tokens@0.1.0 test /workspace/wt/PAP-66/packages/tokens
+@paperos/tokens:test: > vitest run --passWithNoTests
+@paperos/tokens:test: 
+@paperos/tokens:test: 
+@paperos/tokens:test:  RUN  v3.2.7 /workspace/wt/PAP-66/packages/tokens
+@paperos/tokens:test: 
+@paperos/tokens:test:  ✓ |tokens| test/resolve.test.ts (8 tests) 141ms
+@paperos/tokens:test:  ✓ |tokens| test/contract.test.ts (3 tests) 87ms
+@paperos/tokens:test:  ✓ |tokens| test/build.test.ts (9 tests) 384ms
+@paperos/tokens:test:  ✓ |tokens| test/no-hardcoded-colors.test.ts (11 tests) 45ms
+@paperos/tokens:test:  ✓ |tokens| test/transform.test.ts (7 tests) 10ms
+@paperos/tokens:test:  ✓ |tokens| test/snapshot.test.ts (2 tests) 20ms
+@paperos/tokens:test: 
+@paperos/tokens:test:  Test Files  6 passed (6)
+@paperos/tokens:test:       Tests  40 passed (40)
+@paperos/tokens:test:    Start at  02:26:19
+@paperos/tokens:test:    Duration  9.75s (transform 1.66s, setup 0ms, collect 3.90s, tests 687ms, environment 1ms, prepare 5.18s)
+@paperos/tokens:test: 
+@paperos/views:test: cache hit, replaying logs 6fb3c1def30bc321
+@paperos/views:test: 
+@paperos/views:test: > @paperos/views@0.1.0 test /workspace/wt/review-4a/packages/views
+@paperos/views:test: > vitest run --passWithNoTests
+@paperos/views:test: 
+@paperos/views:test: 
+@paperos/views:test:  RUN  v3.2.7 /workspace/wt/review-4a/packages/views
+@paperos/views:test: 
+@paperos/views:test:  ✓ |views| src/model/view.test.ts (63 tests | 1 skipped) 671ms
+@paperos/views:test:  ✓ |views| src/model/field.test.ts (8 tests) 334ms
+@paperos/views:test:  ✓ |views| src/registry/dataset-registry.test.ts (8 tests) 389ms
+@paperos/views:test:  ✓ |views| src/model/migrate.test.ts (5 tests) 179ms
+@paperos/views:test:  ✓ |views| src/model/dataset-ref.test.ts (5 tests) 150ms
+@paperos/views:test:  ✓ |views| src/index.test.ts (1 test) 16ms
+@paperos/views:test:  ✓ |views| src/model/json-schema.test.ts (8 tests) 5850ms
+@paperos/views:test:    ✓ generated JSON Schema > schema/view.schema.json is committed and not stale (run gen:schemas)  540ms
+@paperos/views:test:    ✓ generated JSON Schema > identifies the view schema with the spec version  314ms
+@paperos/views:test:    ✓ generated JSON Schema > validates every golden fixture with ajv  3072ms
+@paperos/views:test:    ✓ generated JSON Schema > rejects the structurally invalid fixtures (refinement-only ones are Zod-only)  1247ms
+@paperos/views:test: 
+@paperos/views:test:  Test Files  7 passed (7)
+@paperos/views:test:       Tests  97 passed | 1 todo (98)
+@paperos/views:test:    Start at  02:37:31
+@paperos/views:test:    Duration  18.77s (transform 1.98s, setup 0ms, collect 14.78s, tests 7.59s, environment 1ms, prepare 7.81s)
+@paperos/views:test: 
+@paperos/agents:typecheck: cache miss, executing 4923835ef1940737
+@paperos/tokens:typecheck: cache hit, replaying logs c911dd9e1749295d
+@paperos/tokens:typecheck: 
+@paperos/tokens:typecheck: > @paperos/tokens@0.1.0 typecheck /workspace/wt/PAP-66/packages/tokens
+@paperos/tokens:typecheck: > tsc --noEmit -p tsconfig.json
+@paperos/tokens:typecheck: 
+@paperos/finance:typecheck: cache hit, replaying logs ad31174670a4fde2
+@paperos/finance:typecheck: 
+@paperos/finance:typecheck: > @paperos/finance@0.1.0 typecheck /workspace/wt/review-4a/packages/finance
+@paperos/finance:typecheck: > tsc --noEmit -p tsconfig.json
+@paperos/finance:typecheck: 
+@paperos/agents:test: cache miss, executing d31dc5f8404c70a3
+@paperos/db:test: cache hit, replaying logs ed5f4278b87dcf7f
+@paperos/db:test: 
+@paperos/db:test: > @paperos/db@0.1.0 test /workspace/wt/PAP-555/packages/db
+@paperos/db:test: > vitest run --passWithNoTests
+@paperos/db:test: 
+@paperos/db:test: 
+@paperos/db:test:  RUN  v3.2.7 /workspace/wt/PAP-555/packages/db
+@paperos/db:test: 
+@paperos/db:test:  ✓ |db| src/events.integration.test.ts (12 tests) 97272ms
+@paperos/db:test:    ✓ publish inside a transaction > commits the row and the event together  42476ms
+@paperos/db:test:    ✓ publish inside a transaction > rolls back the row and the event together when the transaction fails after publishing  5177ms
+@paperos/db:test:    ✓ publish inside a transaction > takes occurredAt from the database, not the process clock  4785ms
+@paperos/db:test:    ✓ publish inside a transaction > lands the row in the monthly partition for its occurred_at  6418ms
+@paperos/db:test:    ✓ publish inside a transaction > makes a repeated idempotencyKey a no-op that returns the original id  4827ms
+@paperos/db:test:    ✓ publish inside a transaction > refuses the connection handle  4078ms
+@paperos/db:test:    ✓ publish inside a transaction > delivers to in-process subscribers after the transaction commits  4501ms
+@paperos/db:test:    ✓ publish inside a transaction > mirrors in-process subscribers into event_subscription  4811ms
+@paperos/db:test:    ✓ publish inside a transaction > rejects a payload over 64 KB before it reaches the database  4150ms
+@paperos/db:test:    ✓ publish inside a transaction > uses the driver the core package publishes through  4952ms
+@paperos/db:test:    ✓ publish inside a transaction > keeps the parent table empty of direct writes outside a partition range  4877ms
+@paperos/db:test:    ✓ publish inside a transaction > counts rows through the partitioned parent  6216ms
+@paperos/db:test:  ✓ |db| src/no-publish-outside-transaction.test.ts (4 tests) 19ms
+@paperos/db:test:  ✓ |db| src/schema/events.test.ts (13 tests) 3ms
+@paperos/db:test: 
+@paperos/db:test:  Test Files  3 passed (3)
+@paperos/db:test:       Tests  29 passed (29)
+@paperos/db:test:    Start at  02:21:44
+@paperos/db:test:    Duration  112.95s (transform 2.88s, setup 0ms, collect 13.19s, tests 97.29s, environment 0ms, prepare 742ms)
+@paperos/db:test: 
+@paperos/spec:typecheck: cache hit, replaying logs 762804facf2267ab
+@paperos/spec:typecheck: 
+@paperos/spec:typecheck: > @paperos/spec@0.1.0 typecheck /workspace/wt/PAP-555/packages/spec
+@paperos/spec:typecheck: > tsc --noEmit -p tsconfig.json
+@paperos/spec:typecheck: 
+@paperos/spec:test: cache hit, replaying logs 4578e7c014159060
+@paperos/spec:test: 
+@paperos/spec:test: > @paperos/spec@0.1.0 test /workspace/wt/PAP-555/packages/spec
+@paperos/spec:test: > vitest run --passWithNoTests
+@paperos/spec:test: 
+@paperos/spec:test: 
+@paperos/spec:test:  RUN  v3.2.7 /workspace/wt/PAP-555/packages/spec
+@paperos/spec:test: 
+@paperos/spec:test:  ✓ |spec| src/fixtures.test.ts (22 tests) 575ms
+@paperos/spec:test:  ✓ |spec| src/validate.test.ts (11 tests) 171ms
+@paperos/spec:test:  ✓ |spec| src/roundtrip.test.ts (40 tests) 1599ms
+@paperos/spec:test:  ✓ |spec| src/schema/page.test.ts (25 tests) 24ms
+@paperos/spec:test:  ✓ |spec| src/parse.test.ts (10 tests) 608ms
+@paperos/spec:test:  ✓ |spec| src/json-schema.test.ts (5 tests) 384ms
+@paperos/spec:test:  ✓ |spec| src/migrate/migrate.test.ts (4 tests) 54ms
+@paperos/spec:test:  ✓ |spec| src/registry.test.ts (2 tests) 13ms
+@paperos/spec:test:  ✓ |spec| src/index.test.ts (2 tests) 50ms
+@paperos/spec:test: 
+@paperos/spec:test:  Test Files  9 passed (9)
+@paperos/spec:test:       Tests  121 passed (121)
+@paperos/spec:test:    Start at  02:24:45
+@paperos/spec:test:    Duration  17.26s (transform 1.20s, setup 0ms, collect 19.53s, tests 3.48s, environment 22ms, prepare 5.08s)
+@paperos/spec:test: 
+@paperos/tokens:build: cache hit, replaying logs c706406f195a985c
+@paperos/tokens:build: 
+@paperos/tokens:build: > @paperos/tokens@0.1.0 build /workspace/wt/PAP-66/packages/tokens
+@paperos/tokens:build: > tsx scripts/build.ts
+@paperos/tokens:build: 
+@paperos/tokens:build: wrote src/generated/tokens.css
+@paperos/tokens:build: wrote src/generated/theme.css
+@paperos/tokens:build: wrote src/generated/tokens.ts
+@paperos/tokens:build: wrote src/generated/raw-tokens.json
+@paperos/web:build: cache hit, replaying logs 8645f5de0a291ffc
+@paperos/web:build: 
+@paperos/web:build: > @paperos/web@0.1.0 build /workspace/wt/PAP-555/apps/web
+@paperos/web:build: > vite build
+@paperos/web:build: 
+@paperos/web:build: vite v7.3.6 building client environment for production...
+@paperos/web:build: transforming...
+@paperos/web:build: ✓ 30 modules transformed.
+@paperos/web:build: rendering chunks...
+@paperos/web:build: computing gzip size...
+@paperos/web:build: dist/index.html                   0.47 kB │ gzip:  0.29 kB
+@paperos/web:build: dist/assets/index-DpjpaIqg.css    1.55 kB │ gzip:  0.77 kB
+@paperos/web:build: dist/assets/index-Cefjjb1e.js   222.92 kB │ gzip: 69.47 kB │ map: 1,055.32 kB
+@paperos/web:build: ✓ built in 14.83s
+@paperos/web:typecheck: cache hit, replaying logs 43feedebc6fbc098
+@paperos/web:typecheck: 
+@paperos/web:typecheck: > @paperos/web@0.1.0 typecheck /workspace/wt/PAP-555/apps/web
+@paperos/web:typecheck: > tsc --noEmit -p tsconfig.json
+@paperos/web:typecheck: 
+@paperos/web:test: cache hit, replaying logs 4f847f95e4eba3ae
+@paperos/web:test: 
+@paperos/web:test: > @paperos/web@0.1.0 test /workspace/wt/PAP-555/apps/web
+@paperos/web:test: > vitest run --passWithNoTests
+@paperos/web:test: 
+@paperos/web:test: 
+@paperos/web:test:  RUN  v3.2.7 /workspace/wt/PAP-555/apps/web
+@paperos/web:test: 
+@paperos/web:test:  ✓ |web| src/App.test.tsx (4 tests) 1297ms
+@paperos/web:test:    ✓ placeholder route > renders the template title inside a level-1 heading  948ms
+@paperos/web:test: 
+@paperos/web:test:  Test Files  1 passed (1)
+@paperos/web:test:       Tests  4 passed (4)
+@paperos/web:test:    Start at  02:21:43
+@paperos/web:test:    Duration  31.56s (transform 4.08s, setup 2.95s, collect 18.06s, tests 1.30s, environment 5.90s, prepare 719ms)
+@paperos/web:test: 
+@paperos/db:typecheck: cache hit, replaying logs 0a9f89c3e458f6e0
+@paperos/db:typecheck: 
+@paperos/db:typecheck: > @paperos/db@0.1.0 typecheck /workspace/wt/PAP-555/packages/db
+@paperos/db:typecheck: > tsc --noEmit -p tsconfig.json
+@paperos/db:typecheck: 
+@paperos/tokens:lint: cache hit, replaying logs 9bc7334e93d55b38
+@paperos/tokens:lint: 
+@paperos/tokens:lint: > @paperos/tokens@0.1.0 lint /workspace/wt/review-4a/packages/tokens
+@paperos/tokens:lint: > biome check .
+@paperos/tokens:lint: 
+@paperos/tokens:lint: Checked 34 files in 1065ms. No fixes applied.
+@paperos/ui:test: cache hit, replaying logs 338ceaf46965de04
+@paperos/ui:test: 
+@paperos/ui:test: > @paperos/ui@0.1.0 test /workspace/wt/review-4a/packages/ui
+@paperos/ui:test: > vitest run --passWithNoTests
+@paperos/ui:test: 
+@paperos/ui:test: 
+@paperos/ui:test:  RUN  v3.2.7 /workspace/wt/review-4a/packages/ui
+@paperos/ui:test: 
+@paperos/ui:test:  ✓ |ui| src/index.test.ts (2 tests) 3ms
+@paperos/ui:test: 
+@paperos/ui:test:  Test Files  1 passed (1)
+@paperos/ui:test:       Tests  2 passed (2)
+@paperos/ui:test:    Start at  02:38:09
+@paperos/ui:test:    Duration  6.55s (transform 850ms, setup 0ms, collect 658ms, tests 3ms, environment 0ms, prepare 1.61s)
+@paperos/ui:test: 
+@paperos/ui:typecheck: cache hit, replaying logs ac7520840d24da74
+@paperos/ui:typecheck: 
+@paperos/ui:typecheck: > @paperos/ui@0.1.0 typecheck /workspace/wt/review-4a/packages/ui
+@paperos/ui:typecheck: > tsc --noEmit -p tsconfig.json
+@paperos/ui:typecheck: 
+@paperos/agents:typecheck: 
+@paperos/agents:typecheck: > @paperos/agents@0.1.0 typecheck /workspace/wt/PAP-211/packages/agents
+@paperos/agents:typecheck: > tsc --noEmit -p tsconfig.json
+@paperos/agents:typecheck: 
+@paperos/agents:test: 
+@paperos/agents:test: > @paperos/agents@0.1.0 test /workspace/wt/PAP-211/packages/agents
+@paperos/agents:test: > vitest run --passWithNoTests
+@paperos/agents:test: 
+@paperos/agents:lint: 
+@paperos/agents:lint: > @paperos/agents@0.1.0 lint /workspace/wt/PAP-211/packages/agents
+@paperos/agents:lint: > biome check .
+@paperos/agents:lint: 
+@paperos/agents:lint: /workspace/wt/PAP-211/packages/tokens/biome.json configuration ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+@paperos/agents:lint: 
+@paperos/agents:lint:   × Found a nested root configuration, but there's already a root configuration.
+@paperos/agents:lint:   
+@paperos/agents:lint:   i The other configuration was found in /workspace/wt/PAP-211.
+@paperos/agents:lint:   
+@paperos/agents:lint:   i Use the migration command from the root of the project to update the configuration.
+@paperos/agents:lint:   
+@paperos/agents:lint:   $ biome migrate --write
+@paperos/agents:lint:   
+@paperos/agents:lint: 
+@paperos/agents:test: 
+@paperos/agents:test:  RUN  v3.2.7 /workspace/wt/PAP-211/packages/agents
+@paperos/agents:test: 
+@paperos/agents:lint: configuration ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+@paperos/agents:lint: 
+@paperos/agents:lint:   × Biome exited because the configuration resulted in errors. Please fix them.
+@paperos/agents:lint:   
+@paperos/agents:lint: 
+@paperos/agents:lint:  ELIFECYCLE  Command failed with exit code 1.
+@paperos/agents:typecheck:  ELIFECYCLE  Command failed.
+@paperos/agents:test:  ELIFECYCLE  Test failed. See above for more details.
+@paperos/agents#lint:  ERROR  command (/workspace/wt/PAP-211/packages/agents) /opt/node22/bin/pnpm run lint exited (1)
+
+ Tasks:    39 successful, 42 total
+Cached:    39 cached, 42 total
+  Time:    12.657s 
+Failed:    @paperos/agents#lint
+
+ ERROR  run failed: command  exited (1)
+ ELIFECYCLE  Command failed with exit code 1.
+exit=1
+
+--- the same failure on a clean origin/main checkout, before any PAP-211 change:
+    packages/tokens/biome.json (PAP-66) is a nested Biome 2.5.14 root config; it needs "root": false.
+    Reproduced at e525acd with no PAP-211 files present. Not caused by this branch.
+
+$ pnpm turbo lint typecheck test build --filter=!@paperos/agents
+• turbo 2.11.2
+
+   • Packages in scope: @paperos/config-biome, @paperos/config-ts, @paperos/contract-quality, @paperos/core, @paperos/db, @paperos/finance, @paperos/input, @paperos/spec, @paperos/tokens, @paperos/ui, @paperos/views, @paperos/web
+   • Running lint, typecheck, test, build in 12 packages
+   • Remote caching disabled, using shared worktree cache
+
+@paperos/core:lint: cache hit, replaying logs d17db2566d3b779d
+@paperos/core:lint: 
+@paperos/core:lint: > @paperos/core@0.1.0 lint /workspace/wt/review-4a/packages/core
+@paperos/core:lint: > biome check . && tsx ../../scripts/events-catalogue.ts --check
+@paperos/core:lint: 
+@paperos/core:lint: Checked 47 files in 4s. No fixes applied.
+@paperos/core:lint: events:catalogue --check: docs/platform/events.md is current (44 topics)
+@paperos/views:lint: cache hit, replaying logs 7a3d30e7ffeeb05e
+@paperos/views:lint: 
+@paperos/views:lint: > @paperos/views@0.1.0 lint /workspace/wt/review-4a/packages/views
+@paperos/views:lint: > biome check .
+@paperos/views:lint: 
+@paperos/views:lint: Checked 51 files in 5s. No fixes applied.
+@paperos/db:lint: cache hit, replaying logs 1cef06e415f4396c
+@paperos/db:lint: 
+@paperos/db:lint: > @paperos/db@0.1.0 lint /workspace/wt/review-4a/packages/db
+@paperos/db:lint: > biome check .
+@paperos/db:lint: 
+@paperos/db:lint: Checked 12 files in 5s. No fixes applied.
+@paperos/config-ts:lint: cache hit, replaying logs fc2c96632878e62a
+@paperos/config-ts:lint: 
+@paperos/config-ts:lint: > @paperos/config-ts@0.1.0 lint /workspace/wt/review-4a/packages/config-ts
+@paperos/config-ts:lint: > biome check .
+@paperos/config-ts:lint: 
+@paperos/config-ts:lint: Checked 8 files in 2s. No fixes applied.
+@paperos/config-ts:typecheck: cache hit, replaying logs 89d42514a8f63908
+@paperos/config-ts:typecheck: 
+@paperos/config-ts:typecheck: > @paperos/config-ts@0.1.0 typecheck /workspace/wt/review-4a/packages/config-ts
+@paperos/config-ts:typecheck: > tsc --noEmit -p tsconfig.json
+@paperos/config-ts:typecheck: 
+@paperos/config-ts:test: cache hit, replaying logs b49f0070ad55638d
+@paperos/config-ts:test: 
+@paperos/config-ts:test: > @paperos/config-ts@0.1.0 test /workspace/wt/review-4a/packages/config-ts
+@paperos/config-ts:test: > vitest run --passWithNoTests
+@paperos/config-ts:test: 
+@paperos/config-ts:test: 
+@paperos/config-ts:test:  RUN  v3.2.7 /workspace/wt/review-4a/packages/config-ts
+@paperos/config-ts:test: 
+@paperos/config-ts:test:  ✓ |config-ts| src/index.test.ts (2 tests) 3ms
+@paperos/config-ts:test: 
+@paperos/config-ts:test:  Test Files  1 passed (1)
+@paperos/config-ts:test:       Tests  2 passed (2)
+@paperos/config-ts:test:    Start at  02:37:23
+@paperos/config-ts:test:    Duration  1.66s (transform 343ms, setup 0ms, collect 273ms, tests 3ms, environment 0ms, prepare 460ms)
+@paperos/config-ts:test: 
+@paperos/contract-quality:lint: cache hit, replaying logs 4e9aa7bc7f049b94
+@paperos/contract-quality:lint: 
+@paperos/contract-quality:lint: > @paperos/contract-quality@0.1.0 lint /workspace/wt/review-4a/packages/contracts/quality
+@paperos/contract-quality:lint: > biome check .
+@paperos/contract-quality:lint: 
+@paperos/contract-quality:lint: Checked 31 files in 4s. No fixes applied.
+@paperos/ui:lint: cache hit, replaying logs cb7264195a82421f
+@paperos/ui:lint: 
+@paperos/ui:lint: > @paperos/ui@0.1.0 lint /workspace/wt/review-4a/packages/ui
+@paperos/ui:lint: > biome check .
+@paperos/ui:lint: 
+@paperos/ui:lint: Checked 5 files in 4s. No fixes applied.
+@paperos/web:lint: cache hit, replaying logs 7327fc1da6c9bcc5
+@paperos/web:lint: 
+@paperos/web:lint: > @paperos/web@0.1.0 lint /workspace/wt/review-4a/apps/web
+@paperos/web:lint: > biome check .
+@paperos/web:lint: 
+@paperos/web:lint: Checked 11 files in 2s. No fixes applied.
+@paperos/spec:lint: cache hit, replaying logs 8ca4e9ac3ef7f199
+@paperos/spec:lint: 
+@paperos/spec:lint: > @paperos/spec@0.1.0 lint /workspace/wt/review-4a/packages/spec
+@paperos/spec:lint: > biome check .
+@paperos/spec:lint: 
+@paperos/spec:lint: Checked 50 files in 4s. No fixes applied.
+@paperos/input:lint: cache hit, replaying logs 401cbf55d8ff8789
+@paperos/input:lint: 
+@paperos/input:lint: > @paperos/input@0.1.0 lint /workspace/wt/review-4a/packages/input
+@paperos/input:lint: > biome check .
+@paperos/input:lint: 
+@paperos/input:lint: Checked 37 files in 2s. No fixes applied.
+@paperos/tokens:lint: cache hit, replaying logs 9bc7334e93d55b38
+@paperos/tokens:lint: 
+@paperos/tokens:lint: > @paperos/tokens@0.1.0 lint /workspace/wt/review-4a/packages/tokens
+@paperos/tokens:lint: > biome check .
+@paperos/tokens:lint: 
+@paperos/tokens:lint: Checked 34 files in 1065ms. No fixes applied.
+@paperos/config-biome:typecheck: cache hit, replaying logs 4526804355b0a18e
+@paperos/config-biome:typecheck: 
+@paperos/config-biome:typecheck: > @paperos/config-biome@0.1.0 typecheck /workspace/wt/review-4a/packages/config-biome
+@paperos/config-biome:typecheck: > tsc --noEmit -p tsconfig.json
+@paperos/config-biome:typecheck: 
+@paperos/config-biome:test: cache hit, replaying logs d0e539b52fa94257
+@paperos/config-biome:test: 
+@paperos/config-biome:test: > @paperos/config-biome@0.1.0 test /workspace/wt/review-4a/packages/config-biome
+@paperos/config-biome:test: > vitest run --passWithNoTests
+@paperos/config-biome:test: 
+@paperos/config-biome:test: 
+@paperos/config-biome:test:  RUN  v3.2.7 /workspace/wt/review-4a/packages/config-biome
+@paperos/config-biome:test: 
+@paperos/config-biome:test:  ✓ |config-biome| src/index.test.ts (2 tests) 6ms
+@paperos/config-biome:test: 
+@paperos/config-biome:test:  Test Files  1 passed (1)
+@paperos/config-biome:test:       Tests  2 passed (2)
+@paperos/config-biome:test:    Start at  02:37:25
+@paperos/config-biome:test:    Duration  2.13s (transform 180ms, setup 0ms, collect 157ms, tests 6ms, environment 0ms, prepare 515ms)
+@paperos/config-biome:test: 
+@paperos/config-biome:lint: cache hit, replaying logs 239363414f20a584
+@paperos/config-biome:lint: 
+@paperos/config-biome:lint: > @paperos/config-biome@0.1.0 lint /workspace/wt/review-4a/packages/config-biome
+@paperos/config-biome:lint: > biome check .
+@paperos/config-biome:lint: 
+@paperos/config-biome:lint: Checked 8 files in 2s. No fixes applied.
+@paperos/finance:lint: cache hit, replaying logs 12e84b9b53c92753
+@paperos/finance:lint: 
+@paperos/finance:lint: > @paperos/finance@0.1.0 lint /workspace/wt/review-4a/packages/finance
+@paperos/finance:lint: > biome check .
+@paperos/finance:lint: 
+@paperos/finance:lint: Checked 7 files in 3s. No fixes applied.
+@paperos/finance:test: cache hit, replaying logs 8e9d5ce81cd6504b
+@paperos/finance:test: 
+@paperos/finance:test: > @paperos/finance@0.1.0 test /workspace/wt/review-4a/packages/finance
+@paperos/finance:test: > vitest run --passWithNoTests
+@paperos/finance:test: 
+@paperos/finance:test: 
+@paperos/finance:test:  RUN  v3.2.7 /workspace/wt/review-4a/packages/finance
+@paperos/finance:test: 
+@paperos/finance:test:  ✓ |finance| src/payroll/provider.test.ts (5 tests) 5ms
+@paperos/finance:test: 
+@paperos/finance:test:  Test Files  1 passed (1)
+@paperos/finance:test:       Tests  5 passed (5)
+@paperos/finance:test:    Start at  02:37:31
+@paperos/finance:test:    Duration  2.86s (transform 335ms, setup 0ms, collect 316ms, tests 5ms, environment 0ms, prepare 358ms)
+@paperos/finance:test: 
+@paperos/views:typecheck: cache hit, replaying logs 79759a8b28af3dad
+@paperos/views:typecheck: 
+@paperos/views:typecheck: > @paperos/views@0.1.0 typecheck /workspace/wt/review-4a/packages/views
+@paperos/views:typecheck: > tsc --noEmit -p tsconfig.json
+@paperos/views:typecheck: 
+@paperos/views:test: cache hit, replaying logs 6fb3c1def30bc321
+@paperos/views:test: 
+@paperos/views:test: > @paperos/views@0.1.0 test /workspace/wt/review-4a/packages/views
+@paperos/views:test: > vitest run --passWithNoTests
+@paperos/views:test: 
+@paperos/views:test: 
+@paperos/views:test:  RUN  v3.2.7 /workspace/wt/review-4a/packages/views
+@paperos/views:test: 
+@paperos/views:test:  ✓ |views| src/model/view.test.ts (63 tests | 1 skipped) 671ms
+@paperos/views:test:  ✓ |views| src/model/field.test.ts (8 tests) 334ms
+@paperos/views:test:  ✓ |views| src/registry/dataset-registry.test.ts (8 tests) 389ms
+@paperos/views:test:  ✓ |views| src/model/migrate.test.ts (5 tests) 179ms
+@paperos/views:test:  ✓ |views| src/model/dataset-ref.test.ts (5 tests) 150ms
+@paperos/views:test:  ✓ |views| src/index.test.ts (1 test) 16ms
+@paperos/views:test:  ✓ |views| src/model/json-schema.test.ts (8 tests) 5850ms
+@paperos/views:test:    ✓ generated JSON Schema > schema/view.schema.json is committed and not stale (run gen:schemas)  540ms
+@paperos/views:test:    ✓ generated JSON Schema > identifies the view schema with the spec version  314ms
+@paperos/views:test:    ✓ generated JSON Schema > validates every golden fixture with ajv  3072ms
+@paperos/views:test:    ✓ generated JSON Schema > rejects the structurally invalid fixtures (refinement-only ones are Zod-only)  1247ms
+@paperos/views:test: 
+@paperos/views:test:  Test Files  7 passed (7)
+@paperos/views:test:       Tests  97 passed | 1 todo (98)
+@paperos/views:test:    Start at  02:37:31
+@paperos/views:test:    Duration  18.77s (transform 1.98s, setup 0ms, collect 14.78s, tests 7.59s, environment 1ms, prepare 7.81s)
+@paperos/views:test: 
+@paperos/contract-quality:test: cache hit, replaying logs 14bdcbf9a20e3ec2
+@paperos/contract-quality:test: 
+@paperos/contract-quality:test: > @paperos/contract-quality@0.1.0 test /workspace/wt/review-4a/packages/contracts/quality
+@paperos/contract-quality:test: > vitest run --passWithNoTests
+@paperos/contract-quality:test: 
+@paperos/contract-quality:test: 
+@paperos/contract-quality:test:  RUN  v3.2.7 /workspace/wt/review-4a/packages/contracts/quality
+@paperos/contract-quality:test: 
+@paperos/contract-quality:test:  ✓ |contract-quality| test/render.test.ts (3 tests) 64ms
+@paperos/contract-quality:test:  ✓ |contract-quality| test/finding.test.ts (18 tests) 635ms
+@paperos/contract-quality:test:  ✓ |contract-quality| test/calibrate.test.ts (5 tests) 147ms
+@paperos/contract-quality:test:  ✓ |contract-quality| test/rubrics.test.ts (6 tests) 150ms
+@paperos/contract-quality:test:  ✓ |contract-quality| test/calibration-set.test.ts (4 tests) 199ms
+@paperos/contract-quality:test:  ✓ |contract-quality| test/drift.test.ts (5 tests) 265ms
+@paperos/contract-quality:test: 
+@paperos/contract-quality:test:  Test Files  6 passed (6)
+@paperos/contract-quality:test:       Tests  41 passed (41)
+@paperos/contract-quality:test:    Start at  02:38:01
+@paperos/contract-quality:test:    Duration  19.49s (transform 3.65s, setup 0ms, collect 17.87s, tests 1.46s, environment 47ms, prepare 9.32s)
+@paperos/contract-quality:test: 
+@paperos/ui:typecheck: cache hit, replaying logs ac7520840d24da74
+@paperos/ui:typecheck: 
+@paperos/ui:typecheck: > @paperos/ui@0.1.0 typecheck /workspace/wt/review-4a/packages/ui
+@paperos/ui:typecheck: > tsc --noEmit -p tsconfig.json
+@paperos/ui:typecheck: 
+@paperos/ui:test: cache hit, replaying logs 338ceaf46965de04
+@paperos/ui:test: 
+@paperos/ui:test: > @paperos/ui@0.1.0 test /workspace/wt/review-4a/packages/ui
+@paperos/ui:test: > vitest run --passWithNoTests
+@paperos/ui:test: 
+@paperos/ui:test: 
+@paperos/ui:test:  RUN  v3.2.7 /workspace/wt/review-4a/packages/ui
+@paperos/ui:test: 
+@paperos/ui:test:  ✓ |ui| src/index.test.ts (2 tests) 3ms
+@paperos/ui:test: 
+@paperos/ui:test:  Test Files  1 passed (1)
+@paperos/ui:test:       Tests  2 passed (2)
+@paperos/ui:test:    Start at  02:38:09
+@paperos/ui:test:    Duration  6.55s (transform 850ms, setup 0ms, collect 658ms, tests 3ms, environment 0ms, prepare 1.61s)
+@paperos/ui:test: 
+@paperos/input:typecheck: cache hit, replaying logs 82da8d4b1c0894dd
+@paperos/input:typecheck: 
+@paperos/input:typecheck: > @paperos/input@0.1.0 typecheck /workspace/wt/review-4a/packages/input
+@paperos/input:typecheck: > tsc --noEmit -p tsconfig.json
+@paperos/input:typecheck: 
+@paperos/contract-quality:build: cache hit, replaying logs 925d8a7e04401a5a
+@paperos/contract-quality:build: 
+@paperos/contract-quality:build: > @paperos/contract-quality@0.1.0 build /workspace/wt/review-4a/packages/contracts/quality
+@paperos/contract-quality:build: > pnpm run build:schemas && pnpm run build:docs
+@paperos/contract-quality:build: 
+@paperos/contract-quality:build: 
+@paperos/contract-quality:build: > @paperos/contract-quality@0.1.0 build:schemas /workspace/wt/review-4a/packages/contracts/quality
+@paperos/contract-quality:build: > tsx scripts/build-schemas.ts
+@paperos/contract-quality:build: 
+@paperos/contract-quality:build: wrote 6 schemas to /workspace/wt/review-4a/packages/contracts/quality/schemas and finding.schema.json to /workspace/wt/review-4a/docs/quality/rubrics
+@paperos/contract-quality:build: 
+@paperos/contract-quality:build: > @paperos/contract-quality@0.1.0 build:docs /workspace/wt/review-4a/packages/contracts/quality
+@paperos/contract-quality:build: > tsx scripts/build-docs.ts
+@paperos/contract-quality:build: 
+@paperos/contract-quality:build: wrote 8 rubric docs to /workspace/wt/review-4a/docs/quality/rubrics
+@paperos/input:test: cache hit, replaying logs be503cb8fe8a6a98
+@paperos/input:test: 
+@paperos/input:test: > @paperos/input@0.1.0 test /workspace/wt/review-4a/packages/input
+@paperos/input:test: > vitest run --passWithNoTests
+@paperos/input:test: 
+@paperos/input:test: 
+@paperos/input:test:  RUN  v3.2.7 /workspace/wt/review-4a/packages/input
+@paperos/input:test: 
+@paperos/input:test:  ✓ |input| src/contract/contract.test.ts (18 tests) 67ms
+@paperos/input:test:  ✓ |input| src/modality/modality.test.ts (13 tests) 86ms
+@paperos/input:test:  ✓ |input| src/normalise/normalise.test.ts (29 tests) 270ms
+@paperos/input:test:  ✓ |input| src/focus/focus.test.ts (13 tests) 30ms
+@paperos/input:test:  ✓ |input| src/chord/chord.test.ts (17 tests) 145ms
+@paperos/input:test:  ✓ |input| src/fixtures/golden.test.ts (3 tests) 695ms
+@paperos/input:test:    ✓ golden fixtures > every golden event validates against InputEventSchema  488ms
+@paperos/input:test:  ✓ |input| src/schema/schema.test.ts (6 tests) 60ms
+@paperos/input:test:  ✓ |input| src/react/react.test.ts (5 tests) 312ms
+@paperos/input:test: 
+@paperos/input:test:  Test Files  8 passed (8)
+@paperos/input:test:       Tests  104 passed (104)
+@paperos/input:test:    Start at  02:37:26
+@paperos/input:test:    Duration  27.63s (transform 1.57s, setup 0ms, collect 8.40s, tests 1.67s, environment 32.76s, prepare 8.52s)
+@paperos/input:test: 
+@paperos/tokens:test: cache hit, replaying logs bcdc4911f5b6854b
+@paperos/tokens:test: 
+@paperos/tokens:test: > @paperos/tokens@0.1.0 test /workspace/wt/PAP-66/packages/tokens
+@paperos/tokens:test: > vitest run --passWithNoTests
+@paperos/tokens:test: 
+@paperos/tokens:test: 
+@paperos/tokens:test:  RUN  v3.2.7 /workspace/wt/PAP-66/packages/tokens
+@paperos/tokens:test: 
+@paperos/tokens:test:  ✓ |tokens| test/resolve.test.ts (8 tests) 141ms
+@paperos/tokens:test:  ✓ |tokens| test/contract.test.ts (3 tests) 87ms
+@paperos/tokens:test:  ✓ |tokens| test/build.test.ts (9 tests) 384ms
+@paperos/tokens:test:  ✓ |tokens| test/no-hardcoded-colors.test.ts (11 tests) 45ms
+@paperos/tokens:test:  ✓ |tokens| test/transform.test.ts (7 tests) 10ms
+@paperos/tokens:test:  ✓ |tokens| test/snapshot.test.ts (2 tests) 20ms
+@paperos/tokens:test: 
+@paperos/tokens:test:  Test Files  6 passed (6)
+@paperos/tokens:test:       Tests  40 passed (40)
+@paperos/tokens:test:    Start at  02:26:19
+@paperos/tokens:test:    Duration  9.75s (transform 1.66s, setup 0ms, collect 3.90s, tests 687ms, environment 1ms, prepare 5.18s)
+@paperos/tokens:test: 
+@paperos/contract-quality:typecheck: cache hit, replaying logs 3988335d9713aff6
+@paperos/contract-quality:typecheck: 
+@paperos/contract-quality:typecheck: > @paperos/contract-quality@0.1.0 typecheck /workspace/wt/review-4a/packages/contracts/quality
+@paperos/contract-quality:typecheck: > tsc --noEmit -p tsconfig.json
+@paperos/contract-quality:typecheck: 
+@paperos/core:typecheck: cache hit, replaying logs e261b1e01c085c41
+@paperos/core:typecheck: 
+@paperos/core:typecheck: > @paperos/core@0.1.0 typecheck /workspace/wt/review-4a/packages/core
+@paperos/core:typecheck: > tsc --noEmit -p tsconfig.json
+@paperos/core:typecheck: 
+@paperos/spec:typecheck: cache hit, replaying logs 762804facf2267ab
+@paperos/spec:typecheck: 
+@paperos/spec:typecheck: > @paperos/spec@0.1.0 typecheck /workspace/wt/PAP-555/packages/spec
+@paperos/spec:typecheck: > tsc --noEmit -p tsconfig.json
+@paperos/spec:typecheck: 
+@paperos/spec:test: cache hit, replaying logs 4578e7c014159060
+@paperos/spec:test: 
+@paperos/spec:test: > @paperos/spec@0.1.0 test /workspace/wt/PAP-555/packages/spec
+@paperos/spec:test: > vitest run --passWithNoTests
+@paperos/spec:test: 
+@paperos/spec:test: 
+@paperos/spec:test:  RUN  v3.2.7 /workspace/wt/PAP-555/packages/spec
+@paperos/spec:test: 
+@paperos/spec:test:  ✓ |spec| src/fixtures.test.ts (22 tests) 575ms
+@paperos/spec:test:  ✓ |spec| src/validate.test.ts (11 tests) 171ms
+@paperos/spec:test:  ✓ |spec| src/roundtrip.test.ts (40 tests) 1599ms
+@paperos/spec:test:  ✓ |spec| src/schema/page.test.ts (25 tests) 24ms
+@paperos/spec:test:  ✓ |spec| src/parse.test.ts (10 tests) 608ms
+@paperos/spec:test:  ✓ |spec| src/json-schema.test.ts (5 tests) 384ms
+@paperos/spec:test:  ✓ |spec| src/migrate/migrate.test.ts (4 tests) 54ms
+@paperos/spec:test:  ✓ |spec| src/registry.test.ts (2 tests) 13ms
+@paperos/spec:test:  ✓ |spec| src/index.test.ts (2 tests) 50ms
+@paperos/spec:test: 
+@paperos/spec:test:  Test Files  9 passed (9)
+@paperos/spec:test:       Tests  121 passed (121)
+@paperos/spec:test:    Start at  02:24:45
+@paperos/spec:test:    Duration  17.26s (transform 1.20s, setup 0ms, collect 19.53s, tests 3.48s, environment 22ms, prepare 5.08s)
+@paperos/spec:test: 
+@paperos/tokens:typecheck: cache hit, replaying logs c911dd9e1749295d
+@paperos/tokens:typecheck: 
+@paperos/tokens:typecheck: > @paperos/tokens@0.1.0 typecheck /workspace/wt/PAP-66/packages/tokens
+@paperos/tokens:typecheck: > tsc --noEmit -p tsconfig.json
+@paperos/tokens:typecheck: 
+@paperos/db:typecheck: cache hit, replaying logs 0a9f89c3e458f6e0
+@paperos/db:typecheck: 
+@paperos/db:typecheck: > @paperos/db@0.1.0 typecheck /workspace/wt/PAP-555/packages/db
+@paperos/db:typecheck: > tsc --noEmit -p tsconfig.json
+@paperos/db:typecheck: 
+@paperos/db:test: cache hit, replaying logs ed5f4278b87dcf7f
+@paperos/db:test: 
+@paperos/db:test: > @paperos/db@0.1.0 test /workspace/wt/PAP-555/packages/db
+@paperos/db:test: > vitest run --passWithNoTests
+@paperos/db:test: 
+@paperos/db:test: 
+@paperos/db:test:  RUN  v3.2.7 /workspace/wt/PAP-555/packages/db
+@paperos/db:test: 
+@paperos/db:test:  ✓ |db| src/events.integration.test.ts (12 tests) 97272ms
+@paperos/db:test:    ✓ publish inside a transaction > commits the row and the event together  42476ms
+@paperos/db:test:    ✓ publish inside a transaction > rolls back the row and the event together when the transaction fails after publishing  5177ms
+@paperos/db:test:    ✓ publish inside a transaction > takes occurredAt from the database, not the process clock  4785ms
+@paperos/db:test:    ✓ publish inside a transaction > lands the row in the monthly partition for its occurred_at  6418ms
+@paperos/db:test:    ✓ publish inside a transaction > makes a repeated idempotencyKey a no-op that returns the original id  4827ms
+@paperos/db:test:    ✓ publish inside a transaction > refuses the connection handle  4078ms
+@paperos/db:test:    ✓ publish inside a transaction > delivers to in-process subscribers after the transaction commits  4501ms
+@paperos/db:test:    ✓ publish inside a transaction > mirrors in-process subscribers into event_subscription  4811ms
+@paperos/db:test:    ✓ publish inside a transaction > rejects a payload over 64 KB before it reaches the database  4150ms
+@paperos/db:test:    ✓ publish inside a transaction > uses the driver the core package publishes through  4952ms
+@paperos/db:test:    ✓ publish inside a transaction > keeps the parent table empty of direct writes outside a partition range  4877ms
+@paperos/db:test:    ✓ publish inside a transaction > counts rows through the partitioned parent  6216ms
+@paperos/db:test:  ✓ |db| src/no-publish-outside-transaction.test.ts (4 tests) 19ms
+@paperos/db:test:  ✓ |db| src/schema/events.test.ts (13 tests) 3ms
+@paperos/db:test: 
+@paperos/db:test:  Test Files  3 passed (3)
+@paperos/db:test:       Tests  29 passed (29)
+@paperos/db:test:    Start at  02:21:44
+@paperos/db:test:    Duration  112.95s (transform 2.88s, setup 0ms, collect 13.19s, tests 97.29s, environment 0ms, prepare 742ms)
+@paperos/db:test: 
+@paperos/web:build: cache hit, replaying logs 8645f5de0a291ffc
+@paperos/web:build: 
+@paperos/web:build: > @paperos/web@0.1.0 build /workspace/wt/PAP-555/apps/web
+@paperos/web:build: > vite build
+@paperos/web:build: 
+@paperos/web:build: vite v7.3.6 building client environment for production...
+@paperos/web:build: transforming...
+@paperos/web:build: ✓ 30 modules transformed.
+@paperos/web:build: rendering chunks...
+@paperos/web:build: computing gzip size...
+@paperos/web:build: dist/index.html                   0.47 kB │ gzip:  0.29 kB
+@paperos/web:build: dist/assets/index-DpjpaIqg.css    1.55 kB │ gzip:  0.77 kB
+@paperos/web:build: dist/assets/index-Cefjjb1e.js   222.92 kB │ gzip: 69.47 kB │ map: 1,055.32 kB
+@paperos/web:build: ✓ built in 14.83s
+@paperos/web:typecheck: cache hit, replaying logs 43feedebc6fbc098
+@paperos/web:typecheck: 
+@paperos/web:typecheck: > @paperos/web@0.1.0 typecheck /workspace/wt/PAP-555/apps/web
+@paperos/web:typecheck: > tsc --noEmit -p tsconfig.json
+@paperos/web:typecheck: 
+@paperos/tokens:build: cache hit, replaying logs c706406f195a985c
+@paperos/tokens:build: 
+@paperos/tokens:build: > @paperos/tokens@0.1.0 build /workspace/wt/PAP-66/packages/tokens
+@paperos/tokens:build: > tsx scripts/build.ts
+@paperos/tokens:build: 
+@paperos/tokens:build: wrote src/generated/tokens.css
+@paperos/tokens:build: wrote src/generated/theme.css
+@paperos/tokens:build: wrote src/generated/tokens.ts
+@paperos/tokens:build: wrote src/generated/raw-tokens.json
+@paperos/core:test: cache hit, replaying logs 96205bd33969de50
+@paperos/core:test: 
+@paperos/core:test: > @paperos/core@0.1.0 test /workspace/wt/review-4a/packages/core
+@paperos/core:test: > vitest run --passWithNoTests
+@paperos/core:test: 
+@paperos/core:test: 
+@paperos/core:test:  RUN  v3.2.7 /workspace/wt/review-4a/packages/core
+@paperos/core:test: 
+@paperos/core:test:  ✓ |core| src/events/publish.test.ts (18 tests) 498ms
+@paperos/core:test:  ✓ |core| src/filter/filter.test.ts (29 tests) 489ms
+@paperos/core:test:  ✓ |core| src/events/registry.test.ts (16 tests) 154ms
+@paperos/core:test:  ✓ |core| src/events/envelope.test.ts (19 tests) 138ms
+@paperos/core:test:  ✓ |core| src/filter/filter.types.test.ts (6 tests) 3ms
+@paperos/core:test:  ✓ |core| src/events/types.test.ts (5 tests) 3ms
+@paperos/core:test:  ✓ |core| src/events/catalogue/catalogue.test.ts (5 tests) 144ms
+@paperos/core:test:  ✓ |core| src/devices/matrix.test.ts (18 tests) 210ms
+@paperos/core:test:  ✓ |core| src/events/refs.test.ts (8 tests) 317ms
+@paperos/core:test: stdout | src/filter/filter.perf.test.ts > toSql performance > compiles a 50-condition tree in under 1 ms (median of 200 runs after warm-up)
+@paperos/core:test: toSql 50 conditions: median 0.377 ms
+@paperos/core:test: 
+@paperos/core:test:  ✓ |core| src/filter/filter.perf.test.ts (1 test) 3910ms
+@paperos/core:test:    ✓ toSql performance > compiles a 50-condition tree in under 1 ms (median of 200 runs after warm-up)  3909ms
+@paperos/core:test:  ✓ |core| src/index.test.ts (1 test) 2ms
+@paperos/core:test:  ✓ |core| src/filter/filter.property.test.ts (2 tests) 58035ms
+@paperos/core:test:    ✓ toSql on PGlite ≡ evaluate in memory > agrees on 500 random trees, nulls included  10232ms
+@paperos/core:test:    ✓ toSql on PGlite ≡ evaluate in memory > normalize keeps the three-valued result and is idempotent; encode round-trips  4266ms
+@paperos/core:test: 
+@paperos/core:test:  Test Files  12 passed (12)
+@paperos/core:test:       Tests  128 passed (128)
+@paperos/core:test:    Start at  02:37:35
+@paperos/core:test:    Duration  75.30s (transform 5.73s, setup 0ms, collect 51.97s, tests 63.90s, environment 252ms, prepare 13.11s)
+@paperos/core:test: 
+@paperos/finance:typecheck: cache hit, replaying logs ad31174670a4fde2
+@paperos/finance:typecheck: 
+@paperos/finance:typecheck: > @paperos/finance@0.1.0 typecheck /workspace/wt/review-4a/packages/finance
+@paperos/finance:typecheck: > tsc --noEmit -p tsconfig.json
+@paperos/finance:typecheck: 
+@paperos/web:test: cache hit, replaying logs 4f847f95e4eba3ae
+@paperos/web:test: 
+@paperos/web:test: > @paperos/web@0.1.0 test /workspace/wt/PAP-555/apps/web
+@paperos/web:test: > vitest run --passWithNoTests
+@paperos/web:test: 
+@paperos/web:test: 
+@paperos/web:test:  RUN  v3.2.7 /workspace/wt/PAP-555/apps/web
+@paperos/web:test: 
+@paperos/web:test:  ✓ |web| src/App.test.tsx (4 tests) 1297ms
+@paperos/web:test:    ✓ placeholder route > renders the template title inside a level-1 heading  948ms
+@paperos/web:test: 
+@paperos/web:test:  Test Files  1 passed (1)
+@paperos/web:test:       Tests  4 passed (4)
+@paperos/web:test:    Start at  02:21:43
+@paperos/web:test:    Duration  31.56s (transform 4.08s, setup 2.95s, collect 18.06s, tests 1.30s, environment 5.90s, prepare 719ms)
+@paperos/web:test: 
+
+ Tasks:    39 successful, 39 total
+Cached:    39 cached, 39 total
+  Time:    168ms >>> FULL TURBO
+
+exit=0
+$ pnpm --filter @paperos/agents typecheck && pnpm --filter @paperos/agents test   # agents' lint is blocked by the pre-existing packages/tokens/biome.json issue; typecheck and test are not
+
+> @paperos/agents@0.1.0 typecheck /workspace/wt/PAP-211/packages/agents
+> tsc --noEmit -p tsconfig.json
+
+typecheck exit=0
+
+> @paperos/agents@0.1.0 test /workspace/wt/PAP-211/packages/agents
+> vitest run --passWithNoTests
+
+
+ RUN  v3.2.7 /workspace/wt/PAP-211/packages/agents
+
+ ✓ |agents| src/schema/schema.test.ts (9 tests) 221ms
+ ✓ |agents| src/schema/property.test.ts (2 tests) 441ms
+   ✓ reportsTo graph properties > a roster whose reportsTo edges form a permutation with at least one cycle is always rejected  329ms
+ ✓ |agents| src/schema/registry.test.ts (7 tests) 55ms
+ ✓ |agents| src/schema/fixtures.test.ts (28 tests) 356ms
+ ✓ |agents| src/schema/inherit.test.ts (5 tests) 10ms
+ ✓ |agents| src/index.test.ts (1 test) 2ms
+ ✓ |agents| src/schema/generated.test.ts (6 tests) 8303ms
+   ✓ generated files are committed and current > fixtures/valid/roster.json is current (gen:fixtures --check)  2769ms
+   ✓ generated files are committed and current > plan.json agents[] converts to 37 characters that agree with the golden fixtures (convert:plan --check)  1966ms
+   ✓ generated files are committed and current > pnpm validate exits 1 on an invalid fixture and 0 on the golden set  3433ms
+
+ Test Files  7 passed (7)
+      Tests  58 passed (58)
+   Start at  02:39:31
+   Duration  11.23s (transform 698ms, setup 0ms, collect 5.09s, tests 9.39s, environment 1ms, prepare 4.85s)
+
+test exit=0

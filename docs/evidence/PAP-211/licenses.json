@@ -1,0 +1,78 @@
+{
+  "checkVersion": 1,
+  "status": "pass",
+  "scanned": 228,
+  "policy": {
+    "version": 1,
+    "issue": "PAP-211",
+    "adr": "0027",
+    "doc": "docs/platform/license-policy.md",
+    "reviewWithoutWaiver": "fail"
+  },
+  "counts": {
+    "violations": 0,
+    "warnings": 0,
+    "notices": 8
+  },
+  "violations": [],
+  "warnings": [],
+  "notices": [
+    {
+      "package": "@electric-sql/pglite",
+      "version": "0.5.8",
+      "license": "Apache-2.0",
+      "context": "bundled",
+      "homepage": "https://pglite.dev"
+    },
+    {
+      "package": "culori",
+      "version": "4.0.2",
+      "license": "MIT",
+      "context": "bundled",
+      "homepage": "https://github.com/Evercoder/culori#readme"
+    },
+    {
+      "package": "drizzle-orm",
+      "version": "0.45.2",
+      "license": "Apache-2.0",
+      "context": "bundled",
+      "homepage": "https://orm.drizzle.team"
+    },
+    {
+      "package": "react",
+      "version": "19.3.0",
+      "license": "MIT",
+      "context": "bundled",
+      "homepage": "https://react.dev/"
+    },
+    {
+      "package": "react-dom",
+      "version": "19.3.0",
+      "license": "MIT",
+      "context": "bundled",
+      "homepage": "https://react.dev/"
+    },
+    {
+      "package": "scheduler",
+      "version": "0.28.0",
+      "license": "MIT",
+      "context": "bundled",
+      "homepage": "https://react.dev/"
+    },
+    {
+      "package": "yaml",
+      "version": "2.9.1",
+      "license": "ISC",
+      "context": "bundled",
+      "homepage": "https://eemeli.org/yaml/"
+    },
+    {
+      "package": "zod",
+      "version": "4.6.5",
+      "license": "MIT",
+      "context": "bundled",
+      "homepage": "https://zod.dev"
+    }
+  ],
+  "generatedAt": "2026-09-19T02:39:54.325Z"
+}

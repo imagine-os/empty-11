@@ -1,0 +1,17 @@
+$ pnpm vitest run --config ops/licenses/vitest.config.mjs
+
+ RUN  v3.2.7 /workspace/wt/PAP-211/ops/licenses
+
+ ✓ |licenses| __tests__/inventory.test.mjs (10 tests) 128ms
+ ✓ |licenses| __tests__/check.test.mjs (10 tests) 38ms
+ ✓ |licenses| __tests__/policy.test.mjs (18 tests) 189ms
+ ✓ |licenses| __tests__/classify.test.mjs (13 tests) 73ms
+ ✓ |licenses| __tests__/yaml-lite.test.mjs (3 tests) 18ms
+ ✓ |licenses| __tests__/spdx.test.mjs (8 tests) 27ms
+ ✓ |licenses| __tests__/notices.test.mjs (2 tests) 10ms
+
+ Test Files  7 passed (7)
+      Tests  64 passed (64)
+   Start at  02:40:19
+   Duration  6.37s (transform 1.36s, setup 0ms, collect 2.17s, tests 483ms, environment 8ms, prepare 4.20s)
+

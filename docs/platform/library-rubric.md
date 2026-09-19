@@ -227,7 +227,7 @@ place so the rubric never drifts from CI:
 
 ```
 ops/licenses/policy.yaml        # PAP-211, source of truth
-docs/libraries/license-policy.md # the prose
+docs/platform/license-policy.md # the prose
 ```
 
 `pnpm lib score` loads `ops/licenses/policy.yaml` when it exists and resolves

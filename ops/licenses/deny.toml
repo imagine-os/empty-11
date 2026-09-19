@@ -1,0 +1,69 @@
+# cargo-deny configuration — the Rust half of the PaperOS licence policy.
+# Source of truth is ops/licenses/policy.yaml (PAP-211, ADR 0027); this file
+# mirrors it for crates. Change a tier THERE first, then mirror it here and say
+# so in the commit; ops/licenses/__tests__/deny-toml.test.mjs fails when the two
+# allow lists drift apart.
+#
+#   cargo deny --config ops/licenses/deny.toml check licenses
+#
+# There is no Cargo.lock in the template yet (the Tauri shell is PAP-19). The
+# `licenses` CI job skips this step when no Cargo.lock exists rather than
+# failing, so the step is wired now and starts working the day Rust lands —
+# no second pass to remember.
+
+[graph]
+all-features = true
+
+[licenses]
+# Every licence PaperOS accepts without paperwork. Same list as
+# policy.yaml `tiers.allow`, in SPDX form. A crate outside this list fails, so
+# adding one is a deliberate act reviewed against the policy.
+allow = [
+  "MIT",
+  "MIT-0",
+  "Apache-2.0",
+  "BSD-2-Clause",
+  "BSD-3-Clause",
+  "BSD-3-Clause-Clear",
+  "ISC",
+  "0BSD",
+  "Unlicense",
+  "CC0-1.0",
+  "Zlib",
+  "BlueOak-1.0.0",
+  "Python-2.0",
+  "PSF-2.0",
+  "MPL-2.0",
+  "OFL-1.1",
+  "CC-BY-4.0",
+  "CC-BY-3.0",
+  "Artistic-2.0",
+  "BSL-1.0",
+]
+
+# A crate whose licence cannot be determined from its metadata needs its text
+# read at this confidence before it counts; below it, the crate is unlicensed
+# and fails — policy.yaml `missingTier: deny`.
+confidence-threshold = 0.93
+unused-allowed-license = "allow"
+
+# `Apache-2.0 WITH LLVM-exception` is allow tier (policy.yaml). Every other
+# `WITH` clause, and Commons Clause in particular, is judged on its own.
+exceptions = []
+
+[[licenses.clarify]]
+# Template: how a per-crate waiver is recorded. Mirrors the waiver schema in
+# ops/licenses/waivers.yaml — package, version range, licence, reason, expiry —
+# but cargo-deny has no expiry field, so an entry here MUST have a matching
+# `crate:<name>` waiver in waivers.yaml that does. Nothing is clarified today.
+name = "ring"
+expression = "MIT AND ISC AND OpenSSL"
+license-files = [{ path = "LICENSE", hash = 0xbd0eed23 }]
+
+[bans]
+multiple-versions = "warn"
+
+[advisories]
+# Vulnerability scanning is PAP-80, not PAP-211. Kept explicit so nobody reads
+# the silence as "advisories are covered here".
+version = 2

@@ -228,9 +228,11 @@
   "factFreshness": { "warnAfterDays": 7, "failAfterDays": null, "unknownValue": "unknown" },
   "licensePolicy": {
     "source": "ops/licenses/policy.yaml",
-    "prose": "docs/libraries/license-policy.md",
+    "prose": "docs/platform/license-policy.md",
     "issue": "PAP-211",
+    "status": "merged",
     "fallback": "draftTiers",
+    "draftTiersSupersededBy": "ops/licenses/policy.yaml — PAP-211 merged, so the fallback below is dead data; removing it is PAP-1013",
     "onFallback": "print 'license policy: draft (PAP-211 unmerged)' and set facts.licensePolicySource = 'draft'",
     "contexts": ["bundled", "server", "dev", "service"],
     "draftTiers": {

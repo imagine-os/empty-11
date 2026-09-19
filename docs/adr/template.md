@@ -108,6 +108,6 @@ this file then becomes `Superseded by <nnnn>` with `supersededBy` set. Reverting
 
 - Linear issue: PAP-000
 - Rubric: `docs/platform/library-rubric.md`; machine-readable: `packages/agents/src/rubric/library-rubric.json`
-- License policy: `docs/libraries/license-policy.md`, `ops/licenses/policy.yaml` (PAP-211)
+- License policy: `docs/platform/license-policy.md`, `ops/licenses/policy.yaml` (PAP-211)
 - Registry entry: `docs/libraries/registry/<id>.yaml` (PAP-216)
 - Prior art, benchmarks, upstream issues: links
