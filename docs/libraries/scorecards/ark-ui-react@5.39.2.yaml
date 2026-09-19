@@ -48,6 +48,6 @@ gates:
   vendorNoSelfHost: { result: pass, evidence: "npm package" }
   openAdvisory: { result: pass, evidence: "pnpm audit, 0 advisories, 2026-09-19" }
 total: 81 # 16+16+6+9+9+9+3.75+7.5+5 = 81.25
-migrationCostHours: 28 # broadest inventory of the five (splitter and tree view included); cost is wrapper ceremony, not missing parts
+migrationCostHours: 28 # broadest inventory of the five (splitter, tree view, drawer); cost is wrapper ceremony, not missing parts
 verdict: adopt
 decision: not-chosen # ADR 0029

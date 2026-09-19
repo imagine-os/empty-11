@@ -149,8 +149,8 @@ genuinely good way to encode WAI-ARIA. It loses on three small things that add u
 errors at our settings, the thinnest in-weights coverage of the five (a session will fetch docs for
 every non-trivial use), and a collection API that is more ceremony than Base UI's. Its
 multi-framework reach — React, Vue, Svelte, Solid — is value PaperOS does not need. Recorded in
-its favour, though: it has the **broadest inventory of the five**, including a splitter and a tree
-view nobody else ships, so it is the first place to look when a gap appears.
+its favour, though: it has the **broadest inventory of the five** — the only splitter, and a tree
+view only React Aria also has — so it is the first place to look when a gap appears.
 *The fact that would change the answer:* PaperOS needing a non-React surface.
 
 **Quick rejects** (one paragraph each in the research doc §7): **Headless UI** (half of PAP-67's

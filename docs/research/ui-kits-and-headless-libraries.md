@@ -135,7 +135,8 @@ clean, which is stronger evidence than the docs.
 own recipe, is Radix Popover plus `cmdk`, which is what the spike measured; `cmdk` does not
 virtualize, so the 5,000-option requirement means TanStack Virtual on top. Base UI has no calendar,
 so dates come from somewhere else whatever we pick. Everything else is closer than the reputations
-suggest: Ark has the broadest inventory of the five (a splitter and a tree view nobody else ships),
+suggest: Ark has the broadest inventory of the five (the only splitter, and a tree
+view only React Aria also has),
 and Radix is thinner than expected only in combobox, number field and drawer. Full list:
 [`docs/libraries/primitives-gaps.md`](../libraries/primitives-gaps.md).
 
