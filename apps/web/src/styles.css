@@ -83,6 +83,23 @@ body {
   overflow-wrap: anywhere;
 }
 
+/* The example nav slot fill (AppNav.tsx). Real design-system nav spacing/tokens land with PAP-66/74. */
+.paperos-app-nav {
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 2vw, 2rem);
+}
+
+.paperos-app-nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+.paperos-panel {
+  padding: 1rem;
+}
+
 /* Focus is always visible, for keyboard, TV remote and gamepad d-pad alike. */
 :focus-visible {
   outline: 3px solid var(--paperos-accent);

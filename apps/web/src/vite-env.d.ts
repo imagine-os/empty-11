@@ -8,3 +8,14 @@ interface ImportMetaEnv {
 interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
+
+/**
+ * `vite-plugin-paperos-specs` (`../vite-plugin-paperos-specs.ts`) transforms
+ * a `*.spec.yaml` import into its parsed, validated `PageSpec` (PAP-114).
+ */
+declare module '*.spec.yaml' {
+  import type { PageSpec } from '@paperos/spec';
+
+  const spec: PageSpec;
+  export default spec;
+}

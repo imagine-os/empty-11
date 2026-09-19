@@ -15,13 +15,17 @@
   },
   "dependencies": {
     "@paperos/core": "workspace:*",
+    "@paperos/spec": "workspace:*",
     "@paperos/ui": "workspace:*",
+    "@tanstack/react-router": "^1.170.0",
     "react": "catalog:",
-    "react-dom": "catalog:"
+    "react-dom": "catalog:",
+    "yaml": "^2.9.1"
   },
   "devDependencies": {
     "@biomejs/biome": "catalog:",
     "@paperos/config-ts": "workspace:*",
+    "@tanstack/router-plugin": "^1.168.0",
     "@testing-library/dom": "catalog:",
     "@testing-library/jest-dom": "catalog:",
     "@testing-library/react": "catalog:",

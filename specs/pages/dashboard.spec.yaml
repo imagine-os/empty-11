@@ -1,0 +1,40 @@
+# yaml-language-server: $schema=../../packages/spec/schema/page.spec.schema.json
+# Example page spec (PAP-16 fixture #2): authenticated route, sidebar + inspector.
+meta:
+  id: dashboard
+  title: dashboard.title
+  route: /dashboard
+  surface: developer
+  owner: app-shell
+  status: draft
+  specVersion: 1
+purpose:
+  summary: A developer previews the router/shell example — nav, a sidebar filter panel and an inspector panel, neither wired to real data yet.
+logic:
+  actions:
+    refresh:
+      intent: dashboard.action.refresh
+      permission: public
+      steps:
+        - Re-run the dashboard's (placeholder) data query.
+      status: not-wired
+layout:
+  template: app
+  slots:
+    nav: {}
+    sidebar: {}
+    inspector:
+      collapsible: true
+      defaultCollapsed: true
+components:
+  - id: app.appNav
+    key: appNav
+    slot: nav
+  - id: app.dashboardFilters
+    key: dashboardFilters
+    slot: sidebar
+    status: not-wired
+  - id: app.dashboardInspector
+    key: dashboardInspector
+    slot: inspector
+    status: not-wired

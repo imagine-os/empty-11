@@ -1,0 +1,233 @@
+/*
+ * `<AppShell>` layout, tokens and a11y baseline.
+ *
+ * Interim tokens: PAP-66 (design tokens) replaces these custom properties;
+ * this file only needs to look coherent and pass the responsive/contrast/
+ * focus/target-size bar until then. Breakpoints mirror `../devices/matrix.ts`
+ * (PAP-14): xs 360, sm 390, md 768, lg 1280, xl 1920, 2xl 2560, 3xl 3840.
+ */
+
+:root {
+  --paperos-shell-bg: #f7f7f8;
+  --paperos-shell-fg: #16171a;
+  --paperos-shell-border: #d7d8dc;
+  --paperos-shell-accent: #2f5fff;
+  --paperos-shell-surface: #ffffff;
+  --paperos-shell-nav-h: 56px;
+  --paperos-shell-statusbar-h: 32px;
+  --paperos-shell-sidebar-w: min(280px, 80vw);
+  --paperos-shell-inspector-w: min(360px, 90vw);
+  --paperos-shell-focus-ring: 0 0 0 3px var(--paperos-shell-accent);
+  --paperos-shell-font-size: clamp(0.9375rem, 0.85rem + 0.2vw, 1.0625rem);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paperos-shell-bg: #121317;
+    --paperos-shell-fg: #f1f2f4;
+    --paperos-shell-border: #33343a;
+    --paperos-shell-accent: #7fa2ff;
+    --paperos-shell-surface: #1b1c21;
+  }
+}
+
+:root[data-theme="dark"] {
+  --paperos-shell-bg: #121317;
+  --paperos-shell-fg: #f1f2f4;
+  --paperos-shell-border: #33343a;
+  --paperos-shell-accent: #7fa2ff;
+  --paperos-shell-surface: #1b1c21;
+}
+
+/* 10-foot legibility at the 3xl tier (device-matrix §7: min 24px body text). */
+@media (min-width: 3840px) {
+  :root {
+    --paperos-shell-font-size: 24px;
+    --paperos-shell-nav-h: 84px;
+  }
+}
+
+html,
+body {
+  background: var(--paperos-shell-bg);
+  color: var(--paperos-shell-fg);
+  min-width: 360px; /* below xs: scroll horizontally rather than overlap (edge case) */
+}
+
+.paperos-shell {
+  font-size: var(--paperos-shell-font-size);
+  min-height: 100dvh;
+  display: grid;
+  grid-template-areas:
+    "nav nav nav"
+    "sidebar main inspector"
+    "statusbar statusbar statusbar";
+  grid-template-rows: var(--paperos-shell-nav-h) 1fr var(--paperos-shell-statusbar-h);
+  grid-template-columns: auto minmax(0, 1fr) auto;
+}
+
+.paperos-shell__nav {
+  grid-area: nav;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding-inline: 1rem;
+  border-bottom: 1px solid var(--paperos-shell-border);
+  background: var(--paperos-shell-surface);
+}
+
+.paperos-shell__statusbar {
+  grid-area: statusbar;
+  display: flex;
+  align-items: center;
+  padding-inline: 1rem;
+  border-top: 1px solid var(--paperos-shell-border);
+  background: var(--paperos-shell-surface);
+  font-size: 0.85em;
+}
+
+.paperos-shell__main {
+  grid-area: main;
+  min-width: 0;
+  padding: 1rem;
+  outline: none;
+}
+
+.paperos-shell__sidebar,
+.paperos-shell__inspector {
+  background: var(--paperos-shell-surface);
+  overflow-y: auto;
+}
+
+.paperos-shell__sidebar {
+  grid-area: sidebar;
+  width: var(--paperos-shell-sidebar-w);
+  border-right: 1px solid var(--paperos-shell-border);
+}
+
+.paperos-shell__inspector {
+  grid-area: inspector;
+  width: var(--paperos-shell-inspector-w);
+  border-left: 1px solid var(--paperos-shell-border);
+}
+
+/* Drawer mode: the panel overlays instead of taking a grid track. */
+.paperos-shell__sidebar[data-mode="drawer"],
+.paperos-shell__inspector[data-mode="drawer"] {
+  position: fixed;
+  inset-block: var(--paperos-shell-nav-h) var(--paperos-shell-statusbar-h);
+  z-index: 20;
+  box-shadow: 0 0 0 100vmax rgb(0 0 0 / 35%); /* dims the rest of the page like a scrim */
+}
+
+.paperos-shell__sidebar[data-mode="drawer"] {
+  inset-inline-start: 0;
+}
+
+.paperos-shell__inspector[data-mode="drawer"] {
+  inset-inline-end: 0;
+}
+
+/*
+ * Below `md` (768), both sidebar and inspector can be drawers at once
+ * (`data-sidebar-mode="drawer"` and `data-inspector-mode="drawer"` together).
+ * Their default widths overlap in the middle at these widths (280px + 360px
+ * on a 360-767px viewport); go full-width instead, so an overlap is a clean
+ * "the later drawer covers the earlier one", not interleaved text from both.
+ */
+@media (max-width: 767px) {
+  .paperos-shell__sidebar[data-mode="drawer"],
+  .paperos-shell__inspector[data-mode="drawer"] {
+    width: 100%;
+    inset-inline: 0;
+  }
+}
+
+.paperos-shell[data-sidebar-mode="drawer"] {
+  grid-template-columns: 0 minmax(0, 1fr) auto;
+}
+
+.paperos-shell[data-inspector-mode="drawer"] {
+  grid-template-columns: auto minmax(0, 1fr) 0;
+}
+
+.paperos-shell[data-sidebar-mode="drawer"][data-inspector-mode="drawer"] {
+  grid-template-columns: 0 minmax(0, 1fr) 0;
+}
+
+.paperos-shell__commandbar-trigger {
+  position: fixed;
+  inset-block-end: calc(var(--paperos-shell-statusbar-h) + 0.75rem);
+  inset-inline-end: 0.75rem;
+  z-index: 30;
+}
+
+.paperos-skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+  background: var(--paperos-shell-surface);
+  color: var(--paperos-shell-fg);
+  padding: 0.5rem 1rem;
+}
+
+.paperos-skip-link:focus {
+  left: 0.5rem;
+  top: 0.5rem;
+}
+
+.paperos-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Every input: keyboard/mouse/trackpad/touch/pen/remote focus is always visible. */
+:focus-visible {
+  outline: none;
+  box-shadow: var(--paperos-shell-focus-ring);
+}
+
+/* 44px minimum targets (org standard). */
+button,
+a,
+[role="button"] {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+.paperos-not-wired {
+  outline: 2px dashed color-mix(in srgb, var(--paperos-shell-accent) 60%, transparent);
+  outline-offset: 2px;
+}
+
+.paperos-toast-viewport {
+  position: fixed;
+  inset-block-end: 1rem;
+  inset-inline-start: 50%;
+  transform: translateX(-50%);
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.paperos-toast {
+  background: var(--paperos-shell-fg);
+  color: var(--paperos-shell-bg);
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.9em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms;
+    animation-iteration-count: 1;
+    transition-duration: 0.001ms;
+  }
+}

@@ -1,0 +1,20 @@
+# yaml-language-server: $schema=../../packages/spec/schema/page.spec.schema.json
+# Example page spec (PAP-16 fixture #1): public home route, nav only.
+meta:
+  id: home
+  title: home.title
+  route: /
+  surface: public
+  owner: app-shell
+  status: draft
+  specVersion: 1
+purpose:
+  summary: A visitor lands on the template's home page and finds the example dashboard and settings routes.
+layout:
+  template: public
+  slots:
+    nav: {}
+components:
+  - id: app.appNav
+    key: appNav
+    slot: nav

@@ -3,12 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Contract-zero primitives: pure TypeScript, no React, no database.",
+  "description": "Contract-zero primitives: pure TypeScript, no database. `shell/` is the one documented exception that needs React — see README.md.",
   "exports": {
     ".": "./src/index.ts",
     "./events": "./src/events/index.ts",
     "./events/testing": "./src/events/testing.ts",
-    "./filter": "./src/filter/index.ts"
+    "./filter": "./src/filter/index.ts",
+    "./shell": "./src/shell/index.ts",
+    "./shell/shell.css": "./src/shell/shell.css"
   },
   "main": "./src/index.ts",
   "types": "./src/index.ts",
@@ -24,14 +26,27 @@
     "events:catalogue": "tsx ../../scripts/events-catalogue.ts"
   },
   "dependencies": {
+    "@tanstack/react-router": "^1.170.0",
     "drizzle-orm": "^0.45.2",
     "zod": "^4.6.5"
+  },
+  "peerDependencies": {
+    "react": "catalog:"
   },
   "devDependencies": {
     "@biomejs/biome": "catalog:",
     "@electric-sql/pglite": "^0.5.8",
     "@paperos/config-ts": "workspace:*",
+    "@testing-library/dom": "catalog:",
+    "@testing-library/jest-dom": "catalog:",
+    "@testing-library/react": "catalog:",
+    "@types/node": "catalog:",
+    "@types/react": "catalog:",
+    "@vitejs/plugin-react": "catalog:",
     "fast-check": "^4.10.1",
+    "jsdom": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:",
     "tsx": "^4.23.13",
     "typescript": "catalog:",
     "vitest": "catalog:"

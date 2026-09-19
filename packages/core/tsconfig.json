@@ -1,7 +1,8 @@
 {
-  "extends": "@paperos/config-ts/base.json",
+  "extends": "@paperos/config-ts/react.json",
   "compilerOptions": {
     "baseUrl": ".",
+    "types": [],
     "paths": {
       "@paperos/contract-*": ["../contracts/*/src"],
       "@paperos/*": ["../*/src"]

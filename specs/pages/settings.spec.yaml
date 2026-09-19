@@ -1,0 +1,33 @@
+# yaml-language-server: $schema=../../packages/spec/schema/page.spec.schema.json
+# Example page spec (PAP-16 fixture #3): authenticated route nested under _app, sidebar only.
+meta:
+  id: settings
+  title: settings.title
+  route: /settings
+  surface: developer
+  owner: app-shell
+  status: draft
+  specVersion: 1
+purpose:
+  summary: A developer previews a nested authenticated route with its own sidebar section list, not wired to real settings yet.
+logic:
+  actions:
+    save:
+      intent: settings.action.save
+      permission: public
+      steps:
+        - Persist the (placeholder) settings form.
+      status: not-wired
+layout:
+  template: app
+  slots:
+    nav: {}
+    sidebar: {}
+components:
+  - id: app.appNav
+    key: appNav
+    slot: nav
+  - id: app.settingsNav
+    key: settingsNav
+    slot: sidebar
+    status: not-wired

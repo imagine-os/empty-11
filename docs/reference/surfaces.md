@@ -13,7 +13,8 @@ or `-`), **Status** (`live`, `stub`, `planned`).
 | CLI | `pnpm check` — lint, typecheck, test and build the whole workspace | PAP-13 | - | live |
 | CLI | `pnpm dev` — run `apps/web` on :5173 with hot reload | PAP-13 | - | live |
 | CLI | `pnpm build` — build every app; `BASE_PATH` and `VITE_GIT_SHA` are the build inputs | PAP-13 | - | live |
-| WebMCP | page actions registry (id, intent phrase, permission) per page | PAP-16 | per action | planned |
+| WebMCP | page actions registry (id, intent phrase, permission) per page — `useSpecLayout(spec)` reads a page spec's `logic.actions` (PAP-114) and aggregates every mounted page's actions onto `window.__paperos.actions` in dev mode; this is the dev-time registry, not yet a callable MCP tool endpoint (that is `agentCallable`/PAP-291, row below) | PAP-16 | per action | live (dev-mode aggregation); tool endpoint planned (PAP-291) |
+| API | `@paperos/core/shell`: `AppShell`, `Slot`, `registerSlot`, `useLayout`, `useSpecLayout`, `useSpec`, `useShellSearch`, `useBreakpoint`, `NotWiredYet`/`ToastProvider`, the slot registry (`SlotName`, `RouteStaticData`, `ShellSearch`) | PAP-16 | - | live |
 | MCP | connector catalog | PAP-210 | per connector | planned |
 | CLI | `node ops/ci/compose-smoke/discover.mjs` — finds compose stacks under `ops/compose/**` and `spikes/oss-products/*` that ship a `smoke.json`, prints the CI job matrix | PAP-754 | - | live |
 | CLI | `node ops/ci/compose-smoke/probe.mjs --url <url>` — polls a health endpoint until it answers or a timeout elapses | PAP-754 | - | live |
@@ -57,16 +58,18 @@ or `-`), **Status** (`live`, `stub`, `planned`).
 | CLI | `pnpm --filter @paperos/tokens tokens:lint` — DTCG schema (kebab names), alias resolvability, cycle detection, unused alias-only primitives | PAP-66 | - | live |
 | CLI | `pnpm --filter @paperos/tokens tokens:check` — WCAG contrast assertions (`fg.default` 4.5:1, `fg.muted` 3:1, status and on-accent pairs) across light/dark/hc; `--report <path>` writes the JSON the evidence swatch page reads | PAP-66 | - | live |
 
-The placeholder route declares no actions: it has no controls. The first page with a control adds
-its actions registry and its rows here; the shape it declares against is the `Action` row above
+PAP-16 replaced the placeholder route with the router and three example pages, each with its own
+actions registry entries (rows below); the shape they declare against is the `Action` row above
 (PAP-150, [`docs/platform/input-events.md`](../platform/input-events.md) section 5).
 | CLI | `pnpm --filter @paperos/spec gen:schemas` — regenerate `packages/spec/schema/page.spec.schema.json` and `docs/platform/page-spec.md` from the Zod schema; `gen:schemas:check` exits 1 when stale (drift test also runs in `pnpm test`) | PAP-114 | - | live |
 | CLI | `pnpm --filter @paperos/spec parse <file.spec.yaml>` — parse and validate one page spec, print every issue with code, path, line:col and hint; exit 0 clean, 1 errors, 2 usage. Smoke tool; PAP-115 ships `paperos-spec validate` | PAP-114 | - | stub (one-file demo CLI) |
 | API | `@paperos/spec`: `parseSpec(yaml, { filename?, knownRoutes? })`, `validatePageSpec(object)`, `PageSpecSchema`, `pageActions(spec)`, `notWiredComponents(spec)`, `migrateSpec(doc)`, `buildPageJsonSchema()` | PAP-114 | - | live |
 | Action | `logic.actions.<id>` in every `specs/pages/<page>.spec.yaml` — the per-page actions registry (`intent` message key, `permission`, `input`, `status`); `pageActions()` flattens to `<page>.<action>` for the WebMCP surface and the voice controller | PAP-114 | per action (`permission`) | live (schema); consumers PAP-16 / WebMCP planned |
 
-The placeholder route declares no actions: it has no controls. Page actions are declared in the page
-specs (`logic.actions`, PAP-114): `specs/pages/customer-invoices.spec.yaml` declares `openInvoice`,
-`payInvoice`, `downloadPdf` (not wired), `retryLoad`; `specs/pages/staff-settings.spec.yaml` declares
-`inviteMember`, `changeRole`, `removeMember`, `saveBranding` (not wired), `toggleModule`, `retryLoad`.
-They become live WebMCP abilities when PAP-16 mounts the registry.
+Page actions are declared in the page specs (`logic.actions`, PAP-114):
+`specs/pages/customer-invoices.spec.yaml` declares `openInvoice`, `payInvoice`, `downloadPdf` (not
+wired), `retryLoad`; `specs/pages/staff-settings.spec.yaml` declares `inviteMember`, `changeRole`,
+`removeMember`, `saveBranding` (not wired), `toggleModule`, `retryLoad`; PAP-16's three example specs
+(`specs/pages/{home,dashboard,settings}.spec.yaml`) declare `refresh` and `save` (both not wired).
+PAP-16 mounts the registry (`useSpecLayout`, dev-mode `window.__paperos.actions`); a full WebMCP tool
+endpoint is PAP-291.
