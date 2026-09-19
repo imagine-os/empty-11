@@ -1,6 +1,6 @@
 # Payroll provider research: Check, Gusto Embedded, Deel, Rippling
 
-**PAP-176** — Research payroll APIs for embeddability and pricing; feeds the `PayrollProvider` interface (PAP-184) and its adapter children (PAP-398/399/400). Builder: Ledger (Payroll Adapter), with Scout (Library Evaluator) co-authoring. Model: Sonnet 5 (`claude-sonnet-5`) / medium. Access date for every citation below: **2026-09-19**, via public marketing pages and public docs sites (no account, no signed agreement, no API key was created or requested).
+**PAP-176** — Research payroll APIs for embeddability and pricing; feeds the `PayrollProvider` interface (PAP-184) and its adapter children (PAP-398/399/400). Builder: Ledger (Payroll Adapter), with Scout (Library Evaluator) co-authoring. Access date for every citation below: **2026-09-19**, via public marketing pages and public docs sites (no account, no signed agreement, no API key was created or requested).
 
 ## Method
 
