@@ -67,7 +67,7 @@
       "owner": "identity",
       "optional": false,
       "issues": ["PAP-55"],
-      "present": false
+      "present": true
     },
     {
       "id": "packages/core/src/devices",

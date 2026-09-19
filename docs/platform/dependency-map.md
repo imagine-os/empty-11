@@ -133,7 +133,7 @@ None. Every import in the tree is covered by `allowedDeps`.
 | `apps/worker` | runtime | data-layer | no | planned | PAP-43 |
 | `apps/collab-server` | runtime | realtime | no | planned | PAP-140 |
 | `packages/core` | core | app-shell | no | yes | PAP-13 |
-| `packages/core/src/audience` | core | identity | no | planned | PAP-55 |
+| `packages/core/src/audience` | core | identity | no | yes | PAP-55 |
 | `packages/core/src/devices` | core | app-shell | no | yes | PAP-14 |
 | `packages/core/src/events` | core | data-layer | no | yes | PAP-555 |
 | `packages/core/src/filter` | core | data-layer | no | yes | PAP-279 |
