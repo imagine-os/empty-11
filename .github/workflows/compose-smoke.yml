@@ -1,0 +1,236 @@
+# Reusable compose-smoke workflow (PAP-754, ADR 0025).
+#
+# Discovers every compose stack under `ops/compose/**` and
+# `spikes/oss-products/*` that ships a `smoke.json` beside its `compose.yaml`,
+# starts each one with `docker compose up --wait`, polls the health endpoint
+# `smoke.json` names, captures `docker stats`, and uploads one result JSON per
+# stack as an artefact (schema: ops/ci/compose-smoke/lib/result-schema.mjs).
+#
+# Callers:
+#   - `workflow_call`, no required inputs — any workflow (e.g. PAP-295/296/350
+#     spike issues, PAP-253 nightly) can call this as a job.
+#   - `workflow_dispatch` — run it directly from the Actions tab, optionally
+#     against a single compose file for a fast demo:
+#       gh workflow run compose-smoke.yml -f compose-path=ops/compose/example-postgres/compose.yaml
+#
+# See ops/ci/compose-smoke/README.md for the `smoke.json` grammar and the
+# scripts each step below calls.
+name: compose-smoke
+
+on:
+  workflow_call:
+    inputs:
+      compose-path:
+        description: >-
+          Optional single compose file to smoke-test, relative to the repo
+          root (e.g. ops/compose/example-postgres/compose.yaml). Leave empty
+          to run every discovered, non-skipped stack.
+        required: false
+        type: string
+        default: ''
+  workflow_dispatch:
+    inputs:
+      compose-path:
+        description: >-
+          Optional single compose file to smoke-test (see the workflow_call
+          input of the same name). Leave empty to run the full matrix.
+        required: false
+        type: string
+        default: ''
+
+concurrency:
+  group: compose-smoke-${{ github.workflow_ref || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  DO_NOT_TRACK: '1'
+
+jobs:
+  # Builds the job matrix by reading ops/compose/** and spikes/oss-products/*
+  # and each stack's smoke.json. Never touches Docker, so it is cheap and has
+  # its own short timeout.
+  discover:
+    name: discover
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      matrix: ${{ steps.discover.outputs.matrix }}
+      has-entries: ${{ steps.discover.outputs.has-entries }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+
+      - id: discover
+        name: Discover compose-smoke matrix
+        run: |
+          node ops/ci/compose-smoke/discover.mjs \
+            --dispatch-path "${{ inputs.compose-path }}" \
+            --github-output "$GITHUB_OUTPUT"
+
+  # One job per discovered stack, capped hard at 20 minutes (spec: PAP-754).
+  # A stack that does not answer healthy inside that cap fails with
+  # `status: timeout` and its log tail is still uploaded (see "Log tail on
+  # failure" below) — the job failing is what makes the timeout visible to
+  # the caller; it does not fail the rest of the matrix (`fail-fast: false`).
+  smoke:
+    name: smoke (${{ matrix.name }})
+    needs: discover
+    if: needs.discover.outputs.has-entries == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.discover.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+
+      # Edge case (spec): a runner whose disk is full from prior image pulls
+      # fails every later `docker compose up` with a confusing error. Guard
+      # for 15 GB free and prune before pulling if we are under budget.
+      - name: Guard runner disk before pulling images
+        run: |
+          avail_kb=$(df --output=avail -k / | tail -1 | tr -dc '0-9')
+          avail_gb=$((avail_kb / 1024 / 1024))
+          echo "available: ${avail_gb}G"
+          if [ "$avail_gb" -lt 15 ]; then
+            echo "below the 15G guard — pruning unused images/containers"
+            docker system prune -af --volumes || true
+          fi
+
+      - uses: docker/setup-buildx-action@v3
+
+      # Image cache (spec): a warm buildx/GHA cache is what keeps a 2 GB image
+      # (Cal.com, Twenty) inside the 20-minute cap. `docker buildx bake` reads
+      # the compose file directly (one bake target per service) so every
+      # service in a stack shares one cache step instead of one
+      # docker/build-push-action invocation per service.
+      - name: Build images with the GHA cache
+        uses: docker/bake-action@v5
+        continue-on-error: true # stacks that pull a published image only (no build: block) have nothing to bake
+        with:
+          files: ${{ matrix.composePath }}
+          set: |
+            *.cache-from=type=gha,scope=compose-smoke-${{ matrix.name }}
+            *.cache-to=type=gha,mode=max,scope=compose-smoke-${{ matrix.name }}
+
+      - name: docker compose up --wait
+        id: up
+        run: |
+          echo "started-ms=$(date +%s%3N)" >> "$GITHUB_OUTPUT"
+          docker compose -f "${{ matrix.composePath }}" up -d --wait --wait-timeout 600
+
+      - name: Capture idle docker stats
+        if: always() && steps.up.outcome == 'success'
+        run: |
+          mkdir -p compose-smoke
+          docker compose -f "${{ matrix.composePath }}" ps -q \
+            | xargs -r docker stats --no-stream --format '{{json .}}' \
+            > compose-smoke/${{ matrix.name }}.idle-stats.jsonl || true
+
+      # warmupSeconds (smoke.json): some services (Cal.com, Twenty) answer 200
+      # on their HTTP port before their own migrations/seed finish; this is
+      # the same warm-up the spike issues (PAP-215 and children) budget for.
+      - name: Warm-up
+        if: steps.up.outcome == 'success'
+        run: sleep "${{ matrix.warmupSeconds }}"
+
+      - name: Optional load script
+        if: steps.up.outcome == 'success' && matrix.load != ''
+        run: bash "${{ matrix.load }}"
+
+      # No continue-on-error: an unhealthy probe should fail the job (the
+      # visible, per-matrix-entry signal), same as the `up` step timing out.
+      # probe.mjs always writes its GITHUB_OUTPUT lines before exiting, even
+      # on the unhealthy path, so the outputs below are set either way.
+      - name: Health probe
+        id: probe
+        if: always() && steps.up.outcome == 'success'
+        run: |
+          node ops/ci/compose-smoke/probe.mjs \
+            --url "${{ matrix.healthcheck }}" \
+            --timeout-ms 60000 \
+            --interval-ms 2000 \
+            --github-output "$GITHUB_OUTPUT"
+
+      - name: Capture loaded docker stats and image size
+        if: always() && steps.up.outcome == 'success'
+        run: |
+          mkdir -p compose-smoke
+          docker compose -f "${{ matrix.composePath }}" ps -q \
+            | xargs -r docker stats --no-stream --format '{{json .}}' \
+            > compose-smoke/${{ matrix.name }}.loaded-stats.jsonl || true
+          images=$(docker compose -f "${{ matrix.composePath }}" images -q | sort -u)
+          total_bytes=0
+          for image in $images; do
+            size=$(docker image inspect "$image" --format '{{.Size}}' 2>/dev/null || echo 0)
+            total_bytes=$((total_bytes + size))
+          done
+          echo "image-size-mb=$((total_bytes / 1024 / 1024))" >> "$GITHUB_OUTPUT"
+        id: images
+
+      - name: Assemble result JSON
+        if: always()
+        run: |
+          if [ "${{ steps.up.outcome }}" != 'success' ]; then
+            status='timeout'
+            healthy='false'
+          elif [ "${{ steps.probe.outputs.healthy }}" = 'true' ]; then
+            status='ok'
+            healthy='true'
+          else
+            status='unhealthy'
+            healthy='false'
+          fi
+
+          node ops/ci/compose-smoke/build-result.mjs \
+            --name "${{ matrix.name }}" \
+            --started-ms "${{ steps.up.outputs.started-ms || 0 }}" \
+            --healthy "$healthy" \
+            --idle-ram-mb "$(node ops/ci/compose-smoke/aggregate-stats-file.mjs compose-smoke/${{ matrix.name }}.idle-stats.jsonl mem 2>/dev/null || echo null)" \
+            --loaded-ram-mb "$(node ops/ci/compose-smoke/aggregate-stats-file.mjs compose-smoke/${{ matrix.name }}.loaded-stats.jsonl mem 2>/dev/null || echo null)" \
+            --cpu-pct "$(node ops/ci/compose-smoke/aggregate-stats-file.mjs compose-smoke/${{ matrix.name }}.loaded-stats.jsonl cpu 2>/dev/null || echo null)" \
+            --image-size-mb "${{ steps.images.outputs.image-size-mb || 0 }}" \
+            --status "$status" \
+            --out "compose-smoke/${{ matrix.name }}.json"
+
+      - name: Validate result JSON
+        if: always()
+        run: node ops/ci/compose-smoke/validate.mjs --type result "compose-smoke/${{ matrix.name }}.json"
+
+      - name: Log tail on failure
+        if: failure()
+        run: docker compose -f "${{ matrix.composePath }}" logs --tail=200 > "compose-smoke/${{ matrix.name }}.log" 2>&1 || true
+
+      - name: Tear down
+        if: always()
+        run: docker compose -f "${{ matrix.composePath }}" down -v --remove-orphans || true
+
+      - name: Upload artefact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: compose-smoke-${{ matrix.name }}
+          path: |
+            compose-smoke/${{ matrix.name }}.json
+            compose-smoke/${{ matrix.name }}.log
+          if-no-files-found: ignore
+          retention-days: 14
+
+# NOTE on the weekly pull-warm job (spec: "a weekly pull-warm job so a 2 GB
+# image does not time out"): the `docker/bake-action` GHA cache above (7-day
+# GitHub Actions cache retention) covers the common case, and this file stays
+# a plain reusable workflow with no schedule of its own so any caller can run
+# it on any trigger. A dedicated `compose-smoke-warm.yml` that calls this
+# workflow on a weekly `schedule:` is a natural follow-up once a caller
+# (PAP-253 nightly) exists to own that schedule; out of this issue's path
+# list — see ops/ci/compose-smoke/README.md "Follow-ups".

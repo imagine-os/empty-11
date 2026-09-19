@@ -1,0 +1,4 @@
+$ node ops/ci/compose-smoke/probe.mjs --url http://127.0.0.1:1/ --timeout-ms 3000 --interval-ms 500
+[probe] polling http://127.0.0.1:1/ (timeout 3000ms, interval 500ms)
+{"healthy":false,"elapsedMs":3002,"attempts":7,"lastError":"fetch failed"}
+exit code: 1

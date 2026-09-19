@@ -1,0 +1,35 @@
+# Example compose-smoke target (PAP-754). A minimal, two-service stack that
+# exercises the reusable workflow end to end: a database with Docker's own
+# `healthcheck` (gates `docker compose up --wait`) plus a tiny HTTP admin UI
+# that `smoke.json`'s `healthcheck` field can poll, since compose-smoke's
+# probe needs an HTTP endpoint and Postgres itself does not speak HTTP.
+#
+# Not a real PaperOS service: real dev-stack compose files land under
+# ops/compose/ as those services (Postgres, MinIO, Hocuspocus, the API, the
+# worker) are built. This one exists so compose-smoke has something to run.
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_PASSWORD: paperos
+      POSTGRES_DB: paperos
+    ports:
+      - '5432:5432'
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  adminer:
+    image: adminer:4
+    ports:
+      - '8080:8080'
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ['CMD', 'wget', '-q', '-O', '-', 'http://localhost:8080/']
+      interval: 5s
+      timeout: 3s
+      retries: 10

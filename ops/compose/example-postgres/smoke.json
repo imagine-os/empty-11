@@ -1,0 +1,5 @@
+{
+  "healthcheck": "http://localhost:8080/",
+  "warmupSeconds": 15,
+  "ramBudgetMb": 256
+}
