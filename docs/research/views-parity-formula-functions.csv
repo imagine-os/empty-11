@@ -1,0 +1,130 @@
+name,airtable_name,notion_name,category,signature,tier,paperos_status
+CONCAT,CONCATENATE,concat,text,"concat(text, text, ...) -> text",P0,planned
+JOIN,ARRAYJOIN,join,array,"join(list, separator) -> text",P0,planned
+LEN,LEN,length,text,len(text) -> number,P0,planned
+LOWER,LOWER,lower,text,lower(text) -> text,P0,planned
+UPPER,UPPER,upper,text,upper(text) -> text,P0,planned
+TRIM,TRIM,trim,text,trim(text) -> text,P0,planned
+LEFT,LEFT,substring,text,"left(text, count) -> text",P0,planned
+RIGHT,RIGHT,substring,text,"right(text, count) -> text",P0,planned
+MID,MID,substring,text,"mid(text, start, count) -> text",P0,planned
+SUBSTRING,-,substring,text,"substring(text, start, end?) -> text",P1,planned
+FIND,FIND,find,text,"find(needle, haystack, start?) -> number",P0,planned
+SEARCH,SEARCH,find,text,"search(needle, haystack, start?) -> number | null",P1,planned
+REPLACE,REPLACE,replace,text,"replace(text, start, count, replacement) -> text",P1,planned
+SUBSTITUTE,SUBSTITUTE,replaceAll,text,"substitute(text, old, new, occurrence?) -> text",P0,planned
+REPT,REPT,repeat,text,"rept(text, count) -> text",P1,planned
+CONTAINS,-,contains,text,"contains(text, needle) -> boolean",P0,planned
+STARTS_WITH,-,test,text,"starts_with(text, prefix) -> boolean",P1,planned
+ENDS_WITH,-,test,text,"ends_with(text, suffix) -> boolean",P1,planned
+ENCODE_URL_COMPONENT,ENCODE_URL_COMPONENT,-,text,encode_url_component(text) -> text,P1,planned
+T,T,-,text,t(value) -> text,P1,planned
+VALUE,VALUE,toNumber,number,value(text) -> number,P0,planned
+FORMAT,-,format,text,format(value) -> text,P1,planned
+FORMAT_NUMBER,-,formatNumber,text,"format_number(number, pattern) -> text",P1,planned
+LINK,-,link,text,"link(label, url) -> richtext",P1,planned
+STYLE,-,style,text,"style(text, ...styles) -> richtext",P1,planned
+UNSTYLE,-,unstyle,text,unstyle(richtext) -> text,P1,planned
+MATCH,-,match,text,"match(text, pattern) -> list",P1,planned
+TEST,-,test,text,"test(text, pattern) -> boolean",P1,planned
+SPLIT,-,split,array,"split(text, separator) -> list",P1,planned
+REGEX_MATCH,REGEX_MATCH,test,regex,"regex_match(text, pattern) -> boolean",P2,planned
+REGEX_EXTRACT,REGEX_EXTRACT,match,regex,"regex_extract(text, pattern) -> text",P2,planned
+REGEX_REPLACE,REGEX_REPLACE,replaceAll,regex,"regex_replace(text, pattern, replacement) -> text",P2,planned
+ABS,ABS,abs,number,abs(number) -> number,P0,planned
+ROUND,ROUND,round,number,"round(number, digits?) -> number",P0,planned
+ROUNDUP,ROUNDUP,ceil,number,"roundup(number, digits?) -> number",P0,planned
+ROUNDDOWN,ROUNDDOWN,floor,number,"rounddown(number, digits?) -> number",P0,planned
+CEILING,CEILING,ceil,number,"ceiling(number, significance?) -> number",P0,planned
+FLOOR,FLOOR,floor,number,"floor(number, significance?) -> number",P0,planned
+INT,INT,floor,number,int(number) -> number,P1,planned
+MOD,MOD,mod,number,"mod(number, divisor) -> number",P0,planned
+POWER,POWER,pow,number,"power(base, exponent) -> number",P0,planned
+SQRT,SQRT,sqrt,number,sqrt(number) -> number,P0,planned
+CBRT,-,cbrt,number,cbrt(number) -> number,P1,planned
+EXP,EXP,exp,number,exp(number) -> number,P1,planned
+LOG,LOG,log10,number,"log(number, base?) -> number",P1,planned
+LN,-,ln,number,ln(number) -> number,P1,planned
+LOG2,-,log2,number,log2(number) -> number,P1,planned
+SIGN,-,sign,number,sign(number) -> number,P1,planned
+EVEN,EVEN,-,number,even(number) -> number,P1,planned
+ODD,ODD,-,number,odd(number) -> number,P1,planned
+SUM,SUM,sum,number,"sum(number, ...) -> number",P0,planned
+AVERAGE,AVERAGE,mean,number,"average(number, ...) -> number",P0,planned
+MEDIAN,-,median,number,"median(number, ...) -> number",P1,planned
+MIN,MIN,min,number,"min(number, ...) -> number",P0,planned
+MAX,MAX,max,number,"max(number, ...) -> number",P0,planned
+COUNT,COUNT,length,number,"count(value, ...) -> number",P0,planned
+COUNTA,COUNTA,length,number,"counta(value, ...) -> number",P0,planned
+COUNTALL,COUNTALL,length,number,"countall(value, ...) -> number",P1,planned
+PI,-,pi,number,pi() -> number,P1,planned
+E,-,e,number,e() -> number,P1,planned
+IF,IF,if,logic,"if(condition, then, else) -> any",P0,planned
+IFS,-,ifs,logic,"ifs(condition, then, ..., else) -> any",P1,planned
+SWITCH,SWITCH,ifs,logic,"switch(expr, pattern, result, ..., default?) -> any",P0,planned
+AND,AND,and,logic,"and(boolean, ...) -> boolean",P0,planned
+OR,OR,or,logic,"or(boolean, ...) -> boolean",P0,planned
+NOT,NOT,not,logic,not(boolean) -> boolean,P0,planned
+XOR,XOR,-,logic,"xor(boolean, ...) -> boolean",P1,planned
+TRUE,TRUE,true,logic,true() -> boolean,P0,planned
+FALSE,FALSE,false,logic,false() -> boolean,P0,planned
+BLANK,BLANK,empty,logic,blank() -> null,P0,planned
+IS_EMPTY,-,empty,logic,is_empty(value) -> boolean,P0,planned
+ISERROR,ISERROR,-,logic,iserror(value) -> boolean,P1,planned
+ERROR,ERROR,-,logic,error(message?) -> error,P1,planned
+EQUAL,-,equal,logic,"equal(a, b) -> boolean",P0,planned
+UNEQUAL,-,unequal,logic,"unequal(a, b) -> boolean",P1,planned
+NOW,NOW,now,date,now() -> datetime,P0,planned
+TODAY,TODAY,today,date,today() -> date,P0,planned
+DATEADD,DATEADD,dateAdd,date,"dateadd(date, count, unit) -> datetime",P0,planned
+DATESUBTRACT,DATEADD,dateSubtract,date,"datesubtract(date, count, unit) -> datetime",P1,planned
+DATETIME_DIFF,DATETIME_DIFF,dateBetween,date,"datetime_diff(a, b, unit) -> number",P0,planned
+DATETIME_FORMAT,DATETIME_FORMAT,formatDate,date,"datetime_format(date, pattern) -> text",P0,planned
+DATETIME_PARSE,DATETIME_PARSE,parseDate,date,"datetime_parse(text, pattern?) -> datetime",P1,planned
+DATESTR,DATESTR,formatDate,date,datestr(date) -> text,P1,planned
+TIMESTR,TIMESTR,formatDate,date,timestr(date) -> text,P1,planned
+YEAR,YEAR,year,date,year(date) -> number,P0,planned
+MONTH,MONTH,month,date,month(date) -> number,P0,planned
+DAY,DAY,day,date,day(date) -> number,P0,planned
+HOUR,HOUR,hour,date,hour(date) -> number,P1,planned
+MINUTE,MINUTE,minute,date,minute(date) -> number,P1,planned
+SECOND,SECOND,-,date,second(date) -> number,P1,planned
+WEEKDAY,WEEKDAY,day,date,"weekday(date, startDay?) -> number",P1,planned
+WEEKNUM,WEEKNUM,week,date,weeknum(date) -> number,P1,planned
+WORKDAY,WORKDAY,-,date,"workday(date, count, holidays?) -> date",P1,planned
+WORKDAY_DIFF,WORKDAY_DIFF,-,date,"workday_diff(a, b, holidays?) -> number",P1,planned
+IS_BEFORE,IS_BEFORE,-,date,"is_before(a, b) -> boolean",P0,planned
+IS_AFTER,IS_AFTER,-,date,"is_after(a, b) -> boolean",P0,planned
+IS_SAME,IS_SAME,-,date,"is_same(a, b, unit?) -> boolean",P1,planned
+TONOW,TONOW,dateBetween,date,tonow(date) -> number,P1,planned
+FROMNOW,FROMNOW,dateBetween,date,fromnow(date) -> number,P1,planned
+TIMESTAMP,-,timestamp,date,timestamp(date) -> number,P1,planned
+FROM_TIMESTAMP,-,fromTimestamp,date,from_timestamp(number) -> datetime,P1,planned
+DATE_START,-,dateStart,date,date_start(range) -> datetime,P1,planned
+DATE_END,-,dateEnd,date,date_end(range) -> datetime,P1,planned
+DATE_RANGE,-,dateRange,date,"date_range(start, end) -> range",P1,planned
+SET_TIMEZONE,SET_TIMEZONE,-,date,"set_timezone(date, tz) -> datetime",P1,planned
+SET_LOCALE,SET_LOCALE,-,date,"set_locale(date, locale) -> datetime",P1,planned
+ARRAY_COMPACT,ARRAYCOMPACT,filter,array,array_compact(list) -> list,P1,planned
+ARRAY_FLATTEN,ARRAYFLATTEN,flat,array,array_flatten(list) -> list,P1,planned
+ARRAY_UNIQUE,ARRAYUNIQUE,unique,array,array_unique(list) -> list,P1,planned
+ARRAY_SLICE,ARRAYSLICE,slice,array,"array_slice(list, start, end?) -> list",P1,planned
+FIRST,-,first,array,first(list) -> any,P1,planned
+LAST,-,last,array,last(list) -> any,P1,planned
+AT,-,at,array,"at(list, index) -> any",P1,planned
+SORT,-,sort,array,"sort(list, by?) -> list",P1,planned
+REVERSE,-,reverse,array,reverse(list) -> list,P1,planned
+INCLUDES,-,includes,array,"includes(list, value) -> boolean",P1,planned
+FILTER,-,filter,array,"filter(list, predicate) -> list",P1,planned
+MAP,-,map,array,"map(list, expression) -> list",P1,planned
+SOME,-,some,array,"some(list, predicate) -> boolean",P1,planned
+EVERY,-,every,array,"every(list, predicate) -> boolean",P1,planned
+FIND_INDEX,-,findIndex,array,"find_index(list, predicate) -> number",P1,planned
+RECORD_ID,RECORD_ID,id,record,record_id() -> text,P0,planned
+CREATED_TIME,CREATED_TIME,-,record,created_time() -> datetime,P1,planned
+LAST_MODIFIED_TIME,LAST_MODIFIED_TIME,-,record,last_modified_time(field?) -> datetime,P1,planned
+CURRENT_USER,-,-,record,current_user() -> user,P1,planned
+USER_NAME,-,name,record,user_name(user) -> text,P1,planned
+USER_EMAIL,-,email,record,user_email(user) -> text,P1,planned
+LET,-,let,binding,"let(name, value, body) -> any",P2,planned
+LETS,-,lets,binding,"lets(name, value, ..., body) -> any",P2,planned

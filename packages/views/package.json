@@ -16,6 +16,7 @@
     "lint": "biome check .",
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "test": "vitest run --passWithNoTests",
+    "parity:report": "node src/parity/parity-report.mjs",
     "clean": "node -e \"require('node:fs').rmSync('coverage',{recursive:true,force:true})\""
   },
   "devDependencies": {
