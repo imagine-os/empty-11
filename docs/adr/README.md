@@ -19,7 +19,7 @@ Numbers are pre-assigned by the plan; take yours, do not renumber.
 | 0009 | [library-evaluation-rubric](0009-library-evaluation-rubric.md) | PAP-209 | Accepted |
 | 0010 | [branching-and-commits](0010-branching-and-commits.md) | PAP-46 | Accepted |
 | 0011 | shared-value-types | PAP-302 | Planned |
-| 0012 | filter-grammar | PAP-279 | Planned |
+| 0012 | [filter-grammar](0012-filter-grammar.md) | PAP-279 | Accepted |
 | 0013 | domain-events-outbox | PAP-555 | Planned |
 | 0014 | module-manifest | PAP-433 | Planned |
 | 0015 | page-spec-schema | PAP-114 | Planned |

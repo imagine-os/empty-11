@@ -16,6 +16,9 @@ Here now:
 * [`library-rubric.md`](library-rubric.md) — the six-criterion library evaluation rubric, anchors,
   hard gates, verdict thresholds and scorecard shape (PAP-209, ADR 0009). Machine-readable copy:
   [`packages/agents/src/rubric/library-rubric.json`](../../packages/agents/src/rubric/library-rubric.json).
+* [`filter.md`](filter.md) — the shared filter and condition grammar `@paperos/core/filter`:
+  shape, operator table per field type, null semantics, variables, encoding, extension hook
+  (PAP-279, ADR 0012).
 * [`forge-topology.md`](forge-topology.md) — Forgejo/GitHub mirroring topology, failover and
   failure modes (PAP-44, hand-written; implemented by PAP-47).
 * [`view-model.md`](view-model.md) — `ViewSpec`, `FieldDef`, `DatasetRef`, the dataset registry

@@ -32,6 +32,7 @@ or `-`), **Status** (`live`, `stub`, `planned`).
 | CLI | `pnpm --filter @paperos/contract-quality build:schemas` — regenerate the JSON Schemas in `packages/contracts/quality/schemas/` from the Zod sources | PAP-79 | - | live |
 | CLI | `pnpm --filter @paperos/contract-quality build:docs` — regenerate `docs/quality/rubrics/<domain>.md` from `packages/contracts/quality/src/rubrics/<domain>.json` | PAP-79 | - | live |
 | CLI | `pnpm --filter views parity:report` (`--emit`, `--selftest`) — validate `packages/views/src/parity/checklist.json`, print per-product and per-category view-feature coverage, regenerate the two CSVs under `docs/research/`; exit 1 on any validation error | PAP-162 | - | live |
+| CLI | `pnpm --filter @paperos/core example:filter` — print a `FilterTree`, its SQL, its English and Spanish explanation and its URL form (`@paperos/core/filter`, PAP-279) | PAP-279 | - | live |
 
 The placeholder route declares no actions: it has no controls. The first page with a control adds
 its actions registry and its rows here.
