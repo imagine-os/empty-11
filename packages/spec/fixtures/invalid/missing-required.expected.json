@@ -1,0 +1,4 @@
+[
+  { "code": "SPEC_TYPE", "line": 2, "col": 1, "path": "meta", "messageIncludes": "route" },
+  { "code": "SPEC_TYPE", "path": "", "messageIncludes": "purpose" }
+]

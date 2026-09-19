@@ -1,0 +1,19 @@
+# yaml-language-server: $schema=../../schema/page.spec.schema.json
+meta:
+  id: external-kind
+  title: external-kind.meta.title
+  route: /external
+  surface: staff
+  owner: spec-builder
+  specVersion: 1
+purpose:
+  summary: URL destination without kind external, and an unknown component source.
+layout:
+  template: app
+components:
+  - id: ui.link
+    key: docsLink
+events:
+  - { on: page.load, to: https://docs.example.com }
+  - { on: docLink.onClick, to: /docs }
+  - { on: page.leave, to: /bye, kind: external }

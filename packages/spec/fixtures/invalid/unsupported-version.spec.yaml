@@ -1,0 +1,12 @@
+# yaml-language-server: $schema=../../schema/page.spec.schema.json
+meta:
+  id: unsupported-version
+  title: unsupported-version.meta.title
+  route: /v2
+  surface: staff
+  owner: spec-builder
+  specVersion: 2
+purpose:
+  summary: A version this package does not know.
+layout:
+  template: app

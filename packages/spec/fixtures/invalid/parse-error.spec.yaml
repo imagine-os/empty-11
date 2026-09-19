@@ -1,0 +1,5 @@
+# yaml-language-server: $schema=../../schema/page.spec.schema.json
+meta:
+  id: parse-error
+  title: [unclosed
+  route: /parse

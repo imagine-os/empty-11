@@ -1,0 +1,16 @@
+[
+  {
+    "code": "SPEC_LITERAL_COPY",
+    "line": 4,
+    "col": 10,
+    "path": "meta.title",
+    "hintIncludes": "literal-copy.meta.title"
+  },
+  {
+    "code": "SPEC_LITERAL_COPY",
+    "line": 15,
+    "col": 11,
+    "path": "states.empty.copy",
+    "hintIncludes": "literal-copy.states.empty.copy"
+  }
+]

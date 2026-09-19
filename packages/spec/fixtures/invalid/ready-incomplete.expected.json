@@ -1,0 +1,27 @@
+[
+  {
+    "code": "SPEC_READY_INCOMPLETE",
+    "path": "access",
+    "line": 8,
+    "col": 11
+  },
+  {
+    "code": "SPEC_READY_INCOMPLETE",
+    "path": "data",
+    "line": 8,
+    "col": 11
+  },
+  {
+    "code": "SPEC_READY_INCOMPLETE",
+    "path": "edgeCases",
+    "line": 14,
+    "col": 1
+  },
+  {
+    "code": "SPEC_READY_STATES",
+    "path": "states",
+    "severity": "warning",
+    "line": 8,
+    "col": 3
+  }
+]

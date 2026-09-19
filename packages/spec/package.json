@@ -3,25 +3,36 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Page and app spec schemas, validator and codegen (spec-builder).",
+  "description": "Page spec schema (Zod 4), generated JSON Schema, parser, validator and migration skeleton (spec-builder, ADR 0015).",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./schema/page.spec.schema.json": "./schema/page.spec.schema.json"
   },
   "main": "./src/index.ts",
   "types": "./src/index.ts",
   "files": [
-    "src"
+    "src",
+    "schema"
   ],
   "scripts": {
     "lint": "biome check .",
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "test": "vitest run --passWithNoTests",
+    "gen:schemas": "tsx scripts/gen-schemas.ts && biome format --write schema ../../docs/platform/page-spec.md",
+    "gen:schemas:check": "tsx scripts/gen-schemas.ts --check",
+    "schema:build": "pnpm run gen:schemas",
+    "parse": "tsx src/cli/parse.ts",
     "clean": "node -e \"require('node:fs').rmSync('coverage',{recursive:true,force:true})\""
   },
   "devDependencies": {
     "@biomejs/biome": "catalog:",
     "@paperos/config-ts": "workspace:*",
+    "tsx": "^4.23.13",
     "typescript": "catalog:",
     "vitest": "catalog:"
+  },
+  "dependencies": {
+    "yaml": "^2.9.1",
+    "zod": "^4.6.5"
   }
 }

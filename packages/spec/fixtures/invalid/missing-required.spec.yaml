@@ -1,0 +1,11 @@
+# yaml-language-server: $schema=../../schema/page.spec.schema.json
+meta:
+  id: missing-required
+  title: missing-required.meta.title
+  surface: staff
+  owner: spec-builder
+  specVersion: 1
+layout:
+  template: app
+  slots:
+    main: { collapsible: yes }

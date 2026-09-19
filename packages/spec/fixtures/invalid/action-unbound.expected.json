@@ -1,0 +1,11 @@
+[
+  {
+    "code": "SPEC_ACTION_UNBOUND",
+    "line": 23,
+    "col": 16,
+    "path": "components[0].events.onClick",
+    "hintIncludes": "saveDraft"
+  },
+  { "code": "SPEC_ACTION_UNBOUND", "line": 27, "col": 13, "path": "states.error.action" },
+  { "code": "SPEC_ACTION_UNBOUND", "line": 29, "col": 11, "path": "events[0].on" }
+]

@@ -1,0 +1,20 @@
+# yaml-language-server: $schema=../../schema/page.spec.schema.json
+meta:
+  id: staff-settings
+  title: staff-settings.meta.title
+  route: /settings
+  surface: staff
+  owner: app-shell
+  status: draft
+  specVersion: 1
+purpose:
+  summary: Staff admins manage members, roles, branding, modules and read the audit log.
+layout:
+  template: app
+components:
+  - id: ui.tabs
+    key: settingsTabs
+    props: { tabs: [members, roles, branding, modules, audit] }
+states:
+  error: { copy: staff-settings.states.error.copy, component: ui.errorState }
+  denied: { copy: staff-settings.states.denied.copy, component: ui.deniedState }

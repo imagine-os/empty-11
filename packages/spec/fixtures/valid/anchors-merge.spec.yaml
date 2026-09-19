@@ -1,0 +1,38 @@
+# yaml-language-server: $schema=../../schema/page.spec.schema.json
+# Anchors and merge keys are resolved before validation.
+x-defaults:
+  button: &button
+    id: ui.button
+    slot: main
+  state: &stateBase
+    component: ui.errorState
+meta:
+  id: anchors-merge
+  title: anchors-merge.meta.title
+  route: /anchors
+  surface: developer
+  owner: spec-builder
+  specVersion: 1
+purpose:
+  summary: Exercises YAML anchors and merge keys.
+logic:
+  actions:
+    save:
+      intent: anchors-merge.actions.save.intent
+      permission: page.edit
+      steps: [Persist the form.]
+layout:
+  template: focus
+components:
+  - <<: *button
+    key: saveButton
+    events: { onClick: save }
+  - <<: *button
+    key: cancelButton
+states:
+  error:
+    <<: *stateBase
+    copy: anchors-merge.states.error.copy
+  denied:
+    <<: *stateBase
+    copy: anchors-merge.states.denied.copy

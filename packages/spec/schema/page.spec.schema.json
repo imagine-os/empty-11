@@ -1,0 +1,967 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://imagine-os.github.io/paperos-template/schema/page.spec.v1.json",
+  "title": "PaperOS page spec v1",
+  "description": "PaperOS page spec v1 (`specs/pages/<id>.spec.yaml`, ADR 0015).",
+  "x-paperos": {
+    "specVersion": 1,
+    "generatedBy": "pnpm --filter @paperos/spec gen:schemas",
+    "reservedKeys": ["flags", "modules", "comments", "help", "seo", "budgets"]
+  },
+  "type": "object",
+  "properties": {
+    "meta": {
+      "$ref": "#/$defs/Meta"
+    },
+    "purpose": {
+      "$ref": "#/$defs/Purpose"
+    },
+    "logic": {
+      "default": {
+        "actions": {}
+      },
+      "$ref": "#/$defs/LogicSection"
+    },
+    "access": {
+      "description": "Required for `status: ready`.",
+      "$ref": "#/$defs/AccessSection"
+    },
+    "data": {
+      "description": "Required for `status: ready` unless `x-static: true`.",
+      "$ref": "#/$defs/DataSection"
+    },
+    "integrations": {
+      "default": [],
+      "$ref": "#/$defs/IntegrationsSection"
+    },
+    "layout": {
+      "$ref": "#/$defs/Layout"
+    },
+    "components": {
+      "default": [],
+      "$ref": "#/$defs/ComponentsSection"
+    },
+    "states": {
+      "default": {},
+      "$ref": "#/$defs/StatesSection"
+    },
+    "events": {
+      "default": [],
+      "description": "Navigation transitions.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Transition"
+      }
+    },
+    "edgeCases": {
+      "default": [],
+      "description": "At least three for `status: ready`.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/EdgeCase"
+      }
+    },
+    "flags": {
+      "description": "Reserved for v1.1 (PAP-740)."
+    },
+    "modules": {
+      "description": "Reserved for v1.1 (PAP-740)."
+    },
+    "comments": {
+      "description": "Reserved for v1.1 (PAP-740)."
+    },
+    "help": {
+      "description": "Reserved for v1.1 (PAP-740)."
+    },
+    "seo": {
+      "description": "Reserved for v1.1 (PAP-740)."
+    },
+    "budgets": {
+      "description": "Reserved for v1.1 (PAP-740)."
+    }
+  },
+  "required": ["meta", "purpose", "layout"],
+  "additionalProperties": false,
+  "$defs": {
+    "AccessAction": {
+      "type": "object",
+      "properties": {
+        "audiences": {
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/AudienceId"
+          },
+          "description": "Audiences allowed to run the action."
+        },
+        "condition": {
+          "description": "Row or attribute condition that must hold, `{ $var: \"principal.id\" }` allowed.",
+          "$ref": "#/$defs/FilterTree"
+        }
+      },
+      "required": ["audiences"],
+      "additionalProperties": false,
+      "description": "Who may run one `logic.actions` entry."
+    },
+    "AccessSection": {
+      "type": "object",
+      "properties": {
+        "public": {
+          "default": false,
+          "description": "`true` grants the `anonymous` audience `page.view`; conflicts with `principal.*` refs.",
+          "type": "boolean"
+        },
+        "view": {
+          "default": [],
+          "description": "Audiences granted `page.view`.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/AudienceId"
+          }
+        },
+        "actions": {
+          "default": {},
+          "description": "Per-action grants; keys must exist under `logic.actions`.",
+          "type": "object",
+          "propertyNames": {
+            "$ref": "#/$defs/ActionRef"
+          },
+          "additionalProperties": {
+            "$ref": "#/$defs/AccessAction"
+          }
+        },
+        "rows": {
+          "default": {},
+          "description": "Row predicates per entity, merged into every query (PAP-119) and enforced server-side.",
+          "type": "object",
+          "propertyNames": {
+            "$ref": "#/$defs/EntityId"
+          },
+          "additionalProperties": {
+            "$ref": "#/$defs/FilterTree"
+          }
+        },
+        "deny": {
+          "default": [],
+          "description": "Audiences denied everything on this page; beats every grant.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/AudienceId"
+          }
+        },
+        "fields": {
+          "default": {},
+          "description": "Field-level visibility, `entity.field` → audiences.",
+          "type": "object",
+          "propertyNames": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*\\.[a-z][a-zA-Z0-9]*$"
+          },
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "view": {
+                "minItems": 1,
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/AudienceId"
+                }
+              }
+            },
+            "required": ["view"],
+            "additionalProperties": false
+          }
+        },
+        "inherit": {
+          "default": true,
+          "description": "Merge `app.spec.yaml` `defaults.access`; `false` starts from nothing.",
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false,
+      "description": "Who can see the page and run its actions (interim; final shape PAP-116)."
+    },
+    "Action": {
+      "type": "object",
+      "properties": {
+        "intent": {
+          "description": "Intent phrase for the voice controller and WebMCP, as a message key (`customer-invoices.actions.pay.intent`).",
+          "$ref": "#/$defs/MessageRef"
+        },
+        "permission": {
+          "description": "Permission required to run the action.",
+          "$ref": "#/$defs/PermissionRef"
+        },
+        "description": {
+          "description": "Author-facing note, not rendered.",
+          "type": "string"
+        },
+        "steps": {
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": "What happens, in order, as prose."
+        },
+        "guard": {
+          "description": "Precondition as prose or an expression (PAP-314 compiles it).",
+          "type": "string",
+          "minLength": 1
+        },
+        "effects": {
+          "default": [],
+          "description": "Side effects.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Effect"
+          }
+        },
+        "onError": {
+          "$ref": "#/$defs/OnError"
+        },
+        "input": {
+          "default": {},
+          "description": "Parameters the action takes, for the WebMCP tool signature.",
+          "type": "object",
+          "propertyNames": {
+            "$ref": "#/$defs/ActionRef"
+          },
+          "additionalProperties": {
+            "$ref": "#/$defs/ScalarType"
+          }
+        },
+        "status": {
+          "default": "wired",
+          "description": "`not-wired` while the logic is a stub.",
+          "$ref": "#/$defs/WiredStatus"
+        }
+      },
+      "required": ["intent", "permission", "steps"],
+      "additionalProperties": false,
+      "description": "One registered page action."
+    },
+    "ActionRef": {
+      "type": "string",
+      "pattern": "^[a-z][a-zA-Z0-9]*$",
+      "description": "Key of an entry under `logic.actions` on the same page."
+    },
+    "AudienceId": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$",
+      "description": "Audience id from `app.spec.yaml` (PAP-117) / the audience model (PAP-55)."
+    },
+    "CamelId": {
+      "type": "string",
+      "pattern": "^[a-z][a-zA-Z0-9]*$",
+      "description": "camelCase identifier: `payInvoice`."
+    },
+    "Component": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Registered component id.",
+          "$ref": "#/$defs/ComponentRef"
+        },
+        "key": {
+          "description": "Page-unique key; codegen, tours and comments anchor on it.",
+          "$ref": "#/$defs/CamelId"
+        },
+        "props": {
+          "default": {},
+          "description": "Props as JSON; text-bearing props take a `MessageRef`. Validated against the registry by PAP-115.",
+          "type": "object",
+          "propertyNames": {
+            "type": "string"
+          },
+          "additionalProperties": {}
+        },
+        "slot": {
+          "default": "main",
+          "description": "Layout slot the component renders in.",
+          "$ref": "#/$defs/SlotName"
+        },
+        "events": {
+          "default": {},
+          "description": "Component event → action id under `logic.actions`.",
+          "type": "object",
+          "propertyNames": {
+            "$ref": "#/$defs/EventName"
+          },
+          "additionalProperties": {
+            "$ref": "#/$defs/ActionRef"
+          }
+        },
+        "status": {
+          "default": "wired",
+          "description": "`not-wired` marks a placeholder.",
+          "$ref": "#/$defs/WiredStatus"
+        },
+        "children": {
+          "default": [],
+          "description": "Nested components.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Component"
+          }
+        }
+      },
+      "required": ["id", "key"],
+      "additionalProperties": false,
+      "description": "One node of the component tree."
+    },
+    "ComponentRef": {
+      "type": "string",
+      "pattern": "^(?:ui|app|print)\\.[a-z][A-Za-z0-9]*$",
+      "description": "Design-system component id registered by PAP-74: `ui.dataTable`, `app.invoiceCard`, `print.header`."
+    },
+    "ComponentsSection": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Component"
+      },
+      "description": "Component tree of the page."
+    },
+    "DataSection": {
+      "type": "object",
+      "properties": {
+        "entities": {
+          "default": [],
+          "description": "Entities this page touches (cross-checked by PAP-115).",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/EntityId"
+          }
+        },
+        "queries": {
+          "default": {},
+          "description": "Named reads; each becomes a `use<Name>()` hook.",
+          "type": "object",
+          "propertyNames": {
+            "$ref": "#/$defs/CamelId"
+          },
+          "additionalProperties": {
+            "$ref": "#/$defs/Query"
+          }
+        },
+        "mutations": {
+          "default": {},
+          "description": "Named writes; each becomes a `use<Name>()` mutation hook.",
+          "type": "object",
+          "propertyNames": {
+            "$ref": "#/$defs/CamelId"
+          },
+          "additionalProperties": {
+            "$ref": "#/$defs/Mutation"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "description": "Reads and writes the page performs (interim; final shape PAP-119 / PAP-311)."
+    },
+    "EdgeCase": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Stable id, unique on the page.",
+          "$ref": "#/$defs/KebabId"
+        },
+        "scenario": {
+          "type": "string",
+          "minLength": 1,
+          "description": "What happens."
+        },
+        "expected": {
+          "type": "string",
+          "minLength": 1,
+          "description": "What the page must do."
+        },
+        "test": {
+          "type": "string",
+          "enum": ["unit", "e2e", "manual"],
+          "description": "How it is verified."
+        },
+        "action": {
+          "description": "Action involved, if one.",
+          "$ref": "#/$defs/ActionRef"
+        }
+      },
+      "required": ["id", "scenario", "expected", "test"],
+      "additionalProperties": false,
+      "description": "One edge case the page handles."
+    },
+    "Effect": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": ["mutation", "navigate", "notify", "emit", "integration", "job"],
+              "description": "What the effect touches; drives graph edges (PAP-123)."
+            },
+            "ref": {
+              "description": "Mutation name, route, event topic, capability id or job name.",
+              "type": "string",
+              "minLength": 1
+            },
+            "copy": {
+              "description": "Notification copy, when `kind: notify`.",
+              "$ref": "#/$defs/MessageRef"
+            }
+          },
+          "required": ["kind"],
+          "additionalProperties": false
+        }
+      ],
+      "description": "Side effect of an action: prose, or `{ kind, ref?, copy? }` when it should show on the flow graph."
+    },
+    "EntityId": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$",
+      "description": "Entity id from `app.spec.yaml` (PAP-117)."
+    },
+    "EventName": {
+      "type": "string",
+      "pattern": "^on[A-Z][a-zA-Z0-9]*$",
+      "description": "Component event as registered by PAP-74: `onClick`."
+    },
+    "EventSource": {
+      "type": "string",
+      "pattern": "^(?:[a-z][a-zA-Z0-9]*(?:\\.on[A-Z][a-zA-Z0-9]*)?|page\\.(?:load|leave))$",
+      "description": "What fires a transition: an action id, `componentKey.onEvent`, `page.load` or `page.leave`."
+    },
+    "ExternalUrl": {
+      "type": "string",
+      "pattern": "^https?:\\/\\/[^\\s]+$",
+      "description": "http(s) URL for `events[].kind: external`."
+    },
+    "FieldPath": {
+      "type": "string",
+      "pattern": "^[a-z][a-zA-Z0-9]*(?:\\.[a-z][a-zA-Z0-9]*)*$",
+      "description": "Field path inside an entity: `status`, `customer.email`."
+    },
+    "FilterCondition": {
+      "type": "object",
+      "properties": {
+        "field": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Field path on the entity, dotted for relations."
+        },
+        "operator": {
+          "type": "string",
+          "enum": [
+            "eq",
+            "neq",
+            "in",
+            "nin",
+            "lt",
+            "lte",
+            "gt",
+            "gte",
+            "contains",
+            "startsWith",
+            "isNull",
+            "isNotNull",
+            "between",
+            "has",
+            "matches"
+          ],
+          "description": "Comparison operator (PAP-279 grammar)."
+        },
+        "value": {
+          "description": "Literal value, or `{ $var: \"principal.id\" }` bound at evaluation time."
+        }
+      },
+      "required": ["field", "operator"],
+      "additionalProperties": false,
+      "description": "Leaf condition of a `FilterTree`."
+    },
+    "FilterTree": {
+      "description": "Shared filter grammar (`@paperos/core/filter`, PAP-279): a group `{ op, children }` or a condition `{ field, operator, value }`.",
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "op": {
+              "type": "string",
+              "enum": ["and", "or", "not"],
+              "description": "Boolean combinator."
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/FilterTree"
+              },
+              "description": "Child trees; `not` takes exactly one."
+            }
+          },
+          "required": ["op", "children"],
+          "additionalProperties": false
+        },
+        {
+          "$ref": "#/$defs/FilterCondition"
+        }
+      ]
+    },
+    "Integration": {
+      "type": "object",
+      "properties": {
+        "connector": {
+          "description": "Connector id from the registry: `stripe`, `linear`, `resend`.",
+          "$ref": "#/$defs/KebabId"
+        },
+        "capabilities": {
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9]*\\.[a-z][a-zA-Z0-9]*$"
+          },
+          "description": "Capability ids used, `<area>.<verbNoun>`."
+        },
+        "mode": {
+          "default": "mock",
+          "description": "A page may only narrow the app-level mode (`live` app allows `test` page, not the reverse).",
+          "type": "string",
+          "enum": ["live", "test", "mock"]
+        },
+        "onFailure": {
+          "default": "degrade",
+          "description": "`degrade` renders `ui.integrationUnavailable`; `block` shows the error state; `queue` defers.",
+          "type": "string",
+          "enum": ["degrade", "block", "queue"]
+        }
+      },
+      "required": ["connector", "capabilities"],
+      "additionalProperties": false,
+      "description": "One external connector the page depends on."
+    },
+    "IntegrationsSection": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Integration"
+      },
+      "description": "External connectors (interim; final shape PAP-121)."
+    },
+    "KebabId": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$",
+      "description": "Kebab-case identifier: `customer-invoices`."
+    },
+    "Layout": {
+      "type": "object",
+      "properties": {
+        "template": {
+          "type": "string",
+          "enum": ["app", "public", "focus", "kiosk"],
+          "description": "`app` shell with nav; `public` marketing chrome; `focus` single task; `kiosk` full-screen, 10-foot type."
+        },
+        "slots": {
+          "default": {},
+          "description": "Slots the page fills and their options; components target them with `slot`.",
+          "type": "object",
+          "propertyNames": {
+            "$ref": "#/$defs/SlotName"
+          },
+          "additionalProperties": {
+            "$ref": "#/$defs/SlotSpec"
+          }
+        },
+        "density": {
+          "default": "default",
+          "description": "Default density; `kiosk` templates should use `comfortable`.",
+          "type": "string",
+          "enum": ["compact", "default", "comfortable"]
+        }
+      },
+      "required": ["template"],
+      "additionalProperties": false,
+      "description": "Template and slots."
+    },
+    "LogicSection": {
+      "type": "object",
+      "properties": {
+        "actions": {
+          "default": {},
+          "description": "Actions keyed by camelCase id.",
+          "type": "object",
+          "propertyNames": {
+            "$ref": "#/$defs/ActionRef"
+          },
+          "additionalProperties": {
+            "$ref": "#/$defs/Action"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "description": "Actions registry of the page."
+    },
+    "MessageKey": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*(?:\\.[a-zA-Z0-9][a-zA-Z0-9-]*)+$",
+      "description": "Message catalog key (`<specId>.<path>`) resolved in every locale; never a literal sentence."
+    },
+    "MessageRef": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/MessageKey"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "id": {
+              "description": "Message catalog key.",
+              "$ref": "#/$defs/MessageKey"
+            },
+            "default": {
+              "description": "Source-locale (English) text the catalog is seeded with; never rendered directly.",
+              "type": "string"
+            }
+          },
+          "required": ["id"],
+          "additionalProperties": false
+        }
+      ],
+      "description": "User-visible text as a message key, or `{ id, default }` where `default` seeds the English catalog (PAP-375)."
+    },
+    "Meta": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Page id; equals the file name stem of `specs/pages/<id>.spec.yaml`.",
+          "$ref": "#/$defs/KebabId"
+        },
+        "title": {
+          "description": "Page title as a message key.",
+          "$ref": "#/$defs/MessageRef"
+        },
+        "description": {
+          "description": "Author-facing summary, not rendered.",
+          "type": "string"
+        },
+        "route": {
+          "description": "Route the page mounts at.",
+          "$ref": "#/$defs/RouteRef"
+        },
+        "surface": {
+          "$ref": "#/$defs/Surface"
+        },
+        "owner": {
+          "description": "Owning project or character (`spec-builder`, `quill`).",
+          "$ref": "#/$defs/KebabId"
+        },
+        "status": {
+          "default": "draft",
+          "$ref": "#/$defs/SpecStatus"
+        },
+        "specVersion": {
+          "default": 1,
+          "description": "Schema version; missing is read as 1 with a warning.",
+          "type": "number",
+          "const": 1
+        },
+        "tags": {
+          "default": [],
+          "description": "Free tags for the spec list and graph filters.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/KebabId"
+          }
+        }
+      },
+      "required": ["id", "title", "route", "surface", "owner"],
+      "additionalProperties": false,
+      "description": "Identity of the page."
+    },
+    "Mutation": {
+      "type": "object",
+      "properties": {
+        "entity": {
+          "description": "Entity the mutation writes.",
+          "$ref": "#/$defs/EntityId"
+        },
+        "action": {
+          "type": "string",
+          "enum": ["create", "update", "delete", "custom"],
+          "description": "Kind of write."
+        },
+        "input": {
+          "default": {},
+          "description": "Input fields and their scalar type (interim; PAP-742 adds constraints).",
+          "type": "object",
+          "propertyNames": {
+            "$ref": "#/$defs/CamelId"
+          },
+          "additionalProperties": {
+            "$ref": "#/$defs/ScalarType"
+          }
+        },
+        "optimistic": {
+          "default": true,
+          "description": "Apply optimistically with rollback on failure.",
+          "type": "boolean"
+        },
+        "audit": {
+          "default": true,
+          "description": "Record in the audit log with the `X-PaperOS-Reason` header.",
+          "type": "boolean"
+        }
+      },
+      "required": ["entity", "action"],
+      "additionalProperties": false,
+      "description": "One write the page performs."
+    },
+    "OnError": {
+      "type": "object",
+      "properties": {
+        "strategy": {
+          "type": "string",
+          "enum": ["toast", "inline", "retry", "redirect", "ignore"],
+          "description": "How the failure surfaces."
+        },
+        "copy": {
+          "description": "Copy shown for `toast` and `inline`.",
+          "$ref": "#/$defs/MessageRef"
+        },
+        "to": {
+          "description": "Destination for `redirect`.",
+          "$ref": "#/$defs/RouteRef"
+        }
+      },
+      "required": ["strategy"],
+      "additionalProperties": false,
+      "description": "Failure handling for one action."
+    },
+    "PermissionRef": {
+      "type": "string",
+      "pattern": "^(?:public|[a-z][a-z0-9]*(?:\\.[a-zA-Z][a-zA-Z0-9]*)+)$",
+      "description": "Permission the caller needs: `public`, `page.view`, `invoice.pay`."
+    },
+    "Purpose": {
+      "type": "object",
+      "properties": {
+        "summary": {
+          "type": "string",
+          "minLength": 1,
+          "description": "One paragraph: who uses the page and what they get done."
+        },
+        "successMetric": {
+          "description": "How we know the page works (a measurable outcome).",
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": ["summary"],
+      "additionalProperties": false,
+      "description": "Why the page exists."
+    },
+    "Query": {
+      "type": "object",
+      "properties": {
+        "entity": {
+          "description": "Entity the query reads.",
+          "$ref": "#/$defs/EntityId"
+        },
+        "filter": {
+          "description": "Filter merged with the `access.rows` predicate.",
+          "$ref": "#/$defs/FilterTree"
+        },
+        "sort": {
+          "default": [],
+          "description": "Sort order.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "field": {
+                "$ref": "#/$defs/FieldPath"
+              },
+              "dir": {
+                "default": "asc",
+                "type": "string",
+                "enum": ["asc", "desc"]
+              }
+            },
+            "required": ["field"],
+            "additionalProperties": false
+          }
+        },
+        "fields": {
+          "description": "Fields selected; all when omitted.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FieldPath"
+          }
+        },
+        "sync": {
+          "default": "server",
+          "description": "`server` TanStack Query; `live` / `local` Electric shape with the offline outbox (PAP-36).",
+          "type": "string",
+          "enum": ["server", "live", "local"]
+        },
+        "page": {
+          "default": 50,
+          "description": "Page size, at most 100 (Contracts §4).",
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100
+        }
+      },
+      "required": ["entity"],
+      "additionalProperties": false,
+      "description": "One read the page performs."
+    },
+    "RouteRef": {
+      "type": "string",
+      "pattern": "^\\/$|^\\/(?:[a-z0-9]+(?:-[a-z0-9]+)*|\\$[a-zA-Z][a-zA-Z0-9]*)(?:\\/(?:[a-z0-9]+(?:-[a-z0-9]+)*|\\$[a-zA-Z][a-zA-Z0-9]*))*\\/?$",
+      "description": "Absolute TanStack route with `$param` segments: `/invoices/$invoiceId`. `:param` is rejected."
+    },
+    "ScalarType": {
+      "type": "string",
+      "enum": ["string", "text", "number", "boolean", "date", "dateTime", "money", "uuid", "json"],
+      "description": "Mutation input scalar (interim; PAP-742 adds constraints)."
+    },
+    "SlotName": {
+      "type": "string",
+      "enum": [
+        "nav",
+        "sidebar",
+        "main",
+        "inspector",
+        "commandbar",
+        "statusbar",
+        "header",
+        "footer"
+      ],
+      "description": "Layout slot: the six app-shell slots of PAP-16 plus `header` and `footer` for public and kiosk templates."
+    },
+    "SlotSpec": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "description": "Slot heading when the shell shows one.",
+          "$ref": "#/$defs/MessageRef"
+        },
+        "collapsible": {
+          "default": false,
+          "type": "boolean"
+        },
+        "defaultCollapsed": {
+          "default": false,
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false,
+      "description": "Options for one layout slot the page fills."
+    },
+    "SpecStatus": {
+      "type": "string",
+      "enum": ["draft", "ready", "built", "deprecated"],
+      "description": "`draft` → `ready` (gate rules apply) → `built` → `deprecated`."
+    },
+    "State": {
+      "type": "object",
+      "properties": {
+        "copy": {
+          "description": "Copy shown in this state, as a message key.",
+          "$ref": "#/$defs/MessageRef"
+        },
+        "component": {
+          "description": "Component that renders the state (`ui.errorState`, `ui.offlineBanner`, `ui.deniedState`, PAP-234).",
+          "$ref": "#/$defs/ComponentRef"
+        },
+        "action": {
+          "description": "Call to action, an id under `logic.actions` (retry, create first item).",
+          "$ref": "#/$defs/ActionRef"
+        }
+      },
+      "required": ["copy"],
+      "additionalProperties": false,
+      "description": "One page state."
+    },
+    "StatesSection": {
+      "type": "object",
+      "propertyNames": {
+        "description": "State name: `loading`, `empty`, `error`, `offline`, `denied` or a custom camelCase name.",
+        "$ref": "#/$defs/CamelId"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/State"
+      },
+      "description": "Page states: the five standard ones plus custom states, each `{ copy, component?, action? }`.",
+      "properties": {
+        "loading": {
+          "$ref": "#/$defs/State"
+        },
+        "empty": {
+          "$ref": "#/$defs/State"
+        },
+        "error": {
+          "$ref": "#/$defs/State"
+        },
+        "offline": {
+          "$ref": "#/$defs/State"
+        },
+        "denied": {
+          "$ref": "#/$defs/State"
+        }
+      }
+    },
+    "Surface": {
+      "type": "string",
+      "enum": ["customer", "staff", "developer", "agent", "public"],
+      "description": "Who the page is for; picks the default layout, audiences and shell."
+    },
+    "Transition": {
+      "type": "object",
+      "properties": {
+        "on": {
+          "description": "What fires the transition.",
+          "$ref": "#/$defs/EventSource"
+        },
+        "to": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/RouteRef"
+            },
+            {
+              "$ref": "#/$defs/ExternalUrl"
+            }
+          ],
+          "description": "Destination route (`$param` syntax) or, with `kind: external`, an http(s) URL."
+        },
+        "guard": {
+          "description": "Condition, as prose or an expression.",
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "default": "navigate",
+          "description": "`navigate` push, `replace`, `modal` overlay, `external` new tab.",
+          "type": "string",
+          "enum": ["navigate", "replace", "modal", "external"]
+        }
+      },
+      "required": ["on", "to"],
+      "additionalProperties": false,
+      "description": "A navigation edge on the flow graph (PAP-123)."
+    },
+    "WiredStatus": {
+      "type": "string",
+      "enum": ["wired", "not-wired"],
+      "description": "`not-wired` marks a placeholder: dev mode shows it, activation shows the \"not wired yet\" toast."
+    }
+  },
+  "patternProperties": {
+    "^x-": {
+      "description": "Extension key; passes through untouched."
+    }
+  }
+}

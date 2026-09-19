@@ -1,0 +1,11 @@
+[
+  { "code": "SPEC_ENUM", "line": 12, "col": 13, "path": "layout.template", "hintIncludes": "app" },
+  { "code": "SPEC_BAD_COMPONENT_REF", "line": 14, "col": 9, "path": "components[0].id" },
+  {
+    "code": "SPEC_ENUM",
+    "line": 16,
+    "col": 11,
+    "path": "components[0].slot",
+    "hintIncludes": "main"
+  }
+]

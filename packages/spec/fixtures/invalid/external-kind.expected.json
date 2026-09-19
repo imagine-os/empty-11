@@ -1,0 +1,11 @@
+[
+  { "code": "SPEC_EVENT_KIND", "line": 17, "col": 5, "path": "events[0].kind" },
+  {
+    "code": "SPEC_EVENT_SOURCE",
+    "line": 18,
+    "col": 11,
+    "path": "events[1].on",
+    "hintIncludes": "docsLink.onClick"
+  },
+  { "code": "SPEC_EVENT_KIND", "line": 19, "col": 27, "path": "events[2].to" }
+]

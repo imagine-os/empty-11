@@ -1,0 +1,12 @@
+# yaml-language-server: $schema=../../schema/page.spec.schema.json
+meta:
+  id: bad-route
+  title: bad-route.meta.title
+  route: /invoices/:invoiceId
+  surface: customer
+  owner: spec-builder
+  specVersion: 1
+purpose:
+  summary: Express-style params are rejected.
+layout:
+  template: app

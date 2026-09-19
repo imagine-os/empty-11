@@ -1,0 +1,16 @@
+# yaml-language-server: $schema=../../schema/page.spec.schema.json
+meta:
+  id: bad-component-ref
+  title: bad-component-ref.meta.title
+  route: /bad-ref
+  surface: staff
+  owner: spec-builder
+  specVersion: 1
+purpose:
+  summary: A component id outside the ui|app|print grammar and a bad enum.
+layout:
+  template: dashboard
+components:
+  - id: Button
+    key: btn
+    slot: mian

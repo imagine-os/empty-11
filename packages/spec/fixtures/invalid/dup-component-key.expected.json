@@ -1,0 +1,10 @@
+[
+  {
+    "code": "SPEC_DUP_COMPONENT_KEY",
+    "line": 20,
+    "col": 14,
+    "path": "components[1].children[0].key",
+    "relatedLines": [15],
+    "messageIncludes": "lines 15 and 20"
+  }
+]

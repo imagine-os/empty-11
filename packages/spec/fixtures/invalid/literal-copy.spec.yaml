@@ -1,0 +1,15 @@
+# yaml-language-server: $schema=../../schema/page.spec.schema.json
+meta:
+  id: literal-copy
+  title: Your invoices
+  route: /literal
+  surface: customer
+  owner: spec-builder
+  specVersion: 1
+purpose:
+  summary: Literal English where a message key belongs.
+layout:
+  template: app
+states:
+  empty:
+    copy: No invoices yet

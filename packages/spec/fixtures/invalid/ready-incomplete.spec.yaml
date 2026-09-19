@@ -1,0 +1,15 @@
+# yaml-language-server: $schema=../../schema/page.spec.schema.json
+meta:
+  id: ready-incomplete
+  title: ready-incomplete.meta.title
+  route: /ready
+  surface: staff
+  owner: spec-builder
+  status: ready
+  specVersion: 1
+purpose:
+  summary: Marked ready without access, data or three edge cases.
+layout:
+  template: app
+edgeCases:
+  - { id: only-one, scenario: One case., expected: Not enough., test: unit }

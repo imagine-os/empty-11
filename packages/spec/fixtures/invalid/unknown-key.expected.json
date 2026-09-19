@@ -1,0 +1,10 @@
+[
+  { "code": "SPEC_UNKNOWN_KEY", "line": 12, "col": 1, "path": "layuot", "hintIncludes": "layout" },
+  {
+    "code": "SPEC_UNKNOWN_KEY",
+    "line": 9,
+    "col": 3,
+    "path": "meta.surfce",
+    "hintIncludes": "surface"
+  }
+]

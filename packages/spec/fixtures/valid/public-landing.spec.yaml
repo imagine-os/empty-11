@@ -1,0 +1,51 @@
+# yaml-language-server: $schema=../../schema/page.spec.schema.json
+meta:
+  id: public-landing
+  title: { id: public-landing.meta.title, default: Welcome }
+  route: /
+  surface: public
+  owner: growth
+  status: ready
+  specVersion: 1
+purpose:
+  summary: Anonymous visitors learn what the product does and start a trial.
+  successMetric: 5 percent of visitors click Start trial.
+logic:
+  actions:
+    startTrial:
+      intent: { id: public-landing.actions.startTrial.intent, default: start a trial }
+      permission: public
+      steps: [Navigate to sign-up with the plan preselected.]
+access:
+  public: true
+  view: [anonymous]
+  actions:
+    startTrial: { audiences: [anonymous] }
+layout:
+  template: public
+  slots:
+    header: {}
+    main: {}
+    footer: {}
+components:
+  - id: ui.hero
+    key: hero
+    slot: header
+    props: { title: public-landing.components.hero.title, subtitle: public-landing.components.hero.subtitle }
+  - id: ui.button
+    key: startTrialButton
+    props: { variant: primary, label: public-landing.components.startTrialButton.label }
+    events: { onClick: startTrial }
+  - id: ui.footerLinks
+    key: footer
+    slot: footer
+states:
+  error: { copy: public-landing.states.error.copy, component: ui.errorState }
+events:
+  - { on: startTrial, to: /sign-up }
+  - { on: page.load, to: /app, guard: visitor is already signed in, kind: replace }
+edgeCases:
+  - { id: signed-in-visitor, scenario: A signed-in user opens the landing page., expected: They are redirected to /app., test: e2e }
+  - { id: slow-hero-image, scenario: The hero image takes over two seconds., expected: Text renders first; the image fades in., test: manual }
+  - { id: es-locale, scenario: The browser locale is es-MX., expected: Every string renders in Spanish., test: e2e }
+x-static: true

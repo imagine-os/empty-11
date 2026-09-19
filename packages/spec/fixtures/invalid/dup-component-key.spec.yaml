@@ -1,0 +1,20 @@
+# yaml-language-server: $schema=../../schema/page.spec.schema.json
+meta:
+  id: dup-component-key
+  title: dup-component-key.meta.title
+  route: /dup-components
+  surface: staff
+  owner: spec-builder
+  specVersion: 1
+purpose:
+  summary: Two components share a key.
+layout:
+  template: app
+components:
+  - id: ui.button
+    key: primary
+  - id: ui.card
+    key: card
+    children:
+      - id: ui.button
+        key: primary

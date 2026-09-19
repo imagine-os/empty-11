@@ -1,0 +1,29 @@
+# yaml-language-server: $schema=../../schema/page.spec.schema.json
+meta:
+  id: action-unbound
+  title: action-unbound.meta.title
+  route: /unbound
+  surface: staff
+  owner: spec-builder
+  specVersion: 1
+purpose:
+  summary: A component event names an action that is not declared.
+logic:
+  actions:
+    saveDraft:
+      intent: action-unbound.actions.saveDraft.intent
+      permission: draft.edit
+      steps: [Persist.]
+layout:
+  template: app
+components:
+  - id: ui.button
+    key: save
+    events:
+      onClick: saveDraf
+states:
+  error:
+    copy: action-unbound.states.error.copy
+    action: reload
+events:
+  - { on: publish, to: /published }

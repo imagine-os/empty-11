@@ -1,0 +1,13 @@
+# yaml-language-server: $schema=../../schema/page.spec.schema.json
+meta:
+  id: dup-key
+  title: dup-key.meta.title
+  route: /dup
+  surface: staff
+  owner: spec-builder
+  specVersion: 1
+  route: /dup-again
+purpose:
+  summary: The same key twice in one mapping.
+layout:
+  template: app

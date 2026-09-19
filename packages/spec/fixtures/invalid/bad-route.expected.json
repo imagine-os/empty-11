@@ -1,0 +1,9 @@
+[
+  {
+    "code": "SPEC_BAD_ROUTE",
+    "line": 5,
+    "col": 10,
+    "path": "meta.route",
+    "hintIncludes": "/invoices/$invoiceId"
+  }
+]

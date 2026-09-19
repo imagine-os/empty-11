@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=../../schema/page.spec.schema.json
+x-defaults:
+  route: &route /anchored/:id
+meta:
+  id: anchor-error
+  title: anchor-error.meta.title
+  route: *route
+  surface: staff
+  owner: spec-builder
+  specVersion: 1
+purpose:
+  summary: The error lives in the anchored value; the position points at the anchor.
+layout:
+  template: app

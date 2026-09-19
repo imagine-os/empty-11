@@ -1,0 +1,16 @@
+# yaml-language-server: $schema=../../schema/page.spec.schema.json
+meta:
+  id: unknown-key
+  title: unknown-key.meta.title
+  route: /unknown
+  surface: staff
+  owner: spec-builder
+  specVersion: 1
+  surfce: staff
+purpose:
+  summary: A typo at the top level and one nested.
+layuot:
+  template: app
+layout:
+  template: app
+x-team: platform

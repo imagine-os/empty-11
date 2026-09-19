@@ -1,0 +1,17 @@
+# yaml-language-server: $schema=../../schema/page.spec.schema.json
+meta:
+  id: reserved-keys
+  title: reserved-keys.meta.title
+  route: /reserved
+  surface: staff
+  owner: spec-builder
+purpose:
+  summary: Writes the v1.1 keys early; they pass with warnings.
+layout:
+  template: app
+flags:
+  require: [page.reservedKeys]
+help:
+  docs: [docs/app/reserved.mdx]
+x-i18n:
+  strict: false
