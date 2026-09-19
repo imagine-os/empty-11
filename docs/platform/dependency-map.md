@@ -6,7 +6,7 @@ Generated from `ownership.json` and the import graph of the working tree.
 Run `pnpm gen:dep-map` after any import or ownership change and commit both files;
 `pnpm lint:deps` and the `@paperos/boundaries` tests fail when the committed copy is stale.
 
-Packages on disk today: **18**. Import edges: **4**, of them undeclared: **0**.
+Packages on disk today: **19**. Import edges: **4**, of them undeclared: **0**.
 
 ## Imports today
 
@@ -25,6 +25,7 @@ flowchart LR
     packages_db["db<br/><small>data-layer</small>"]
     packages_input["input<br/><small>input</small>"]
     packages_spec["spec<br/><small>spec-builder</small>"]
+    packages_tokens["tokens<br/><small>design-system</small>"]
     packages_ui["ui<br/><small>design-system</small>"]
     packages_views["views<br/><small>tables</small>"]
     packages_agents["agents<br/><small>agents</small>"]
@@ -156,7 +157,7 @@ None. Every import in the tree is covered by `allowedDeps`.
 | `packages/search` | runtime | data-layer | no | planned | PAP-39 |
 | `packages/spec` | runtime | spec-builder | no | yes | PAP-114 |
 | `packages/sync` | runtime | data-layer | no | planned | PAP-36, PAP-270, PAP-271, PAP-272 |
-| `packages/tokens` | runtime | design-system | no | planned | PAP-66 |
+| `packages/tokens` | runtime | design-system | no | yes | PAP-66 |
 | `packages/ui` | runtime | design-system | no | yes | PAP-67, PAP-74 |
 | `packages/views` | runtime | tables | no | yes | PAP-161 |
 | `packages/agents` | runtime | agents | no | yes | PAP-103, PAP-108 |

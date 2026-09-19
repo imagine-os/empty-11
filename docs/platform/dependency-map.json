@@ -259,7 +259,7 @@
       "owner": "design-system",
       "optional": false,
       "issues": ["PAP-66"],
-      "present": false
+      "present": true
     },
     {
       "id": "packages/ui",

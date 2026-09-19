@@ -1,5 +1,6 @@
 {
   "$schema": "https://biomejs.dev/schemas/2.5.14/schema.json",
+  "root": false,
   "extends": ["@paperos/config-biome/preset.json"],
   "overrides": [
     {
