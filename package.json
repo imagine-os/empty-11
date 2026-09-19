@@ -1,0 +1,39 @@
+{
+  "name": "paperos-template",
+  "version": "0.1.0",
+  "private": true,
+  "description": "PaperOS platform monorepo template: every PaperOS app is cloned from this repo.",
+  "license": "UNLICENSED",
+  "type": "module",
+  "packageManager": "pnpm@10.33.0",
+  "engines": {
+    "node": ">=22.19.0 <23",
+    "pnpm": ">=10.33.0"
+  },
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "lint:fix": "biome check --write .",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "clean": "turbo run clean",
+    "check": "turbo run lint typecheck test build"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "catalog:",
+    "@paperos/config-biome": "workspace:*",
+    "@paperos/config-ts": "workspace:*",
+    "@vitest/coverage-v8": "catalog:",
+    "turbo": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  },
+  "pnpm": {
+    "ignoredBuiltDependencies": [
+      "esbuild"
+    ]
+  }
+}

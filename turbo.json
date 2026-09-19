@@ -1,0 +1,43 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "ui": "stream",
+  "remoteCache": { "enabled": false },
+  "globalDependencies": [
+    "tsconfig.json",
+    "tsconfig.*.json",
+    "biome.json",
+    "pnpm-workspace.yaml",
+    ".env.example",
+    ".nvmrc"
+  ],
+  "globalEnv": ["NODE_ENV", "BASE_PATH", "VITE_GIT_SHA"],
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", "tsconfig*.json", ".env.example"],
+      "outputs": ["dist/**", ".vite/**"],
+      "env": ["BASE_PATH", "VITE_GIT_SHA"]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "lint": {
+      "inputs": ["$TURBO_DEFAULT$", "tsconfig*.json"],
+      "outputs": []
+    },
+    "typecheck": {
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", "tsconfig*.json"],
+      "outputs": []
+    },
+    "test": {
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", "tsconfig*.json", ".env.example"],
+      "outputs": []
+    },
+    "clean": {
+      "cache": false
+    }
+  }
+}

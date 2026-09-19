@@ -1,0 +1,28 @@
+# Workspace globs are generic on purpose: a new module drops a folder in and is
+# picked up without any root edit (see CLAUDE.md "Adding a package").
+packages:
+  - 'apps/*'
+  - 'packages/*'
+  - 'packages/contracts/*'
+
+# One place for every shared version. Packages reference them with `catalog:`.
+catalog:
+  '@biomejs/biome': 2.5.14
+  '@testing-library/dom': ^10.4.2
+  '@testing-library/jest-dom': ^7.0.1
+  '@testing-library/react': ^16.3.3
+  '@types/node': ^22.19.1
+  '@types/react': ^19.3.0
+  '@types/react-dom': ^19.3.0
+  '@vitejs/plugin-react': ^5.2.0
+  '@vitest/coverage-v8': ^3.2.7
+  jsdom: ^26.1.0
+  react: ^19.3.0
+  react-dom: ^19.3.0
+  turbo: ^2.11.2
+  typescript: ^5.9.3
+  vite: ^7.3.6
+  vitest: ^3.2.7
+
+# esbuild ships its binary as an optional platform package; its install script is
+# not needed. Listed explicitly so `pnpm install` is quiet and deterministic.

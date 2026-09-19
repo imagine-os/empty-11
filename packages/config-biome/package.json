@@ -1,0 +1,26 @@
+{
+  "name": "@paperos/config-biome",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Shared Biome preset for the PaperOS monorepo.",
+  "exports": {
+    ".": "./src/index.ts",
+    "./preset.json": "./preset.json"
+  },
+  "files": [
+    "preset.json",
+    "src"
+  ],
+  "scripts": {
+    "lint": "biome check .",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "vitest run --passWithNoTests",
+    "clean": "node -e \"require('node:fs').rmSync('coverage',{recursive:true,force:true})\""
+  },
+  "devDependencies": {
+    "@biomejs/biome": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}

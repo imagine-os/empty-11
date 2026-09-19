@@ -1,0 +1,30 @@
+{
+  "name": "@paperos/config-ts",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Shared TypeScript presets for the PaperOS monorepo.",
+  "exports": {
+    ".": "./src/index.ts",
+    "./base.json": "./base.json",
+    "./react.json": "./react.json",
+    "./node.json": "./node.json"
+  },
+  "files": [
+    "base.json",
+    "react.json",
+    "node.json",
+    "src"
+  ],
+  "scripts": {
+    "lint": "biome check .",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "vitest run --passWithNoTests",
+    "clean": "node -e \"require('node:fs').rmSync('coverage',{recursive:true,force:true})\""
+  },
+  "devDependencies": {
+    "@biomejs/biome": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}
