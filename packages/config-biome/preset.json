@@ -29,6 +29,9 @@
       "style": {
         "useConst": "error",
         "useImportType": "error"
+      },
+      "suspicious": {
+        "noImportCycles": "error"
       }
     }
   },
