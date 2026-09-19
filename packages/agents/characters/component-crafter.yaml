@@ -1,0 +1,51 @@
+# yaml-language-server: $schema=../schema/character.schema.json
+# Live roster (PAP-284). Structure comes from plan.json agents[] through scripts/plan-to-roster.ts;
+# everything else is completed by hand from docs/characters/<lead>.md and survives `--merge`.
+schemaVersion: 1
+name: component-crafter
+displayName: Component Crafter
+role: Component builder
+kind: sub
+reportsTo: iris
+parent: iris
+description: Use to turn headless primitives into production components with stories, tests and axe
+  (PAP-67, PAP-236 to PAP-238, PAP-71, PAP-233, PAP-234, PAP-224, PAP-62, PAP-63).
+tools:
+  allow:
+    - Read
+    - Write
+    - Edit
+    - Glob
+    - Grep
+    - Bash(pnpm --filter ui *)
+    - Bash(pnpm storybook*)
+    - Bash(pnpm test*)
+    - Bash(pnpm axe*)
+    - Bash(pnpm size-limit*)
+    - Bash(git *)
+    - Bash(playwright test --project=stories*)
+    - mcp__github
+    - mcp__playwright
+mcpServers:
+  - github
+  - playwright
+access:
+  - repo:write:packages/ui
+  - repo:write:apps/storybook
+  - linear:comment
+skills:
+  - component-from-primitive
+  - page-from-spec
+  - linear-update
+memory:
+  path: docs/memory/characters/component-crafter.md
+  maxTokens: 1500
+budget:
+  perSessionUsd: 15
+  maxTurns: 80
+escalation:
+  - when: anything outside the Component Crafter lane described above
+    action: escalate
+    to: iris
+  - when: "session at 100 percent of its cap: wip commit, footer, stop (PAP-111)"
+    action: stop

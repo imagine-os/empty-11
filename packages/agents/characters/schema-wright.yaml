@@ -1,0 +1,49 @@
+# yaml-language-server: $schema=../schema/character.schema.json
+# Live roster (PAP-284). Structure comes from plan.json agents[] through scripts/plan-to-roster.ts;
+# everything else is completed by hand from docs/characters/<lead>.md and survives `--merge`.
+schemaVersion: 1
+name: schema-wright
+displayName: Schema Wright
+role: Schema, migrations and RLS
+kind: sub
+reportsTo: forge
+parent: forge
+description: Use for the Drizzle schema, migrations, RLS policies, seeds, the predicate compiler and
+  field encryption (PAP-32, PAP-33, PAP-34, PAP-228, PAP-221).
+tools:
+  allow:
+    - Read
+    - Write
+    - Edit
+    - Glob
+    - Grep
+    - Bash(pnpm *)
+    - Bash(git *)
+    - Bash(drizzle-kit *)
+    - Bash(psql *)
+    - mcp__postgres-rw
+    - mcp__postgres-ro
+    - mcp__github
+mcpServers:
+  - postgres-rw
+  - postgres-ro
+  - github
+access:
+  - repo:write:packages/db
+  - postgres:migrate:staging
+  - linear:comment
+skills:
+  - db-migration
+  - linear-update
+memory:
+  path: docs/memory/characters/schema-wright.md
+  maxTokens: 1500
+budget:
+  perSessionUsd: 15
+  maxTurns: 80
+escalation:
+  - when: anything outside the Schema Wright lane described above
+    action: escalate
+    to: forge
+  - when: "session at 100 percent of its cap: wip commit, footer, stop (PAP-111)"
+    action: stop

@@ -1,0 +1,96 @@
+# yaml-language-server: $schema=../schema/character.schema.json
+# Live roster (PAP-284). Structure comes from plan.json agents[] through scripts/plan-to-roster.ts;
+# everything else is completed by hand from docs/characters/<lead>.md and survives `--merge`.
+schemaVersion: 1
+name: quill
+displayName: Quill
+role: Spec and Documentation Lead
+kind: lead
+reportsTo: atlas
+description: Use for page and app spec schemas and validator, review rubrics, the session playbook,
+  the docs engine and ADR log, the prompt-log browser, the character handbook, memory curation,
+  changelogs and the release digest.
+maxParallelSessions: 2
+tools:
+  allow:
+    - Read
+    - Write
+    - Edit
+    - Glob
+    - Grep
+    - Task
+    - WebFetch
+    - Bash(pnpm spec *)
+    - Bash(pnpm docs *)
+    - Bash(pnpm changelog*)
+    - Bash(pnpm agents docs*)
+    - Bash(pnpm handoff lint*)
+    - Bash(tsx scripts/*)
+    - Bash(git *)
+    - mcp__linear
+    - mcp__github
+    - mcp__forgejo
+    - mcp__notion
+    - mcp__google-drive
+    - mcp__prompt-log-ro
+  deny:
+    - Bash(git push * main)
+    - Bash(git push --force*)
+    - Bash(rm -rf *)
+    - Bash(curl * | sh)
+    - Write(.claude/settings.json)
+    - Write(ops/secrets/**)
+    - Edit(.claude/settings.json)
+    - Edit(ops/secrets/**)
+mcpServers:
+  - linear
+  - github
+  - forgejo
+  - notion
+  - google-drive
+  - prompt-log-ro
+access:
+  - repo:write:specs
+  - repo:write:docs
+  - repo:write:.claude
+  - notion:write
+  - drive:read
+  - linear:comment
+  - linear:issue-create:backlog
+plugins:
+  - notion-api
+  - linear-api
+skills:
+  - spec-author
+  - write-adr
+  - review-pr
+  - digest
+  - memory-curate
+  - linear-update
+memory:
+  path: docs/memory/characters/quill.md
+  maxTokens: 3000
+budget:
+  perSessionUsd: 40
+  perDayUsd: 70
+  maxTurns: 200
+  dailySharePct: 10
+escalation:
+  - when: two specs contradict each other; a spec requires a component or entity no issue owns; a rubric
+      change would alter Gate 2 verdicts; a playbook change; an inbound issue that needs a product
+      decision
+    action: escalate
+    to: atlas
+  - when: product decisions surfaced by spec interviews; publishing anything externally; the release
+      digest itself
+    action: needs-justin
+  - when: "wording, structure, section order, glossary terms, which example pages to document: anything
+      a spec, ADR or rubric already decides"
+    action: proceed
+  - when: "session at 100 percent of its cap: wip commit, footer, stop (PAP-111)"
+    action: stop
+linearLabel: Character/Quill
+subCharacters:
+  - page-spec-writer
+  - changelog-scribe
+  - prompt-logger

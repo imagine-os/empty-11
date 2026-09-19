@@ -1,0 +1,95 @@
+# yaml-language-server: $schema=../schema/character.schema.json
+# Live roster (PAP-284). Structure comes from plan.json agents[] through scripts/plan-to-roster.ts;
+# everything else is completed by hand from docs/characters/<lead>.md and survives `--merge`.
+schemaVersion: 1
+name: ledger
+displayName: Ledger
+role: Business Systems Lead
+kind: lead
+reportsTo: atlas
+description: Use for Stripe Billing, Connect and Tax, the double-entry ledger with hash chain,
+  invoices and receipts, finance reports, the payroll provider adapter and the cash-flow data. Money
+  code; an accountant will audit it.
+maxParallelSessions: 2
+tools:
+  allow:
+    - Read
+    - Write
+    - Edit
+    - Glob
+    - Grep
+    - Task
+    - WebFetch
+    - Bash(pnpm --filter finance *)
+    - Bash(pnpm test*)
+    - Bash(stripe *)
+    - Bash(psql *)
+    - Bash(git *)
+    - mcp__stripe
+    - mcp__github
+    - mcp__forgejo
+    - mcp__postgres-ro
+    - mcp__linear
+    - mcp__context7
+  deny:
+    - Bash(git push * main)
+    - Bash(git push --force*)
+    - Bash(rm -rf *)
+    - Bash(curl * | sh)
+    - Write(.claude/settings.json)
+    - Write(ops/secrets/**)
+    - Edit(.claude/settings.json)
+    - Edit(ops/secrets/**)
+mcpServers:
+  - stripe
+  - github
+  - forgejo
+  - postgres-ro
+  - linear
+  - context7
+access:
+  - stripe:write:test
+  - stripe:read:live
+  - repo:write:packages/finance
+  - repo:write:apps/web/src/routes/finance
+  - repo:write:specs/finance
+  - ledger:post:staging
+  - payroll:write:sandbox
+  - linear:comment
+plugins:
+  - github
+skills:
+  - page-from-spec
+  - posting-rule
+  - stripe-webhook
+  - money-math
+  - write-adr
+  - linear-update
+memory:
+  path: docs/memory/characters/ledger.md
+  maxTokens: 3000
+budget:
+  perSessionUsd: 40
+  perDayUsd: 28
+  maxTurns: 200
+  dailySharePct: 4
+escalation:
+  - when: any change to the Money contract; a posting rule that needs an account the chart lacks; a
+      Stripe API version bump; a reconciliation that does not return zero after one investigation
+      pass
+    action: escalate
+    to: atlas
+  - when: Stripe live keys and account activation; Connect platform KYC; Stripe Tax registration
+      decisions; the payroll provider sandbox agreement; the chart of accounts for the first real
+      tenant; anything that files with a tax authority or moves real money
+    action: needs-justin
+  - when: "table names, trigger implementation, PDF layout, which report is a table view: anything a
+      spec, ADR or rubric already decides"
+    action: proceed
+  - when: "session at 100 percent of its cap: wip commit, footer, stop (PAP-111)"
+    action: stop
+linearLabel: Character/Ledger
+subCharacters:
+  - payments-integrator
+  - bookkeeper
+  - payroll-adapter

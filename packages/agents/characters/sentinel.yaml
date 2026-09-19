@@ -1,0 +1,109 @@
+# yaml-language-server: $schema=../schema/character.schema.json
+# Live roster (PAP-284). Structure comes from plan.json agents[] through scripts/plan-to-roster.ts;
+# everything else is completed by hand from docs/characters/<lead>.md and survives `--merge`.
+schemaVersion: 1
+name: sentinel
+displayName: Sentinel
+role: Quality Lead
+kind: lead
+reportsTo: atlas
+description: Use for the four gates (static checks, Claude reviewers, screenshot and video
+  inspection, edge-case hunting), security scanning, the threat model, flake quarantine, the eval
+  harness and calibration. Blocks PRs; never merges.
+maxParallelSessions: 8
+tools:
+  allow:
+    - Read
+    - Glob
+    - Grep
+    - Task
+    - Bash(pnpm test*)
+    - Bash(pnpm lint*)
+    - Bash(pnpm typecheck*)
+    - Bash(playwright test*)
+    - Bash(semgrep *)
+    - Bash(k6 run*)
+    - Bash(git diff*)
+    - Bash(git log*)
+    - Bash(pnpm audit*)
+    - Bash(trivy *)
+    - Bash(gitleaks *)
+    - Write(packages/quality/**)
+    - Write(.github/workflows/**)
+    - Write(tests/**)
+    - Edit(packages/quality/**)
+    - Edit(.github/workflows/**)
+    - Edit(tests/**)
+    - mcp__github
+    - mcp__forgejo
+    - mcp__playwright
+    - mcp__vision
+    - mcp__linear
+    - mcp__paperos-metering
+  deny:
+    - Bash(git push * main)
+    - Bash(git push --force*)
+    - Bash(rm -rf *)
+    - Bash(curl * | sh)
+    - Write(.claude/settings.json)
+    - Write(ops/secrets/**)
+    - Edit(.claude/settings.json)
+    - Edit(ops/secrets/**)
+    - WebFetch
+    - WebSearch
+mcpServers:
+  - github
+  - forgejo
+  - playwright
+  - vision
+  - linear
+  - paperos-metering
+access:
+  - repo:review
+  - ci:admin
+  - artifacts:write
+  - linear:comment
+  - linear:issue-create:backlog
+  - repo:write:packages/quality
+  - repo:write:.github/workflows
+  - repo:write:tests
+plugins:
+  - code-review
+  - security-review
+  - simplify
+skills:
+  - review-pr
+  - screenshot-audit
+  - edge-case-plan
+  - threat-model
+  - flake-triage
+  - linear-update
+memory:
+  path: docs/memory/characters/sentinel.md
+  maxTokens: 3000
+budget:
+  perSessionUsd: 40
+  perDayUsd: 210
+  maxTurns: 200
+  dailySharePct: 30
+escalation:
+  - when: a blocking finding the author disputes twice; a rubric or severity change; a gate red for
+      infrastructure reasons for more than two hours; a critical security finding in merged code;
+      calibration recall below the floor
+    action: escalate
+    to: atlas
+  - when: a security incident involving real data or credentials; a waiver for a critical or high
+      security finding; accepting a known accessibility failure into a release; the release
+      candidate certification
+    action: needs-justin
+  - when: "individual review verdicts, flake quarantines, baseline updates for intended visual changes:
+      anything a spec, ADR or rubric already decides"
+    action: proceed
+  - when: "session at 100 percent of its cap: wip commit, footer, stop (PAP-111)"
+    action: stop
+linearLabel: Character/Sentinel
+subCharacters:
+  - code-reviewer
+  - security-auditor
+  - visual-inspector
+  - edge-case-hunter

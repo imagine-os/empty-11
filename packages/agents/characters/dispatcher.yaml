@@ -1,0 +1,42 @@
+# yaml-language-server: $schema=../schema/character.schema.json
+# Live roster (PAP-284). Structure comes from plan.json agents[] through scripts/plan-to-roster.ts;
+# everything else is completed by hand from docs/characters/<lead>.md and survives `--merge`.
+schemaVersion: 1
+name: dispatcher
+displayName: Dispatcher
+role: Session dispatcher
+kind: sub
+reportsTo: atlas
+parent: atlas
+description: Use to claim issues atomically, spawn sessions in worktrees, move Linear states and
+  apply concurrency and budget holds (PAP-96, PAP-99, PAP-111).
+tools:
+  allow:
+    - Read
+    - Glob
+    - Grep
+    - Bash(git worktree *)
+    - Bash(pnpm agents *)
+    - Bash(pnpm linear:*)
+    - mcp__linear
+    - mcp__paperos-metering
+mcpServers:
+  - linear
+  - paperos-metering
+access:
+  - linear:admin
+  - budget:write
+skills:
+  - linear-update
+memory:
+  path: docs/memory/characters/dispatcher.md
+  maxTokens: 1500
+budget:
+  perSessionUsd: 15
+  maxTurns: 80
+escalation:
+  - when: anything outside the Dispatcher lane described above
+    action: escalate
+    to: atlas
+  - when: "session at 100 percent of its cap: wip commit, footer, stop (PAP-111)"
+    action: stop

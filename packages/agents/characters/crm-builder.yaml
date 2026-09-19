@@ -1,0 +1,47 @@
+# yaml-language-server: $schema=../schema/character.schema.json
+# Live roster (PAP-284). Structure comes from plan.json agents[] through scripts/plan-to-roster.ts;
+# everything else is completed by hand from docs/characters/<lead>.md and survives `--merge`.
+schemaVersion: 1
+name: crm-builder
+displayName: CRM Builder
+role: CRM models and views
+kind: sub
+reportsTo: beacon
+parent: beacon
+description: Use for lead, contact, company, deal, pipeline and segment models and views, and
+  consent records (PAP-187, PAP-189, PAP-195).
+model: claude-sonnet-5
+fallbackModel: claude-haiku-4-5
+effort: medium
+tools:
+  allow:
+    - Read
+    - Write
+    - Edit
+    - Glob
+    - Grep
+    - Bash(pnpm --filter growth *)
+    - Bash(pnpm test*)
+    - Bash(git *)
+    - mcp__github
+mcpServers:
+  - github
+access:
+  - crm:write:staging
+  - repo:write:packages/growth
+  - linear:comment
+skills:
+  - page-from-spec
+  - linear-update
+memory:
+  path: docs/memory/characters/crm-builder.md
+  maxTokens: 1500
+budget:
+  perSessionUsd: 15
+  maxTurns: 80
+escalation:
+  - when: anything outside the CRM Builder lane described above
+    action: escalate
+    to: beacon
+  - when: "session at 100 percent of its cap: wip commit, footer, stop (PAP-111)"
+    action: stop

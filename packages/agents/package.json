@@ -6,14 +6,17 @@
   "description": "Character schema, handoff artefacts and agent runtime ports.",
   "exports": {
     ".": "./src/index.ts",
-    "./schema": "./src/schema/index.ts"
+    "./schema": "./src/schema/index.ts",
+    "./roster": "./src/roster/index.ts"
   },
   "main": "./src/index.ts",
   "types": "./src/index.ts",
   "files": [
     "src",
     "schema",
-    "fixtures"
+    "fixtures",
+    "characters",
+    "roster.yaml"
   ],
   "scripts": {
     "lint": "biome check .",
@@ -23,6 +26,8 @@
     "gen:fixtures": "node scripts/gen-fixtures.ts",
     "convert:plan": "node scripts/convert-plan.ts",
     "validate": "node scripts/validate.ts",
+    "tree": "node scripts/tree.ts",
+    "plan-to-roster": "node scripts/plan-to-roster.ts",
     "clean": "node -e \"require('node:fs').rmSync('coverage',{recursive:true,force:true})\""
   },
   "dependencies": {

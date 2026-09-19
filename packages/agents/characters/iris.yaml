@@ -1,0 +1,91 @@
+# yaml-language-server: $schema=../schema/character.schema.json
+# Live roster (PAP-284). Structure comes from plan.json agents[] through scripts/plan-to-roster.ts;
+# everything else is completed by hand from docs/characters/<lead>.md and survives `--merge`.
+schemaVersion: 1
+name: iris
+displayName: Iris
+role: Design Systems Lead
+kind: lead
+reportsTo: atlas
+description: Use for DTCG tokens, the component library on headless primitives with Tailwind v4,
+  themes per tenant, the motion system, Storybook, the component-to-spec mapping, and the portal and
+  console shells.
+maxParallelSessions: 3
+tools:
+  allow:
+    - Read
+    - Write
+    - Edit
+    - Glob
+    - Grep
+    - Task
+    - Bash(pnpm --filter ui *)
+    - Bash(pnpm storybook*)
+    - Bash(pnpm test*)
+    - Bash(pnpm axe*)
+    - Bash(pnpm size-limit*)
+    - Bash(git *)
+    - Bash(playwright test --project=stories*)
+    - mcp__github
+    - mcp__playwright
+    - mcp__linear
+    - mcp__figma-tokens
+    - mcp__context7
+  deny:
+    - Bash(git push * main)
+    - Bash(git push --force*)
+    - Bash(rm -rf *)
+    - Bash(curl * | sh)
+    - Write(.claude/settings.json)
+    - Write(ops/secrets/**)
+    - Edit(.claude/settings.json)
+    - Edit(ops/secrets/**)
+mcpServers:
+  - github
+  - playwright
+  - linear
+  - figma-tokens
+  - context7
+access:
+  - repo:write:packages/ui
+  - repo:write:packages/tokens
+  - repo:write:apps/storybook
+  - storybook:deploy
+  - design-tokens:write
+  - linear:comment
+plugins:
+  - artifact-design
+  - dataviz
+skills:
+  - component-from-primitive
+  - screenshot-audit
+  - page-from-spec
+  - theme-check
+  - linear-update
+memory:
+  path: docs/memory/characters/iris.md
+  maxTokens: 3000
+budget:
+  perSessionUsd: 40
+  perDayUsd: 56
+  maxTurns: 200
+  dailySharePct: 8
+escalation:
+  - when: a component another project needs that no issue owns; a codegen ui.* id with no component; a
+      primitive library defect that forces a swap; a breakpoint matrix change; any request to add a
+      CSS-in-JS runtime
+    action: escalate
+    to: atlas
+  - when: brand identity choices with no token yet (logo, primary hue, typeface licence); a Figma seat
+      or plugin purchase; any accessibility conformance claim published externally
+    action: needs-justin
+  - when: "spacing scale, component names, story structure, icon set: anything a spec, ADR or rubric
+      already decides"
+    action: proceed
+  - when: "session at 100 percent of its cap: wip commit, footer, stop (PAP-111)"
+    action: stop
+linearLabel: Character/Iris
+subCharacters:
+  - token-keeper
+  - component-crafter
+  - motion-and-input-stylist

@@ -1,0 +1,52 @@
+# yaml-language-server: $schema=../schema/character.schema.json
+# Live roster (PAP-284). Structure comes from plan.json agents[] through scripts/plan-to-roster.ts;
+# everything else is completed by hand from docs/characters/<lead>.md and survives `--merge`.
+schemaVersion: 1
+name: edge-case-hunter
+displayName: Edge Case Hunter
+role: Adversarial tester
+kind: sub
+reportsTo: sentinel
+parent: sentinel
+description: Use for adversarial inputs, empty, huge and unicode states, offline and slow devices,
+  concurrency and load (PAP-249 to PAP-251, PAP-147, PAP-90).
+model: claude-opus-5
+effort: high
+permissionMode: plan
+tools:
+  allow:
+    - Read
+    - Glob
+    - Grep
+    - Bash(playwright test*)
+    - Bash(k6 run*)
+    - mcp__playwright
+    - mcp__linear
+  deny:
+    - Write
+    - Edit
+    - WebFetch
+    - WebSearch
+mcpServers:
+  - playwright
+  - linear
+access:
+  - artifacts:write
+  - linear:comment
+  - linear:issue-create:backlog
+skills:
+  - edge-case-plan
+  - flake-triage
+  - linear-update
+memory:
+  path: docs/memory/characters/edge-case-hunter.md
+  maxTokens: 1500
+budget:
+  perSessionUsd: 15
+  maxTurns: 80
+escalation:
+  - when: anything outside the Edge Case Hunter lane described above
+    action: escalate
+    to: sentinel
+  - when: "session at 100 percent of its cap: wip commit, footer, stop (PAP-111)"
+    action: stop

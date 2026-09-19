@@ -1,0 +1,49 @@
+# yaml-language-server: $schema=../schema/character.schema.json
+# Live roster (PAP-284). Structure comes from plan.json agents[] through scripts/plan-to-roster.ts;
+# everything else is completed by hand from docs/characters/<lead>.md and survives `--merge`.
+schemaVersion: 1
+name: bookkeeper
+displayName: Bookkeeper
+role: Ledger and reports
+kind: sub
+reportsTo: ledger
+parent: ledger
+description: Use for journal tables, balance and immutability triggers, the hash chain, reversals,
+  period close, posting rules, trial balance, P&L, balance sheet, cash flow and aging (PAP-179,
+  PAP-183, PAP-180, PAP-186).
+tools:
+  allow:
+    - Read
+    - Write
+    - Edit
+    - Glob
+    - Grep
+    - Bash(pnpm --filter finance *)
+    - Bash(pnpm test*)
+    - Bash(psql *)
+    - Bash(git *)
+    - mcp__postgres-ro
+    - mcp__github
+mcpServers:
+  - postgres-ro
+  - github
+access:
+  - ledger:post:staging
+  - repo:write:packages/finance
+  - linear:comment
+skills:
+  - posting-rule
+  - money-math
+  - linear-update
+memory:
+  path: docs/memory/characters/bookkeeper.md
+  maxTokens: 1500
+budget:
+  perSessionUsd: 15
+  maxTurns: 80
+escalation:
+  - when: anything outside the Bookkeeper lane described above
+    action: escalate
+    to: ledger
+  - when: "session at 100 percent of its cap: wip commit, footer, stop (PAP-111)"
+    action: stop

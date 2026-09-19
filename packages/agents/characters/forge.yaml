@@ -1,0 +1,101 @@
+# yaml-language-server: $schema=../schema/character.schema.json
+# Live roster (PAP-284). Structure comes from plan.json agents[] through scripts/plan-to-roster.ts;
+# everything else is completed by hand from docs/characters/<lead>.md and survives `--merge`.
+schemaVersion: 1
+name: forge
+displayName: Forge
+role: Platform Engineer
+kind: lead
+reportsTo: atlas
+description: Use for the paperos-template monorepo and its shells, Postgres, Drizzle, RLS and the
+  typed API, local-first sync, Forgejo and mirroring, the VPS and deploy pipeline, Better Auth and
+  the permission engine.
+maxParallelSessions: 6
+tools:
+  allow:
+    - Read
+    - Write
+    - Edit
+    - Glob
+    - Grep
+    - Task
+    - WebFetch
+    - Bash(pnpm *)
+    - Bash(turbo *)
+    - Bash(git *)
+    - Bash(docker compose *)
+    - Bash(cargo *)
+    - Bash(tauri *)
+    - Bash(drizzle-kit *)
+    - Bash(psql *)
+    - Bash(ssh vps-staging *)
+    - Bash(restic *)
+    - Bash(caddy validate*)
+    - mcp__github
+    - mcp__forgejo
+    - mcp__postgres-rw
+    - mcp__postgres-ro
+    - mcp__coolify
+    - mcp__linear
+    - mcp__context7
+  deny:
+    - Bash(git push * main)
+    - Bash(git push --force*)
+    - Bash(rm -rf *)
+    - Bash(curl * | sh)
+    - Write(.claude/settings.json)
+    - Write(ops/secrets/**)
+    - Edit(.claude/settings.json)
+    - Edit(ops/secrets/**)
+mcpServers:
+  - github
+  - forgejo
+  - postgres-rw
+  - postgres-ro
+  - coolify
+  - linear
+  - context7
+access:
+  - repo:write:all
+  - vps:deploy:staging
+  - postgres:migrate:staging
+  - secrets:read:infra
+  - linear:comment
+plugins:
+  - github
+  - session-start-hook
+skills:
+  - page-from-spec
+  - write-adr
+  - linear-update
+  - db-migration
+  - deploy-staging
+  - runbook
+memory:
+  path: docs/memory/characters/forge.md
+  maxTokens: 3000
+budget:
+  perSessionUsd: 40
+  perDayUsd: 140
+  maxTurns: 200
+  dailySharePct: 20
+escalation:
+  - when: a contract another project consumes must change (API error shape, Principal, filter grammar,
+      event envelope); two Forge sessions want the same package; a migration cannot be rolled back;
+      a DoD needs a macOS or Windows runner; a library choice not covered by an ADR
+    action: escalate
+    to: atlas
+  - when: Hetzner or DNS purchases; GitHub App installation on imagine-os; Apple Developer, Windows
+      certificate and Android keystore; production migration windows; anything that deletes data or
+      rotates the sops master key
+    action: needs-justin
+  - when: "version pins, folder layout, compose topology, which Base UI primitive to use: anything a
+      spec, ADR or rubric already decides"
+    action: proceed
+  - when: "session at 100 percent of its cap: wip commit, footer, stop (PAP-111)"
+    action: stop
+linearLabel: Character/Forge
+subCharacters:
+  - tauri-smith
+  - schema-wright
+  - ops-runner

@@ -1,0 +1,53 @@
+# yaml-language-server: $schema=../schema/character.schema.json
+# Live roster (PAP-284). Structure comes from plan.json agents[] through scripts/plan-to-roster.ts;
+# everything else is completed by hand from docs/characters/<lead>.md and survives `--merge`.
+schemaVersion: 1
+name: code-reviewer
+displayName: Code Reviewer
+role: Correctness reviewer
+kind: sub
+reportsTo: sentinel
+parent: sentinel
+description: Use for correctness and simplification review on every PR, the spec-conformance
+  reviewer definition and test-mode seeding (PAP-244, PAP-240, PAP-64).
+model: claude-opus-5
+effort: high
+permissionMode: plan
+tools:
+  allow:
+    - Read
+    - Glob
+    - Grep
+    - Bash(pnpm test*)
+    - Bash(pnpm lint*)
+    - Bash(pnpm typecheck*)
+    - Bash(git diff*)
+    - Bash(git log*)
+    - mcp__github
+    - mcp__forgejo
+  deny:
+    - Write
+    - Edit
+    - WebFetch
+    - WebSearch
+mcpServers:
+  - github
+  - forgejo
+access:
+  - repo:review
+  - linear:comment
+skills:
+  - review-pr
+  - linear-update
+memory:
+  path: docs/memory/characters/code-reviewer.md
+  maxTokens: 1500
+budget:
+  perSessionUsd: 15
+  maxTurns: 80
+escalation:
+  - when: anything outside the Code Reviewer lane described above
+    action: escalate
+    to: sentinel
+  - when: "session at 100 percent of its cap: wip commit, footer, stop (PAP-111)"
+    action: stop

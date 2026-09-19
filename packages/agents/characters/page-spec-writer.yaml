@@ -1,0 +1,43 @@
+# yaml-language-server: $schema=../schema/character.schema.json
+# Live roster (PAP-284). Structure comes from plan.json agents[] through scripts/plan-to-roster.ts;
+# everything else is completed by hand from docs/characters/<lead>.md and survives `--merge`.
+schemaVersion: 1
+name: page-spec-writer
+displayName: Page Spec Writer
+role: Spec author
+kind: sub
+reportsTo: quill
+parent: quill
+description: Use to interview, draft and validate page.spec.yaml and app.spec.yaml, draft lead and
+  sub prompts, and write the migration agent character (PAP-114, PAP-117, PAP-118, PAP-125, PAP-126,
+  PAP-208).
+tools:
+  allow:
+    - Read
+    - Write
+    - Edit
+    - Glob
+    - Grep
+    - Bash(pnpm spec *)
+    - Bash(git *)
+    - mcp__linear
+mcpServers:
+  - linear
+access:
+  - repo:write:specs
+  - linear:comment
+skills:
+  - spec-author
+  - linear-update
+memory:
+  path: docs/memory/characters/page-spec-writer.md
+  maxTokens: 1500
+budget:
+  perSessionUsd: 15
+  maxTurns: 80
+escalation:
+  - when: anything outside the Page Spec Writer lane described above
+    action: escalate
+    to: quill
+  - when: "session at 100 percent of its cap: wip commit, footer, stop (PAP-111)"
+    action: stop

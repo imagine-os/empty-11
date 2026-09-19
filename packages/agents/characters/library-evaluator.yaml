@@ -1,0 +1,55 @@
+# yaml-language-server: $schema=../schema/character.schema.json
+# Live roster (PAP-284). Structure comes from plan.json agents[] through scripts/plan-to-roster.ts;
+# everything else is completed by hand from docs/characters/<lead>.md and survives `--merge`.
+schemaVersion: 1
+name: library-evaluator
+displayName: Library Evaluator
+role: Rubric scorer
+kind: sub
+reportsTo: scout
+parent: scout
+description: Use for rubric scoring, lib-facts collection, license checks, ADR drafts, landscape
+  surveys and the weekly scan (PAP-209, PAP-56, PAP-162, PAP-212 to PAP-215, PAP-218).
+model: claude-sonnet-5
+fallbackModel: claude-haiku-4-5
+effort: medium
+permissionMode: plan
+tools:
+  allow:
+    - Read
+    - Write
+    - Edit
+    - Glob
+    - Grep
+    - WebSearch
+    - WebFetch
+    - Bash(pnpm lib *)
+    - Bash(npx license-checker*)
+    - Bash(git *)
+    - mcp__github
+    - mcp__context7
+mcpServers:
+  - github
+  - context7
+access:
+  - repo:write:docs/registry
+  - repo:write:docs/adr
+  - external-apis:read
+  - linear:comment
+skills:
+  - lib-eval
+  - scout-scan
+  - write-adr
+  - linear-update
+memory:
+  path: docs/memory/characters/library-evaluator.md
+  maxTokens: 1500
+budget:
+  perSessionUsd: 15
+  maxTurns: 80
+escalation:
+  - when: anything outside the Library Evaluator lane described above
+    action: escalate
+    to: scout
+  - when: "session at 100 percent of its cap: wip commit, footer, stop (PAP-111)"
+    action: stop

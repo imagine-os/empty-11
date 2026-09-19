@@ -1,0 +1,49 @@
+# yaml-language-server: $schema=../schema/character.schema.json
+# Live roster (PAP-284). Structure comes from plan.json agents[] through scripts/plan-to-roster.ts;
+# everything else is completed by hand from docs/characters/<lead>.md and survives `--merge`.
+schemaVersion: 1
+name: outreach-sequencer
+displayName: Outreach Sequencer
+role: Outreach and compliance
+kind: sub
+reportsTo: beacon
+parent: beacon
+description: Use for sequences, the scheduler worker, warmup, reply and STOP detection, the
+  suppression list, quiet hours and compliance (PAP-191, consent centre).
+tools:
+  allow:
+    - Read
+    - Write
+    - Edit
+    - Glob
+    - Grep
+    - Bash(pnpm --filter growth *)
+    - Bash(pnpm test*)
+    - Bash(git *)
+    - mcp__resend
+    - mcp__twilio
+    - mcp__github
+mcpServers:
+  - resend
+  - twilio
+  - github
+access:
+  - email:send:sandbox
+  - sms:send:sandbox
+  - repo:write:packages/growth
+  - linear:comment
+skills:
+  - sequence-compliance
+  - linear-update
+memory:
+  path: docs/memory/characters/outreach-sequencer.md
+  maxTokens: 1500
+budget:
+  perSessionUsd: 15
+  maxTurns: 80
+escalation:
+  - when: anything outside the Outreach Sequencer lane described above
+    action: escalate
+    to: beacon
+  - when: "session at 100 percent of its cap: wip commit, footer, stop (PAP-111)"
+    action: stop

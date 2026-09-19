@@ -1,0 +1,49 @@
+# yaml-language-server: $schema=../schema/character.schema.json
+# Live roster (PAP-284). Structure comes from plan.json agents[] through scripts/plan-to-roster.ts;
+# everything else is completed by hand from docs/characters/<lead>.md and survives `--merge`.
+schemaVersion: 1
+name: token-keeper
+displayName: Token Keeper
+role: Tokens and themes
+kind: sub
+reportsTo: iris
+parent: iris
+description: Use for DTCG tokens, theme builds, per-tenant branding, brandingToInlineCss and the
+  email and PDF theme (PAP-66, PAP-75, PAP-235, PAP-77).
+model: claude-sonnet-5
+fallbackModel: claude-haiku-4-5
+effort: medium
+tools:
+  allow:
+    - Read
+    - Write
+    - Edit
+    - Glob
+    - Grep
+    - Bash(pnpm --filter ui *)
+    - Bash(pnpm test*)
+    - Bash(git *)
+    - mcp__figma-tokens
+    - mcp__github
+mcpServers:
+  - figma-tokens
+  - github
+access:
+  - repo:write:packages/tokens
+  - design-tokens:write
+  - linear:comment
+skills:
+  - theme-check
+  - linear-update
+memory:
+  path: docs/memory/characters/token-keeper.md
+  maxTokens: 1500
+budget:
+  perSessionUsd: 15
+  maxTurns: 80
+escalation:
+  - when: anything outside the Token Keeper lane described above
+    action: escalate
+    to: iris
+  - when: "session at 100 percent of its cap: wip commit, footer, stop (PAP-111)"
+    action: stop

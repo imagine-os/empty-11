@@ -1,0 +1,48 @@
+# yaml-language-server: $schema=../schema/character.schema.json
+# Live roster (PAP-284). Structure comes from plan.json agents[] through scripts/plan-to-roster.ts;
+# everything else is completed by hand from docs/characters/<lead>.md and survives `--merge`.
+schemaVersion: 1
+name: crdt-engineer
+displayName: CRDT Engineer
+role: Realtime and collaboration
+kind: sub
+reportsTo: nova
+parent: nova
+description: Use for Yjs rooms, presence, the Tiptap editor, the offline queue, conflict handling,
+  follow mode and multi-window sync (PAP-139, PAP-141, PAP-142, PAP-148, PAP-149).
+tools:
+  allow:
+    - Read
+    - Write
+    - Edit
+    - Glob
+    - Grep
+    - Bash(pnpm --filter collab *)
+    - Bash(pnpm test*)
+    - Bash(playwright test*)
+    - Bash(docker compose up electric hocuspocus*)
+    - Bash(git *)
+    - mcp__github
+    - mcp__playwright
+mcpServers:
+  - github
+  - playwright
+access:
+  - repo:write:packages/collab
+  - yjs-server:deploy:staging
+  - linear:comment
+skills:
+  - crdt-room
+  - linear-update
+memory:
+  path: docs/memory/characters/crdt-engineer.md
+  maxTokens: 1500
+budget:
+  perSessionUsd: 15
+  maxTurns: 80
+escalation:
+  - when: anything outside the CRDT Engineer lane described above
+    action: escalate
+    to: nova
+  - when: "session at 100 percent of its cap: wip commit, footer, stop (PAP-111)"
+    action: stop

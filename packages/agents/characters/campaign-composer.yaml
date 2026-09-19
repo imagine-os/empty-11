@@ -1,0 +1,41 @@
+# yaml-language-server: $schema=../schema/character.schema.json
+# Live roster (PAP-284). Structure comes from plan.json agents[] through scripts/plan-to-roster.ts;
+# everything else is completed by hand from docs/characters/<lead>.md and survives `--merge`.
+schemaVersion: 1
+name: campaign-composer
+displayName: Campaign Composer
+role: Content drafter
+kind: sub
+reportsTo: beacon
+parent: beacon
+description: Use to draft posts, emails and landing copy from changelogs, specs and ADRs for
+  approval; the content agent character of PAP-192.
+tools:
+  allow:
+    - Read
+    - Write
+    - Edit
+    - Glob
+    - Grep
+    - Bash(git *)
+    - mcp__linear
+mcpServers:
+  - linear
+access:
+  - repo:write:packages/growth
+  - linear:comment
+skills:
+  - campaign-draft
+  - linear-update
+memory:
+  path: docs/memory/characters/campaign-composer.md
+  maxTokens: 1500
+budget:
+  perSessionUsd: 15
+  maxTurns: 80
+escalation:
+  - when: anything outside the Campaign Composer lane described above
+    action: escalate
+    to: beacon
+  - when: "session at 100 percent of its cap: wip commit, footer, stop (PAP-111)"
+    action: stop

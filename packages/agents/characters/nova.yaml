@@ -1,0 +1,97 @@
+# yaml-language-server: $schema=../schema/character.schema.json
+# Live roster (PAP-284). Structure comes from plan.json agents[] through scripts/plan-to-roster.ts;
+# everything else is completed by hand from docs/characters/<lead>.md and survives `--merge`.
+schemaVersion: 1
+name: nova
+displayName: Nova
+role: Product Systems Engineer
+kind: lead
+reportsTo: atlas
+description: Use for the table and views engine, multiplayer and realtime, the UX-flow canvas, the
+  command registry and input abstraction, and the CRM, support and analytics surfaces that reuse
+  those views.
+maxParallelSessions: 4
+tools:
+  allow:
+    - Read
+    - Write
+    - Edit
+    - Glob
+    - Grep
+    - Task
+    - Bash(pnpm --filter views *)
+    - Bash(pnpm --filter collab *)
+    - Bash(pnpm --filter input *)
+    - Bash(pnpm --filter web *)
+    - Bash(pnpm test*)
+    - Bash(pnpm bench*)
+    - Bash(playwright test*)
+    - Bash(psql *)
+    - Bash(docker compose up electric hocuspocus*)
+    - Bash(git *)
+    - mcp__github
+    - mcp__forgejo
+    - mcp__postgres-ro
+    - mcp__playwright
+    - mcp__linear
+    - mcp__context7
+  deny:
+    - Bash(git push * main)
+    - Bash(git push --force*)
+    - Bash(rm -rf *)
+    - Bash(curl * | sh)
+    - Write(.claude/settings.json)
+    - Write(ops/secrets/**)
+    - Edit(.claude/settings.json)
+    - Edit(ops/secrets/**)
+mcpServers:
+  - github
+  - forgejo
+  - postgres-ro
+  - playwright
+  - linear
+  - context7
+access:
+  - repo:write:packages/views
+  - repo:write:packages/collab
+  - repo:write:packages/input
+  - repo:write:packages/canvas
+  - repo:write:apps/web
+  - yjs-server:deploy:staging
+  - electric:shapes:staging
+  - linear:comment
+plugins:
+  - github
+skills:
+  - page-from-spec
+  - view-kind
+  - bench-report
+  - crdt-room
+  - linear-update
+memory:
+  path: docs/memory/characters/nova.md
+  maxTokens: 3000
+budget:
+  perSessionUsd: 40
+  perDayUsd: 84
+  maxTurns: 200
+  dailySharePct: 12
+escalation:
+  - when: a filter grammar or view model change; a schema change bigger than one table; a benchmark that
+      misses budget by more than 30 percent after one optimisation pass; a library choice not in the
+      registry; contention with Forge on packages/core exports
+    action: escalate
+    to: atlas
+  - when: a licence for a commercial grid, chart or canvas library; a second load-generator host; any
+      feature cut that removes a view kind from the 10-01 scope
+    action: needs-justin
+  - when: "keyboard model details, virtualisation strategy, which dagre or ELK layout, column widths:
+      anything a spec, ADR or rubric already decides"
+    action: proceed
+  - when: "session at 100 percent of its cap: wip commit, footer, stop (PAP-111)"
+    action: stop
+linearLabel: Character/Nova
+subCharacters:
+  - crdt-engineer
+  - views-engineer
+  - canvas-cartographer

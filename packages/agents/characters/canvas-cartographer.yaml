@@ -1,0 +1,47 @@
+# yaml-language-server: $schema=../schema/character.schema.json
+# Live roster (PAP-284). Structure comes from plan.json agents[] through scripts/plan-to-roster.ts;
+# everything else is completed by hand from docs/characters/<lead>.md and survives `--merge`.
+schemaVersion: 1
+name: canvas-cartographer
+displayName: Canvas Cartographer
+role: Canvas and org chart
+kind: sub
+reportsTo: nova
+parent: nova
+description: Use for the UX-flow canvas from specs, the agent org chart, canvas overlays and the
+  screenshot annotation surface (PAP-127, PAP-132, PAP-123, PAP-113).
+tools:
+  allow:
+    - Read
+    - Write
+    - Edit
+    - Glob
+    - Grep
+    - Bash(pnpm --filter web *)
+    - Bash(pnpm test*)
+    - Bash(playwright test*)
+    - Bash(git *)
+    - mcp__github
+    - mcp__playwright
+mcpServers:
+  - github
+  - playwright
+access:
+  - repo:write:packages/canvas
+  - repo:write:apps/web
+  - linear:comment
+skills:
+  - page-from-spec
+  - linear-update
+memory:
+  path: docs/memory/characters/canvas-cartographer.md
+  maxTokens: 1500
+budget:
+  perSessionUsd: 15
+  maxTurns: 80
+escalation:
+  - when: anything outside the Canvas Cartographer lane described above
+    action: escalate
+    to: nova
+  - when: "session at 100 percent of its cap: wip commit, footer, stop (PAP-111)"
+    action: stop

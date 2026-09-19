@@ -1,0 +1,48 @@
+# yaml-language-server: $schema=../schema/character.schema.json
+# Live roster (PAP-284). Structure comes from plan.json agents[] through scripts/plan-to-roster.ts;
+# everything else is completed by hand from docs/characters/<lead>.md and survives `--merge`.
+schemaVersion: 1
+name: payments-integrator
+displayName: Payments Integrator
+role: Stripe integration
+kind: sub
+reportsTo: ledger
+parent: ledger
+description: Use for Stripe products, prices, subscriptions, the customer portal, Connect onboarding
+  and payouts, Tax, and webhooks with idempotency (PAP-177, PAP-178, PAP-181, PAP-182, PAP-206).
+tools:
+  allow:
+    - Read
+    - Write
+    - Edit
+    - Glob
+    - Grep
+    - Bash(pnpm --filter finance *)
+    - Bash(pnpm test*)
+    - Bash(stripe *)
+    - Bash(git *)
+    - mcp__stripe
+    - mcp__github
+mcpServers:
+  - stripe
+  - github
+access:
+  - stripe:write:test
+  - repo:write:packages/finance
+  - linear:comment
+skills:
+  - stripe-webhook
+  - money-math
+  - linear-update
+memory:
+  path: docs/memory/characters/payments-integrator.md
+  maxTokens: 1500
+budget:
+  perSessionUsd: 15
+  maxTurns: 80
+escalation:
+  - when: anything outside the Payments Integrator lane described above
+    action: escalate
+    to: ledger
+  - when: "session at 100 percent of its cap: wip commit, footer, stop (PAP-111)"
+    action: stop

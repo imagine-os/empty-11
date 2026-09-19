@@ -1,0 +1,34 @@
+# yaml-language-server: $schema=../schema/roster.schema.json
+# Live roster defaults (PAP-284, round-4 amendment). Characters live in characters/*.yaml.
+# A character value wins over its parent, which wins over these defaults; the issue Model / Effort labels win over all of them.
+schemaVersion: 1
+dailyAllowanceUsd: 700
+defaults:
+  lead:
+    model: claude-opus-5
+    fallbackModel: claude-sonnet-5
+    effort: high
+    permissionMode: acceptEdits
+    budget:
+      perSessionUsd: 40
+      perDayUsd: 35
+      maxTurns: 200
+    memoryMaxTokens:
+      global: 1000
+      project: 2000
+      character: 3000
+    denyList: ops/security/agent-deny.yaml
+  sub:
+    model: claude-sonnet-5
+    fallbackModel: claude-haiku-4-5
+    effort: medium
+    permissionMode: acceptEdits
+    budget:
+      perSessionUsd: 15
+      perDayUsd: 35
+      maxTurns: 80
+    memoryMaxTokens:
+      global: 1000
+      project: 2000
+      character: 1500
+    denyList: ops/security/agent-deny.yaml

@@ -152,5 +152,5 @@ repo (Atlas, Forge, Iris, Quill, Sentinel, Nova, Ledger, Beacon, Scout) and thei
 the sheets' `xhigh` spelling. Daily shares 8 / 20 / 8 / 10 / 30 / 12 / 4 / 3 / 5 sum to 100 of a
 $700 allowance; per-session cap 60 (the S issue cap), sub sessions 15 USD / 80 turns. Sentinel's
 four reviewers run `plan` with `Write` and `Edit` denied. Leads hold the union of their subs' tools,
-scopes and servers, because a sub's bundle is a subset of its lead's (PAP-106). PAP-284 turns these
-fixtures into the live roster under `packages/agents/characters/`.
+scopes and servers, because a sub's bundle is a subset of its lead's (PAP-106). PAP-284 turned these
+fixtures into the live roster under `packages/agents/characters/`; see [`roster.md`](roster.md).

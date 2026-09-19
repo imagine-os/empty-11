@@ -1,0 +1,4 @@
+warn  MCP_CATALOG_STUB: mcpServers[] checked against the PAP-210 stub catalog, not the generated one
+ok packages/agents (roster.yaml + characters/): 37 characters, 0 errors, 1 warnings
+warn  MCP_CATALOG_STUB: mcpServers[] checked against the PAP-210 stub catalog, not the generated one
+ok /workspace/wt/PAP-284/packages/agents/fixtures/valid: 37 characters, 0 errors, 1 warnings

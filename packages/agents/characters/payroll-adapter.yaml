@@ -1,0 +1,45 @@
+# yaml-language-server: $schema=../schema/character.schema.json
+# Live roster (PAP-284). Structure comes from plan.json agents[] through scripts/plan-to-roster.ts;
+# everything else is completed by hand from docs/characters/<lead>.md and survives `--merge`.
+schemaVersion: 1
+name: payroll-adapter
+displayName: Payroll Adapter
+role: Payroll provider adapter
+kind: sub
+reportsTo: ledger
+parent: ledger
+description: Use for the PayrollProvider interface, the first adapter, onboarding sync, the run and
+  approve flow and sandbox agreements (PAP-176, PAP-184).
+tools:
+  allow:
+    - Read
+    - Write
+    - Edit
+    - Glob
+    - Grep
+    - WebFetch
+    - Bash(pnpm --filter finance *)
+    - Bash(pnpm test*)
+    - Bash(git *)
+    - mcp__github
+mcpServers:
+  - github
+access:
+  - payroll:write:sandbox
+  - repo:write:packages/finance
+  - linear:comment
+skills:
+  - write-adr
+  - linear-update
+memory:
+  path: docs/memory/characters/payroll-adapter.md
+  maxTokens: 1500
+budget:
+  perSessionUsd: 15
+  maxTurns: 80
+escalation:
+  - when: anything outside the Payroll Adapter lane described above
+    action: escalate
+    to: ledger
+  - when: "session at 100 percent of its cap: wip commit, footer, stop (PAP-111)"
+    action: stop

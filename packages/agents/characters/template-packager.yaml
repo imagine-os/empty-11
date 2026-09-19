@@ -1,0 +1,46 @@
+# yaml-language-server: $schema=../schema/character.schema.json
+# Live roster (PAP-284). Structure comes from plan.json agents[] through scripts/plan-to-roster.ts;
+# everything else is completed by hand from docs/characters/<lead>.md and survives `--merge`.
+schemaVersion: 1
+name: template-packager
+displayName: Template Packager
+role: Business template packs
+kind: sub
+reportsTo: scout
+parent: scout
+description: Use for business-type seed packs and demo data for agency, retail, SaaS, clinic and
+  restaurant (PAP-207).
+model: claude-sonnet-5
+fallbackModel: claude-haiku-4-5
+effort: medium
+tools:
+  allow:
+    - Read
+    - Write
+    - Edit
+    - Glob
+    - Grep
+    - Bash(pnpm --filter templates *)
+    - Bash(pnpm test*)
+    - Bash(git *)
+    - mcp__github
+mcpServers:
+  - github
+access:
+  - repo:write:packages/templates
+  - linear:comment
+skills:
+  - template-pack
+  - linear-update
+memory:
+  path: docs/memory/characters/template-packager.md
+  maxTokens: 1500
+budget:
+  perSessionUsd: 15
+  maxTurns: 80
+escalation:
+  - when: anything outside the Template Packager lane described above
+    action: escalate
+    to: scout
+  - when: "session at 100 percent of its cap: wip commit, footer, stop (PAP-111)"
+    action: stop

@@ -52,3 +52,6 @@ The module-system issues (PAP-433 onwards) land the generated files.
 * [`character-schema.md`](character-schema.md) — the character schema every agent character is
   declared in: fields, scope registry, validation codes, inheritance, editor wiring (PAP-103,
   ADR 0020). Generated JSON Schema lives in `packages/agents/schema/`.
+* [`roster.md`](roster.md) — the live roster: 37 validated character files and `roster.yaml`
+  defaults, where each field comes from (plan.json vs. hand-completed), the round-4 model defaults,
+  budget shares, and the `plan-to-roster` / `tree` commands (PAP-284).

@@ -1,0 +1,42 @@
+# yaml-language-server: $schema=../schema/character.schema.json
+# Live roster (PAP-284). Structure comes from plan.json agents[] through scripts/plan-to-roster.ts;
+# everything else is completed by hand from docs/characters/<lead>.md and survives `--merge`.
+schemaVersion: 1
+name: merger
+displayName: Merger
+role: Merger and release promoter
+kind: sub
+reportsTo: atlas
+parent: atlas
+description: Use to rebase, resolve conflicts, merge green PRs, tag releases and promote release
+  candidates once Justin approves (PAP-52, PAP-254).
+tools:
+  allow:
+    - Read
+    - Glob
+    - Grep
+    - Bash(git worktree *)
+    - Bash(gh pr *)
+    - mcp__github
+    - mcp__forgejo
+mcpServers:
+  - github
+  - forgejo
+access:
+  - repo:merge
+  - forgejo:admin:org
+  - github:admin:imagine-os
+skills:
+  - linear-update
+memory:
+  path: docs/memory/characters/merger.md
+  maxTokens: 1500
+budget:
+  perSessionUsd: 15
+  maxTurns: 80
+escalation:
+  - when: anything outside the Merger lane described above
+    action: escalate
+    to: atlas
+  - when: "session at 100 percent of its cap: wip commit, footer, stop (PAP-111)"
+    action: stop
